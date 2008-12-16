@@ -1251,8 +1251,8 @@ the current directory, suitable for creation"
  rcirc-default-nick "jimm"
 ; rcirc-authinfo '(("freenode" nickserv "jimm_"))
 ; rcirc-authinfo '(("freenode" nickserv "jimm"))
-; rcirc-startup-channels-alist
-;   '(("\\.freenode\\.net$" "#10gen" "#emacs" "#ruby-lang" "#jruby"))
+ rcirc-startup-channels-alist
+   '(("\\.freenode\\.net$" "#10gen"))
 )
 
 ;;
