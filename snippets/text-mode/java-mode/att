@@ -1,0 +1,3 @@
+#name: assertTrue(expected);
+# --
+assertTrue(${1:expected});

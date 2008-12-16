@@ -1,0 +1,6 @@
+#name: <dl><dt>TERM</dt><dd>DEFINITION</dd></dl>
+# --
+<dl>
+  <dt>${1:term}</dt>
+  <dd>${2:definition}</dd>
+</dl>

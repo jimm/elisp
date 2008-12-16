@@ -1,0 +1,5 @@
+#name: foreach ($array as $val) { ... }
+# --
+foreach (${1:array} as ${2:val}) {
+  $0
+}

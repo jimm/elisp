@@ -1,0 +1,595 @@
+2006-01-30 18:49:07 GMT	Sacha Chua <sacha@free.net.ph>	patch-39
+
+    Summary:
+      Use planner-line-{beginning,end}-position
+    Revision:
+      remember--dev--1.0--patch-39
+
+    * remember-planner.el, remember-emacs-wiki-journal.el: Change
+      line-beginning-position to planner-line-beginning-position, and
+      line-end-position to planner-line-end-position. Thanks to Neilen Maris
+      for pointing this out.
+
+
+2005-12-31 08:07:21 GMT	Sacha Chua <sacha@free.net.ph>	patch-38
+
+    Summary:
+      Bugfix: Move delete-region inside save-restriction, minor fixes
+    Revision:
+      remember--dev--1.0--patch-38
+
+    * remember-planner.el (remember-planner-append): Add extra newline.
+      Thanks to Lee Bigelow for the suggestion. Also, use
+      planner-line-beginning-position and planner-line-end-position for
+      XEmacs compatibility. (remember-planner-append): Bugfix: Move
+      delete-region inside save-restriction. Fixes whole-buffer deletion when
+      remember-planner-copy-on-xref-flag is nil. Thanks to Lee Bigelow!
+
+    modified files:
+     ChangeLog remember-emacs-wiki-journal.el remember-planner.el
+
+
+2005-11-18 22:39:58 GMT	Sacha Chua <sacha@free.net.ph>	patch-37
+
+    Summary:
+      remember-planner.el: XEmacs compat: Use planner-match-string-no-properties
+    Revision:
+      remember--dev--1.0--patch-37
+
+    * remember-planner.el (remember-planner-add-xref): Use
+      planner-match-string-no-properties. Thanks to Itay for pointing out
+      this bug!
+
+
+2005-09-15 04:41:00 GMT	Sacha Chua <sacha@free.net.ph>	patch-36
+
+    Summary:
+      remember-mode-hook: Suggest useful modes
+    Revision:
+      remember--dev--1.0--patch-36
+
+    * remember.el (remember-mode-hook): Suggest useful modes. Thanks to Jesse
+      Alama for the suggestion!
+
+
+2005-08-25 12:46:22 GMT	Sacha Chua <sacha@free.net.ph>	patch-35
+
+    Summary:
+      remember-bibl.el: Move autoload cookie to remember-url
+    Revision:
+      remember--dev--1.0--patch-35
+
+    * remember-bibl.el: Move autoload cookie from (require 'url) to defun
+    remember-url. Thanks to Sergey Vlasov for spotting this!
+
+
+2005-07-18 18:02:50 GMT	Sacha Chua <sacha@free.net.ph>	patch-34
+
+    Summary:
+      Bugfix: remember-planner-add-xref: Improve handling for null remember-planner-copy-on-xref-flag
+    Revision:
+      remember--dev--1.0--patch-34
+
+    * remember-planner.el (remember-planner-add-xref): Always copy. Apologies
+    to Yvonne Thomson for the inconvenience.
+    (remember-planner-copy-on-xref-flag): Add dire warning.
+    (remember-planner-append): Delete the page if crossreferenced.
+
+    modified files:
+     ChangeLog remember-planner.el
+
+
+2005-07-01 03:45:01 GMT	Sacha Chua <sacha@free.net.ph>	patch-33
+
+    Summary:
+      New: remember-destroy (C-c C-k)
+    Revision:
+      remember--dev--1.0--patch-33
+
+    * remember.el (remember-region, remember-destroy, remember-mode-map):
+      Merge patch from Peter K. Lee for remember-destroy (C-c C-k).
+
+    modified files:
+     ChangeLog remember.el
+
+
+2005-06-20 04:25:22 GMT	Sacha Chua <sacha@free.net.ph>	patch-32
+
+    Summary:
+      New: remember-run-all-annotation-functions-flag
+    Revision:
+      remember--dev--1.0--patch-32
+
+    * remember.el (remember-run-all-annotation-functions-flag): New.
+    
+    * remember.texi (Quick Start): Document remember-run-all-annotation-functions
+    and plug Planner.
+
+    modified files:
+     ChangeLog remember.el remember.texi
+
+
+2005-06-07 08:26:57 GMT	Sacha Chua <sacha@free.net.ph>	patch-31
+
+    Summary:
+      NOTE: Move xref code before remember-planner-append-hook execution
+    Revision:
+      remember--dev--1.0--patch-31
+
+    * remember-planner.el (remember-planner-append): Moved cross-reference
+    code before append hook to make category information available.
+    (remember-planner-add-timestamp): Tweaked to work after
+    cross-referencing.
+
+    modified files:
+     ChangeLog remember-planner.el
+
+
+2005-04-27 03:00:02 GMT	Sacha Chua <sacha@free.net.ph>	patch-30
+
+    Summary:
+      Save window configuration for each function in remember-planner-append-hook
+    Revision:
+      remember--dev--1.0--patch-30
+
+    * remember-planner.el (remember-planner-append): Return to original
+      configuration every time you call the append hook.
+
+    modified files:
+     ChangeLog remember-planner.el
+
+
+2005-03-30 11:42:32 GMT	Sacha Chua <sacha@free.net.ph>	patch-29
+
+    Summary:
+      remember-planner-add-xref: work with planner-multi
+    Revision:
+      remember--dev--1.0--patch-29
+
+    * remember-planner.el (remember-planner-add-xref): Take planner-multi
+      into account when cross-referencing notes. Thanks to Raymond Zeitler
+      for pointing this out. Also, rearrange the defcustoms to minimize
+      compiler complaints.
+    
+
+    modified files:
+     ChangeLog remember-planner.el
+
+
+2005-02-09 04:52:43 GMT	Sacha Chua <sacha@free.net.ph>	patch-28
+
+    Summary:
+      remember-planner-page: Customize fix thanks to Michael Olson
+    Revision:
+      remember--dev--1.0--patch-28
+
+
+    modified files:
+     ChangeLog remember-planner.el
+
+
+2005-02-08 15:27:04 GMT	Sacha Chua <sacha@free.net.ph>	patch-27
+
+    Summary:
+      Docfix: Old mention of PlannerMode
+    Revision:
+      remember--dev--1.0--patch-27
+
+    * remember.texi (Top): Fix mention of PlannerMode. Thanks to Lukhas and
+      johnsu01 for pointing this out.
+    
+
+    modified files:
+     ChangeLog remember.texi
+
+
+2005-01-31 05:31:13 GMT	Sacha Chua <sacha@free.net.ph>	patch-26
+
+    Summary:
+      Docfix: remember-planner-page
+    Revision:
+      remember--dev--1.0--patch-26
+
+
+    modified files:
+     ChangeLog remember-planner.el
+
+
+2005-01-19 13:55:46 GMT	Sacha Chua <sacha@free.net.ph>	patch-25
+
+    Summary:
+      Bugfix: make remember-buffer work even without a *remember* buffer
+    Revision:
+      remember--dev--1.0--patch-25
+
+    	* remember-planner.el (remember-planner-append): Make it work for
+    	buffers again. Do not change buffers. Thanks to Tom Ed White for
+    	pointing this out.
+
+    modified files:
+     ChangeLog remember-planner.el
+
+
+2005-01-12 14:02:08 GMT	Sacha Chua <sacha@free.net.ph>	patch-24
+
+    Summary:
+      remember-planner-add-xref: Make more flexible
+    Revision:
+      remember--dev--1.0--patch-24
+
+    	* remember-planner.el (remember-planner-add-xref): Allow use from
+    	other functions. Thanks to Jody Klymak for reporting this change
+    	in behavior.
+
+    modified files:
+     ChangeLog remember-planner.el
+
+
+2005-01-11 12:25:57 GMT	Sacha Chua <sacha@free.net.ph>	patch-23
+
+    Summary:
+      remember-planner-append: Follow planner-use-plan-pages (planner--dev/patch-292)
+    Revision:
+      remember--dev--1.0--patch-23
+
+    	* remember-planner.el (remember-planner-append): Follow planner-use-plan-pages.
+
+    modified files:
+     ChangeLog remember-planner.el
+
+
+2005-01-11 11:10:16 GMT	Sacha Chua <sacha@free.net.ph>	patch-22
+
+    Summary:
+      remember-planner-append: Add trailing newline if necessary
+    Revision:
+      remember--dev--1.0--patch-22
+
+    	* remember-planner.el (remember-planner-append): Rearranged source code.
+    	Add trailing newline if necessary.
+
+    modified files:
+     ChangeLog remember-planner.el
+
+
+2005-01-08 10:46:28 GMT	Sacha Chua <sacha@free.net.ph>	patch-21
+
+    Summary:
+      Changes to work better with planner-multi
+    Revision:
+      remember--dev--1.0--patch-21
+
+
+    modified files:
+     ChangeLog remember-planner.el
+
+
+2004-12-22 13:48:51 GMT	Sacha Chua <sacha@free.net.ph>	patch-20
+
+    Summary:
+      Docfix: remember-bibl doc typos
+    Revision:
+      remember--dev--1.0--patch-20
+
+    	* remember-bibl.el: Fix doc typos reported by sf.
+
+    modified files:
+     ChangeLog remember-bibl.el
+
+
+2004-12-17 07:39:30 GMT	Sacha Chua <sacha@free.net.ph>	patch-19
+
+    Summary:
+      remember.texi: Fix typo in bibliography node
+    Revision:
+      remember--dev--1.0--patch-19
+
+    	* remember.texi (Bibliography): Merge patch from Vadim Nasardinov
+    	fixing typo.
+
+    modified files:
+     ChangeLog remember.texi
+
+
+2004-12-03 09:19:01 GMT	Sacha Chua <sacha@free.net.ph>	patch-18
+
+    Summary:
+      Add changelog to arch repository. Thanks to mwolson for tip.
+    Revision:
+      remember--dev--1.0--patch-18
+
+
+    new files:
+     .arch-ids/ChangeLog.id ChangeLog
+
+
+2004-11-27 06:08:47 GMT	Sacha Chua <sacha@free.net.ph>	patch-17
+
+    Summary:
+      Merge Gary's remember-blosxom
+    Revision:
+      remember--dev--1.0--patch-17
+
+    Patches applied:
+    
+     * gary@gnu.org--2004/remember--gary--1.0--patch-1
+       add remember-blosxom
+    
+     * gary@gnu.org--2004/remember--gary--1.0--patch-2
+       add decent category completion to remember-blosxom
+    
+     * gary@gnu.org--2004/remember--gary--1.0--patch-3
+       fix some minor annoyances in read-file-name.el
+    
+
+    new files:
+     .arch-ids/read-file-name.el.id
+     .arch-ids/remember-blosxom.el.id read-file-name.el
+     remember-blosxom.el
+
+    new patches:
+     gary@gnu.org--2004/remember--gary--1.0--patch-1
+     gary@gnu.org--2004/remember--gary--1.0--patch-2
+     gary@gnu.org--2004/remember--gary--1.0--patch-3
+
+
+2004-11-16 00:57:26 GMT	Sacha Chua <sacha@free.net.ph>	patch-16
+
+    Summary:
+      Fix newlines after notes
+    Revision:
+      remember--dev--1.0--patch-16
+
+
+    modified files:
+     remember.el
+
+
+2004-11-16 00:57:15 GMT	Sacha Chua <sacha@free.net.ph>	patch-15
+
+    Summary:
+      Move cross-reference prompt earlier
+    Revision:
+      remember--dev--1.0--patch-15
+
+    	* remember-planner.el (remember-planner-append): New option:
+    	remember-planner-xref-p controls cross-referencing prompt.
+    	(remember-planner-append): Prompt for cross-referencing page
+    	first to give people a chance to back out. Call xref at the end.
+    	(remember-planner-append-hook): Remove xref.
+    	(remember-planner-add-xref): Add parameter plan-page.
+    
+    	* remember.texi: Document remember-planner options.
+
+    modified files:
+     remember-planner.el remember.texi
+
+
+2004-10-12 15:56:43 GMT	Sacha Chua <sacha@free.net.ph>	patch-14
+
+    Summary:
+      Docfix: remember-to-planner
+    Revision:
+      remember--dev--1.0--patch-14
+
+    	* remember.texi: Thanks to Espen Donali for feedback.
+    	(Quick Start): Improve note about ~/.notes, mention other
+    	backends.
+    	(Implementation): Remove obsolete note about remember-to-planner.
+
+    modified files:
+     remember.texi
+
+
+2004-10-04 13:59:53 GMT	Sacha Chua <sacha@free.net.ph>	patch-13
+
+    Summary:
+      Use current-kill to get contents of the clipboard
+    Revision:
+      remember--dev--1.0--patch-13
+
+    	* remember.el (remember-clipboard): Use current-kill to get the
+    	contents of the clipboard. This removes the difference between
+            XEmacs and Emacs, and makes it work on Mac OS X.
+
+    modified files:
+     remember.el
+
+
+2004-08-16 07:09:26 GMT	Sacha Chua <sacha@free.net.ph>	patch-12
+
+    Summary:
+      remember-planner: Prompt for page if not using day pages
+    Revision:
+      remember--dev--1.0--patch-12
+
+    	* remember-planner.el (remember-planner-add-xref): Make sure we
+    	are on a day page.
+    	(remember-planner-append): Prompt for page if not using day pages.
+    	Thanks to Hoan Ton-That for the patch.
+
+    modified files:
+     remember-planner.el
+
+
+2004-08-06 18:31:32 GMT	Sacha Chua <sacha@free.net.ph>	patch-11
+
+    Summary:
+      New: remember.texi
+    Revision:
+      remember--dev--1.0--patch-11
+
+
+    new files:
+     .arch-ids/remember.texi.id remember.texi
+
+
+2004-08-04 16:20:00 GMT	Sacha Chua <sacha@free.net.ph>	patch-10
+
+    Summary:
+      Promote remember-annotation-functions and make it default to planner-annotation-functions
+    Revision:
+      remember--dev--1.0--patch-10
+
+    	* remember.el (remember-annotation-functions): Promote to
+    	user-customizable option and attempt to use planner as default if
+    	already loaded. Thanks to Michael Olson for the suggestion.
+
+    modified files:
+     remember.el
+
+
+2004-07-27 11:17:48 GMT	Sacha Chua <sacha@free.net.ph>	patch-9
+
+    Summary:
+      Docfix: Clarify remember-region
+    Revision:
+      remember--dev--1.0--patch-9
+
+    	* remember.el (remember-region): Docfix: Clear up confusing
+    	function.
+
+    modified files:
+     remember.el
+
+
+2004-07-13 08:07:03 GMT	Sacha Chua <sacha@free.net.ph>	patch-8
+
+    Summary:
+      Add remember-emacs-wiki-journal.el
+    Revision:
+      remember--dev--1.0--patch-8
+
+    Add Hoan Ton That's remember-emacs-wiki-journal.el .
+    
+
+    new files:
+     .arch-ids/remember-emacs-wiki-journal.el.id
+     remember-emacs-wiki-journal.el
+
+
+2004-07-13 07:43:27 GMT	Sacha Chua <sacha@free.net.ph>	patch-7
+
+    Summary:
+      New user option remember-all-handler-functions
+    Revision:
+      remember--dev--1.0--patch-7
+
+    Merge Hoan Ton-That's patch adding remember-all-handler-functions
+    as a user option.
+
+    modified files:
+     remember.el
+
+
+2004-07-02 09:25:35 GMT	Sacha Chua <sacha@free.net.ph>	patch-6
+
+    Summary:
+      Promote remember-planner variables to user options
+    Revision:
+      remember--dev--1.0--patch-6
+
+    	* remember-planner.el: Merge Hoan Ton-That's patch promoting
+    	variables to user options. Note that timestamp format should
+            probably have a space.
+    	(remember-planner-timestamp-format): Customizable.
+    	(remember-planner-append-hook): Customizable.
+    	(remember-planner-page): Customizable.
+
+    modified files:
+     remember-planner.el
+
+
+2004-04-27 03:42:16 GMT	Sacha Chua <sacha@free.net.ph>	patch-5
+
+    Summary:
+      Bugfix: Embarrassing typos
+    Revision:
+      remember--dev--1.0--patch-5
+
+    	* remember-planner.el (remember-planner-add-xref): Bug; referred
+    	to planner-wiki-file-alist instead of planner-file-alist. Fix
+    	embarrassing typos.
+    
+
+    modified files:
+     remember-planner.el
+
+
+2004-04-26 04:21:41 GMT	Sacha Chua <sacha@free.net.ph>	patch-4
+
+    Summary:
+      Nil means don't cross-reference planner notes
+    Revision:
+      remember--dev--1.0--patch-4
+
+    	* remember-planner.el (remember-planner-add-xref): Nil means
+              don't cross-reference.
+
+    modified files:
+     remember-planner.el
+
+
+2004-04-23 16:32:38 GMT	Sacha Chua <sacha@free.net.ph>	patch-3
+
+    Summary:
+      remember-bbdb.el: Bugfix: Typo (extra paren)
+    Revision:
+      remember--dev--1.0--patch-3
+
+    	* remember-bbdb.el (remember-bbdb-store-in-mailbox): Correct typo.
+    	Thanks to pll for pointing this out.
+    
+
+    modified files:
+     remember-bbdb.el
+
+
+2004-04-23 07:02:27 GMT	Sacha Chua <sacha@free.net.ph>	patch-2
+
+    Summary:
+      Bugfix: remember-planner paranoia, save excursion and restriction all the time
+    Revision:
+      remember--dev--1.0--patch-2
+
+    	* remember-planner.el (remember-planner-append): Paranoia: save
+    	excursion and restriction all the time.
+    	(remember-planner-add-xref): Remove redundant save-restriction
+    	from save.
+    
+
+    modified files:
+     remember-planner.el
+
+
+2004-04-04 09:39:26 GMT	Sacha Chua <sacha@free.net.ph>	patch-1
+
+    Summary:
+      Remove remember-use-bbdb option
+    Revision:
+      remember--dev--1.0--patch-1
+
+    	* remember.el (remember-use-bbdb): Remove because remember-bbdb
+    	can always be required in order to use this.
+    
+    	* remember-bbdb.el (remember-bbdb-store-in-mailbox): Always use
+    	BBDB.
+    
+
+    modified files:
+     remember-bbdb.el remember.el
+
+
+2004-03-26 07:09:43 GMT	Sacha Chua <sacha@free.net.ph>	base-0
+
+    Summary:
+      tag of sacha@free.net.ph--main/remember--stable--1.0--patch-1
+    Revision:
+      remember--dev--1.0--base-0
+
+    (automatically generated log message)
+
+
+;; Local Variables:
+;; coding: utf-8
+;; End:

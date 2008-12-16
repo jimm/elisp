@@ -1,0 +1,10 @@
+alias file file -h $*
+alias du du -h
+alias maven maven -Eb $*
+alias e find-file $1
+alias t find-file $1
+alias l ls $*
+alias la ls -a $*
+alias ll ls -la $*
+alias lt ls -lt $*
+alias df df -h

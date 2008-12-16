@@ -1,0 +1,5 @@
+#name: public void testXXX() { ... }
+# --
+public void test${1:Something}() {
+    $0
+}

@@ -1,0 +1,3 @@
+#name: List<type> list =
+# --
+List<${1:Object}> ${2:list} = $0;

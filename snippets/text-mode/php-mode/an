@@ -1,0 +1,3 @@
+#name: $this->assertNotNull(...);
+# --
+\$this->assertNotNull(${1:expression});

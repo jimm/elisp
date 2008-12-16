@@ -1,0 +1,3 @@
+#name: foreign key
+# --
+foreign key (${1:xxxx_id}) references ${2:table} (${3:id})

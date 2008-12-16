@@ -1,0 +1,3 @@
+#name: <tag attr="xxx">...</tag>
+# --
+<${1:tag} ${2:attr}="${3:value}">$0</$1>

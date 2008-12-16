@@ -1,0 +1,10 @@
+#name: <table><tr><th>...</th></tr><tr><td>...</td></tr></table>
+# --
+<table{$1}>
+<tr>
+  <th>${2:header}</th>
+</tr>
+<tr>
+  <td>${3:data}</td>
+</tr>
+</table>

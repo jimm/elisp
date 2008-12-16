@@ -1,0 +1,5 @@
+#name: <form action="..." method="..." enctype="...">...</form>
+# --
+<form action="${1:action}" method="${2:post}" enctype="${3:multipart/form-data}">
+  $0
+</form>

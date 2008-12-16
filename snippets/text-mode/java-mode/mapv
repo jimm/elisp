@@ -1,0 +1,3 @@
+#name: Map<type> map =
+# --
+Map<${1:String}, ${2:String}> ${3:map} = $0;

@@ -1,0 +1,5 @@
+#name: function name() { ... }
+# --
+function ${1:funcname}() {
+  $0
+}

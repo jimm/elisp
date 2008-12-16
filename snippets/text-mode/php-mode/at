@@ -1,0 +1,3 @@
+#name: $this->assertTrue(...);
+# --
+\$this->assertTrue(${1:expression});

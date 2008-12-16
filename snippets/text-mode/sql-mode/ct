@@ -1,0 +1,7 @@
+#name: drop table / create table
+# --
+drop table if exists ${1:table};
+create table ${1:table} (
+  id bigint not null primary key auto_increment,
+  $0
+) engine=innodb;

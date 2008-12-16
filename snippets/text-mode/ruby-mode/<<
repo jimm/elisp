@@ -1,0 +1,5 @@
+#name : if ... end
+# --
+<<EOS
+$0
+EOS

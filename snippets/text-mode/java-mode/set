@@ -1,0 +1,3 @@
+#name: Set<type> set = new HashSet<type>();
+# --
+Set<${1:String}> ${2:set} = new HashSet<$1>();

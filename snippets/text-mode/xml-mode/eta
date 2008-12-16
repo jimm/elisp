@@ -1,0 +1,3 @@
+#name: <tag attr="xxx"/>
+# --
+<${1:tag} ${2:attr}="${3:value}"/>

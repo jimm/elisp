@@ -1,0 +1,11 @@
+#name: try { ... } catch (Exception e) { ... } finally { ... }
+# --
+try {
+    $0
+}
+catch (${1:Exception} ${2:e}) {
+    
+}
+finally {
+    
+}

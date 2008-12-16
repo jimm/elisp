@@ -1,0 +1,3 @@
+#name: Calendar cal = Calendar.getInstance();
+# --
+Calendar ${1:cal} = Calendar.getInstance();

@@ -1,0 +1,7 @@
+#name: public class XXX { ... }
+# --
+package `(path-to-java-package (buffer-file-name))`;
+
+public class ${1:`(substring (file-name-nondirectory (buffer-file-name)) 0 -5)`} {
+    $0
+}

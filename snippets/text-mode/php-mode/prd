@@ -1,0 +1,4 @@
+#name: echo "<pre>" . print_r(...) . "</pre>\n";
+# same as debug
+# --
+echo "<pre>" . print_r(${1:\$something}, true) . "</pre>\n"; // DEBUG

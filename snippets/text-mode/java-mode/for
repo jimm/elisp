@@ -1,0 +1,5 @@
+#name: for (Object obj : list) { .... }
+# --
+for (${1:Object} ${2:obj} : ${3:list}) {
+    $0
+}

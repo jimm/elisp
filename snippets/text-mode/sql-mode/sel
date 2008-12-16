@@ -1,0 +1,5 @@
+#name: select ... from ... where ...
+# --
+select ${1:count(*)}
+from ${2:table}
+where $0;

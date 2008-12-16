@@ -1,0 +1,5 @@
+;; -*- emacs-lisp -*-
+(defvar *my-emacs-lib-dir* "~/lib/elisp/")
+(defvar *my-pim-dir* "~/pim/")
+(load-file (concat *my-emacs-lib-dir* "bootstrap-init.el"))
+(bootstrap-init "io" "io")

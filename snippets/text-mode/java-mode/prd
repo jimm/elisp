@@ -1,0 +1,3 @@
+#name: System.err.println(...); // DEBUG
+# --
+System.err.println("$0"); // DEBUG

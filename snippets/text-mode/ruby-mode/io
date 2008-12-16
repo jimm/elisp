@@ -1,0 +1,6 @@
+#name: IO.foreach { |line| line.chomp!... }
+# --
+IO.foreach { |${1:line}|
+  $1.chomp!
+  $0
+}

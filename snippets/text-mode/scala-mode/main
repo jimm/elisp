@@ -1,0 +1,5 @@
+#name: main
+# --
+def main(args: Array[String]) {
+  $0
+}
