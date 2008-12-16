@@ -1254,6 +1254,20 @@ the current directory, suitable for creation"
  rcirc-startup-channels-alist
    '(("\\.freenode\\.net$" "#10gen"))
 )
+  "A list of IRC channel names that are monitored for notifications."
+(defvar my-rcirc-notifiy-channels
+  '("#10gen" "#jimm-test"))
+(defun my-rcirc-print-hook (process sender response target text)
+  "Use Growl to tell me about IRC channel activity. Only notify
+me about the channels listed in my-rcirc-notifiy-channels."
+  (when (member target my-rcirc-notifiy-channels)
+    (shell-command
+     (concat "note " (shell-quote-argument (concat
+                                            target
+                                            " <" sender "> "
+                                            response
+                                            " " text))))))
+(add-hook 'rcirc-print-hooks 'my-rcirc-print-hook)
 
 ;;
 ;; YASnippet
