@@ -1262,11 +1262,11 @@ the current directory, suitable for creation"
 me about the channels listed in my-rcirc-notifiy-channels."
   (when (member target my-rcirc-notifiy-channels)
     (shell-command
-     (concat "note " (shell-quote-argument (concat
-                                            target
-                                            " <" sender "> "
-                                            response
-                                            " " text))))))
+     (concat "growlnotify --title " (shell-quote-argument target) " --message "
+             (shell-quote-argument
+              (concat "<" sender ">"
+                      (if (equal response "PRIVMSG") "" (concat " " response))
+                      " " text))))))
 (add-hook 'rcirc-print-hooks 'my-rcirc-print-hook)
 
 ;;
