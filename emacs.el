@@ -864,7 +864,7 @@ sql-send-paragraph."
 ;; ChucK-mode
 ;;
 (autoload 'chuck-mode "chuck-mode" "ChucK mode" t nil)
-(add-to-list 'auto-mode-alist '("\\.ck$" . lua-mode))
+(add-to-list 'auto-mode-alist '("\\.ck$" . chuck-mode))
 
 ;;
 ;; Scala-mode
