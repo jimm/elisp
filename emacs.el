@@ -861,6 +861,12 @@ sql-send-paragraph."
 (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
 
 ;;
+;; ChucK-mode
+;;
+(autoload 'chuck-mode "chuck-mode" "ChucK mode" t nil)
+(add-to-list 'auto-mode-alist '("\\.ck$" . lua-mode))
+
+;;
 ;; Scala-mode
 ;;
 ;; You might need to "sbaz install scala-tool-support" which puts emacs support
@@ -1305,6 +1311,16 @@ me about the channels listed in my-rcirc-notifiy-channels."
       '(lambda ()
 	 (yas/minor-mode-off)
 	 (setq org-export-with-sub-superscripts nil)))
+
+;;
+;; Uniquify
+;; http://trey-jackson.blogspot.com/2008/01/emacs-tip-11-uniquify.html
+;;
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'reverse)
+(setq uniquify-separator "/")
+(setq uniquify-after-kill-buffer-p t)    ; rename after killing uniquified
+(setq uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
 
 ;;
 ;; Encryption
