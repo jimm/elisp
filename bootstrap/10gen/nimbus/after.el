@@ -63,7 +63,7 @@
 
 (server-start)
 
-(setf tags-file-name "/Users/jim/src/ed/TAGS")
+(setf tags-file-name "/Users/jimm/src/ed/TAGS")
 
 (defun my-send-du-email ()
   "Opens mail client with an email containing today's du.org
