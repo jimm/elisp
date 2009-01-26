@@ -12,6 +12,8 @@
 	   (load-file f)))))
 
 (defun bootstrap-init (domain machine)
+  (setq *my-emacs-bootstrap-domain* domain)
+  (setq *my-emacs-bootstrap-machine* machine)
   (add-to-list 'load-path *my-emacs-lib-dir* t) ; add to end of load path
   (load-init-if-exists domain machine "before")
   (load-library "emacs")

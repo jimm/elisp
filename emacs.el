@@ -533,8 +533,12 @@ and returns it."
       (when (not aquamacs-p)
           (progn
             (load "my-path")
-            (when (file-exists-p "~/.emacs.d/path")
-              (my-read-path "~/.emacs.d/path"))
+            (when (file-exists-p (bootstrap-file *my-emacs-bootstrap-domain*
+                                                 *my-emacs-bootstrap-machine*
+                                                 "path"))
+              (my-read-path (bootstrap-file *my-emacs-bootstrap-domain*
+                                            *my-emacs-bootstrap-machine*
+                                            "path")))
             (when (file-exists-p "~/.environment")
               (my-read-env "~/.environment"))
             (when (file-exists-p "~/.dir_env_vars/")
