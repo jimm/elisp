@@ -1310,7 +1310,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (setq org-agenda-include-diary t)
 (setq org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org")
 			     (concat *my-pim-dir* "orgs/10gen.org")))
-(setq org-startup-folded nil)
+(setq org-startup-folded 'content)
 (setq org-mode-hook
       '(lambda ()
 	 (yas/minor-mode-off)
