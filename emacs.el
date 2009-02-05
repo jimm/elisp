@@ -856,7 +856,11 @@ sql-send-paragraph."
 (autoload 'erlang-mode "erlang" "Erlang mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.[he]rl$" . erlang-mode))
 (add-to-list 'auto-mode-alist '("\\.yaws$" . erlang-mode))
-(add-hook 'erlang-mode-hook '(lambda() (setq indent-tabs-mode nil)))
+(add-hook 'erlang-mode-hook
+          '(lambda()
+             (setq indent-tabs-mode nil)
+             (comment-set-column 32)
+             ))
 
 ;;
 ;; Lua-mode
@@ -953,7 +957,8 @@ gzip.")))
 ;;
 ;; Python-mode
 ;;
-(autoload 'python-mode "python-mode" "Python mode." t)
+; Emacs now comes with its own Python mode called simply "python"
+; (autoload 'python-mode "python-mode" "Python mode." t)
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (setq python-mode-hook '(lambda () (turn-on-font-lock)))
 
