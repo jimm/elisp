@@ -41,7 +41,8 @@
 (set-register ?u "cd ~/src/ed && ant -e -Druby.groups=ruby.testunit test-ruby")
 (set-register ?v "cd ~/src/ed && ant -e -Druby.groups=ruby.testunit,ruby.activerecord test-ruby")
 (set-register ?j run-jruby-test)
-(setq compile-command (get-register ?t))
+(set-register ?q "rake test && /usr/local/ruby19/bin/rake test")
+(setq compile-command (get-register ?q))
 
 (custom-set-variables
  '(pmd-java-home "/usr/bin/java"))
