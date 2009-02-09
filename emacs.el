@@ -20,6 +20,7 @@
 
 ; Add *my-emacs-lib-dir* subdirs to the end of load-path, so if it's
 ; pre-installed that version is used first.
+(add-to-list 'load-path (concat *my-emacs-lib-dir* "progmodes/") t)
 (add-to-list 'load-path (concat *my-emacs-lib-dir* "slime/") t)
 (add-to-list 'load-path (concat *my-emacs-lib-dir* "ses/") t)
 (add-to-list 'load-path (concat *my-emacs-lib-dir* "remember/") t)
