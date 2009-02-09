@@ -543,7 +543,7 @@ and returns it."
             ; of Unix.
             (when (file-exists-p "/bin/bash")
               (let ((path (shell-command-to-string
-                           "/bin/bash -l -c 'echo $PATH'")))
+                           "/bin/bash -l -c 'echo -n $PATH'")))
                 (setenv "PATH" path)
                 (setq exec-path (split-string path ":"))))))))
 
