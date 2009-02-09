@@ -532,17 +532,20 @@ and returns it."
       (load "eshell-customize")
       (when (not aquamacs-p)
           (progn
-            (load "my-path")
-            (when (file-exists-p (bootstrap-file *my-emacs-bootstrap-domain*
-                                                 *my-emacs-bootstrap-machine*
-                                                 "path"))
-              (my-read-path (bootstrap-file *my-emacs-bootstrap-domain*
-                                            *my-emacs-bootstrap-machine*
-                                            "path")))
-            (when (file-exists-p "~/.environment")
-              (my-read-env "~/.environment"))
-            (when (file-exists-p "~/.dir_env_vars/")
-                (my-read-env-files-in-dir "~/.dir_env_vars/"))))))
+            (load "my-environment")
+            (let ((f "~/.environment"))
+              (when (file-exists-p f) (my-read-env f)))
+            (let ((f "~/.dir_env_vars/"))
+              (when (file-exists-p f) (my-read-env-files-in-dir f)))
+            ; Mac OS X doesn't set path properly when Emacs.app is launched.
+            ; Since Mac OS X is pretty much all I use these days, I've put
+            ; this code here. Shouldn't do any harm if run on another flavor
+            ; of Unix.
+            (when (file-exists-p "/bin/bash")
+              (let ((path (shell-command-to-string
+                           "/bin/bash -l -c 'echo $PATH'")))
+                (setenv "PATH" path)
+                (setq exec-path (split-string path ":"))))))))
 
 ;;
 ;; Shell-mode

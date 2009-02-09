@@ -1,33 +1,5 @@
 ;;; Path and environment vars.
 
-(defun my-read-path (path-file-path)
-  "Reads path-file-path and sets the PATH environment variable
-from its contents."
-  (interactive "fPath file: ")
-  (let ((buffer (get-buffer-create "*path*"))
-	path-element
-	beg
-	end)
-    (with-current-buffer buffer
-      (erase-buffer)
-      (insert-file-contents path-file-path)
-      (goto-char (point-min))
-      (while (not (eobp))
-	(progn
-	  (setq beg (point))
-	  (end-of-line)
-	  (setq end (point))
-	  (setq path-element (buffer-substring-no-properties beg end))
-	  (forward-char)
-	  (my-add-to-path path-element))))
-    (kill-buffer buffer)))
-
-(defun my-add-to-path (path-element)
-  (interactive "Path element: ")
-  (progn
-    (setenv "PATH" (concat (getenv "PATH") ":" path-element) t)
-    (setq exec-path (append exec-path (list path-element)))))
-
 (defun my-read-env-files-in-dir (dir-path)
   "Calls my-read-env on all files in the directory dir-path."
   (interactive "DEnv files dir: ")
