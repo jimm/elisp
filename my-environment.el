@@ -1,4 +1,4 @@
-;;; Path and environment vars.
+;;; Environment vars.
 
 (defun my-read-env-files-in-dir (dir-path)
   "Calls my-read-env on all files in the directory dir-path."
