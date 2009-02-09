@@ -25,7 +25,6 @@ from its contents."
 (defun my-add-to-path (path-element)
   (interactive "Path element: ")
   (progn
-    ; (setenv "PATH" (concat (getenv "PATH") ":" path-element) nil t)
     (setenv "PATH" (concat (getenv "PATH") ":" path-element) t)
     (setq exec-path (append exec-path (list path-element)))))
 
