@@ -47,6 +47,4 @@ the environment variables."
 ; DEBUG
 ;(message "%s" (concat "setting " env-var " to " env-value))
 	  (setenv env-var env-value t))))
-; DEBUG
-))
-;    (kill-buffer buffer)))
+   (kill-buffer buffer)))

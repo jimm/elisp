@@ -1084,8 +1084,13 @@ gzip.")))
   (lambda () (interactive) (find-file (concat *my-pim-dir* "orgs/todo.org"))))
 (define-key global-map [f5]
   (lambda () (interactive) (switch-to-buffer "*SQL*")))
+;(define-key global-map [f5] 'git-status)
+(define-key global-map [f6]
+  (lambda () (interactive) (find-file *my-remember-data-file*)))
 (define-key global-map [f7]
   (lambda () (interactive) (switch-to-buffer "*svn-status*")))
+;; (define-key global-map [f7]
+;;   (lambda () (interactive) (switch-to-buffer "*git-status*")))
 ;(define-key global-map [f8] 'emacs-wiki-find-file)
 (define-key global-map [f8] 'ef)	; Was \C-f8
 (define-key global-map [f9] 'bookmark-jump)
