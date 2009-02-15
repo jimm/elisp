@@ -1350,3 +1350,33 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (setq crypt-encryption-type 'gpg
             crypt-encryption-file-extension "\\(Secure\\)$\\|\\(secure\\.org\\)$\\|\\(\\.enc\\)$")
 (crypt-rebuild-tables)
+
+;;
+;; WebJump
+;;
+(setq webjump-sites
+      '(
+        ("gm (Google Mail)" .
+         [simple-query "https://mail.google.com/mail/"
+                       "https://mail.google.com/mail/#" ""])
+        ("gr (Google Reader)" . "https://www.google.com/reader/view/?tab=my")
+        ("gg (Google)" .
+         [simple-query "http://www.google.com/"
+                       "http://www.google.com/search?q=" ""])
+        ("reddit" . "http://www.reddit.com/")
+        ("preddit" . "http://www.reddit.com/r/programming/")
+        ("hn" . "http://news.ycombinator.com/")
+        ("map (Google Maps)" .
+         [simple-query "http://maps.google.com/"
+                       "http://maps.google.com/?q=" ""])
+        ("gotapi" . "http://www.gotapi.com/html")
+        ("wikip (Wikipedia)"
+         [simple-query "http://wikipedia.org/"
+                       "http://wikipedia.org/wiki/" ""])
+        ("subreddit" .
+         [simple-query "http://www.reddit.com/"
+                       "http://www.reddit.com/r/" "/"])
+        ("phpfunc (PHP function lookup)" .
+         [simple-query "http://www.php.net/manual/en/"
+                       "http://www.php.net/manual/en/function." ".php"])
+        ))
