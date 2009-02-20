@@ -42,34 +42,6 @@
              '("\\.properties$" . java-properties-generic-mode))
 
 ;;
-;; Global key bindings
-;;
-
-;(global-set-key "\C-c=" my-shell) ; use f1
-(global-set-key "\M-`" 'my-ff-find-other-file)
-;(global-set-key "\M-`" 'rails-find-other-file)
-(global-set-key "\C-c1" 'find-grep-dired)
-(global-set-key "\C-c2" 'grep-find)
-(global-set-key "\C-c3" 'grep)
-(global-set-key "\C-c\C-c" 'comment-region)
-(global-set-key "\C-h" 'backward-delete-char)
-;(global-set-key "\177" 'backward-delete-char)
-(global-set-key "\C-x?" 'help-for-help)
-(global-set-key "\C-x\C-k" 'compile)
-;(global-set-key "\C-x\C-m" 'rmail)
-;(global-set-key "\C-x\C-m" 'vm)
-(global-set-key "\C-x\C-m" 'open-email-client)
-(global-set-key "\C-c\C-k" 'compile)
-(global-set-key "\C-x\C-n" 'gnus)
-(global-set-key "\C-x\C-z" 'shrink-window)
-(global-set-key "\M-\C-h" 'backward-kill-word)
-(global-set-key "\M-\033" 'eval-expression)
-(global-set-key "\C-c\C-l" 'current-line-to-top)
-;(global-set-key "\C-c\C-f" 'emacs-wiki-find-file)
-;(global-set-key "\C-z" 'call-last-kbd-macro)
-(global-set-key "\M- " 'just-one-space)
-
-;;
 ;; Global variable settings and options
 ;;
 (if (fboundp 'appt-activate) (appt-activate 1))	; appointment notification
@@ -235,7 +207,7 @@ Default file-name is current buffer's name."
   (interactive "*")
   (save-excursion
     (comment-dwim nil)
-    (insert "DEBUG")))
+    (insert " DEBUG")))
 
 ;;
 ;; Emacs Wiki
@@ -1072,31 +1044,6 @@ gzip.")))
    (cond ((eq 80 (frame-width)) (zoom-frame-width-cols))
 	 (t 80))))
 
-;;
-;; Global function key bindings
-;;
-(define-key global-map [f1] my-shell)
-(define-key global-map [f2] 'remember)
-(define-key global-map [f3] 'calendar)
-(define-key global-map [\C-f3]
-  (lambda () (interactive) (diary-show-all-entries))) ; (find-file diary-file)
-(define-key global-map [f4]
-  (lambda () (interactive) (find-file (concat *my-pim-dir* "orgs/todo.org"))))
-(define-key global-map [f5]
-  (lambda () (interactive) (switch-to-buffer "*SQL*")))
-;(define-key global-map [f5] 'git-status)
-(define-key global-map [f6]
-  (lambda () (interactive) (find-file *my-remember-data-file*)))
-(define-key global-map [f7]
-  (lambda () (interactive) (switch-to-buffer "*svn-status*")))
-;; (define-key global-map [f7]
-;;   (lambda () (interactive) (switch-to-buffer "*git-status*")))
-;(define-key global-map [f8] 'emacs-wiki-find-file)
-(define-key global-map [f8] 'ef)	; Was \C-f8
-(define-key global-map [f9] 'bookmark-jump)
-(define-key global-map [\C-f9] 'bookmark-set)
-(define-key global-map [f10] 'zoom-frame)
-
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -1319,8 +1266,6 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;; (autoload 'turn-on-orgtbl "org" "Org tables as a minor mode")
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 ;; recommended
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
 (setq org-agenda-include-diary t)
 (setq org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org")
 			     (concat *my-pim-dir* "orgs/10gen.org")))
@@ -1380,3 +1325,72 @@ me about the channels listed in my-rcirc-notifiy-channels."
          [simple-query "http://www.php.net/manual/en/"
                        "http://www.php.net/manual/en/function." ".php"])
         ))
+
+;;
+;; Dedicated window toggle
+;; http://dfan.org/blog/2009/02/19/emacs-dedicated-windows/
+;;
+(defun toggle-current-window-dedication ()
+ (interactive)
+ (let* ((window    (selected-window))
+        (dedicated (window-dedicated-p window)))
+   (set-window-dedicated-p window (not dedicated))
+   (message "Window %sdedicated to %s"
+            (if dedicated "no longer " "")
+            (buffer-name))))
+
+;;
+;; Global key bindings
+;;
+
+;(global-set-key "\C-c=" my-shell) ; use f1
+(global-set-key "\M-`" 'my-ff-find-other-file)
+;(global-set-key "\M-`" 'rails-find-other-file)
+(global-set-key "\C-c1" 'find-grep-dired)
+(global-set-key "\C-c2" 'grep-find)
+(global-set-key "\C-c3" 'grep)
+(global-set-key "\C-c\C-c" 'comment-region)
+(global-set-key "\C-h" 'backward-delete-char)
+;(global-set-key "\177" 'backward-delete-char)
+(global-set-key "\C-x?" 'help-for-help)
+(global-set-key "\C-x\C-k" 'compile)
+;(global-set-key "\C-x\C-m" 'rmail)
+;(global-set-key "\C-x\C-m" 'vm)
+(global-set-key "\C-x\C-m" 'open-email-client)
+(global-set-key "\C-c\C-k" 'compile)
+(global-set-key "\C-x\C-n" 'gnus)
+(global-set-key "\C-x\C-z" 'shrink-window)
+(global-set-key "\M-\C-h" 'backward-kill-word)
+(global-set-key "\M-\033" 'eval-expression)
+(global-set-key "\C-c\C-l" 'current-line-to-top)
+;(global-set-key "\C-c\C-f" 'emacs-wiki-find-file)
+;(global-set-key "\C-z" 'call-last-kbd-macro)
+(global-set-key "\M- " 'just-one-space)
+
+(global-set-key [f1] my-shell)
+(global-set-key [f2] 'remember)
+(global-set-key [f3] 'calendar)
+(global-set-key [\C-f3]
+  (lambda () (interactive) (diary-show-all-entries))) ; (find-file diary-file)
+(global-set-key [f4]
+  (lambda () (interactive) (find-file (concat *my-pim-dir* "orgs/todo.org"))))
+(global-set-key [f5]
+  (lambda () (interactive) (switch-to-buffer "*SQL*")))
+;(global-set-key [f5] 'git-status)
+(global-set-key [f6]
+  (lambda () (interactive) (find-file *my-remember-data-file*)))
+(global-set-key [f7]
+  (lambda () (interactive) (switch-to-buffer "*svn-status*")))
+;; (global-set-key [f7]
+;;   (lambda () (interactive) (switch-to-buffer "*git-status*")))
+;(global-set-key [f8] 'emacs-wiki-find-file)
+(global-set-key [f8] 'ef)	; Was \C-f8
+(global-set-key [f9] 'bookmark-jump)
+(global-set-key [\C-f9] 'bookmark-set)
+(global-set-key [f10] 'zoom-frame)
+
+; org mode
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+
+(global-set-key "\C-cw" 'toggle-current-window-dedication)
