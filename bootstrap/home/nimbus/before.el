@@ -8,6 +8,6 @@
 (add-to-list 'load-path "/usr/share/emacs/22.1/lisp" t)
 (add-to-list 'load-path "/usr/share/emacs/22.1/site-lisp" t)
 (defvar *my-erlang-emacs-tools-dir*
-  "/usr/local/src/Erlang/current/lib/tools/emacs")
+  "/opt/local/lib/erlang/lib/tools-2.6.2/emacs/")
 
 (setq-default indent-tabs-mode nil)
