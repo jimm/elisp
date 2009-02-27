@@ -1276,6 +1276,28 @@ me about the channels listed in my-rcirc-notifiy-channels."
 	 (setq org-export-with-sub-superscripts nil)))
 
 ;;
+;; iTerm
+;;
+(defun tell-iterm (str)
+  "Send str to the front window/session in iTerm."
+  (interactive "siTerm input: ")
+  (let ((str (replace-regexp-in-string "\"" "\\\"" str t t)))
+    (message str)
+    (do-applescript (concat
+"tell application \"iTerm\"\n"
+"	activate\n"
+"	tell the first terminal\n"
+"		tell the last session\n"
+"			write text \"" str "\"\n"
+"		end tell\n"
+"	end tell\n"
+"end tell\n"
+"tell application \"Emacs\"\n"
+"	activate\n"
+"end tell\n"
+))))
+
+;;
 ;; Uniquify
 ;; http://trey-jackson.blogspot.com/2008/01/emacs-tip-11-uniquify.html
 ;;
