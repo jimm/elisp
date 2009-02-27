@@ -1284,7 +1284,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
   (let ((str (replace-regexp-in-string "\"" "\\\"" str t t)))
     (do-applescript (concat
 "tell application \"iTerm\"\n"
-"	tell the first terminal\n"
+"	tell the current terminal\n"
 "		tell the current session\n"
 "			write text \"" str "\"\n"
 "		end tell\n"
