@@ -729,10 +729,16 @@ sql-send-paragraph."
 ;;
 ;; Clojure-mode (lisp)
 ;;
+(defun reload-clojure-file ()
+  (interactive)
+  (tell-iterm (concat "(load-file \"" (buffer-file-name) "\")")))
 (autoload 'clojure-mode "clojure-mode" "Clojure mode" t nil)
 (autoload 'run-clojure "clojure-mode" "Clojure mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.cljs?$" . clojure-mode))
 (setq clojure-inferior-lisp-program "clj --norlwrap")
+(setq clojure-mode-hook
+      '(lambda ()
+         (define-key clojure-mode-map "\C-c\C-t" 'reload-clojure-file)))
 
 ;;
 ;; PHP-mode
