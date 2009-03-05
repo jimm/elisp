@@ -1282,6 +1282,15 @@ me about the channels listed in my-rcirc-notifiy-channels."
 	 (setq org-export-with-sub-superscripts nil)))
 
 ;;
+;; HAML and SASS
+;; Found {haml,sass}-mode.el files in the directory path-to-haml-gem/extra/.
+;;
+(autoload 'haml-mode "haml-mode" "haml mode")
+(autoload 'sass-mode "sass-mode" "sass mode")
+(add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
+(add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
+
+;;
 ;; iTerm
 ;;
 (defun tell-iterm (str)
