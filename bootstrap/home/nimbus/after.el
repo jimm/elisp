@@ -20,3 +20,12 @@
  '(pmd-java-home "/usr/bin/java"))
 
 (server-start)
+
+(global-set-key [f4]
+  (lambda ()
+    (interactive)
+    (org-open-file (concat *my-pim-dir* "orgs/icarly.org") t nil "* To Do")))))
+(global-set-key [\C-f4]
+  (lambda ()
+    (interactive)
+    (find-file (concat *my-pim-dir* "orgs/todo.org"))))

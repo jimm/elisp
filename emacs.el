@@ -77,7 +77,7 @@
 (setq dabbrev-case-replace nil)         ; preserve case when expanding
 (setq grep-command "grep -n ")
 (setq grep-find-command
-      '("find . \\( -name '.svn' -o -name '.git' -o -name 'CVS' -o -name 'TAGS' -o -name '*~' -o -name '*.class' -o -name '*.[wj]ar' -o -name target -o -name javadoc \\) -prune -o -type f -print0 | xargs -0 grep -H -n ". 208))
+      '("find . \\( -name '*.log' -o -name '.svn' -o -name '.git' -o -name 'CVS' -o -name 'TAGS' -o -name '*~' -o -name '*.class' -o -name '*.[wj]ar' -o -name target -o -name javadoc \\) -prune -o -type f -print0 | xargs -0 grep -H -n ". 225))
 (setq visible-bell t)
 (setq version-control 'never)           ; When to make backup files
 (setq vc-handled-backends '())          ; disable VC minor mode
@@ -1274,7 +1274,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;; recommended
 (setq org-agenda-include-diary t)
 (setq org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org")
-			     (concat *my-pim-dir* "orgs/10gen.org")))
+			     (concat *my-pim-dir* "orgs/icarly.org")))
 (setq org-startup-folded 'content)
 (setq org-mode-hook
       '(lambda ()
