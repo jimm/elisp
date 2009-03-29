@@ -19,6 +19,12 @@
 (custom-set-variables
  '(pmd-java-home "/usr/bin/java"))
 
+; Development (local) only. Username/password won't work anywhere else.
+; So it doesn't matter that you can see this.
+(setq sql-user "jo")
+(setq sql-password "happyx2joyx2")
+(setq sql-database "icarly_cms_development")
+
 (server-start)
 
 (global-set-key [f4]
