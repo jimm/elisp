@@ -121,8 +121,8 @@
 
 
 ;;
-;; For flipping back and forth between files and headers, or Java file and
-;; Java test files.
+;; For flipping back and forth between files and headers, or Java/Ruby files
+;; and Java/Ruby test files.
 ;;
 (defun my-ff-find-other-file (&optional in-other-window ignore-include)
   "Find other Java file or, if not a Java file, call `ff-find-other-file`."
@@ -147,13 +147,13 @@ Default file-name is current buffer's name."
     (ef (file-name-nondirectory target) default-directory)))
 
 (defun find-other-ruby-file (&optional file-name)
-  "Visits `foo.rb' when given `test_foo.rb' and vice versa.
+  "Visits `foo.rb' when given `foo_test.rb' and vice versa.
 Default file-name is current buffer's name."
   (interactive)
   (let* ((fname (file-name-nondirectory (if file-name file-name (buffer-file-name))))
-	 (target (if (equal "test_" (substring fname 0 5))
-		     (substring fname 5)
-		   (concat "test_" fname))))
+	 (target (if (equal "_test.rb" (substring fname -8))
+                     (concat (substring fname 0 -8) ".rb")
+		   (concat (substring fname 0 -3) "_test.rb"))))
     (ef (file-name-nondirectory target) default-directory)))
 
 (setq ff-other-file-alist
