@@ -1289,6 +1289,11 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (autoload 'sass-mode "sass-mode" "sass mode")
 (add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
 (add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
+(defun load-haml ()
+  "A convenience function that loads Haml and Sass modes."
+  (interactive)
+  (load (concat *my-emacs-lib-dir* "progmodes/haml-mode"))
+  (load (concat *my-emacs-lib-dir* "progmodes/sass-mode")))
 
 ;;
 ;; iTerm
