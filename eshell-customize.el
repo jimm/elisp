@@ -3,9 +3,6 @@
 
 (setq eshell-history-size 512)
 (setq eshell-prompt-regexp "^[^>]*> ")
-(make-face 'eshell-prompt-face)
-(set-face-foreground 'eshell-prompt-face "FireBrick")
-(set-face-bold-p 'eshell-prompt-face nil)
 
 (load "em-hist")			; So the history vars are defined
 (if (boundp 'eshell-save-history-on-exit)
