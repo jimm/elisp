@@ -91,6 +91,7 @@ This holds a cons cell of the form `(DIRECTORY . FILE)'
 describing the last `clojure-load-file' or `clojure-compile-file' command.")
 
 
+;;;###autoload
 (defun clojure-mode ()
   "Major mode for editing Clojure code - similar to Lisp mode..
 Commands:
@@ -186,6 +187,7 @@ See variable `clojure-doc-command'."
 		     (format clojure-doc-command var)))
 
 
+;;;###autoload
 (defun run-clojure (cmd)
   "Run Clojure as a subprocess of Emacs.
 Like `inferior-lisp', but uses `clojure-inferior-lisp-program',
