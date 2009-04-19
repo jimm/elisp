@@ -866,7 +866,8 @@ sql-send-paragraph."
   (car (member-if
 	(lambda (f) (file-exists-p f))
 	'("/usr/local/scala/share/scala/misc/scala-tool-support/emacs/"
-	  "/usr/local/scala/misc/scala-tool-support/emacs/")))
+	  "/usr/local/scala/misc/scala-tool-support/emacs/"
+          "/opt/local/share/scala/misc/scala-tool-support/emacs")))
   "Different versions of Scala have used different layouts, so
 this figures out where the Emacs support lives.")
 	 
