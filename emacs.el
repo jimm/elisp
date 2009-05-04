@@ -1062,7 +1062,7 @@ gzip.")))
  '(woman-use-own-frame nil))
 
 (defvar woman-manpath
-  '("/usr/man" "/usr/share/man" "/usr/local/man" "/usr/local/share/man"))
+  '("/usr/man" "/usr/share/man" "/usr/local/man" "/usr/local/share/man" "/opt/local/man"))
 
 ; Time and time zone information, for calendar's sunrise-sunset and related
 ; funcs.
