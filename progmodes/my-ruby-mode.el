@@ -103,7 +103,7 @@ nPort: ")
 
 (defun gem-server ()
   (interactive)
-  (shell-command "gem_server &" "*gem-server*")
+  (shell-command "gem server &" "*gem-server*")
   (bury-buffer (get-buffer "*gem-server*"))) ; doesn't hide buffer
 
 (defun gem-server-stop ()
