@@ -35,3 +35,6 @@
   (lambda ()
     (interactive)
     (find-file (concat *my-pim-dir* "orgs/todo.org"))))
+
+(set-background-color "black")
+(set-foreground-color "white")

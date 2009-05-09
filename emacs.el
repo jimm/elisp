@@ -1169,7 +1169,7 @@ and wc -w"
 ; '(emacs-wiki-header-4 ((t (:inherit variable-pitch :foreground "black" :weight bold))))
 ;; '(emacs-wiki-link-face ((t (:foreground "blue" :underline "blue" :weight bold))))
 ; '(emacs-wiki-link-face ((t (:foreground "blue" :underline "blue"))))
- '(eshell-prompt ((t (:foreground "firebrick"))))
+;;  '(eshell-prompt ((t (:foreground "firebrick"))))
  '(sh-heredoc ((((class color) (background light)) (:foreground "darkgreen"))))
  )
 )
