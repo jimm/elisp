@@ -1,5 +1,9 @@
 (setq ns-command-modifier 'meta)        ; define Command as Meta key
 
+; Smoother mouse wheel scrolling
+; http://www.reddit.com/r/programming/comments/95uv7/emacs_231_has_been_released/c0bj6zp
+(setq mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control)))))
+
 (when window-system
   (defvar *basic-frame-alist* '((background-color . "lavender")
 				(tool-bar-mode . nil)))
