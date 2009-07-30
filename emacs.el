@@ -1331,9 +1331,9 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;; beginning of crypt++.el.
 ;;
 (require 'crypt++)
-(setq crypt-encryption-type 'gpg
-            crypt-encryption-file-extension "\\(Secure\\)$\\|\\(secure\\.org\\)$\\|\\(\\.enc\\)$")
-(crypt-rebuild-tables)
+;; (setq crypt-encryption-type 'gpg
+;;             crypt-encryption-file-extension "\\(Secure\\)$\\|\\(secure\\.org\\)$\\|\\(\\.enc\\)$")
+;; (crypt-rebuild-tables)
 
 ;;
 ;; WebJump
