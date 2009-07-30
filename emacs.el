@@ -66,7 +66,8 @@
 (setq make-backup-files nil)            ; don't make backup files
 (setq delete-auto-save-files t)         ; no "#" files after a save
 (setq auto-save-list-file-prefix nil)   ; don't record sessions
-(setq inhibit-startup-message t)        ; kill the startup message
+(setq inhibit-startup-screen t)         ; kill the startup message
+(setq initial-scratch-message nil)      ; used by Emacs 23 and above
 (setq inhibit-startup-echo-area-message "jimm")
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)

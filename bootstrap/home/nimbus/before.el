@@ -1,8 +1,10 @@
+(setq ns-command-modifier 'meta)        ; define Command as Meta key
+
 (when window-system
   (defvar *basic-frame-alist* '(; (background-color . "gray90")
 				(tool-bar-mode . nil)))
   (setq initial-frame-alist
-	(append *basic-frame-alist* '((height . 72) (top . 0) (left . 0))))
+	(append *basic-frame-alist* '((height . 76) (top . 0) (left . 0))))
   (setq default-frame-alist *basic-frame-alist*))
 
 (add-to-list 'load-path "/usr/share/emacs/22.1/lisp" t)
