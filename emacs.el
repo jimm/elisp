@@ -55,6 +55,7 @@
 (setq skeleton-pair nil)
 (mouse-wheel-mode 1)
 
+(transient-mark-mode -1)
 (setq bookmark-save-flag 1)		; see bootstrap-ini for loc of file
 (setq sentence-end-double-space nil)
 (setq default-major-mode 'text-mode)    ; default edit mode
