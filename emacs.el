@@ -1335,6 +1335,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;; (setq crypt-encryption-type 'gpg
 ;;             crypt-encryption-file-extension "\\(Secure\\)$\\|\\(secure\\.org\\)$\\|\\(\\.enc\\)$")
 ;; (crypt-rebuild-tables)
+(setq epa-file-cache-passphrase-for-symmetric-encryption t) ; remember passphrase for save
 
 ;;
 ;; WebJump
