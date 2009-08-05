@@ -55,7 +55,12 @@
 (setq skeleton-pair nil)
 (mouse-wheel-mode 1)
 
-(transient-mark-mode -1)
+;; Emacs 23-specific values
+(when (>= 23 emacs-major-version)
+  (progn
+    (transient-mark-mode -1)
+    (setq confirm-nonexistent-file-or-buffer nil)))
+
 (setq bookmark-save-flag 1)		; see bootstrap-ini for loc of file
 (setq sentence-end-double-space nil)
 (setq default-major-mode 'text-mode)    ; default edit mode
