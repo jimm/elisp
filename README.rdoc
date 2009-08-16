@@ -1,0 +1,51 @@
+= Introduction
+
+Welcome to my Emacs initialization files.
+
+The main initialization file is emacs.el, which is loaded as part of a
+machine-specific bootstrap process.
+
+= Bootstrap Process
+
+Since I use Emacs on multiple machines, I came up with a customization scheme
+that lets me run "before" and "after" code for each machine around my main
+initialization code. Each domain (work, home, etc.) gets its own subdirectory
+and each machine gets its own subdirectory within the domain. Inside that are
+up to four files: dot_emacs, before.el, after.el, and the bookmark file
+emacs.bmk. The file ~/.emacs is a link to the dot_emacs file in that machine's
+directory in the proper domain subdirectory.
+
+Here's the .emacs file on the machine I'm using right now, which is really a
+link to ~/Library/elisp/home/nimbus/dot_emacs:
+
+  ;; -*- emacs-lisp -*-
+  (defvar *my-emacs-lib-dir* "~/Library/elisp/")
+  (defvar *my-pim-dir* "~/pim/")
+  (load-file (concat *my-emacs-lib-dir* "bootstrap-init.el"))
+  (bootstrap-init "home" "nimbux")
+
+Here's bootstrap-init.el:
+
+  ;;; *my-emacs-lib-dir* must be defined
+
+  (defun bootstrap-file (domain machine file-name)
+    (concat *my-emacs-lib-dir* "bootstrap/" domain "/" machine "/" file-name))
+
+  (defun load-init-if-exists (domain machine file)
+    (let ((f (bootstrap-file domain machine (concat file ".el"))))
+      (if (file-exists-p f)
+        (load-file f))))
+
+  (defun bootstrap-init (domain machine)
+    (load-init-if-exists domain machine "before")
+    (load-file (concat *my-emacs-lib-dir* "emacs"))
+    (load-init-if-exists domain machine "after")
+    (setq bookmark-default-file
+          (bootstrap-file domain machine "emacs.bmk")))
+
+So you can see that bootstrap-init runs a "before.el" file, then my main
+customization file "emacs.el", then an "after.el" file.
+
+= See Also
+
+See also http://www.io.com/~jimm/emacs_tips.html.
