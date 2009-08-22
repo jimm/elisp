@@ -27,12 +27,12 @@
 
 (server-start)
 
-(global-set-key [f4]
+(global-set-key [\C-f4]
   (lambda ()
     (interactive)
 ;    (org-open-file (concat *my-pim-dir* "orgs/icarly.org") t nil "* To Do")))
-    (find-file (concat *my-pim-dir* "orgs/icarly.org"))))
-(global-set-key [\C-f4]
+    (find-file (concat *my-pim-dir* "orgs/kaplan.org"))))
+(global-set-key [f4]
   (lambda ()
     (interactive)
     (find-file (concat *my-pim-dir* "orgs/todo.org"))))
