@@ -1259,7 +1259,8 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;;
 ;; This needs to be before org mode so we can turn off yas minor mode there.
 ;;
-(when (boundp 'define-globalized-minor-mode)
+(setq my-load-yasnippet (boundp 'define-globalized-minor-mode))
+(when my-load-yasnippet
   (require 'yasnippet)
   (yas/initialize)
   (yas/load-directory (concat *my-emacs-lib-dir* "snippets"))
@@ -1287,8 +1288,9 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (setq org-startup-folded 'content)
 (setq org-mode-hook
       '(lambda ()
-	 (yas/minor-mode-off)
-	 (setq org-export-with-sub-superscripts nil)))
+         (when my-load-yasnippet
+           (yas/minor-mode-off))
+         (setq org-export-with-sub-superscripts nil)))
 
 ;;
 ;; HAML and SASS
