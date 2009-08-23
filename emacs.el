@@ -1259,14 +1259,15 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;;
 ;; This needs to be before org mode so we can turn off yas minor mode there.
 ;;
-(require 'yasnippet)
-(yas/initialize)
-(yas/load-directory (concat *my-emacs-lib-dir* "snippets"))
-(add-hook 'yas/after-exit-snippet-hook
-          (lambda ()
-            (save-excursion
-              (indent-region yas/snippet-beg yas/snippet-end))
-            (indent-according-to-mode)))
+(when (boundp 'define-globalized-minor-mode)
+  (require 'yasnippet)
+  (yas/initialize)
+  (yas/load-directory (concat *my-emacs-lib-dir* "snippets"))
+  (add-hook 'yas/after-exit-snippet-hook
+	    (lambda ()
+	      (save-excursion
+		(indent-region yas/snippet-beg yas/snippet-end))
+	      (indent-according-to-mode))))
 
 ;;
 ;; Org Mode
