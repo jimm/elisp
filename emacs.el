@@ -1218,6 +1218,9 @@ the current directory, suitable for creation"
 (autoload 'http-twiddle-mode "http-twiddle-mode" "HTTP twiddle mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.http-twiddle$" . http-twiddle-mode))
 
+(autoload 'csharp-mode "csharp-mode" "C# Mode" t nil)
+(add-to-list 'auto-mode-alist '("\\.cs$" . csharp-mode))
+
 ;;
 ;; git
 ;;
