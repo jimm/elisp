@@ -5,6 +5,7 @@
 ;; (setq sql-user "jimm")
 ;; (setq sql-server "localhost")
 ;; (setq sql-database "db")
+(setq sql-sqlite-program "sqlite3")
 
 (setq browse-url-generic-program "open")
 (setq Man-switches "-M /usr/share/man:/usr/local/share/man")
@@ -29,3 +30,5 @@
   (lambda ()
     (interactive)
     (find-file (concat *my-pim-dir* "orgs/todo.org"))))
+
+(set-face-attribute 'org-level-1 nil :foreground "white" :background "black")
