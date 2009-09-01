@@ -25,11 +25,10 @@
 (global-set-key [\C-f4]
   (lambda ()
     (interactive)
-    (find-file (concat *my-pim-dir* "orgs/kaplan.org"))))
+    (find-file (concat *my-pim-dir* "orgs/kaplan_todo.org"))))
 (global-set-key [f4]
   (lambda ()
     (interactive)
     (find-file (concat *my-pim-dir* "orgs/todo.org"))))
 
 (set-face-attribute 'org-level-1 nil :foreground "white" :background "black" :bold t)
-(set-cursor-color "yellow")
