@@ -32,3 +32,4 @@
     (find-file (concat *my-pim-dir* "orgs/todo.org"))))
 
 (set-face-attribute 'org-level-1 nil :foreground "white" :background "black" :bold t)
+(set-cursor-color "yellow")
