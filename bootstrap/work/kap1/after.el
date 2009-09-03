@@ -31,5 +31,5 @@
     (interactive)
     (find-file (concat *my-pim-dir* "orgs/todo.org"))))
 
-(set-face-attribute 'org-level-1 nil :foreground "white" :background "black" :bold t)
-(set-cursor-color "yellow")
+; TODO use light/dark versions code
+(set-face-attribute 'org-level-1 nil :height 140 :foreground "white" :background "black" :bold t)
