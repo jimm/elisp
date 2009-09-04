@@ -754,7 +754,8 @@ sql-send-paragraph."
               repl-alist))))
 
 (mapcar (lambda (ext)
-          (add-to-list 'auto-mode-alist '((concat "\\." ext "$") . sgml-mode)))
+          (add-to-list 'auto-mode-alist
+                       (cons (concat "\\." ext "$") 'sgml-mode)))
         ; jwcs, application, page: Tapestry
         ; ftl: FreeMarker
         '("xsd" "wsd[ld]" "jwcs" "application" "page" "ftl"))
