@@ -344,8 +344,8 @@ tree."
 ;;
 (setq c-mode-common-hook
       '(lambda ()
-	 (setq c-basic-offset 4)
-;;          (setq c-basic-offset 2)
+;;	 (setq c-basic-offset 4)
+         (setq c-basic-offset 2)
          (setq c-tab-always-indent nil)
 ; BAD! BAD! Screws up ^D
 ;        (setq c-delete-function 'backward-delete-char)
@@ -369,6 +369,7 @@ tree."
 ;;
 (add-to-list 'auto-mode-alist '("\\.[ch]pp?$" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.h?$" . c++-mode)) ; mostly C++, now a days
+(add-to-list 'auto-mode-alist '("\\.pde$" . c++-mode)) ; Arduino
 (setq c++-mode-hook '(lambda () (c-set-style "stroustrup")))
 
 ;;
