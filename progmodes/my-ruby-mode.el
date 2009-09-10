@@ -90,16 +90,22 @@ Rails root dir is found."
 	 (font-lock-mode 1)))
 
 (defun mongrel-start (&optional dir port)
-  "Start mongrel_rails daemon from directory dir on the specified port."
+  "Start mongrel_rails daemon from directory DIR on the specified PORT."
   (interactive "DRAILS_ROOT: 
 nPort: ")
     (shell-command (concat "cd " dir " && mongrel_rails start -d -p "
-			   (int-to-string port))))
+			   (int-to-string (if port port "3000")))))
 
 (defun mongrel-stop (&optional dir)
-  "Stop mongrel_rails daemon running in directory dir."
+  "Stop mongrel_rails daemon running in directory DIR."
   (interactive "DRAILS_ROOT: ")
     (shell-command (concat "cd " dir " && mongrel_rails stop")))
+
+(defun rails-server-start (&optional dir)
+  "Start script/server from directory DIR."
+  (interactive "DRAILS_ROOT: ")
+  (shell-command (concat "cd " dir " && script/server &")
+                 "*rails-server*"))
 
 (defun gem-server ()
   (interactive)
