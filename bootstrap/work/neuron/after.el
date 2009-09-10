@@ -39,5 +39,3 @@
 
 ; TODO use light/dark versions code
 (set-face-attribute 'org-level-1 nil :height 140 :foreground "white" :background "black" :bold t)
-
-(set-cursor-color "cyan")
