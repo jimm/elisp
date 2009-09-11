@@ -1174,6 +1174,19 @@ the current directory, suitable for creation"
 (setenv "GIT_PAGER" "cat")
 
 ;;
+;; Growl (Mac OS X only)
+;;
+(defun growl-notify (message &optional title)
+  "Display a Growl MESSAGE. The optional TITLE's default value is \"Emacs\"."
+  (let ((g-title (if (and title (not (eq title ""))) title "Emacs")))
+    (shell-command
+     (concat
+      "growlnotify"
+      " --image /Applications/Emacs.app/Contents/Resources/Emacs.icns"
+      " --title " (shell-quote-argument g-title)
+      " --message " (shell-quote-argument message)))))
+
+;;
 ;; rcirc
 ;;
 (setq
@@ -1191,12 +1204,11 @@ the current directory, suitable for creation"
   "Use Growl to tell me about IRC channel activity. Only notify
 me about the channels listed in my-rcirc-notifiy-channels."
   (when (member target my-rcirc-notifiy-channels)
-    (shell-command
-     (concat "growlnotify --title " (shell-quote-argument target) " --message "
-             (shell-quote-argument
-              (concat "<" sender ">"
-                      (if (equal response "PRIVMSG") "" (concat " " response))
-                      " " text))))))
+    (growl-notify (concat "<" sender ">"
+                          (if (equal response "PRIVMSG") "" (concat " " response))
+                          " " text)
+                  target)))
+              
 (add-hook 'rcirc-print-hooks 'my-rcirc-print-hook)
 
 ;;
