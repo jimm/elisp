@@ -704,8 +704,13 @@ sql-send-paragraph."
 (defun reload-clojure-file ()
   (interactive)
   (tell-iterm (concat "(load-file \"" (buffer-file-name) "\")")))
+
+; (setq clojure-src-root "/Users/jimm/src/clojure")
+; (load "clojure-mode")
+; (clojure-slime-config "/Users/jimm/src/clojure")
 (autoload 'clojure-mode "clojure-mode" "Clojure mode" t nil)
 (autoload 'run-clojure "clojure-mode" "Clojure mode" t nil)
+
 (add-to-list 'auto-mode-alist '("\\.cljs?$" . clojure-mode))
 (setq clojure-inferior-lisp-program "clj --norlwrap")
 (setq clojure-mode-hook
