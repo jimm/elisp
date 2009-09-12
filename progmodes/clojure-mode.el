@@ -6,7 +6,7 @@
 ;;          Lennart Staflin <lenst@lysator.liu.se>
 ;;          Phil Hagelberg <technomancy@gmail.com>
 ;; URL: http://www.emacswiki.org/cgi-bin/wiki/ClojureMode
-;; Version: 1.4
+;; Version: 1.5
 ;; Keywords: languages, lisp
 
 ;; This file is not part of GNU Emacs.
@@ -26,9 +26,7 @@
 
 ;; (0) Add this file to your load-path, usually the ~/.emacs.d directory.
 ;; (1) Either:
-;;     Add these lines to your .emacs:
-;;       (autoload 'clojure-mode "clojure-mode" "A major mode for Clojure" t)
-;;       (add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
+;;     Add this to your .emacs config: (require 'clojure-mode)
 ;;     Or generate autoloads with the `update-directory-autoloads' function.
 
 ;; The clojure-install function can check out and configure all the
@@ -49,11 +47,6 @@
 ;;   ;; require or autoload paredit-mode
 ;;   (defun lisp-enable-paredit-hook () (paredit-mode 1))
 ;;   (add-hook 'clojure-mode-hook 'lisp-enable-paredit-hook)
-
-;;; Todo:
-
-;; * make install command more recoverable
-;; * hashbang is also a valid comment character
 
 ;;; License:
 
@@ -537,12 +530,10 @@ is bundled up as a function so that you can call it after you've set
 
     (slime-setup '(slime-fancy))
 
-    (setq swank-clojure-jar-path
-          (concat clojure-src-root "/clojure/clojure.jar"))
-    (unless (boundp 'swank-clojure-extra-classpaths)
-      (setq swank-clojure-extra-classpaths nil))
-    (add-to-list 'swank-clojure-extra-classpaths
-                 (concat clojure-src-root "/clojure-contrib/src/"))))
+    (setq swank-clojure-classpath
+          (list
+           (concat clojure-src-root "/clojure/clojure.jar")
+           (concat clojure-src-root "/clojure-contrib/clojure-contrib.jar")))))
 
 ;;;###autoload
 (defun clojure-install (src-root)
@@ -596,7 +587,7 @@ lines to your personal Emacs config somewhere:
     (cd orig-directory)))
 
 (defun clojure-update ()
-  "Update clojure-related repositories and recompile clojure.
+  "Update clojure-related repositories from upstream master and recompile clojure.
 
 Works with clojure etc. installed via `clojure-install'. Code
 should be checked out in the `clojure-src-root' directory."
@@ -606,15 +597,15 @@ should be checked out in the `clojure-src-root' directory."
   (let ((orig-directory default-directory))
     (dolist (repo '("clojure" "clojure-contrib" "swank-clojure" "slime"))
       (cd (concat clojure-src-root "/" repo))
-      (unless (= 0 (shell-command "git pull"))
+      (unless (= 0 (shell-command "git checkout master && git pull"))
         (error "Clojure update failed: %s" repo)))
 
     (message "Compiling...")
-    (cd (format "%s/clojure" src-root))
+    (cd (format "%s/clojure" clojure-src-root))
     (unless (= 0 (shell-command "ant"))
       (error "Couldn't compile Clojure."))
 
-    (cd (format "%s/clojure-contrib" src-root))
+    (cd (format "%s/clojure-contrib" clojure-src-root))
     (unless (= 0 (shell-command "ant -Dclojure.jar=../clojure/clojure.jar"))
       (error "Couldn't compile Contrib."))
     

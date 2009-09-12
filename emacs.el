@@ -662,11 +662,22 @@ sql-send-paragraph."
              ))
 
 ;;
+;; Clojure-mode (lisp)
+;;
+(defun reload-clojure-file ()
+  (interactive)
+  (tell-iterm (concat "(load-file \"" (buffer-file-name) "\")")))
+
+(require 'clojure-mode)
+(clojure-slime-config "~/src/clojure")
+
+;;
 ;; Lisp-mode and slime-mode
 ;;
-(setq inferior-lisp-program "sbcl")
-(require 'slime)
-(slime-setup)
+;; Now that I'm using Clojure, I don't want sbcl to be the default program.
+;; (setq inferior-lisp-program "sbcl")
+;; (require 'slime)
+;; (slime-setup)
 (setq lisp-mode-hook
       '(lambda ()
          (define-key lisp-mode-map "\r" 'newline-and-indent)
@@ -696,26 +707,6 @@ sql-send-paragraph."
       (setq arc-program-name (concat *arc-dir* "arc.sh")))
   ; else
   (add-to-list 'auto-mode-alist '("\\.arc$" . lisp-mode)))
-
-
-;;
-;; Clojure-mode (lisp)
-;;
-(defun reload-clojure-file ()
-  (interactive)
-  (tell-iterm (concat "(load-file \"" (buffer-file-name) "\")")))
-
-; (setq clojure-src-root "/Users/jimm/src/clojure")
-; (load "clojure-mode")
-; (clojure-slime-config "/Users/jimm/src/clojure")
-(autoload 'clojure-mode "clojure-mode" "Clojure mode" t nil)
-(autoload 'run-clojure "clojure-mode" "Clojure mode" t nil)
-
-(add-to-list 'auto-mode-alist '("\\.cljs?$" . clojure-mode))
-(setq clojure-inferior-lisp-program "clj --norlwrap")
-(setq clojure-mode-hook
-      '(lambda ()
-         (define-key clojure-mode-map "\C-c\C-t" 'reload-clojure-file)))
 
 ;;
 ;; PHP-mode
