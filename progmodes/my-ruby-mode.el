@@ -91,15 +91,20 @@ Rails root dir is found."
 
 (defun mongrel-start (&optional dir port)
   "Start mongrel_rails daemon from directory DIR on the specified PORT."
-  (interactive "DRAILS_ROOT: 
-nPort: ")
-    (shell-command (concat "cd " dir " && mongrel_rails start -d -p "
-			   (int-to-string (if port port "3000")))))
+  (interactive "DRAILS_ROOT: \nnPort: ")
+  (shell-command (concat "cd " dir " && mongrel_rails start -d -p "
+                         (int-to-string (if port port "3000")))))
 
 (defun mongrel-stop (&optional dir)
   "Stop mongrel_rails daemon running in directory DIR."
   (interactive "DRAILS_ROOT: ")
-    (shell-command (concat "cd " dir " && mongrel_rails stop")))
+  (shell-command (concat "cd " dir " && mongrel_rails stop")))
+
+(defun mongrel-restart (&optional dir port)
+  "Restart mongrel_rails daemon from directory DIR on the specified PORT."
+  (interactive "DRAILS_ROOT: \nnPort: ")
+  (mongrel-stop dir)
+  (mongrel-start dir port))
 
 (defun rails-server-start (&optional dir)
   "Start script/server from directory DIR."
