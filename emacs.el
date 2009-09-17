@@ -20,11 +20,9 @@
 
 ; Add *my-emacs-lib-dir* subdirs to the end of load-path, so if it's
 ; pre-installed that version is used first.
-(add-to-list 'load-path (concat *my-emacs-lib-dir* "progmodes/") t)
-(add-to-list 'load-path (concat *my-emacs-lib-dir* "slime/") t)
-(add-to-list 'load-path (concat *my-emacs-lib-dir* "ses/") t)
-(add-to-list 'load-path (concat *my-emacs-lib-dir* "remember/") t)
-(add-to-list 'load-path (concat *my-emacs-lib-dir* "org/lisp/") t)
+(mapcar (lambda (dir)
+          (add-to-list 'load-path (concat *my-emacs-lib-dir* dir "/") t))
+        '("progmodes" "slime" "ses" "remember" "org/lisp"))
 ; Is the following needed on spoon?
 ; (add-to-list 'load-path (concat *my-emacs-lib-dir* "org/contrib/lisp/") t)
 
@@ -32,7 +30,6 @@
 (read-abbrev-file abbrev-file-name t)
 (load "my-skeletons")
 
-;(iswitchb-mode 1)
 (autoload 'ido-mode "ido" "ido mode")
 (ido-mode t)
 (setq ido-enable-flex-matching t)
@@ -78,7 +75,6 @@
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
-; (setq compile-command "ant -e -s build.xml ")
 (setq compile-command "rake ")
 (setq Man-notify 'aggressive)           ; when man found, jump there *immed*
 (setq dabbrev-case-replace nil)         ; preserve case when expanding
@@ -112,9 +108,6 @@
 ;; (my-face 'font-lock-string-face "ForestGreen")
 ;; (my-face 'font-lock-variable-name-face "ForestGreen")
 
-;; (set-background-color "gray15")
-;; (set-foreground-color "white")
-
 
 ;;
 ;; Display time and add time-related hooks
@@ -122,7 +115,9 @@
 ;; (display-time)                       ; display time and "Mail" in mode lines
 (defun generate-random-sig ()
   (interactive)
-  (shell-command "perl ~/bin/randomSig.pl ~/misc/signatures"))
+  (shell-command "randomSig.rb"))
+;;; The following code randomly generates a sig every N seconds. Now a days,
+;;; a cron job takes care of this.
 ;; (load "timer")
 ;; (run-at-time t 300 'generate-random-sig)
 
@@ -198,32 +193,12 @@ Default file-name is current buffer's name."
   (interactive)
   (concat (capitalize (substring str 0 1)) (substring str 1)))
 
-;;
-;; Mac OS X
-;; Need mac-key-mode from http://sourceforge.jp/projects/macemacsjp/files/
-;; See EmacsWiki: MacKeyMode at
-;; http://www.emacswiki.org/cgi-bin/wiki/MacKeyMode
-;;
-;(require 'redo)
-;(require 'mac-key-mode)  ; YUK: ESC-DEL becomes undo
-;(define-key mac-key-mode-map [(meta del)] 'backward-kill-word) ; does not work
-;(mac-key-mode 1)
-
 (defun debug-comment ()
   "Add a DEBUG comment to the current line"
   (interactive "*")
   (save-excursion
     (comment-dwim nil)
     (insert " DEBUG")))
-
-;;
-;; Emacs Wiki
-;;
-
-;;(autoload 'emacs-wiki "emacs-wiki" "Emacs Wiki")
-;(load "emacs-wiki")
-;(load "my-emacs-wiki")			; must load after emacs-wiki
-;(defun home-wiki-file (f) (concat *my-pim-dir* "wiki/" f))
 
 ;;
 ;; PIM
@@ -251,8 +226,6 @@ Default file-name is current buffer's name."
 
 ;;
 ;; Browse away!
-;;
-;; Put this after Emacs-wiki.
 ;;
 ;(autoload 'browse-url-netscape "browse-url" "Ask Netscape to show a URL" t)
 (defvar shell-open-file-list '("\\.html$" "\\.pdf$" "\\.app$" "\\.rtfd?$"))
@@ -540,9 +513,7 @@ and returns it."
 (setq shell-mode-hook
       (lambda ()
         (auto-fill-mode -1)
-        (setq comint-scroll-show-maximum-output nil)
-;;      (setq comint-process-echoes t)
-        ))
+        (setq comint-scroll-show-maximum-output nil)))
 
 
 ;;
@@ -677,10 +648,8 @@ sql-send-paragraph."
 ;; Message-mode (for USENET posts)
 ;;
 (setq message-mode-hook
-      '(lambda ()
-                                        ; Generate random sig every time
-         (shell-command "~/bin/randomSig.pl ~/misc/signatures")
-         ))
+      '(lambda () (shell-command "randomSig.rb")))
+
 (add-hook 'message-setup-hook           ; Auto-expand mail aliases
           '(lambda ()
 ;;           (mail-abbrevs-setup)
@@ -694,11 +663,22 @@ sql-send-paragraph."
              ))
 
 ;;
+;; Clojure-mode (lisp)
+;;
+(defun reload-clojure-file ()
+  (interactive)
+  (tell-iterm (concat "(load-file \"" (buffer-file-name) "\")")))
+
+(require 'clojure-mode)
+(clojure-slime-config "~/src/clojure")
+
+;;
 ;; Lisp-mode and slime-mode
 ;;
-(setq inferior-lisp-program "sbcl")
-(require 'slime)
-(slime-setup)
+;; Now that I'm using Clojure, I don't want sbcl to be the default program.
+;; (setq inferior-lisp-program "sbcl")
+;; (require 'slime)
+;; (slime-setup)
 (setq lisp-mode-hook
       '(lambda ()
          (define-key lisp-mode-map "\r" 'newline-and-indent)
@@ -719,34 +699,15 @@ sql-send-paragraph."
 ;;
 (defvar *arc-dir* "/usr/local/src/Lisp/arc/")
 (if (file-exists-p *arc-dir*)
-  (add-to-list 'load-path (concat *arc-dir* "extras/") t)
-  (autoload 'run-arc "inferior-arc"
-    "Run an inferior Arc process, input and output via buffer *arc*.")
-  (autoload 'arc-mode "arc"
-    "Major mode for editing Arc." t)
-  (add-to-list 'auto-mode-alist '("\\.arc$" . arc-mode))
-  (setq arc-program-name (concat *arc-dir* "arc.sh"))
-;;   (add-hook 'inferior-arc-mode-hook
-;; 	    (lambda ()
-;; 	      (set (make-local-variable 'comint-use-prompt-regexp) t)
-;; 	      (set (make-local-variable 'comint-prompt-read-only) t)))
+    (progn
+      (add-to-list 'load-path (concat *arc-dir* "extras/") t)
+      (autoload 'run-arc "inferior-arc"
+        "Run an inferior Arc process, input and output via buffer *arc*.")
+      (autoload 'arc-mode "arc" "Major mode for editing Arc." t)
+      (add-to-list 'auto-mode-alist '("\\.arc$" . arc-mode))
+      (setq arc-program-name (concat *arc-dir* "arc.sh")))
   ; else
   (add-to-list 'auto-mode-alist '("\\.arc$" . lisp-mode)))
-
-
-;;
-;; Clojure-mode (lisp)
-;;
-(defun reload-clojure-file ()
-  (interactive)
-  (tell-iterm (concat "(load-file \"" (buffer-file-name) "\")")))
-(autoload 'clojure-mode "clojure-mode" "Clojure mode" t nil)
-(autoload 'run-clojure "clojure-mode" "Clojure mode" t nil)
-(add-to-list 'auto-mode-alist '("\\.cljs?$" . clojure-mode))
-(setq clojure-inferior-lisp-program "clj --norlwrap")
-(setq clojure-mode-hook
-      '(lambda ()
-         (define-key clojure-mode-map "\C-c\C-t" 'reload-clojure-file)))
 
 ;;
 ;; PHP-mode
@@ -778,12 +739,6 @@ sql-send-paragraph."
   (backward-char 4)
   )
 
-(defun my-docbook-file ()
-    (interactive "*")
-    (let ((tex-command "db2dvi * 2>&1 | grep -v 'DTDDECL catalog entries are not supported'"))
-      (tex-file)
-      ))
-
 (defun unescape-html ()
   (interactive "*")
   (let ((repl-alist '(("&lt;" . "<") ("&gt;" . ">") ("&quot;" . "\"")
@@ -795,18 +750,17 @@ sql-send-paragraph."
                   (replace-match (cdr alist) nil nil)))
               repl-alist))))
 
-(add-to-list 'auto-mode-alist '("\\.xsd$" . sgml-mode))
-(add-to-list 'auto-mode-alist '("\\.wsd[ld]$" . sgml-mode))
-(add-to-list 'auto-mode-alist '("\\.jwcs$" . sgml-mode)) ; Tapestry
-(add-to-list 'auto-mode-alist '("\\.application$" . sgml-mode)) ; Tap
-(add-to-list 'auto-mode-alist '("\\.page$" . sgml-mode)) ; Tapestry
-(add-to-list 'auto-mode-alist '("\\.ftl$" . sgml-mode)) ; FreeMarker
+(mapcar (lambda (ext)
+          (add-to-list 'auto-mode-alist
+                       (cons (concat "\\." ext "$") 'sgml-mode)))
+        ; jwcs, application, page: Tapestry
+        ; ftl: FreeMarker
+        '("xsd" "wsd[ld]" "jwcs" "application" "page" "ftl"))
 
 (setq sgml-mode-hook
       '(lambda ()
          (require 'tex-mode)
          (auto-fill-mode 1)
-;;       (define-key sgml-mode-map "\C-c\C-f" 'my-docbook-file)
          (define-key sgml-mode-map "\C-c\C-k" 'compile)
          (define-key sgml-mode-map "\C-c=" my-shell)
          ))
@@ -875,7 +829,7 @@ sql-send-paragraph."
 	(lambda (f) (file-exists-p f))
 	'("/usr/local/scala/share/scala/misc/scala-tool-support/emacs/"
 	  "/usr/local/scala/misc/scala-tool-support/emacs/"
-          "/opt/local/share/scala/misc/scala-tool-support/emacs")))
+          "/opt/local/share/scala/misc/scala-tool-support/emacs/")))
   "Different versions of Scala have used different layouts, so
 this figures out where the Emacs support lives.")
 	 
@@ -902,28 +856,28 @@ this figures out where the Emacs support lives.")
 ;; Dired-mode
 ;;
 (put 'dired-find-alternate-file 'disabled nil)
-(defun only-show (only-string)
+(defun my-dired-only-show (only-string)
   "Only show files that match a regular expression."
   (interactive "sOnly show files that match regexp: ")
   (dired-mark-files-regexp only-string)
   (dired-toggle-marks)
   (dired-do-kill-lines))
 
-(defun cruft-remove ()
+(defun my-dired-cruft-remove ()
   (interactive)
   (dired-mark-files-regexp
    "\\.\\(aux\\|class\\|o\\|elc\\|dvi\\|lj\\|log\\|toc\\)$")
   (dired-do-kill-lines))
 
-(defun dot-remove ()
+(defun my-dired-dot-remove ()
   (interactive)
   (dired-mark-files-regexp "^\\.")
   (dired-do-kill-lines))
 
 (setq dired-mode-hook
       '(lambda ()
-         (define-key dired-mode-map "\C-c\C-c" 'cruft-remove)
-         (define-key dired-mode-map "\C-c." 'dot-remove)
+         (define-key dired-mode-map "\C-c\C-c" 'my-dired-cruft-remove)
+         (define-key dired-mode-map "\C-c." 'my-dired-dot-remove)
          (defvar dired-compress-file-suffixes
            '(("\\.gz\\'" "" "gunzip")
              ("\\.tgz\\'" ".tar" "gunzip")
@@ -994,10 +948,6 @@ gzip.")))
 ;; MIME minor mode
 ;;
 ;;(autoload 'mime-mode "mime" "Minor mode for editing MIME messages." t)
-
-;;
-;; Gnus mode stuff moved to .gnus.el[c]
-;;
 
 ;;
 ;; SES-mode
@@ -1093,9 +1043,9 @@ gzip.")))
   (setq ruby-indent-level 2))
 
 (defun address (str)
-  "Find STR in my personal Wiki address book. Looks first for STR
-as the beginning of a name. If not found, looks for the first
-occurrence of STR anywhere."
+  "Find STR in my address book file. Looks first for STR as the
+beginning of a name. If not found, looks for the first occurrence
+of STR anywhere."
   (interactive "sSearch string: ")
   (let ((search-str (replace-regexp-in-string "+" " " str))
         (current-buf (current-buffer)))
@@ -1116,7 +1066,6 @@ even though I'm using save-excursion."
     (address str)
     (search-forward "mailto:")
     (org-open-at-point)))
-;    (emacs-wiki-follow-name-at-point)))
 
 (defun open-email-client ()
   "Open an email client"
@@ -1171,12 +1120,6 @@ and wc -w"
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
-; '(emacs-wiki-header-1 ((t (:inherit variable-pitch :background "black" :foreground "white" :weight bold :height 1.4))))
-; '(emacs-wiki-header-2 ((t (:inherit variable-pitch :background "black" :foreground "white" :weight bold :height 1.4))))
-; '(emacs-wiki-header-3 ((t (:inherit variable-pitch :foreground "blue" :height 1.3))))
-; '(emacs-wiki-header-4 ((t (:inherit variable-pitch :foreground "black" :weight bold))))
-;; '(emacs-wiki-link-face ((t (:foreground "blue" :underline "blue" :weight bold))))
-; '(emacs-wiki-link-face ((t (:foreground "blue" :underline "blue"))))
 ;;  '(eshell-prompt ((t (:foreground "firebrick"))))
  '(sh-heredoc ((((class color) (background light)) (:foreground "darkgreen"))))
  )
@@ -1199,7 +1142,7 @@ the current directory, suitable for creation"
                         return nil))))
 
 ;;
-;; Haskell-mode
+;; Haskell mode
 ;;
 (autoload 'haskell-mode "haskell-mode" "Haskell mode" t nil)
 
@@ -1207,11 +1150,6 @@ the current directory, suitable for creation"
 ;; Hexl mode
 ;;
 (defvar hexl-program (concat *my-emacs-lib-dir* "hexlify.rb"))
-
-;;
-;; Linden Scripting Language mode
-;;
-(add-to-list 'auto-mode-alist '("\\.lsl$" . c-mode))
 
 ;;
 ;; http-twiddle
@@ -1233,6 +1171,19 @@ the current directory, suitable for creation"
 (setenv "GIT_PAGER" "cat")
 
 ;;
+;; Growl (Mac OS X only)
+;;
+(defun growl-notify (message &optional title)
+  "Display a Growl MESSAGE. The optional TITLE's default value is \"Emacs\"."
+  (let ((g-title (if (and title (not (eq title ""))) title "Emacs")))
+    (shell-command
+     (concat
+      "growlnotify"
+      " --image /Applications/Emacs.app/Contents/Resources/Emacs.icns"
+      " --title " (shell-quote-argument g-title)
+      " --message " (shell-quote-argument message)))))
+
+;;
 ;; rcirc
 ;;
 (setq
@@ -1250,12 +1201,11 @@ the current directory, suitable for creation"
   "Use Growl to tell me about IRC channel activity. Only notify
 me about the channels listed in my-rcirc-notifiy-channels."
   (when (member target my-rcirc-notifiy-channels)
-    (shell-command
-     (concat "growlnotify --title " (shell-quote-argument target) " --message "
-             (shell-quote-argument
-              (concat "<" sender ">"
-                      (if (equal response "PRIVMSG") "" (concat " " response))
-                      " " text))))))
+    (growl-notify (concat "<" sender ">"
+                          (if (equal response "PRIVMSG") "" (concat " " response))
+                          " " text)
+                  target)))
+              
 (add-hook 'rcirc-print-hooks 'my-rcirc-print-hook)
 
 ;;
@@ -1416,8 +1366,6 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (global-set-key "\M-\C-h" 'backward-kill-word)
 (global-set-key "\M-\033" 'eval-expression)
 (global-set-key "\C-c\C-l" 'current-line-to-top)
-;(global-set-key "\C-c\C-f" 'emacs-wiki-find-file)
-;(global-set-key "\C-z" 'call-last-kbd-macro)
 (global-set-key "\M- " 'just-one-space)
 
 (global-set-key [f1] my-shell)
@@ -1436,7 +1384,6 @@ me about the channels listed in my-rcirc-notifiy-channels."
   (lambda () (interactive) (switch-to-buffer "*svn-status*")))
 ;; (global-set-key [f7]
 ;;   (lambda () (interactive) (switch-to-buffer "*git-status*")))
-;(global-set-key [f8] 'emacs-wiki-find-file)
 (global-set-key [f8] 'ef)	; Was \C-f8
 (global-set-key [f9] 'bookmark-jump)
 (global-set-key [\C-f9] 'bookmark-set)
