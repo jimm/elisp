@@ -670,7 +670,8 @@ sql-send-paragraph."
   (tell-iterm (concat "(load-file \"" (buffer-file-name) "\")")))
 
 (require 'clojure-mode)
-(clojure-slime-config "~/src/clojure")
+(when (file-exists-p "~/src/clojure")
+  (clojure-slime-config "~/src/clojure"))
 
 ;;
 ;; Lisp-mode and slime-mode
