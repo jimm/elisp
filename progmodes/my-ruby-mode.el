@@ -89,22 +89,29 @@ Rails root dir is found."
  	 (setq ruby-indent-level 2)
 	 (font-lock-mode 1)))
 
-(defun mongrel-start (&optional dir port)
-  "Start mongrel_rails daemon from directory DIR on the specified PORT."
-  (interactive "DRAILS_ROOT: \nnPort: ")
-  (shell-command (concat "cd " dir " && mongrel_rails start -d -p "
-                         (int-to-string (if port port "3000")))))
+(defvar *mongrel-default-port* 3000)
 
-(defun mongrel-stop (&optional dir)
+(defun mongrel-start (dir &optional port)
+  "Start mongrel_rails daemon from directory DIR on the specified
+PORT (default *mongrel-default-port*)."
+  (interactive (list
+                (expand-file-name (read-directory-name "RAILS_ROOT: " nil default-directory t))
+                (read-number "Port: " *mongrel-default-port*)))
+  (shell-command (concat "cd " dir " && mongrel_rails start -d -p " (int-to-string (or port *mongrel-default-port*)))))
+
+(defun mongrel-stop (dir)
   "Stop mongrel_rails daemon running in directory DIR."
   (interactive "DRAILS_ROOT: ")
   (shell-command (concat "cd " dir " && mongrel_rails stop")))
 
-(defun mongrel-restart (&optional dir port)
-  "Restart mongrel_rails daemon from directory DIR on the specified PORT."
-  (interactive "DRAILS_ROOT: \nnPort: ")
+(defun mongrel-restart (dir &optional port)
+  "Restart mongrel_rails daemon from directory DIR on the
+specified PORT (default *mongrel-default-port*)."
+  (interactive (list
+                (expand-file-name (read-directory-name "RAILS_ROOT: " nil default-directory t))
+                (read-number "Port: " *mongrel-default-port*)))
   (mongrel-stop dir)
-  (mongrel-start dir port))
+  (mongrel-start dir (or port *mongrel-default-port*)))
 
 (defun rails-server-start (&optional dir)
   "Start script/server from directory DIR."
