@@ -1116,18 +1116,7 @@ and wc -w"
         (forward-char 1))
       (message "%d chars, %d words" char-count (/ char-count 5)))))
 
-
-(if (not aquamacs-p)
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
-;;  '(eshell-prompt ((t (:foreground "firebrick"))))
- '(sh-heredoc ((((class color) (background light)) (:foreground "darkgreen"))))
- )
-)
-
+;;; cfengine mode
 (add-to-list 'auto-mode-alist '("\\.cf$" . cfengine-mode))
 
 (defun get-closest-pathname (file)
