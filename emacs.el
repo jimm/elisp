@@ -428,6 +428,9 @@ and returns it."
 ;;;
 (autoload 'javascript-mode "javascript" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . javascript-mode))
+(setq javascript-mode-hook
+      (lambda ()
+        (setq javascript-indent-level 2)))
 ;; (autoload 'js2-mode "js2-mode" nil t)
 ;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
