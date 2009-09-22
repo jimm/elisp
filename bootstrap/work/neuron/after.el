@@ -33,11 +33,11 @@
 
 (server-start)
 
-(global-set-key [\C-f4]
+(global-set-key [f4]
   (lambda ()
     (interactive)
     (find-file (concat *my-pim-dir* "orgs/kaplan_todo.org"))))
-(global-set-key [f4]
+(global-set-key [\C-f4]
   (lambda ()
     (interactive)
     (find-file (concat *my-pim-dir* "orgs/todo.org"))))
