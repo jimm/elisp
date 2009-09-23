@@ -18,9 +18,9 @@
 (setq compile-command (get-register ?q))
 
 (defvar sa-db
-  "/Users/jimm/src/sandbox/taxonomy/spine_align/db/development.sqlite3")
+  "/Users/jimm/src/spine_align/db/development.sqlite3")
 (defvar sa-db-perforce
-  "/Users/jimm/Documents/Perforce/prfny3a01_1666/Jim_Menard_neuron/depot/CoreTech/Brain/SpineAlign/db/development.sqlite3")
+  "/Users/jimm/Documents/Perforce/brain/brain/spine_align/db/development.sqlite3")
 (defvar st-db
   "/Users/jimm/src/sandbox/taxonomy/SpineTagger/spineTagger.db")
 (defvar st-db-perforce
