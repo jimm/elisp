@@ -30,8 +30,7 @@
 (global-set-key [\C-f4]
   (lambda ()
     (interactive)
-;    (org-open-file (concat *my-pim-dir* "orgs/icarly.org") t nil "* To Do")))
-    (find-file (concat *my-pim-dir* "orgs/kaplan.org"))))
+    (find-file (concat *my-pim-dir* "orgs/kaplan/todo.org"))))
 (global-set-key [f4]
   (lambda ()
     (interactive)

@@ -1241,6 +1241,10 @@ me about the channels listed in my-rcirc-notifiy-channels."
            (yas/minor-mode-off))
          (setq org-export-with-sub-superscripts nil)))
 
+; TODO use light/dark versions code
+(set-face-attribute 'org-level-1 nil :height 140 :foreground "white" :background "black" :bold t)
+(set-face-attribute 'org-level-2 nil :foreground "blue" :bold t)
+
 ;;
 ;; HAML and SASS
 ;; Found {haml,sass}-mode.el files in the directory path-to-haml-gem/extra/.
