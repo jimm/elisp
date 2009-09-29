@@ -1383,7 +1383,10 @@ me about the channels listed in my-rcirc-notifiy-channels."
   (lambda () (interactive) (switch-to-buffer "*svn-status*")))
 ;; (global-set-key [f7]
 ;;   (lambda () (interactive) (switch-to-buffer "*git-status*")))
-(global-set-key [f8] 'ef)	; Was \C-f8
+(global-set-key [f8]
+  (lambda (fname-regexp) (interactive "sOrg file regex: ")
+    (ef fname-regexp (concat *my-pim-dir* "orgs/"))))
+(global-set-key [\C-f8] 'ef)
 (global-set-key [f9] 'bookmark-jump)
 (global-set-key [\C-f9] 'bookmark-set)
 (global-set-key [f10] 'zoom-frame)
