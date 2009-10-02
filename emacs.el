@@ -2,6 +2,12 @@
 
 ;;; Note: this file should be loaded by bootstrap-init.el.
 
+(defun ensure-ends-with-slash (dir)
+  "If DIR does not end with \"/\", return a new copy of DIR that
+  does."
+  (if (equal "/" (substring dir -1)) dir
+    (concat dir "/")))
+
 (defvar aquamacs-p (string-match "Aquamacs" (version)))
 ;; The following method works and will be supported in the future:
 ;;  (when (boundp 'aquamacs-version)
@@ -301,8 +307,7 @@ tree."
 ;;
 ;; Tramp
 ;;
-;(require 'tramp)
-;(setq tramp-default-method "scp")
+(setq tramp-default-method "ssh")
 
 ;;
 ;; Text-mode
