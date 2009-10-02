@@ -21,6 +21,8 @@
 (custom-set-variables
  '(pmd-java-home "/usr/bin/java"))
 
+(setq sql-sqlite-program "sqlite3")
+
 ; Development (local) only. Username/password won't work anywhere else.
 ; So it doesn't matter that you can see this.
 (setq sql-user "jo")
@@ -41,3 +43,11 @@
   (lambda ()
     (interactive)
     (find-file (concat *my-pim-dir* "orgs/kaplan/notes.org"))))
+
+;; For Kaplan, until my work laptop gets fixed
+(defvar sa-db
+  "/Users/jimm/src/kaplan/spine_align/db/development.sqlite3")
+(defvar st-db
+  "/Users/jimm/src/kaplan/sandbox/taxonomy/SpineTagger/spineTagger.db")
+(set-register ?d sa-db)
+(set-register ?e st-db)
