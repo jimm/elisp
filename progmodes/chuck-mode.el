@@ -76,6 +76,9 @@ to the full path of `chuck' (i.e `c:\\chuck\\bin\\chuck.exe')"
 ;; mode hook for user defined actions
 (defvar chuck-mode-hook nil)
 
+;; jimm default shred
+(defvar chuck-default-shred 1)
+
 (defun chuck-cmd (cmd &optional arg)
   "Sends a command to chuck"
   (shell-command (concat chuck-exec
@@ -119,13 +122,13 @@ to the full path of `chuck' (i.e `c:\\chuck\\bin\\chuck.exe')"
 
 (defun chuck-remove-code (shred)
   "Remove a shred from ChucK"
-  (interactive "nWhich shred? ")
+  (interactive (list (read-number "Which shred? " chuck-default-shred)))
   (chuck-cmd "-" (number-to-string shred)))
 
 (defun chuck-replace-code (buffer shred)
   "Replace a shred with the code on a buffer"
   (interactive (list (chuck-read-buffer)
-		     (read-number "Wich shred? ")))
+                     (read-number "Wich shred? " chuck-default-shred)))
   (with-current-buffer buffer
     (let ((chuck-file (file-name-nondirectory buffer-file-name))
 	  (str-shred (number-to-string shred)))
@@ -389,7 +392,9 @@ upchuck operator."
 
 ;; Entry point
 (defun chuck-mode ()
-  "Major mode for editing ChucK music/audio scripts"
+  ; jimm added chuck-mode-map output
+  "Major mode for editing ChucK music/audio scripts
+\\{chuck-mode-map}"
       (interactive)
   (kill-all-local-variables)
   (set-syntax-table chuck-mode-syntax-table)
