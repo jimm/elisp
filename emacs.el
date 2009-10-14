@@ -85,8 +85,14 @@
 (setq Man-notify 'aggressive)           ; when man found, jump there *immed*
 (setq dabbrev-case-replace nil)         ; preserve case when expanding
 (setq grep-command "grep -n ")
-(setq grep-find-command
-      '("find . \\( -name '*.log' -o -name '.svn' -o -name '.git' -o -name 'CVS' -o -name 'TAGS' -o -name '*~' -o -name '*.class' -o -name '*.[wj]ar' -o -name target -o -name javadoc \\) -prune -o -type f -print0 | xargs -0 grep -H -n ". 225))
+
+(let* ((bad-names (list "*.log" ".svn" ".git" "CVS" "TAGS" "*~" "*.class"
+                       "*.[wj]ar" "target" "javadoc"))
+       (gfc (concat "find . \\( -name "
+                    (mapconcat 'shell-quote-argument bad-names " -o -name ")
+                    " \\) -prune -o -type f -print0 | xargs -0 grep -H -n ")))
+  (setq grep-find-command (cons gfc (+ 1 (length gfc)))))
+
 (setq visible-bell t)
 (setq version-control 'never)           ; When to make backup files
 (setq vc-handled-backends '())          ; disable VC minor mode
