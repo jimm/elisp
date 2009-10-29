@@ -300,10 +300,33 @@ tree."
 	 (len (length files)))
     (cond ((zerop len)
 	   ; (message "%s not found in %s" fname-regexp dir))
-	   (cond ((equal "/" dirname) (message "%s not found" fname-regexp))
+	   (cond ((file-system-root-dir-p dirname) (message "%s not found" fname-regexp))
 		 (t (ef fname-regexp (file-name-directory dirname)))))
 	  ((= 1 len) (find-file (car files)))
 	  (t (find-dired dir (concat "-name " fname-regexp))))))
+
+;;
+;; find-up
+;; Returns file(s) starting at default directory
+(defun find-up (fname-regexp root-directory)
+  "Searches starting at ROOT-DIRECTORY for FNAME-REGEXP. If not
+found, goes up until it hits the system root directory, looking
+for FNAME-REGEXP."
+  (interactive "sFilename regex: \nDSearch root directory: ")
+  (let* ((dir (file-name-as-directory (expand-file-name root-directory)))
+	 (dirname (directory-file-name dir))
+	 (filter-regexp "\\.git\\|\\.svn\\|classes\\|build\\|target\\|TAGS\\|CVS\\|~")
+	 (files
+	  (remove-if
+	   '(lambda (f) (string-match filter-regexp f))
+           (directory-files dirname t fname-regexp)))
+	 (len (length files)))
+    (cond ((zerop len)
+	   ; (message "%s not found in %s" fname-regexp dir))
+	   (cond ((file-system-root-dir-p dirname) (message "%s not found" fname-regexp))
+		 (t (find-up fname-regexp (file-name-directory dirname)))))
+	  ((= 1 len) (car files))
+	  (t files))))
 
 ;;
 ;; Subversion
@@ -689,6 +712,19 @@ sql-send-paragraph."
 (when (file-exists-p "~/src/clojure")
   (clojure-slime-config "~/src/clojure"))
 
+; Add any non-jar files in project lib dir to swank-clojure-classpath.
+; Warning: since we don't have the PATH variable defined within
+; swank-clojure-project, we make a best guess that the project is at or above
+; the default directory.
+(add-hook 'swank-clojure-project-hook
+          '(lambda ()
+             (let ((lib-dir (expand-file-name (find-up "lib" default-directory))))
+               (when lib-dir
+                 (mapcar (lambda (f) (add-to-list 'swank-clojure-classpath (exapnd-file-name f)))
+                         (remove-if
+                          (lambda (f) (string-match "\\.jar$" f))
+                          (directory-files dirname t fname-regexp)))))))
+
 ;;
 ;; Lisp-mode and slime-mode
 ;;
@@ -699,9 +735,7 @@ sql-send-paragraph."
 (setq lisp-mode-hook
       '(lambda ()
          (define-key lisp-mode-map "\r" 'newline-and-indent)
-         (define-key lisp-mode-map "\C-cd" 'debug-comment)
-         )
-      )
+         (define-key lisp-mode-map "\C-cd" 'debug-comment)))
 
 ;;
 ;; Emacs-Lisp-mode
