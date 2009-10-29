@@ -277,6 +277,10 @@ Default file-name is current buffer's name."
            (browse-url-generic url-str)))))
 (setq browse-url-browser-function 'my-url-open)
 
+;;; ================================================================
+;;; Finding files
+;;; ================================================================
+
 ;;
 ;; ef (find)
 ;; must come before loading my eshell customize
@@ -305,9 +309,9 @@ tree."
 	  ((= 1 len) (find-file (car files)))
 	  (t (find-dired dir (concat "-name " fname-regexp))))))
 
-;;
-;; find-up
-;; Returns file(s) starting at default directory
+;; Returns file(s) starting at default directory. See also
+;; get-closest-pathname defined below (which does the same thing but assumes
+;; root-directory is default-directory).
 (defun find-up (fname-regexp root-directory)
   "Searches starting at ROOT-DIRECTORY for FNAME-REGEXP. If not
 found, goes up until it hits the system root directory, looking
@@ -327,6 +331,22 @@ for FNAME-REGEXP."
 		 (t (find-up fname-regexp (file-name-directory dirname)))))
 	  ((= 1 len) (car files))
 	  (t files))))
+
+;; See also find-up.
+(defun get-closest-pathname (file)
+  "Determine the pathname of the first instance of FILE starting from the
+current directory towards root. This may not do the correct thing in presence
+of links. If it does not find FILE, then it shall return the name of FILE in
+the current directory, suitable for creation"
+  (expand-file-name file
+                    (loop
+                     for d = default-directory then (expand-file-name ".." d)
+                     if (file-exists-p (expand-file-name file d))
+                     return d
+                     if (file-system-root-dir-p d)
+                     return nil)))
+
+;;; ================================================================
 
 ;;
 ;; Subversion
@@ -712,18 +732,25 @@ sql-send-paragraph."
 (when (file-exists-p "~/src/clojure")
   (clojure-slime-config "~/src/clojure"))
 
-; Add any non-jar files in project lib dir to swank-clojure-classpath.
-; Warning: since we don't have the PATH variable defined within
-; swank-clojure-project, we make a best guess that the project is at or above
-; the default directory.
-(add-hook 'swank-clojure-project-hook
-          '(lambda ()
-             (let ((lib-dir (expand-file-name (find-up "lib" default-directory))))
-               (when lib-dir
-                 (mapcar (lambda (f) (add-to-list 'swank-clojure-classpath (exapnd-file-name f)))
-                         (remove-if
-                          (lambda (f) (string-match "\\.jar$" f))
-                          (directory-files dirname t fname-regexp)))))))
+; not working yet
+
+;; ; Add any non-jar files in project lib dir to swank-clojure-classpath.
+;; ; Warning: since we don't have the PATH variable defined within
+;; ; swank-clojure-project, we make a best guess that the project is at or above
+;; ; the default directory.
+;; (add-hook 'swank-clojure-project-hook
+;;           '(lambda ()
+;;              ; these first two are here because swank-clojure-classpath's
+;;              ; value (which should already contain these two values) seems to
+;;              ; be stomped on by the swank code.
+;;              (add-to-list 'swank-clojure-classpath (expand-file-name "~/src/clojure/clojure-contrib/clojure.jar"))
+;;              (add-to-list 'swank-clojure-classpath (expand-file-name "~/src/clojure/clojure-contrib/clojure-contrib.jar"))
+;;              (let ((lib-dir (get-closest-pathname "lib")))
+;;                (when lib-dir
+;;                  (mapcar (lambda (f) (add-to-list 'swank-clojure-classpath (expand-file-name f)))
+;;                          (remove-if
+;;                           (lambda (f) (string-match "\\.jar$" f))
+;;                           (directory-files lib-dir t)))))))
 
 ;;
 ;; Lisp-mode and slime-mode
@@ -1166,20 +1193,6 @@ and wc -w"
 
 ;;; cfengine mode
 (add-to-list 'auto-mode-alist '("\\.cf$" . cfengine-mode))
-
-(defun get-closest-pathname (file)
-  "Determine the pathname of the first instance of FILE starting from the
-current directory towards root. This may not do the correct thing in presence
-of links. If it does not find FILE, then it shall return the name of FILE in
-the current directory, suitable for creation"
-  (let ((root (expand-file-name "/"))) ; win32 should xlate this correctly
-    (expand-file-name file
-                      (loop
-                        for d = default-directory then (expand-file-name ".." d)
-                        if (file-exists-p (expand-file-name file d))
-                        return d
-                        if (equal d root)
-                        return nil))))
 
 ;;
 ;; Haskell mode
