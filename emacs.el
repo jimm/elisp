@@ -775,8 +775,7 @@ sql-send-paragraph."
 ;;
 ;; Arc-mode (lisp)
 ;;
-(defvar *arc-dir* "/usr/local/src/Lisp/arc/")
-(if (file-exists-p *arc-dir*)
+(if (and (boundp '*arc-dir*) (file-exists-p *arc-dir*))
     (progn
       (add-to-list 'load-path (concat *arc-dir* "extras/") t)
       (autoload 'run-arc "inferior-arc"
@@ -784,7 +783,6 @@ sql-send-paragraph."
       (autoload 'arc-mode "arc" "Major mode for editing Arc." t)
       (add-to-list 'auto-mode-alist '("\\.arc$" . arc-mode))
       (setq arc-program-name (concat *arc-dir* "arc.sh")))
-  ; else
   (add-to-list 'auto-mode-alist '("\\.arc$" . lisp-mode)))
 
 ;;
