@@ -36,7 +36,7 @@
 (global-set-key [f4]
   (lambda ()
     (interactive)
-    (find-file (concat *my-pim-dir* "orgs/kaplan_todo.org"))))
+    (find-file (concat *my-pim-dir* "orgs/kaplan/todo.org"))))
 (global-set-key [\C-f4]
   (lambda ()
     (interactive)
