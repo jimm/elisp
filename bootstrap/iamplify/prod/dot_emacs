@@ -1,5 +1,0 @@
-;; -*- emacs-lisp -*-
-(defvar *my-emacs-lib-dir* "/home/jimm/lib/elisp/")
-(defvar *my-pim-dir* "~/src/jimm/pim/")
-(load-file (concat *my-emacs-lib-dir* "bootstrap-init.el"))
-(bootstrap-init "iamplify" "prod")
