@@ -728,6 +728,9 @@ sql-send-paragraph."
   (interactive)
   (tell-iterm (concat "(load-file \"" (buffer-file-name) "\")")))
 
+(unless (boundp 'package-activated-list)
+  (setq package-activated-list '()))
+
 (require 'clojure-mode)
 (when (file-exists-p "~/src/clojure")
   (clojure-slime-config "~/src/clojure"))
