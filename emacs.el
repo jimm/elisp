@@ -924,6 +924,7 @@ this figures out where the Emacs support lives.")
                            compilation-error-regexp-alist))))
   (add-hook 'scala-mode-hook
 	    (lambda ()
+	      (define-key scala-mode-map [f1] my-shell) ; I don't use Speedbar
 	      (define-key scala-mode-map "\r" 'newline-and-indent)
 	      (define-key scala-mode-map "\C-cr" 'run-scala-buffer)))
   (defun run-scala-buffer ()
