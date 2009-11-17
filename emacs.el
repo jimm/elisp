@@ -1337,6 +1337,12 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ))))
 
 ;;
+;; Textile mode
+;;
+(autoload 'textile-mode "textile-mode" "textile mode")
+(add-to-list 'auto-mode-alist '("\\.textile$" . textile-mode))
+
+;;
 ;; Uniquify
 ;; http://trey-jackson.blogspot.com/2008/01/emacs-tip-11-uniquify.html
 ;;
