@@ -1268,7 +1268,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;;
 ;; This needs to be before org mode so we can turn off yas minor mode there.
 ;;
-(setq my-load-yasnippet (boundp 'define-globalized-minor-mode))
+(setq my-load-yasnippet (fboundp 'define-globalized-minor-mode))
 (when my-load-yasnippet
   (require 'yasnippet)
   (yas/initialize)
