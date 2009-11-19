@@ -1,3 +1,4 @@
+alias play $PLAY_HOME/play $*
 alias icarly ~/src/jo/icarly/site/trunk/bin/icarly $*
 alias df df -h
 alias lt ls -lt $*
