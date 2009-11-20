@@ -2,6 +2,9 @@
   (interactive)				; for testing
   268)                                  ; 268 for really full screen, 260 with dock exposed
 
+;; Standard Java indent level
+(add-hook 'java-mode-hook (lambda () (setq c-basic-offset 4)))
+
 ;; (setq sql-user "jimm")
 ;; (setq sql-server "localhost")
 ;; (setq sql-database "db")
