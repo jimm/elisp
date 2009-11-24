@@ -1,0 +1,14 @@
+#Author : Jim Menard <jimm@io.com>
+#name : object name extends Controller
+# --
+package models
+
+import javax.persistence._
+import play.db.jpa._
+
+@Entity
+class $1 extends Model {
+    
+  $0
+    
+}

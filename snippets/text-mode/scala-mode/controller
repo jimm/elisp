@@ -1,0 +1,13 @@
+#Author : Jim Menard <jimm@io.com>
+#name : object name extends Controller
+# --
+package controllers
+
+import play._
+import play.mvc._
+
+object ${1:Application} extends Controller {
+    
+    def index = render()$0
+    
+}
