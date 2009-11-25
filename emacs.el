@@ -1343,6 +1343,11 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (add-to-list 'auto-mode-alist '("\\.textile$" . textile-mode))
 
 ;;
+;; LilyPond mode
+;;
+(load "lilypond-init")
+
+;;
 ;; Uniquify
 ;; http://trey-jackson.blogspot.com/2008/01/emacs-tip-11-uniquify.html
 ;;
