@@ -1,0 +1,3 @@
+#name: public static final String
+# --
+public static final String ${1:VAR} = "${2:val}";
