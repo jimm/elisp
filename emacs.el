@@ -1345,7 +1345,29 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;;
 ;; LilyPond mode
 ;;
+(defcustom LilyPond-ps-command "open"
+  "Command used to display PS files."
+  :group 'LilyPond
+  :type 'string)
+
+(defcustom LilyPond-pdf-command "open"
+  "Command used to display PDF files."
+  :group 'LilyPond
+  :type 'string)
+
+(defcustom LilyPond-midi-command "open"
+  "Command used to play MIDI files."
+  :group 'LilyPond
+  :type 'string)
+
+(defcustom LilyPond-all-midi-command "open"
+  "Command used to play MIDI files."
+  :group 'LilyPond
+  :type 'string)
 (load "lilypond-init")
+(add-hook 'LilyPond-mode-hook
+          (lambda ()
+            (define-key LilyPond-mode-map "\C-c\C-k" 'compile)))
 
 ;;
 ;; Uniquify
