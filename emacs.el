@@ -732,8 +732,10 @@ sql-send-paragraph."
   (setq package-activated-list '()))
 
 (require 'clojure-mode)
-(when (file-exists-p "~/src/clojure")
-  (clojure-slime-config "~/src/clojure"))
+; TODO fix failure to load swank-clojure-autoload.el that happened
+; when I upgraded Swank
+; (when (file-exists-p "~/src/clojure")
+;   (clojure-slime-config "~/src/clojure"))
 
 ; not working yet
 
