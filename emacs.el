@@ -2,6 +2,16 @@
 
 ;;; Note: this file should be loaded by bootstrap-init.el.
 
+;;; This was installed by package-install.el.
+;;; This provides support for the package system and
+;;; interfacing with ELPA, the package archive.
+;;; Move this code earlier if you want to reference
+;;; packages in your .emacs.
+(when
+    (load
+     (expand-file-name (concat *my-emacs-lib-dir* "elpa/package.el")))
+  (package-initialize))
+
 (defun ensure-ends-with-slash (dir)
   "If DIR does not end with \"/\", return a new copy of DIR that
   does."
@@ -1342,6 +1352,9 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;;
 (autoload 'textile-mode "textile-mode" "textile mode")
 (add-to-list 'auto-mode-alist '("\\.textile$" . textile-mode))
+(add-hook 'textile-mode-hook
+          (lambda ()
+            (auto-fill-mode 0)))
 
 ;;
 ;; LilyPond mode
