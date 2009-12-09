@@ -3,7 +3,7 @@
 	  [(1 37)
 	   nil "Convert buffer text and decorations to HTML." single])
  (swank-clojure .
-		[(1 0)
+		[(1 0 1)
 		 ((slime-repl
 		   (20091016))
 		  (clojure-mode
