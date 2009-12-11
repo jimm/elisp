@@ -153,21 +153,23 @@
   (interactive "P")
   (let* ((fname (buffer-file-name))
 	 (ext (file-name-extension fname)))
-    (cond ((equal "java" ext)
-	   (find-other-java-file fname))
+    (cond ((or (equal "java" ext) (equal "scala" ext))
+	   (find-other-java-file fname ext))
 	  ((equal "rb" ext)
 	   (find-other-ruby-file fname))
 	  (t
 	   (ff-find-other-file in-other-window ignore-include)))))
 
-(defun find-other-java-file (&optional file-name)
+(defun find-other-java-file (&optional file-name ext)
   "Visits `Foo.java' when given `FooTest.java' and vice versa.
 Default file-name is current buffer's name."
   (interactive)
   (let* ((fname (if file-name file-name (buffer-file-name)))
-	 (target (if (equal "Test.java" (substring fname -9))
-		     (concat (substring fname 0 -9) ".java")
-		   (concat (substring fname 0 -5) "Test.java"))))
+         (non-test-from-end (- -5 (length ext)))
+         (test-from-end (- -1 (length ext)))
+	 (target (if (equal (concat "Test." ext) (substring fname non-test-from-end))
+		     (concat (substring fname 0 non-test-from-end) (concat "." ext))
+		   (concat (substring fname 0 test-from-end) (concat "Test." ext)))))
     (ef (file-name-nondirectory target) default-directory)))
 
 (defun find-other-ruby-file (&optional file-name)
