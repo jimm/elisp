@@ -5,9 +5,11 @@
 ;; Standard Java indent level
 (add-hook 'java-mode-hook (lambda () (setq c-basic-offset 4)))
 
-;; (setq sql-user "jimm")
-;; (setq sql-server "localhost")
-;; (setq sql-database "db")
+;; this is dev-only info; won't work in production of course
+(setq sql-user "brainiac")
+(setq sql-password "does_not_kompute")
+(setq sql-server "localhost")
+(setq sql-database "brain_development")
 (setq sql-sqlite-program "sqlite3")
 
 (setq browse-url-generic-program "open")
