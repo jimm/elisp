@@ -741,32 +741,6 @@ sql-send-paragraph."
 (unless (boundp 'package-activated-list)
   (setq package-activated-list '()))
 
-(require 'clojure-mode)
-; TODO fix failure to load swank-clojure-autoload.el that happened
-; when I upgraded Swank
-; (when (file-exists-p "~/src/clojure")
-;   (clojure-slime-config "~/src/clojure"))
-
-; not working yet
-
-;; ; Add any non-jar files in project lib dir to swank-clojure-classpath.
-;; ; Warning: since we don't have the PATH variable defined within
-;; ; swank-clojure-project, we make a best guess that the project is at or above
-;; ; the default directory.
-;; (add-hook 'swank-clojure-project-hook
-;;           '(lambda ()
-;;              ; these first two are here because swank-clojure-classpath's
-;;              ; value (which should already contain these two values) seems to
-;;              ; be stomped on by the swank code.
-;;              (add-to-list 'swank-clojure-classpath (expand-file-name "~/src/clojure/clojure-contrib/clojure.jar"))
-;;              (add-to-list 'swank-clojure-classpath (expand-file-name "~/src/clojure/clojure-contrib/clojure-contrib.jar"))
-;;              (let ((lib-dir (get-closest-pathname "lib")))
-;;                (when lib-dir
-;;                  (mapcar (lambda (f) (add-to-list 'swank-clojure-classpath (expand-file-name f)))
-;;                          (remove-if
-;;                           (lambda (f) (string-match "\\.jar$" f))
-;;                           (directory-files lib-dir t)))))))
-
 ;;
 ;; Lisp-mode and slime-mode
 ;;
