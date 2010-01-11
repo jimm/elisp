@@ -1,9 +1,29 @@
 (1
+ (wrap-region .
+	      [(0 0 1)
+	       nil "Wrap text with punctation or tag" single])
+ (twitter .
+	  [(20090422)
+	   nil "Simple Emacs-based client for Twitter" single])
+ (pastie .
+	 [(20091230)
+	  nil "Emacs integration for pastie.org" single])
+ (textmate .
+	   [(1)
+	    nil "TextMate minor mode for Emacs" single])
+ (yaml-mode .
+	    [(0 0 5)
+	     nil "Major mode for editing YAML files" single])
+ (rspec-mode .
+	     [(0 2)
+	      ((ruby-mode
+		(1 1)))
+	      "Enhance ruby-mode for RSpec" single])
  (htmlize .
 	  [(1 37)
 	   nil "Convert buffer text and decorations to HTML." single])
  (swank-clojure .
-		[(1 0 1)
+		[(1 1 0)
 		 ((slime-repl
 		   (20091016))
 		  (clojure-mode
