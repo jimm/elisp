@@ -36,7 +36,7 @@
 ; pre-installed that version is used first.
 (mapcar (lambda (dir)
           (add-to-list 'load-path (concat *my-emacs-lib-dir* dir "/") t))
-        '("progmodes" "slime" "ses" "remember" "org/lisp"))
+        '("progmodes" "ses" "remember" "org/lisp"))
 ; Is the following needed on spoon?
 ; (add-to-list 'load-path (concat *my-emacs-lib-dir* "org/contrib/lisp/") t)
 
