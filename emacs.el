@@ -37,7 +37,7 @@
 (mapcar (lambda (dir)
           (add-to-list 'load-path (concat *my-emacs-lib-dir* dir "/") t))
         '("progmodes" "ses" "remember" "org/lisp"))
-; Is the following needed on spoon?
+; Don't need any org mode contributions yet
 ; (add-to-list 'load-path (concat *my-emacs-lib-dir* "org/contrib/lisp/") t)
 
 (setq abbrev-file-name (concat *my-emacs-lib-dir* "abbrev_defs.el"))
