@@ -116,7 +116,7 @@
 (setq mode-require-final-newline nil)	; Do not force newlines
 
 (when (functionp 'tool-bar-mode) (tool-bar-mode -1))
-(when (not window-system) (menu-bar-mode nil))
+(unless window-system (menu-bar-mode nil))
 
 (defun my-face (face-name color)
   (make-face face-name)
@@ -556,7 +556,7 @@ and returns it."
     (progn
       (load "eshell")
       (load "eshell-customize")
-      (when (not aquamacs-p)
+      (unless aquamacs-p
           (progn
             (load "my-environment")
             (let ((f "~/.environment"))
@@ -1207,7 +1207,7 @@ and wc -w"
 ;;
 ;; git
 ;;
-(when (not (boundp '*git-emacs-support-dir*))
+(unless (boundp '*git-emacs-support-dir*)
   (defvar *git-emacs-support-dir* "/usr/local/src/git/contrib/emacs"))
 (when (file-exists-p *git-emacs-support-dir*)
   (add-to-list 'load-path *git-emacs-support-dir* t)
