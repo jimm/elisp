@@ -8,6 +8,8 @@
 ;;; Move this code earlier if you want to reference
 ;;; packages in your .emacs.
 (when (load "elpa/package")
+  (add-to-list 'package-archives
+               '("technomancy" . "http://repo.technomancy.us/emacs/") t)
   (package-initialize))
 
 (defun ensure-ends-with-slash (dir)
