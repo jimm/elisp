@@ -1359,6 +1359,12 @@ me about the channels listed in my-rcirc-notifiy-channels."
             (define-key LilyPond-mode-map "\C-c\C-k" 'compile)))
 
 ;;
+;; Android
+;;
+(require 'android-mode)
+(custom-set-variables '(android-mode-sdk-dir "/usr/local/android-sdk-mac"))
+
+;;
 ;; Uniquify
 ;; http://trey-jackson.blogspot.com/2008/01/emacs-tip-11-uniquify.html
 ;;
