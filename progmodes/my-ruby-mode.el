@@ -6,7 +6,7 @@
 (autoload 'run-ruby "run-ruby" "Ruby inferior process (irb)" t nil)
 (add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.r\\(b\\(w\\|x\\)?\\|html?\\|js\\)$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\([Rr]ake\\|[Cc]ap\\)file$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("^\\([Rr]ake\\|[Cc]ap\\)file" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.gem\\(spec\\)?$" . ruby-mode))
 ;; (setq ruby-indent-tabs-mode t)
