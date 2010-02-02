@@ -1369,6 +1369,12 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (custom-set-variables '(android-mode-sdk-dir "/usr/local/android-sdk-mac"))
 
 ;;
+;; Drools
+;;
+(autoload 'drools-mode "drools" "Drools mode")
+(add-to-list 'auto-mode-alist '("\\.drl$" . drools-mode))
+
+;;
 ;; Uniquify
 ;; http://trey-jackson.blogspot.com/2008/01/emacs-tip-11-uniquify.html
 ;;
