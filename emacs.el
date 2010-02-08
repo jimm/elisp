@@ -1200,7 +1200,7 @@ and wc -w"
 ;; http-twiddle
 ;;
 (autoload 'http-twiddle-mode "http-twiddle" "HTTP twiddle mode" t nil)
-(add-to-list 'auto-mode-alist '("\\.http-twiddle$" . http-twiddle-mode))
+; http-twiddle.el adds .http-twiddle to auto-mode-alist
 
 (autoload 'csharp-mode "csharp-mode" "C# Mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.cs$" . csharp-mode))
