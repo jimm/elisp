@@ -97,6 +97,7 @@
 (setq dabbrev-case-replace nil)         ; preserve case when expanding
 (setq grep-command "grep -n ")
 
+;; Build a custom grep-find-command
 (let* ((bad-names (list "*.log" ".svn" ".git" "CVS" "TAGS" "*~" "*.class"
                        "*.[wj]ar" "target" "javadoc"))
        (gfc (concat "find . \\( -name "
@@ -1200,8 +1201,11 @@ and wc -w"
 ;; http-twiddle
 ;;
 (autoload 'http-twiddle-mode "http-twiddle" "HTTP twiddle mode" t nil)
-; http-twiddle.el adds .http-twiddle to auto-mode-alist
+(add-to-list 'auto-mode-alist '("\\.http-twiddle$" . http-twiddle-mode))
 
+;;
+;; C#
+;;
 (autoload 'csharp-mode "csharp-mode" "C# Mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.cs$" . csharp-mode))
 
