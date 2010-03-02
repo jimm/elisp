@@ -2,6 +2,8 @@
   (interactive)				; for testing
   268)                                  ; 268 for really full screen, 260 with dock exposed
 
+(setq edit-server-new-frame-height 77)
+
 ;; Standard Java indent level
 (add-hook 'java-mode-hook (lambda () (setq c-basic-offset 4)))
 
