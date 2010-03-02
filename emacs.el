@@ -1445,6 +1445,12 @@ me about the channels listed in my-rcirc-notifiy-channels."
             (buffer-name))))
 
 ;;
+;; Google Chrome edit server
+;;
+(require 'edit-server)
+(edit-server-start)
+
+;;
 ;; Global key bindings
 ;;
 
