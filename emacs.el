@@ -1447,8 +1447,15 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;;
 ;; Google Chrome edit server
 ;;
-(require 'edit-server)
-(edit-server-start)
+(defun edit-server-start ()
+  (interactive)
+  (require 'edit-server)
+  (edit-server-start))
+; does not work; asks to kill process anyway
+; (add-hook 'kill-emacs-hook 'edit-server-stop)
+; does not work
+; (add-to-list 'kill-emacs-query-functions 'edit-server-stop)
+
 
 ;;
 ;; Global key bindings
