@@ -1447,10 +1447,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;;
 ;; Google Chrome edit server
 ;;
-(defun edit-server-start ()
-  (interactive)
-  (require 'edit-server)
-  (edit-server-start))
+(autoload 'edit-server-start "edit-server" "Emacs server for Google Chrome" t)
 ; does not work; asks to kill process anyway
 ; (add-hook 'kill-emacs-hook 'edit-server-stop)
 ; does not work
