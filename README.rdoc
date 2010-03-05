@@ -5,6 +5,14 @@ Welcome to my Emacs initialization files.
 The main initialization file is emacs.el, which is loaded as part of a
 machine-specific bootstrap process.
 
+= Load Path
+
+The global variable +*my-emacs-lib-dir*+ must be defined to point to this
+directory.
+
+The load path is set up to look in the Emacs installation first, then in
++*my-emacs-lib-dir*+.
+
 = Bootstrap Process
 
 Since I use Emacs on multiple machines, I came up with a customization scheme
