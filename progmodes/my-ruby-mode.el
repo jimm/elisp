@@ -3,7 +3,8 @@
 
 ;; Use "M-x run-ruby" to start inf-ruby.
 (autoload 'ruby-mode "ruby-mode" "Ruby mode" t nil)
-(autoload 'run-ruby "run-ruby" "Ruby inferior process (irb)" t nil)
+(autoload 'inferior-ruby "inf-ruby" "Ruby inferior process (irb)" t nil)
+(defalias  'run-ruby 'inferior-ruby)
 (add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.r\\(b\\(w\\|x\\)?\\|html?\\|js\\)$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\([Rr]ake\\|[Cc]ap\\)file" . ruby-mode))
@@ -48,7 +49,7 @@ Rails root dir is found."
 (defun jw-rb-goto-para-begin ()
   (search-backward-regexp jw-rb-para-begin-re)
   (beginning-of-line)
-  (next-line 1) )
+  (forward-line 1) )
 
 (defun jw-rb-goto-para-end ()
   (search-forward-regexp jw-rb-para-begin-re)
