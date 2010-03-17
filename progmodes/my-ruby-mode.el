@@ -3,8 +3,10 @@
 
 ;; Use "M-x run-ruby" to start inf-ruby.
 (autoload 'ruby-mode "ruby-mode" "Ruby mode" t nil)
-(autoload 'inferior-ruby "inf-ruby" "Ruby inferior process (irb)" t nil)
-(defalias  'run-ruby 'inferior-ruby)
+(autoload 'run-ruby "inf-ruby" "Ruby inferior process (irb)" t nil)
+(defalias  'inf-ruby 'run-ruby)
+(defalias  'inferior-ruby 'run-ruby)
+(defalias 'irb 'run-ruby)
 (add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.r\\(b\\(w\\|x\\)?\\|html?\\|js\\)$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\([Rr]ake\\|[Cc]ap\\)file" . ruby-mode))
