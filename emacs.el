@@ -1361,8 +1361,8 @@ me about the channels listed in my-rcirc-notifiy-channels."
   "Command used to play MIDI files."
   :group 'LilyPond
   :type 'string)
-(autoload 'lilypond-mode "lilypond-init" "lilypond mode")
-(add-to-list 'auto-mode-alist '("\\.ly$" . lilypond-mode))
+(autoload 'LilyPond-mode "lilypond-init" "lilypond mode")
+(add-to-list 'auto-mode-alist '("\\.ly$" . LilyPond-mode))
 (add-hook 'LilyPond-mode-hook
           (lambda ()
             (define-key LilyPond-mode-map "\C-c\C-k" 'compile)))
