@@ -1298,6 +1298,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 
 ; TODO use light/dark versions code
 (set-face-attribute 'org-level-1 nil :height 140 :bold t)
+(set-face-attribute 'org-level-2 nil :foreground "ForestGreen")
 
 ;;
 ;; HAML and SASS
