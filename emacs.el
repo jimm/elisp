@@ -82,7 +82,7 @@
 (auto-fill-mode 1)
 (show-paren-mode 1)
 (setq column-number-mode nil)
-(setq-default fill-column 78)
+(setq-default fill-column 76)
 (setq make-backup-files nil)            ; don't make backup files
 (setq delete-auto-save-files t)         ; no "#" files after a save
 (setq auto-save-list-file-prefix nil)   ; don't record sessions
