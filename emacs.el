@@ -1246,7 +1246,7 @@ and wc -w"
 )
   "A list of IRC channel names that are monitored for notifications."
 (defvar my-rcirc-notifiy-channels
-  '("#10gen" "#jimm-test"))
+  '("#jimm-test"))
 (defun my-rcirc-print-hook (process sender response target text)
   "Use Growl to tell me about IRC channel activity. Only notify
 me about the channels listed in my-rcirc-notifiy-channels."
