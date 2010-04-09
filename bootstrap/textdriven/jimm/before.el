@@ -4,4 +4,6 @@
 (defvar emacs-wiki-projects
   '(("default" . ((emacs-wiki-directories . ("~/pim/wiki"))))))
 (defvar *my-erlang-emacs-tools-dir*
-  "/usr/local/src/Erlang/current/lib/tools/emacs")
+  (concat
+   (car (file-expand-wildcards "/usr/local/src/Erlang/current/lib/tools*"))
+   "/emacs/"))

@@ -7,7 +7,9 @@
     ("IampWiki" . ((emacs-wiki-directories . ("~/biz/iAmplify/Wiki"))))))
 
 (defvar *my-erlang-emacs-tools-dir*
-  "/usr/local/src/Erlang/current/lib/tools/emacs")
+  (concat
+   (car (file-expand-wildcards "/usr/local/src/Erlang/current/lib/tools*"))
+   "/emacs/"))
 
 (when window-system
   (defvar *basic-frame-alist* '((background-color . "gray90")
