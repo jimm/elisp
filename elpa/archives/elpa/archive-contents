@@ -1,4 +1,10 @@
 (1
+ (smex .
+       [(1 1)
+	nil "M-x interface with Ido-style lazy matching." single])
+ (drag-stuff .
+	     [(0 0 2)
+	      nil "Drag stuff (lines, words, region, etc...) around" single])
  (ruby-test-mode .
 		 [(1 0)
 		  nil "Minor mode for Behaviour and Test Driven" single])
@@ -9,7 +15,7 @@
 	    [(1 1)
 	     nil "mediawiki frontend" single])
  (wrap-region .
-	      [(0 0 1)
+	      [(0 1 3)
 	       nil "Wrap text with punctation or tag" single])
  (twitter .
 	  [(20090422)
@@ -50,12 +56,12 @@
 	[(0 1)
 	 nil "New TERMinal emulator" single])
  (sass-mode .
-	    [(2 2 20)
+	    [(2 2 21)
 	     ((haml-mode
-	       (2 2 20)))
+	       (2 2 21)))
 	     "Major mode for editing Sass files" single])
  (haml-mode .
-	    [(2 2 20)
+	    [(2 2 21)
 	     nil "Major mode for editing Haml files" single])
  (smart-tab .
 	    [(0 3)
@@ -159,7 +165,7 @@
 		      (2 1)))
 		    "run a ruby process in a compilation buffer" single])
  (gist .
-       [(0 3)
+       [(0 4)
 	nil "Emacs integration for gist.github.com" single])
  (confluence .
 	     [(1 4)
@@ -189,7 +195,7 @@
 			  [(0 2)
 			   nil "set project-local variables from a file" single])
  (lusty-explorer .
-		 [(1 0)
+		 [(2 1)
 		  nil "Dynamic filesystem explorer and buffer switcher" single])
  (tempo-snippets .
 		 [(0 1 5)
@@ -335,7 +341,7 @@
 		   [(8)
 		    nil "preview TeX math expressions." single])
  (gtk-look .
-	   [(18)
+	   [(19)
 	    nil "lookup Gtk and Gnome documentation." single])
  (xtide .
 	[(16)
@@ -350,7 +356,7 @@
 	   [(4 2)
 	    nil "minor mode to highlight current line in buffer" single])
  (lua-mode .
-	   [(20070703)
+	   [(20100404)
 	    nil "a major-mode for editing Lua scripts" single])
  (css-mode .
 	   [(1 0)
