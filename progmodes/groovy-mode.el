@@ -2,13 +2,13 @@
 ;;;  groovy-mode.el
 ;;;
 ;;;  Author: Jeremy Rayner - http://javanicus.com
-;;;  $Date: 2004-11-24 02:41:25 -0600 (Wed, 24 Nov 2004) $
+;;;  $Date: 2008-05-04 03:10:28 -0500 (Sun, 04 May 2008) $
 ;;;
 ;;;   based on ruby-mode.el from 
 ;;;      ruby stable snapshot - Wed Nov 24 04:01:06 JST 2004
 ;;;
 
-(defconst groovy-mode-revision "$Revision: 1458 $")
+(defconst groovy-mode-revision "$Revision: 12256 $")
 
 (defconst groovy-mode-version
   (progn
@@ -20,34 +20,16 @@
   )
 
 (defconst groovy-non-block-do-re
-  "\\(while\\|until\\|for\\|rescue\\)\\>"
+  "\\(while\\|for\\)\\>"
   )
 
 (defconst groovy-indent-beg-re
-  "\\(\\s *\\(class\\|module\\|def\\)\\)\\|if\\|unless\\|case\\|while\\|until\\|for\\|begin"
+  "\\(\\s *\\(class\\|module\\|def\\)\\)\\|if\\|case\\|while\\|for"
     )
 
 (defconst groovy-modifier-beg-re
-  "if\\|unless\\|while\\|until"
+  "if\\|while"
   )
-
-(defconst groovy-modifier-re
-  (concat groovy-modifier-beg-re "\\|rescue")
-  )
-
-(defconst groovy-block-mid-re
-  "then\\|else\\|elsif\\|when\\|rescue\\|ensure"
-  )
-
-(defconst groovy-block-op-re
-  "and\\|or\\|not"
-  )
-
-(defconst groovy-block-hanging-re
-  (concat groovy-modifier-beg-re "\\|" groovy-block-op-re)
-  )
-
-(defconst groovy-block-end-re "}")
 
 (defconst groovy-here-doc-beg-re
   "<<\\(-\\)?\\(\\([a-zA-Z0-9_]+\\)\\|[\"]\\([^\"]+\\)[\"]\\|[']\\([^']+\\)[']\\)")
@@ -63,13 +45,13 @@
 (defconst groovy-delimiter
   (concat "[?$/%(){}#\"'`.:]\\|<<\\|\\[\\|\\]\\|\\<\\("
 	  groovy-block-beg-re
-	  "\\|" groovy-block-end-re
-	  "\\)\\>\\|^=begin\\|" groovy-here-doc-beg-re)
+	  "\\|}\\)\\>\\|^=begin\\|"
+          groovy-here-doc-beg-re)
   )
 
 (defconst groovy-negative
-  (concat "^[ \t]*\\(\\(" groovy-block-mid-re "\\)\\>\\|\\("
-	    groovy-block-end-re "\\)\\>\\|}\\|\\]\\)")
+  (concat "^[ \t]*\\(\\>\\|\\("
+          "}\\)\\>\\|}\\|\\]\\)")
   )
 
 (defconst groovy-operator-chars "-,.+*/%&|^~=<>:")
@@ -111,9 +93,9 @@
   (setq groovy-mode-syntax-table (make-syntax-table))
   (modify-syntax-entry ?\' "\"" groovy-mode-syntax-table)
   (modify-syntax-entry ?\" "\"" groovy-mode-syntax-table)
-  (modify-syntax-entry ?\` "\"" groovy-mode-syntax-table)
-  (modify-syntax-entry ?# "<" groovy-mode-syntax-table)
-  (modify-syntax-entry ?\n ">" groovy-mode-syntax-table)
+  (modify-syntax-entry ?` "\"" groovy-mode-syntax-table)
+  (modify-syntax-entry ?/ ". 124b" groovy-mode-syntax-table)
+  (modify-syntax-entry ?\n "> b" groovy-mode-syntax-table)
   (modify-syntax-entry ?\\ "\\" groovy-mode-syntax-table)
   (modify-syntax-entry ?$ "." groovy-mode-syntax-table)
   (modify-syntax-entry ?? "_" groovy-mode-syntax-table)
@@ -124,9 +106,8 @@
   (modify-syntax-entry ?| "." groovy-mode-syntax-table)
   (modify-syntax-entry ?% "." groovy-mode-syntax-table)
   (modify-syntax-entry ?= "." groovy-mode-syntax-table)
-  (modify-syntax-entry ?/ "." groovy-mode-syntax-table)
   (modify-syntax-entry ?+ "." groovy-mode-syntax-table)
-  (modify-syntax-entry ?* "." groovy-mode-syntax-table)
+  (modify-syntax-entry ?* ". 23" groovy-mode-syntax-table)
   (modify-syntax-entry ?- "." groovy-mode-syntax-table)
   (modify-syntax-entry ?\; "." groovy-mode-syntax-table)
   (modify-syntax-entry ?\( "()" groovy-mode-syntax-table)
@@ -218,13 +199,13 @@ Also ignores spaces after parenthesis when 'space."
   (make-local-variable 'require-final-newline)
   (setq require-final-newline t)
   (make-variable-buffer-local 'comment-start)
-  (setq comment-start "# ")
+  (setq comment-start "// ")
   (make-variable-buffer-local 'comment-end)
   (setq comment-end "")
   (make-variable-buffer-local 'comment-column)
   (setq comment-column groovy-comment-column)
   (make-variable-buffer-local 'comment-start-skip)
-  (setq comment-start-skip "#+ *")
+  (setq comment-start-skip "//+ *")
   (setq indent-tabs-mode groovy-indent-tabs-mode)
   (make-local-variable 'parse-sexp-ignore-comments)
   (setq parse-sexp-ignore-comments t)
@@ -234,6 +215,8 @@ Also ignores spaces after parenthesis when 'space."
   (setq paragraph-separate paragraph-start)
   (make-local-variable 'paragraph-ignore-fill-prefix)
   (setq paragraph-ignore-fill-prefix t))
+
+;;;###autoload (add-to-list 'auto-mode-alist '("\\.groovy$" . groovy-mode))
 
 ;;;###autoload
 (defun groovy-mode ()
@@ -324,7 +307,6 @@ The variable groovy-indent-level controls the amount of indentation.
 		 (skip-chars-backward groovy-symbol-chars)
 		 (cond
 		  ((or (looking-at (concat "\\<\\(" groovy-block-beg-re
-					   "|" groovy-block-op-re
 					   "|" groovy-block-mid-re "\\)\\>")))
 		   (goto-char (match-end 0))
                   (not (looking-at "\\s_")))
@@ -453,7 +435,7 @@ The variable groovy-indent-level controls the amount of indentation.
 	  (setq depth (1- depth)))
 	(setq nest (cdr nest))
 	(goto-char pnt))
-       ((looking-at (concat "\\<\\(" groovy-block-end-re "\\)\\>"))
+       ((looking-at (concat "\\<\\(}\\)\\>"))
 	(if (or (and (not (bolp))
 		     (progn
 		       (forward-char -1)
@@ -499,7 +481,7 @@ The variable groovy-indent-level controls the amount of indentation.
 	 (not (eq ?? w))
 	 (skip-chars-forward " \t")
 	 (goto-char (match-beginning 0))
-	 (or (not (looking-at groovy-modifier-re))
+	 (or (not (looking-at groovy-modifier-beg-re))
 	     (groovy-expr-beg 'modifier))
 	 (goto-char pnt)
 	 (setq nest (cons (cons nil pnt) nest))
@@ -653,7 +635,7 @@ The variable groovy-indent-level controls the amount of indentation.
 	      (skip-chars-backward " \t\n")
 	      (setq end (point))
 	      (beginning-of-line)
-	      (if (re-search-forward "^\\s *#" end t)
+	      (if (re-search-forward "^\\s *//" end t)
 		  (beginning-of-line)
 		(setq done t))))
 	  (setq bol (point))
@@ -662,7 +644,7 @@ The variable groovy-indent-level controls the amount of indentation.
 	  (skip-chars-backward " \t")
 	  (let (end (pos (point)))
 	    (beginning-of-line)
-	    (while (and (re-search-forward "#" pos t)
+	    (while (and (re-search-forward "//" pos t)
 			(setq end (1- (point)))
 			(or (groovy-special-char-p end)
 			    (and (setq state (groovy-parse-region parse-start end))
@@ -676,12 +658,18 @@ The variable groovy-indent-level controls the amount of indentation.
 	  (and
 	   (or (and (looking-at groovy-symbol-re)
 		    (skip-chars-backward groovy-symbol-chars)
-		    (looking-at (concat "\\<\\(" groovy-block-hanging-re "\\)\\>"))
+		    (looking-at (concat "\\<\\(" groovy-modifier-beg-re "\\)\\>"))
 		    (not (eq (point) (nth 3 state)))
 		    (save-excursion
 		      (goto-char (match-end 0))
 		      (not (looking-at "[a-z_]"))))
 	       (and (looking-at groovy-operator-re)
+                    (save-excursion
+                      (backward-char)
+                      (not (looking-at "->")))
+                    (save-excursion
+                      (beginning-of-line)
+                      (not (looking-at "\\s-*import\\>")))
 		    (not (groovy-special-char-p))
 		    ;; operator at the end of line
 		    (let ((c (char-after (point))))
@@ -715,7 +703,7 @@ The variable groovy-indent-level controls the amount of indentation.
 		 (cond
 		  ((and
 		    (null op-end)
-		    (not (looking-at (concat "\\<\\(" groovy-block-hanging-re "\\)\\>")))
+		    (not (looking-at (concat "\\<\\(" groovy-modifier-beg-re "\\)\\>")))
 		    (eq (groovy-deep-indent-paren-p t) 'space)
 		    (not (bobp)))
 		   (save-excursion
@@ -764,7 +752,7 @@ Returns t unless search stops due to end of buffer."
   "Move forward to next end of defun.
 An end of a defun is found by moving forward from the beginning of one."
   (interactive "p")
-  (and (re-search-forward (concat "^\\(" groovy-block-end-re "\\)\\($\\|\\b[^_]\\)")
+  (and (re-search-forward (concat "^\\(}\\)\\($\\|\\b[^_]\\)")
 			  nil 'move (or arg 1))
        (progn (beginning-of-line) t))
   (forward-line 1))
@@ -772,7 +760,7 @@ An end of a defun is found by moving forward from the beginning of one."
 (defun groovy-move-to-block (n)
   (let (start pos done down)
     (setq start (groovy-calculate-indent))
-    (setq down (looking-at (concat "\\<\\(" (if (< n 0) groovy-block-end-re groovy-block-beg-re) "\\)\\>")))
+    (setq down (looking-at (concat "\\<\\(" (if (< n 0) "}" groovy-block-beg-re) "\\)\\>")))
     (while (and (not done) (not (if (< n 0) (bobp) (eobp))))
       (forward-line n)
       (cond
@@ -883,7 +871,7 @@ An end of a defun is found by moving forward from the beginning of one."
 				   (?:
 				    (forward-char -1)
 				    (eq (char-before) :)))))
-		   (if (looking-at (concat "\\<\\(" groovy-block-end-re "\\)\\>"))
+		   (if (looking-at (concat "\\<\\(}\\)\\>"))
 		       (groovy-beginning-of-block))
 		   nil))
 	    (setq i (1- i)))
@@ -991,8 +979,6 @@ balanced expression is found."
 
   (setq groovy-font-lock-syntactic-keywords
 	'(
-	  ;; #{ }, #$hoge, #@foo are not comments
-	  ("\\(#\\)[{$@]" 1 (1 . nil))
 	  ;; the last $', $", $` in the respective string is not variable
 	  ;; the last ?', ?", ?` in the respective string is not ascii code
 	  ("\\(^\\|[\[ \t\n<+\(,=]\\)\\(['\"`]\\)\\(\\\\.\\|\\2\\|[^'\"`\n\\\\]\\)*\\\\?[?$]\\(\\2\\)"
@@ -1002,9 +988,9 @@ balanced expression is found."
 	  ;; ?' ?" ?` are ascii codes
 	  ("\\(^\\|[^\\\\]\\)\\(\\\\\\\\\\)*[?$]\\([#\"'`]\\)" 3 (1 . nil))
 	  ;; regexps
-	  ("\\(^\\|[=(,~?:;]\\|\\(^\\|\\s \\)\\(if\\|else\\|it\\|unless\\|while\\|until\\|when\\|and\\|or\\|&&\\|||\\)\\|g?sub!?\\|scan\\|split!?\\)\\s *\\(/\\)[^/\n\\\\]*\\(\\\\.[^/\n\\\\]*\\)*\\(/\\)"
-	   (4 (7 . ?/))
-	   (6 (7 . ?/)))
+;; 	  ("\\(^\\|[=(,~?:;]\\|\\(^\\|\\s \\)\\(if\\|else\\|it\\|unless\\|while\\|until\\|when\\|and\\|or\\|&&\\|||\\)\\|g?sub!?\\|scan\\|split!?\\)\\s *\\(/\\)[^/*\n\\\\]+\\(\\\\.[^/*\n\\\\]*\\)*\\(@\\)"
+;; 	   (4 (7 . ?/))
+;; 	   (6 (7 . ?/)))
 	  ("^\\(=\\)begin\\(\\s \\|$\\)" 1 (7 . nil))
 	  ("^\\(=\\)end\\(\\s \\|$\\)" 1 (7 . nil))))
 
@@ -1173,6 +1159,8 @@ balanced expression is found."
        0 font-lock-string-face t)
      `(,groovy-here-doc-beg-re
        0 font-lock-string-face t)
+     ;; shebang
+     '("^#!.*" 0 font-lock-comment-face)
      ;; general delimited string
      '("\\(^\\|[[ \t\n<+(,=]\\)\\(%[xrqQwW]?\\([^<[{(a-zA-Z0-9 \n]\\)[^\n\\\\]*\\(\\\\.[^\n\\\\]*\\)*\\(\\3\\)\\)"
        (2 font-lock-string-face))
@@ -1200,14 +1188,14 @@ balanced expression is found."
      ("^\\s *#.*$" nil comment)
      ("[^$@?\\]\\(#[^$@{\n].*$\\)" 1 comment)
      ("[^a-zA-Z_]\\(\\?\\(\\\\[CM]-\\)*.\\)" 1 string)
-     ("^\\s *\\(require\\|load\\).*$" nil include)
-     ("^\\s *\\(include\\|alias\\|undef\\).*$" nil decl)
-     ("^\\s *\\<\\(class\\|def\\|module\\)\\>" "[)\n;]" defun)
-     ("[^_]\\<\\(begin\\|case\\|else\\|elsif\\|end\\|ensure\\|for\\|if\\|unless\\|rescue\\|then\\|when\\|while\\|until\\|do\\|yield\\)\\>\\([^_]\\|$\\)" 1 defun)
-     ("[^_]\\<\\(and\\|break\\|next\\|raise\\|fail\\|in\\|not\\|or\\|redo\\|retry\\|return\\|super\\|yield\\|catch\\|throw\\|self\\|nil\\)\\>\\([^_]\\|$\\)" 1 keyword)
+     ("^\\s *\\<\\(class\\|def\\|package\\)\\>" "[)\n;]" defun)
+     ("[^_]\\<\\(begin\\|case\\|else\\|end\\|ensure\\|for\\|if\\|while\\|do\\|yield\\)\\>\\([^_]\\|$\\)" 1 defun)
+     ("[^_]\\<\\(break\\|in\\|return\\|super\\|yield\\|catch\\|throw\\)\\>\\([^_]\\|$\\)" 1 keyword)
      ("\\$\\(.\\|\\sw+\\)" nil type)
      ("[$@].[a-zA-Z_0-9]*" nil struct)
-     ("^__END__" nil label))))
+     )
+   )
+  )
  )
 
 
