@@ -517,7 +517,6 @@ and returns it."
 (add-to-list 'auto-mode-alist '("\\.groovy$" . groovy-mode))
 (setq groovy-mode-hook
       '(lambda ()
-	 (setq groovy-indent-level 2)
 	 (font-lock-mode 1)))
 
 ;;
