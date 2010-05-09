@@ -517,6 +517,7 @@ and returns it."
 (add-to-list 'auto-mode-alist '("\\.groovy$" . groovy-mode))
 (setq groovy-mode-hook
       '(lambda ()
+         (setq groovy-basic-offset 4)
 	 (font-lock-mode 1)))
 
 ;;
@@ -571,6 +572,7 @@ and returns it."
               (let ((path (shell-command-to-string
                            "/bin/bash -l -c 'echo -n $PATH'")))
                 (setenv "PATH" path)
+                (setq eshell-path-env path)
                 (setq exec-path (split-string path ":"))))))))
 
 ;;
