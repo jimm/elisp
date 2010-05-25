@@ -3,7 +3,7 @@
 ;;; Code:
 
 
-;;;### (autoloads (css-mode) "css-mode" "css-mode.el" (19229 18736))
+;;;### (autoloads (css-mode) "css-mode" "css-mode.el" (19451 57659))
 ;;; Generated autoloads from css-mode.el
 (add-to-list 'auto-mode-alist '("\\.css\\'" . css-mode))
 
@@ -18,7 +18,7 @@ Key bindings:
 
 ;;;***
 
-;;;### (autoloads nil nil ("css-mode-pkg.el") (19229 18736 456060))
+;;;### (autoloads nil nil ("css-mode-pkg.el") (19451 57659 273930))
 
 ;;;***
 

@@ -7,9 +7,9 @@
 ;;; interfacing with ELPA, the package archive.
 ;;; Move this code earlier if you want to reference
 ;;; packages in your .emacs.
-(when (load "elpa/package")
-  (add-to-list 'package-archives
-               '("technomancy" . "http://repo.technomancy.us/emacs/") t)
+(when
+    (load
+     (expand-file-name "~/.emacs.d/elpa/package.el"))
   (package-initialize))
 
 (defun ensure-ends-with-slash (dir)
@@ -750,7 +750,7 @@ sql-send-paragraph."
 ;; Lisp-mode and slime-mode
 ;;
 ;; Now that I'm using Clojure, I don't want sbcl to be the default program.
-;; (setq inferior-lisp-program "sbcl")
+(setq inferior-lisp-program "clj")
 ;; (require 'slime)
 ;; (slime-setup)
 (setq lisp-mode-hook
