@@ -26,7 +26,7 @@
   '((t (:foreground "blue" weight: bold)))
   "rdoc mode header level 4")
 
-(define-generic-mode 'rdoc-mode
+(define-generic-mode rdoc-mode
   '()					;comment-list
   '()					;keyword-list
   '(					;font-lock-list
