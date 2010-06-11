@@ -12,6 +12,10 @@
      (expand-file-name "~/.emacs.d/elpa/package.el"))
   (package-initialize))
 
+(defmacro when-fboundp-call (f &rest args)
+  "If F is bound, calls it with ARGS."
+  `(when (fboundp (quote ,f)) (funcall (quote ,f) ,@args)))
+
 (defun ensure-ends-with-slash (dir)
   "If DIR does not end with \"/\", return a new copy of DIR that
   does."
@@ -57,14 +61,14 @@
 ;;
 ;; Global variable settings and options
 ;;
-(if (fboundp 'appt-activate) (appt-activate 1))	; appointment notification
+(when-fboundp-call appt-activate 1)	; appointment notification
 (put 'eval-expression 'disabled nil)
-(if (fboundp 'line-number-mode) (line-number-mode -1)) ; Don't display 'em
+(when-fboundp-call line-number-mode -1) ; don't display 'em
 
 ;; Ubuntu stuff
 ;(menu-bar-enable-clipboard)
 (setq x-select-enable-clipboard t)
-(if (fboundp 'set-scroll-bar-mode) (set-scroll-bar-mode 'right))
+(when-fboundp-call set-scroll-bar-mode 'right)
 (setq skeleton-pair nil)
 (mouse-wheel-mode 1)
 
