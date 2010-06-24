@@ -8,7 +8,6 @@
   (defvar *basic-frame-alist* '((tool-bar-mode . nil)))
   (setq initial-frame-alist
 	(append *basic-frame-alist* '((height . 77) (top . 0) (left . 0)
-                                      (background-color . "LightYellow")
                                       (cursor-color . "orange"))))
   (setq default-frame-alist *basic-frame-alist*))
 
