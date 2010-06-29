@@ -1230,6 +1230,7 @@ and wc -w"
 ;;
 (defun growl-notify (message &optional title)
   "Display a Growl MESSAGE. The optional TITLE's default value is \"Emacs\"."
+  (interactive "sMessage: ")
   (let ((g-title (if (and title (not (eq title ""))) title "Emacs")))
     (shell-command
      (concat
