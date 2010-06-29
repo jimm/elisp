@@ -1,6 +1,15 @@
 (1
+ (html-script-src .
+		  [(0 0 2)
+		   nil "Insert <script src=\"..\"> for popular JavaScript libraries" single])
+ (rvm .
+      [(1 1)
+       nil "Emacs integration for rvm" single])
+ (elisp-depend .
+	       [(0 4 1)
+		nil "Parse depend libraries of elisp file." single])
  (perspective .
-	      [(1 0)
+	      [(1 1)
 	       nil "switch between named \"perspectives\" of the editor" single])
  (ruby-electric .
 		[(1 1)
@@ -65,12 +74,12 @@
 	[(0 1)
 	 nil "New TERMinal emulator" single])
  (sass-mode .
-	    [(3 0 0)
+	    [(3 0 13)
 	     ((haml-mode
-	       (3 0 0)))
+	       (3 0 13)))
 	     "Major mode for editing Sass files" single])
  (haml-mode .
-	    [(3 0 0)
+	    [(3 0 13)
 	     nil "Major mode for editing Haml files" single])
  (smart-tab .
 	    [(0 3)
@@ -128,8 +137,8 @@
 	       [(1 7 1)
 		nil "Major mode for Clojure code" single])
  (magit .
-	[(0 7)
-	 nil "Control Git from Emacs." tar])
+	[(0 8 1)
+	 nil "control Git from Emacs." single])
  (w3 .
      [(4 0 46)
       nil "A web browser written entirely in Emacs Lisp" tar])
@@ -241,7 +250,7 @@
 	[(0 96)
 	 nil "enhanced tags functionality for Java development" single])
  (eproject .
-	   [(0 3)
+	   [(0 4)
 	    nil "project workspaces for emacs" tar])
  (log4j-mode .
 	     [(1 3)
