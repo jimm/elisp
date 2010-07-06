@@ -1,3 +1,3 @@
 #name: foreign key
 # --
-foreign key (${1:xxxx_id}) references ${2:table} (${3:id})
+constraint ${1:table_keycolumn_fk} foreign key (${1:xxxx_id}) references ${2:table} (${3:id})
