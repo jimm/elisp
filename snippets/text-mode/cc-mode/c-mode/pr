@@ -1,0 +1,3 @@
+#name: printf(...);
+# --
+printf("$1", $2);
