@@ -1516,3 +1516,5 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (global-set-key "\C-ca" 'org-agenda)
 
 (global-set-key "\C-cw" 'toggle-current-window-dedication)
+
+(require 'dim-switch-window)
