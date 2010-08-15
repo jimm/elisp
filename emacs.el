@@ -40,9 +40,9 @@
 
 ; Add *my-emacs-lib-dir* subdirs to the end of load-path, so if it's
 ; pre-installed that version is used first.
-(mapcar (lambda (dir)
-          (add-to-list 'load-path (concat *my-emacs-lib-dir* dir "/") t))
-        '("progmodes" "ses" "remember" "org/lisp"))
+(mapc (lambda (dir)
+        (add-to-list 'load-path (concat *my-emacs-lib-dir* dir "/") t))
+      '("progmodes" "ses" "remember" "org/lisp"))
 ; Don't need any org mode contributions yet
 ; (add-to-list 'load-path (concat *my-emacs-lib-dir* "org/contrib/lisp/") t)
 
@@ -80,8 +80,6 @@
 
 (setq bookmark-save-flag 1)		; see bootstrap-ini for loc of file
 (setq sentence-end-double-space nil)
-(setq default-major-mode 'text-mode)    ; default edit mode
-;(setq initial-major-mode 'text-mode)   ; *scratch* buffer; lisp by default
 (turn-on-auto-fill)
 (auto-fill-mode 1)
 (show-paren-mode 1)
