@@ -8,11 +8,11 @@
 (add-hook 'java-mode-hook (lambda () (setq c-basic-offset 4)))
 
 ;; this is dev-only info; won't work in production of course
-(setq sql-user "brainiac")
-(setq sql-password "does_not_kompute")
-(setq sql-server "localhost")
-(setq sql-database "brain_development")
-(setq sql-sqlite-program "sqlite3")
+(setq sql-user "brain")                 ; Oracle dev instance
+(setq sql-password "brain")
+(setq sql-database "oraclexe")
+(setq sql-server "localhost")           ; MySQL
+(setq sql-sqlite-program "sqlite3")     ; SQLite
 
 (setq browse-url-generic-program "open")
 (setq Man-switches "-M /usr/share/man:/usr/local/share/man")
