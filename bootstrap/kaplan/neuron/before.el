@@ -1,4 +1,5 @@
 (setq ns-command-modifier 'meta)        ; define Command as Meta key
+(setq ns-option-modifier "none")        ; unbind option key
 
 ; Smoother mouse wheel scrolling
 ; http://www.reddit.com/r/programming/comments/95uv7/emacs_231_has_been_released/c0bj6zp

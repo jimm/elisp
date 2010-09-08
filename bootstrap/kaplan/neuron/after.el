@@ -56,3 +56,4 @@
   (lambda ()
     (interactive)
     (find-file (concat *my-pim-dir* "orgs/notes.org"))))
+(global-set-key [f11] 'other-window)
