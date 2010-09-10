@@ -473,6 +473,7 @@ and returns it."
   (forward-word 3)
   (forward-char 2))
 
+(add-to-list 'auto-mode-alist '("\\.aj$" . java-mode)) ; Roo aspect files
 (add-to-list 'auto-mode-alist '("\\.jsp$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.w[as]r$" . archive-mode))
 (setq java-mode-hook
