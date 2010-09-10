@@ -500,7 +500,7 @@ and returns it."
 (add-to-list 'auto-mode-alist '("\\.js$" . javascript-mode))
 (setq javascript-mode-hook
       (lambda ()
-        (setq javascript-indent-level 2)))
+        (setq js-indent-level 2)))
 ;; (autoload 'js2-mode "js2-mode" nil t)
 ;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
@@ -520,7 +520,8 @@ and returns it."
 (setq groovy-mode-hook
       '(lambda ()
          (setq groovy-basic-offset 4)
-	 (font-lock-mode 1)))
+         (define-key groovy-mode-map "\r" 'newline-and-indent)
+         (font-lock-mode 1)))
 
 ;;
 ;; Scheme mode
