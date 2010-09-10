@@ -1386,6 +1386,11 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (add-to-list 'auto-mode-alist '("\\.drl$" . drools-mode))
 
 ;;
+;; Roo command files
+;;
+(require 'roo-mode)
+
+;;
 ;; Uniquify
 ;; http://trey-jackson.blogspot.com/2008/01/emacs-tip-11-uniquify.html
 ;;
