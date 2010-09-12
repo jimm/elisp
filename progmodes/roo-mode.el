@@ -8,8 +8,9 @@
     "project"
     "persistence" "setup"
     "entity"
-    "field" "date" "string" "reference" "set"
+    "field" "boolean" "date" "email" "enum" "jms" "number" "reference" "set" "string"
     "controller" "class"
+    "perform" "assembly" "clean" "command" "eclipse" "package" "tests"
     "logging")
   '(					;font-lock-list
     ("--[-_a-zA-Z0-9]+" . 'roo-option-face)
