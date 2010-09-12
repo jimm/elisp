@@ -494,6 +494,13 @@ and returns it."
 (custom-set-variables
  '(pmd-home "/usr/local/pmd"))
 
+; Maven 2 error messages are of the form file:[line,column]
+(setq compilation-error-regexp-alist
+      (cons
+       '("^\\(/[^:]+\\):\\[\\([0-9]+\\),\\([0-9]+\\)\\]" 1 2 3)
+       compilation-error-regexp-alist))
+
+
 ;;
 ;; JavaScript
 ;;;
