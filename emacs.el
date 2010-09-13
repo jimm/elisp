@@ -867,6 +867,7 @@ sql-send-paragraph."
 ;; Ruby-mode
 ;;
 (load "my-ruby-mode")
+(add-to-list 'auto-mode-alist '("\\.duby$" . ruby-mode))
 
 ;;
 ;; Erlang-mode
