@@ -121,19 +121,7 @@
 (when (functionp 'tool-bar-mode) (tool-bar-mode -1))
 (unless window-system (menu-bar-mode nil))
 
-(defun my-face (face-name color)
-  (make-face face-name)
-  (set-face-foreground face-name color))
-
 (global-font-lock-mode t)               ; always turn on, where available
-;(my-face 'font-lock-keyword-face "black")
-;(my-face 'font-lock-variable-face "blue")
-;(my-face 'font-lock-function-name-face "magenta")
-
-;; (my-face 'font-lock-doc-face "FireBrick")
-;; (my-face 'font-lock-string-face "ForestGreen")
-;; (my-face 'font-lock-variable-name-face "ForestGreen")
-
 
 ;;
 ;; Display time and add time-related hooks

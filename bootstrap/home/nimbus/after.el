@@ -1,5 +1,3 @@
-(my-face 'font-lock-string-face "ForestGreen")
-
 (defun zoom-frame-width-cols ()
   (interactive)				; for testing
   268)                                  ; 268 for really full screen, 260 with dock exposed
