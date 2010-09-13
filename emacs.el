@@ -94,7 +94,7 @@
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
-(setq compile-command "rake ")
+(setq compile-command "makeup ")        ; script finds make/rake/pom/build
 (setq Man-notify 'aggressive)           ; when man found, jump there *immed*
 (setq dabbrev-case-replace nil)         ; preserve case when expanding
 (setq grep-command "grep -n ")
