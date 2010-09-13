@@ -35,9 +35,6 @@
 
 (if (equal default-directory "/") (setq default-directory "~/"))
 
-;; Override built-in value which returns "fnord.io.com" or "eris.io.com".
-; (defun system-name () (interactive) "io.com")
-
 ; Add *my-emacs-lib-dir* subdirs to the end of load-path, so if it's
 ; pre-installed that version is used first.
 (mapc (lambda (dir)
@@ -1007,23 +1004,6 @@ gzip.")))
          (define-key vm-mode-map "j" 'vm-goto-message)))
 
 ;;
-;; mailcrypt (PGP)
-;;
-;(autoload 'mc-install-write-mode "mailcrypt" nil t)
-;(autoload 'mc-install-read-mode "mailcrypt" nil t)
-;(add-hook 'mail-mode-hook 'mc-install-write-mode)
-; for vm
-;(add-hook 'vm-mode-hook 'mc-install-read-mode)
-;(add-hook 'vm-summary-mode-hook 'mc-install-read-mode)
-;(add-hook 'vm-virtual-mode-hook 'mc-install-read-mode)
-;(add-hook 'vm-mail-mode-hook 'mc-install-write-mode)
-
-;;
-;; MIME minor mode
-;;
-;;(autoload 'mime-mode "mime" "Minor mode for editing MIME messages." t)
-
-;;
 ;; SES-mode
 ;;
 (autoload 'ses-mode "ses" "Spreadsheet mode" t)
@@ -1282,12 +1262,6 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;; Org Mode
 ;;
 (require 'org)
-;; (autoload 'org-mode "org" "Org mode" t)
-;; (autoload 'org-diary "org" "Diary entries from Org mode")
-;; (autoload 'org-agenda "org" "Multi-file agenda from Org mode" t)
-;; (autoload 'org-store-link "org" "Store a link to the current location" t)
-;; (autoload 'orgtbl-mode "org" "Org tables as a minor mode" t)
-;; (autoload 'turn-on-orgtbl "org" "Org tables as a minor mode")
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 ;; recommended
 (setq org-agenda-include-diary t)
@@ -1468,19 +1442,14 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;; Global key bindings
 ;;
 
-;(global-set-key "\C-c=" my-shell) ; use f1
 (global-set-key "\M-`" 'my-ff-find-other-file)
-;(global-set-key "\M-`" 'rails-find-other-file)
 (global-set-key "\C-c1" 'find-grep-dired)
 (global-set-key "\C-c2" 'grep-find)
 (global-set-key "\C-c3" 'grep)
 (global-set-key "\C-c\C-c" 'comment-region)
 (global-set-key "\C-h" 'backward-delete-char)
-;(global-set-key "\177" 'backward-delete-char)
 (global-set-key "\C-x?" 'help-for-help)
 (global-set-key "\C-x\C-k" 'compile)
-;(global-set-key "\C-x\C-m" 'rmail)
-;(global-set-key "\C-x\C-m" 'vm)
 (global-set-key "\C-x\C-m" 'open-email-client)
 (global-set-key "\C-c\C-k" 'compile)
 (global-set-key "\C-x\C-n" 'gnus)
@@ -1499,13 +1468,9 @@ me about the channels listed in my-rcirc-notifiy-channels."
   (lambda () (interactive) (find-file (concat *my-pim-dir* "orgs/todo.org"))))
 (global-set-key [f5]
   (lambda () (interactive) (switch-to-buffer "*SQL*")))
-;(global-set-key [f5] 'git-status)
 (global-set-key [f6]
   (lambda () (interactive) (find-file *my-remember-data-file*)))
-(global-set-key [f7]
-  (lambda () (interactive) (switch-to-buffer "*svn-status*")))
-;; (global-set-key [f7]
-;;   (lambda () (interactive) (switch-to-buffer "*git-status*")))
+; f7 is free
 (global-set-key [f8]
   (lambda (fname-regexp) (interactive "sOrg file regex: ")
     (ef (shell-quote-argument fname-regexp) (concat *my-pim-dir* "orgs/"))))
