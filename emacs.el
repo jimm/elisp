@@ -494,12 +494,20 @@ and returns it."
 (custom-set-variables
  '(pmd-home "/usr/local/pmd"))
 
+;;;
+;; Compilation mode
+;;
+(require 'compile)
 ; Maven 2 error messages are of the form file:[line,column]
 (setq compilation-error-regexp-alist
       (cons
        '("^\\(/[^:]+\\):\\[\\([0-9]+\\),\\([0-9]+\\)\\]" 1 2 3)
        compilation-error-regexp-alist))
-
+; Scala error messages
+(setq compilation-error-regexp-alist
+      (cons
+       '("\\(\\([a-zA-Z0-9]*/\\)*\\([a-zA-Z0-9]*\\.scala\\)\\):\\([0-9]*\\).*" 1 2)
+       compilation-error-regexp-alist))
 
 ;;
 ;; JavaScript
@@ -919,12 +927,6 @@ this figures out where the Emacs support lives.")
   (add-to-list
    'load-path *scala-emacs-support-dir* t)
   (require 'scala-mode-auto)
-  (add-hook 'compilation-mode-hook
-    (lambda ()
-      (setq compilation-error-regexp-alist
-        (cons
-  '("\\(\\([a-zA-Z0-9]*/\\)*\\([a-zA-Z0-9]*\\.scala\\)\\):\\([0-9]*\\).*" 1 2)
-                           compilation-error-regexp-alist))))
   (add-hook 'scala-mode-hook
 	    (lambda ()
 	      (define-key scala-mode-map [f1] my-shell) ; I don't use Speedbar
