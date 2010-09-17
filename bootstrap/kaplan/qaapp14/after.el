@@ -22,7 +22,6 @@
 
 (set-register ?n compile-ant)
 (set-register ?q compile-rake)
-(setq compile-command (get-register ?q))
 
 (defvar sa-db
   "/Users/jimm/src/spine_align/db/development.sqlite3")

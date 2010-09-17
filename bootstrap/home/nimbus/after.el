@@ -14,7 +14,6 @@
 
 (set-register ?n compile-ant)
 (set-register ?q "rake test ")
-(setq compile-command (get-register ?q))
 
 (custom-set-variables
  '(pmd-java-home "/usr/bin/java"))
