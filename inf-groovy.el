@@ -38,7 +38,7 @@
 ;;
 ;; you may change these variables
 ;;
-;(defvar groovy-program-name "groovysh --debug"
+;(defvar groovy-program-name "groovysh --color=false"
 ;  "*Program invoked by the run-groovy command")
 ;
 ;(defvar inferior-groovy-first-prompt-pattern "^groovy:[0-9]+> *"
@@ -48,7 +48,7 @@
 ;  "prompt regex pattern of groovy interpreter.")
 
 ;;;; for groovysh
-(defvar groovy-program-name "groovysh"
+(defvar groovy-program-name "groovysh --color=false"
   "*Program invoked by the run-groovy command")
 
 (defvar inferior-groovy-first-prompt-pattern "^groovy:[0-9]+> *"

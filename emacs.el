@@ -333,19 +333,17 @@ for FNAME-REGEXP."
 	  ((= 1 len) (car files))
 	  (t files))))
 
-;; See also find-up.
+;; See also find-up and the built-in function locate-dominating-file.
 (defun get-closest-pathname (file)
   "Determine the pathname of the first instance of FILE starting from the
 current directory towards root. This may not do the correct thing in presence
 of links. If it does not find FILE, then it shall return the name of FILE in
 the current directory, suitable for creation"
-  (expand-file-name file
-                    (loop
-                     for d = default-directory then (expand-file-name ".." d)
-                     if (file-exists-p (expand-file-name file d))
-                     return d
-                     if (file-system-root-dir-p d)
-                     return nil)))
+  (let* ((path (expand-file-name file))
+         (f (file-name-nondirectory path))
+         (d (locate-dominating-file path f)))
+    (if d (concat d f)
+      (expand-file-name f default-directory))))
 
 ;;; ================================================================
 
@@ -523,6 +521,14 @@ and returns it."
          (setq groovy-basic-offset 4)
          (define-key groovy-mode-map "\r" 'newline-and-indent)
          (font-lock-mode 1)))
+
+;; Groovy shell mode
+(autoload 'run-groovy "inf-groovy" "Run an inferior Groovy shell process")
+(autoload 'inf-groovy-keys "inf-groovy"
+  "Set local key defs for inf-groovy in groovy-mode")
+(add-hook 'groovy-mode-hook
+          '(lambda ()
+             (inf-groovy-keys)))
 
 ;;
 ;; Scheme mode
