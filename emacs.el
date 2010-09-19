@@ -516,10 +516,15 @@ and returns it."
 ;;
 (autoload 'groovy-mode "groovy-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.groovy$" . groovy-mode))
+(defun run-groovy-buffer ()
+  (interactive)
+  (save-buffer)
+  (compile (concat "groovy " (buffer-file-name))))
 (setq groovy-mode-hook
       '(lambda ()
          (setq groovy-basic-offset 4)
          (define-key groovy-mode-map "\r" 'newline-and-indent)
+	 (define-key groovy-mode-map "\C-cr" 'run-groovy-buffer)
          (font-lock-mode 1)))
 
 ;; Groovy shell mode
