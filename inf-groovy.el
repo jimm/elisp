@@ -314,9 +314,7 @@ next one.")
   (comint-check-source file-name) ; Check to see if buffer needs saved.
   (setq groovy-prev-l/c-dir/file (cons (file-name-directory    file-name)
 				       (file-name-nondirectory file-name)))
-  (comint-send-string (groovy-proc) (concat "(load \""
-					    file-name
-					    "\"\)\n")))
+  (comint-send-string (groovy-proc) (concat "load " file-name "\n")))
 
 (defun groovy-proc ()
   "Returns the current groovy process. See variable groovy-buffer."
