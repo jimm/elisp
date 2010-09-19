@@ -37,6 +37,14 @@
 (custom-set-variables
  '(pmd-java-home "/usr/bin/java"))
 
+(defun play-test ()
+  (interactive)
+  (let ((eshell-buffer-name "play-server"))
+    (eshell)
+    (shell-command "oraclexe start")
+    (insert "play test")
+    (eshell-send-input)))
+
 (server-start)
 
 (global-set-key [f4]
