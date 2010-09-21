@@ -37,11 +37,16 @@
 (custom-set-variables
  '(pmd-java-home "/usr/bin/java"))
 
+(defun oraclexe (cmd)
+  (interactive "sCommand [start]: ")
+  (let ((c (if (> (length cmd) 0) cmd "start")))
+    (shell-command (concat "oraclexe " c))))
+
 (defun play-test ()
   (interactive)
   (let ((eshell-buffer-name "play-server"))
     (eshell)
-    (shell-command "oraclexe start")
+    (oraclexe "start")
     (insert "play test")
     (eshell-send-input)))
 
