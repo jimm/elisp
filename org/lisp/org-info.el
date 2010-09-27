@@ -1,11 +1,12 @@
 ;;; org-info.el --- Support for links to Info nodes from within Org-Mode
 
-;; Copyright (C) 2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
+;; Copyright (C) 2004, 2005, 2006, 2007, 2008, 2009, 2010
+;;   Free Software Foundation, Inc.
 
 ;; Author: Carsten Dominik <carsten at orgmode dot org>
 ;; Keywords: outlines, hypermedia, calendar, wp
 ;; Homepage: http://orgmode.org
-;; Version: 6.07b
+;; Version: 7.01h
 ;;
 ;; This file is part of GNU Emacs.
 ;;

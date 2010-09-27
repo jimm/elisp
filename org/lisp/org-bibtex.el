@@ -1,11 +1,11 @@
 ;;; org-bibtex.el --- Org links to BibTeX entries
 ;;
-;; Copyright 2007, 2008 Free Software Foundation, Inc.
+;; Copyright (C) 2007, 2008, 2009, 2010 Free Software Foundation, Inc.
 ;;
 ;; Author: Bastien Guerry <bzg at altern dot org>
 ;;         Carsten Dominik <carsten dot dominik at gmail dot com>
 ;; Keywords: org, wp, remember
-;; Version: 6.07b
+;; Version: 7.01h
 ;;
 ;; This file is part of GNU Emacs.
 ;;
@@ -27,7 +27,7 @@
 ;; This file implements links to database entries in BibTeX files.
 ;; Instead of defining a special link prefix, it uses the normal file
 ;; links combined with a custom search mechanism to find entries
-;; by reference key.  And it constucts a nice description tag for
+;; by reference key.  And it constructs a nice description tag for
 ;; the link that contains the author name, the year and a short title.
 ;;
 ;; It also stores detailed information about the entry so that
@@ -78,7 +78,7 @@
 ;;
 ;; Creating better remember template information was inspired by a request
 ;; of Austin Frank: http://article.gmane.org/gmane.emacs.orgmode/4112
-;; and then imlemented by Bastien Guerry.
+;; and then implemented by Bastien Guerry.
 ;;
 ;; Org-mode loads this module by default - if this is not what you want,
 ;; configure the variable `org-modules'.
@@ -188,7 +188,8 @@
 	(let ((b (current-buffer)) (p (point)))
 	  ;; Restore the window configuration because we just use the web link
 	  (set-window-configuration org-window-config-before-follow-link)
-	  (save-excursion (set-buffer b) (goto-char p)
+	  (with-current-buffer b
+	    (goto-char p)
 	    (bibtex-url)))
       (recenter 0))  ; Move entry start to beginning of window
   ;; return t to indicate that the search is done.

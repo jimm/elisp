@@ -1,11 +1,12 @@
 ;;; org-vm.el --- Support for links to VM messages from within Org-mode
 
-;; Copyright (C) 2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
+;; Copyright (C) 2004, 2005, 2006, 2007, 2008, 2009, 2010
+;;   Free Software Foundation, Inc.
 
 ;; Author: Carsten Dominik <carsten at orgmode dot org>
 ;; Keywords: outlines, hypermedia, calendar, wp
 ;; Homepage: http://orgmode.org
-;; Version: 6.07b
+;; Version: 7.01h
 ;;
 ;; This file is part of GNU Emacs.
 ;;
@@ -33,7 +34,7 @@
 (require 'org)
 
 ;; Declare external functions and variables
-(declare-function vm-beginning-of-message "ext:vm-page" ())
+(declare-function vm-preview-current-message "ext:vm-page" ())
 (declare-function vm-follow-summary-cursor "ext:vm-motion" ())
 (declare-function vm-get-header-contents "ext:vm-summary"
 		  (message header-name-regexp &optional clump-sep))
@@ -70,8 +71,9 @@
 			      :message-id message-id)
 	(setq message-id (org-remove-angle-brackets message-id))
 	(setq folder (abbreviate-file-name folder))
-	(if (string-match (concat "^" (regexp-quote vm-folder-directory))
-			  folder)
+	(if (and vm-folder-directory
+		 (string-match (concat "^" (regexp-quote vm-folder-directory))
+			       folder))
 	    (setq folder (replace-match "" t t folder)))
 	(setq desc (org-email-link-description))
 	(setq link (org-make-link "vm:" folder "#" message-id))
@@ -111,6 +113,7 @@
     (funcall (cdr (assq 'vm org-link-frame-setup)) folder readonly)
     (sit-for 0.1)
     (when article
+      (require 'vm-search)
       (vm-select-folder-buffer)
       (widen)
       (let ((case-fold-search t))
@@ -120,7 +123,7 @@
 	    (error "Could not find the specified message in this folder"))
 	(vm-isearch-update)
 	(vm-isearch-narrow)
-	(vm-beginning-of-message)
+	(vm-preview-current-message)
 	(vm-summarize)))))
 
 (provide 'org-vm)

@@ -1,12 +1,13 @@
 ;;; org-bbdb.el --- Support for links to BBDB entries from within Org-mode
 
-;; Copyright (C) 2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
+;; Copyright (C) 2004, 2005, 2006, 2007, 2008, 2009, 2010
+;;   Free Software Foundation, Inc.
 
 ;; Author: Carsten Dominik <carsten at orgmode dot org>,
 ;;         Thomas Baumann <thomas dot baumann at ch dot tum dot de>
 ;; Keywords: outlines, hypermedia, calendar, wp
 ;; Homepage: http://orgmode.org
-;; Version: 6.07b
+;; Version: 7.01h
 ;;
 ;; This file is part of GNU Emacs.
 ;;
@@ -48,25 +49,37 @@
 ;; %%(org-bbdb-anniversaries)
 ;;
 ;;
-;; The anniversaries are stored in BBDB in the field `anniversary'
-;; in the format
+;; To add an anniversary to a BBDB record, press `C-o' in the record.
+;; You will be prompted for the field name, in this case it must be
+;; "anniversary".  If this is the first time you are using this field,
+;; you need to confirm that it should be created.
 ;;
-;;     YYYY-MM-DD{ CLASS-OR-FORMAT-STRING}*
-;;     {\nYYYY-MM-DD CLASS-OR-FORMAT-STRING}*
+;; The format of an anniversary field stored in BBDB is the following
+;; (items in {} are optional):
+;;
+;;     YYYY-MM-DD{ CLASS-OR-FORMAT-STRING}
+;;     {\nYYYY-MM-DD CLASS-OR-FORMAT-STRING}...
 ;;
 ;; CLASS-OR-FORMAT-STRING is one of two things:
 ;;
-;;  * an identifier for a class of anniversaries (eg. birthday or
-;;    wedding) from `org-bbdb-anniversary-format-alist'.
-;;  * the (format) string displayed in the diary.
+;;  - an identifier for a class of anniversaries (eg. birthday or
+;;    wedding) from `org-bbdb-anniversary-format-alist' which then
+;;    defines the format string for this class
+;;  - the (format) string displayed in the diary.
 ;;
-;; It defaults to the value of `org-bbdb-default-anniversary-format'
-;; ("birthday" by default).
+;; You can enter multiple anniversaries for a single BBDB record by
+;; separating them with a newline character.  At the BBDB prompt for
+;; the field value, type `C-q C-j' to enter a newline between two
+;; anniversaries.
+;;
+;; If you omit the CLASS-OR-FORMAT-STRING entirely, it defaults to the
+;; value of `org-bbdb-default-anniversary-format' ("birthday" by
+;; default).
 ;;
 ;; The substitutions in the format string are (in order):
-;;  * the name of the record containing this anniversary
-;;  * the number of years
-;;  * an ordinal suffix (st, nd, rd, th) for the year
+;;  - the name of the record containing this anniversary
+;;  - the number of years
+;;  - an ordinal suffix (st, nd, rd, th) for the year
 ;;
 ;; See the documentation of `org-bbdb-anniversary-format-alist' for
 ;; further options.
@@ -93,12 +106,15 @@
 (declare-function bbdb-current-record "ext:bbdb-com"
 		  (&optional planning-on-modifying))
 (declare-function bbdb-name "ext:bbdb-com" (string elidep))
+(declare-function bbdb-completing-read-record "ext:bbdb-com"
+		  (prompt &optional omit-records))
 (declare-function bbdb-record-getprop "ext:bbdb" (record property))
 (declare-function bbdb-record-name "ext:bbdb" (record))
 (declare-function bbdb-records "ext:bbdb"
           (&optional dont-check-disk already-in-db-buffer))
 (declare-function bbdb-split "ext:bbdb" (string separators))
 (declare-function bbdb-string-trim "ext:bbdb" (string))
+
 (declare-function calendar-leap-year-p "calendar" (year))
 (declare-function diary-ordinal-suffix "diary-lib" (n))
 
@@ -191,7 +207,7 @@ date year)."
 (defun org-bbdb-export (path desc format)
   "Create the export version of a BBDB link specified by PATH or DESC.
 If exporting to either HTML or LaTeX FORMAT the link will be
-italicised, in all other cases it is left unchanged."
+italicized, in all other cases it is left unchanged."
   (cond
    ((eq format 'html) (format "<i>%s</i>" (or desc path)))
    ((eq format 'latex) (format "\\textit{%s}" (or desc path)))
@@ -224,7 +240,7 @@ italicised, in all other cases it is left unchanged."
 (defun org-bbdb-anniv-extract-date (time-str)
   "Convert YYYY-MM-DD to (month date year).
 Argument TIME-STR is the value retrieved from BBDB."
-  (multiple-value-bind (y m d) (bbdb-split time-str "-")
+  (multiple-value-bind (y m d) (values-list (bbdb-split time-str "-"))
     (list (string-to-number m)
 	  (string-to-number d)
 	  (string-to-number y))))
@@ -257,10 +273,10 @@ The anniversaries are assumed to be stored `org-bbdb-anniversary-field'."
         (while annivs
           (setq split (org-bbdb-anniv-split (pop annivs)))
           (multiple-value-bind (m d y)
-              (funcall org-bbdb-extract-date-fun (car split))
+              (values-list (funcall org-bbdb-extract-date-fun (car split)))
             (setq tmp (gethash (list m d) org-bbdb-anniv-hash))
-            (puthash (list m d) (cons (list y 
-                                            (bbdb-record-name rec) 
+            (puthash (list m d) (cons (list y
+                                            (bbdb-record-name rec)
                                             (cadr split))
                                       tmp)
                      org-bbdb-anniv-hash))))))
@@ -276,6 +292,7 @@ This is used by Org to re-create the anniversary hash table."
 ;;;###autoload
 (defun org-bbdb-anniversaries()
   "Extract anniversaries from BBDB for display in the agenda."
+  (require 'bbdb)
   (require 'diary-lib)
   (unless (hash-table-p org-bbdb-anniv-hash)
     (setq org-bbdb-anniv-hash
@@ -290,15 +307,19 @@ This is used by Org to re-create the anniversary hash table."
          (y (nth 2 date))  ; year
          (annivs (gethash (list m d) org-bbdb-anniv-hash))
          (text ())
-         split class form rec)
-    
+         rec recs)
+
     ;; we don't want to miss people born on Feb. 29th
-    (when (and (= m 3) (= d 1) (not (calendar-leap-year-p y)))
-      (setq annivs (cons annivs (gethash (list 2 29) org-bbdb-anniv-hash))))
+    (when (and (= m 3) (= d 1)
+               (not (null (gethash (list 2 29) org-bbdb-anniv-hash)))
+               (not (calendar-leap-year-p y)))
+      (setq recs (gethash (list 2 29) org-bbdb-anniv-hash))
+      (while (setq rec (pop recs))
+        (push rec annivs)))
 
     (when annivs
       (while (setq rec (pop annivs))
-        (when rec 
+        (when rec
           (let* ((class (or (nth 2 rec)
                             org-bbdb-default-anniversary-format))
                  (form (or (cdr (assoc class
@@ -319,6 +340,45 @@ This is used by Org to re-create the anniversary hash table."
         ))
     (when text
       (mapconcat 'identity text "; "))))
+
+(defun org-bbdb-complete-link ()
+  "Read a bbdb link with name completion."
+  (require 'bbdb-com)
+  (concat "bbdb:"
+	  (bbdb-record-name (car (bbdb-completing-read-record "Name: ")))))
+
+(defun org-bbdb-anniv-export-ical ()
+  "Extract anniversaries from BBDB and convert them to icalendar format."
+  (require 'bbdb)
+  (require 'diary-lib)
+  (unless (hash-table-p org-bbdb-anniv-hash)
+    (setq org-bbdb-anniv-hash
+	  (make-hash-table :test 'equal :size 366)))
+  (when (or org-bbdb-updated-p
+	    (= 0 (hash-table-count org-bbdb-anniv-hash)))
+    (org-bbdb-make-anniv-hash))
+  (maphash 'org-bbdb-format-vevent org-bbdb-anniv-hash))
+
+(defun org-bbdb-format-vevent (key recs)
+  (let (rec categ)
+    (while (setq rec (pop recs))
+      (setq categ (or (nth 2 rec) org-bbdb-default-anniversary-format))
+      (princ (format "BEGIN:VEVENT
+UID: ANNIV-%4i%02i%02i-%s
+DTSTART:%4i%02i%02i
+SUMMARY:%s
+DESCRIPTION:%s
+CATEGORIES:%s
+RRULE:FREQ=YEARLY
+END:VEVENT\n"
+		     (nth 0 rec) (nth 0 key) (nth 1 key)
+		     (mapconcat 'identity
+				(org-split-string (nth 1 rec) "[^a-zA-Z0-90]+")
+				"-")
+		     (nth 0 rec) (nth 0 key) (nth 1 key)
+		     (nth 1 rec)
+		     (concat (capitalize categ) " " (nth 1 rec))
+		     categ)))))
 
 (provide 'org-bbdb)
 

@@ -1,11 +1,12 @@
 ;;; org-rmail.el --- Support for links to Rmail messages from within Org-mode
 
-;; Copyright (C) 2004, 2005, 2006, 2007, 2008 Free Software Foundation, Inc.
+;; Copyright (C) 2004, 2005, 2006, 2007, 2008, 2009, 2010
+;;   Free Software Foundation, Inc.
 
 ;; Author: Carsten Dominik <carsten at orgmode dot org>
 ;; Keywords: outlines, hypermedia, calendar, wp
 ;; Homepage: http://orgmode.org
-;; Version: 6.07b
+;; Version: 7.01h
 ;;
 ;; This file is part of GNU Emacs.
 ;;
@@ -34,7 +35,6 @@
 (require 'org)
 
 ;; Declare external functions and variables
-(declare-function rmail-narrow-to-non-pruned-header "rmail" ())
 (declare-function rmail-show-message "rmail" (&optional n no-summary))
 (declare-function rmail-what-message "rmail" ())
 (defvar rmail-current-message)
@@ -52,7 +52,8 @@
       (save-restriction
 	(when (eq major-mode 'rmail-summary-mode)
 	  (rmail-show-message rmail-current-message))
-	(rmail-narrow-to-non-pruned-header)
+	(when (fboundp 'rmail-narrow-to-non-pruned-header)
+	  (rmail-narrow-to-non-pruned-header))
 	(let* ((folder buffer-file-name)
 	       (message-id (mail-fetch-field "message-id"))
 	       (from (mail-fetch-field "from"))
