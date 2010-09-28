@@ -1,0 +1,3 @@
+#name: Set<Object> set = (Set<Object>);
+# --
+Set<${1:Object}> ${2:set} = (Set<$1>)$0;
