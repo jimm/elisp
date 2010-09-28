@@ -203,8 +203,26 @@ Default file-name is current buffer's name."
 
 (defun capitalize-first-char-of-string (str)
   "Capitalize first character of STR."
-  (interactive)
+  (interactive "s")
   (concat (capitalize (substring str 0 1)) (substring str 1)))
+
+(defun pluralize (str)
+  "Pluralize STR, which is assumed to be a single word. This is a
+simple algorithm that may grow over time if needed."
+  (interactive "s")
+  (let ((len (length str)))
+    (cond ((equal "y" (substring str (- len 1))) (concat (substring str 0 (- len 1)) "ies"))
+          ((equal "us" (substring str (- len 2))) (concat (substring str 0 (- len 2)) "i"))
+          (t (substring str (- len 1))) (substring str 0 (- len 1)))))
+
+(defun singularize (str)
+  "Singularize STR, which is assumed to be a single word. This is
+a simple algorithm that may grow over time if needed."
+  (interactive "s")
+  (let ((len (length str)))
+    (cond ((equal "ies" (substring str (- len 3))) (concat (substring str 0 (- len 3)) "y"))
+          ((equal "i" (substring str (- len 1))) (concat (substring str 0 (- len 1)) "us"))
+          ((equal "s" (substring str (- len 1))) (substring str 0 (- len 1))))))
 
 (defun debug-comment ()
   "Add a DEBUG comment to the current line"
