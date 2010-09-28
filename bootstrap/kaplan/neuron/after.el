@@ -47,6 +47,8 @@
   (let ((eshell-buffer-name "play-server"))
     (eshell)
     (oraclexe "start")
+    (insert "cd $brain")
+    (eshell-send-input)
     (insert "play test")
     (eshell-send-input)))
 
