@@ -1,0 +1,8 @@
+#name: List ivar declaration and accessors
+# --
+protected List<${1:Object}> ${2:ivar};
+$0
+public List<$1> get${2:$(capitalize-first-char-of-string text)}() { return $2; }
+public List<$1> get${2:$(capitalize-first-char-of-string text)}(int i) { return this.$2.get(i); }
+public void set${2:$(capitalize-first-char-of-string text)}($1 $2) { this.$2 = $2; }
+public void set${2:$(capitalize-first-char-of-string text)}(int i, $1 ${2:$(singularize text)}) { this.$2.set(i, ${2:$(singularize text)}); }
