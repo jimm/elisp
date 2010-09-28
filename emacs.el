@@ -206,6 +206,11 @@ Default file-name is current buffer's name."
   (interactive "s")
   (concat (capitalize (substring str 0 1)) (substring str 1)))
 
+(defun downcase-first-char-of-string (str)
+  "Make first character of STR lower-case."
+  (interactive "s")
+  (concat (downcase (substring str 0 1)) (substring str 1)))
+
 (defun pluralize (str)
   "Pluralize STR, which is assumed to be a single word. This is a
 simple algorithm that may grow over time if needed."
