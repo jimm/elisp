@@ -65,9 +65,11 @@
 (global-set-key [f6]
   (lambda ()
     (interactive)
-    (find-file (concat *my-pim-dir* "orgs/kaplan/notes.org"))))
+    (find-file (concat *my-pim-dir* "orgs/kaplan/notes.org"))
+    (goto-char (point-max))))
 (global-set-key [\C-f6]
   (lambda ()
     (interactive)
-    (find-file (concat *my-pim-dir* "orgs/notes.org"))))
+    (find-file (concat *my-pim-dir* "orgs/notes.org"))
+    (goto-char (point-max))))
 (global-set-key [f11] 'other-window)

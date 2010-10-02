@@ -1507,7 +1507,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
   (lambda ()
     (interactive)
     (find-file *my-remember-data-file*)
-    (end-of-buffer)))
+    (goto-char (point-max))))
 ; f7 is free
 (global-set-key [f8]
   (lambda (fname-regexp) (interactive "sOrg file regex: ")
