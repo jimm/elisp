@@ -1504,7 +1504,10 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (global-set-key [f5]
   (lambda () (interactive) (switch-to-buffer "*SQL*")))
 (global-set-key [f6]
-  (lambda () (interactive) (find-file *my-remember-data-file*)))
+  (lambda ()
+    (interactive)
+    (find-file *my-remember-data-file*)
+    (end-of-buffer)))
 ; f7 is free
 (global-set-key [f8]
   (lambda (fname-regexp) (interactive "sOrg file regex: ")
