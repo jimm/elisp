@@ -1,4 +1,4 @@
-#name: import ArrayList
+#name: import List & ArrayList
 # --
 import java.util.List;
 import java.util.ArrayList;
