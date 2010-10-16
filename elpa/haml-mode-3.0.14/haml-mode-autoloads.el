@@ -3,7 +3,7 @@
 ;;; Code:
 
 
-;;;### (autoloads (haml-mode) "haml-mode" "haml-mode.el" (19498 2871))
+;;;### (autoloads (haml-mode) "haml-mode" "haml-mode.el" (19640 43643))
 ;;; Generated autoloads from haml-mode.el
 
 (autoload 'haml-mode "haml-mode" "\
@@ -17,7 +17,7 @@ Major mode for editing Haml files.
 
 ;;;***
 
-;;;### (autoloads nil nil ("haml-mode-pkg.el") (19498 2871 649121))
+;;;### (autoloads nil nil ("haml-mode-pkg.el") (19640 43643 886236))
 
 ;;;***
 
