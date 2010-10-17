@@ -47,9 +47,14 @@
 (read-abbrev-file abbrev-file-name t)
 (load "my-skeletons")
 
+;; IDO mode
 (autoload 'ido-mode "ido" "ido mode")
 (ido-mode t)
 (setq ido-enable-flex-matching t)
+
+;; SMEX mode
+(require 'smex)
+(smex-initialize)
 
 (require 'generic-x); DOS batch, ini files and much more
 (add-to-list 'auto-mode-alist
@@ -1517,7 +1522,14 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (global-set-key [\C-f9] 'bookmark-set)
 (global-set-key [f10] 'zoom-frame)
 
-; org mode
+;; smex
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;; This is your old M-x. (Was "C-c C-c M-x" in smex sample, but "C-c C-c" is
+;; already taken by my comment-region binding.
+(global-set-key (kbd "C-c C-x M-x") 'execute-extended-command)
+
+;; org mode
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 
