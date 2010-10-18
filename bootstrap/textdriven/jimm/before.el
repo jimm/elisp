@@ -1,3 +1,4 @@
+(defvar *my-pim-dir* "~/pim/")
 (defvar emacs-wiki-maintainer "mailto:jimm@io.com")
 (defvar emacs-wiki-publishing-directory "~/public_html/WebWiki")
 (defvar my-emacs-wiki-url-prefix "http://jimm.textdriven.com/WebWiki/")

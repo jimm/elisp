@@ -5,7 +5,6 @@
 ;;
 ;;(defvar emacs-wiki-maintainer "mailto:jimm@io.com")
 ;;(defvar emacs-wiki-publishing-directory "~/public_html/WebWiki")
-;;  note can't use *my-pim-dir* below
 ;;(defvar emacs-wiki-projects
 ;;  '(("HomeWiki" . ((emacs-wiki-directories . ("~/pim/wiki))))
 ;;    ("OtherWiki" . ((emacs-wiki-directories . ("~/OtherDir"))))))

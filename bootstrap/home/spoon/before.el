@@ -1,3 +1,4 @@
+(defvar *my-pim-dir* "~/pim/")
 (defvar *arc-dir* "/usr/local/src/Lisp/arc/")
 (defvar emacs-wiki-maintainer "mailto:jimm@io.com")
 (defvar emacs-wiki-publishing-directory "/Library/WebServer/Documents/WebWiki")

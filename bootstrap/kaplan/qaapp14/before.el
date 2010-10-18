@@ -1,3 +1,5 @@
+(defvar *my-pim-dir* "~/pim/")
+
 (setq ns-command-modifier 'meta)        ; define Command as Meta key
 
 ; Smoother mouse wheel scrolling
