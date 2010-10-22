@@ -190,7 +190,7 @@ This function provides temporary means to aid the transition."
 ;;;###autoload
 (defun smex-initialize ()
   (interactive)
-  (unless ido-mode (smex-initialize-ido))
+  (unless (and (boundp 'ido-mode) ido-mode) (smex-initialize-ido))
   (smex-detect-legacy-save-file)
   (let ((save-file (expand-file-name smex-save-file)))
     (if (file-readable-p save-file)
@@ -205,7 +205,7 @@ This function provides temporary means to aid the transition."
 
 (defun smex-initialize-ido ()
   "Sets up a minimal Ido environment for `ido-completing-read'."
-  (ido-init-completion-maps)
+  (when (fboundp 'ido-init-completion-maps) (ido-init-completion-maps))
   (add-hook 'minibuffer-setup-hook 'ido-minibuffer-setup))
 
 (defun smex-save-history ()
