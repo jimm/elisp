@@ -19,9 +19,13 @@
 
 (defvar compile-ant "ant -e -s build.xml ")
 (defvar compile-rake "rake test ")
+(defvar compile-brain "cd $brain && mvn clean install")
 
 (set-register ?n compile-ant)
 (set-register ?q compile-rake)
+(set-register ?m compile-brain)
+
+(setq compile-command compile-brain)
 
 (defvar sa-db
   "/Users/jimm/src/spine_align/db/development.sqlite3")
