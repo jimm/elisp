@@ -1,6 +1,6 @@
 #name: Set ivar declaration and accessors
 # --
-protected Set<${1:Object}> ${2:ivar} = new HashSet<$1>();;
+protected Set<${1:Object}> ${2:ivar} = new HashSet<$1>();
 $0
 public Set<$1> get${2:$(capitalize-first-char-of-string text)}() { return $2; }
 public void set${2:$(capitalize-first-char-of-string text)}($1 value) { $2 = value; }
