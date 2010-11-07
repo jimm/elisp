@@ -803,6 +803,14 @@ sql-send-paragraph."
          (define-key lisp-mode-map "\C-cd" 'debug-comment)))
 
 ;;
+;; Clisp
+;;
+(defun clisp ()
+  (interactive)
+  (setq inferior-lisp-program "clisp")
+  (inferior-lisp "clisp"))
+
+;;
 ;; Emacs-Lisp-mode
 ;;
 (setq emacs-lisp-mode-hook
@@ -1514,10 +1522,10 @@ me about the channels listed in my-rcirc-notifiy-channels."
     (find-file *my-remember-data-file*)
     (goto-char (point-max))))
 ; f7 is free
-(global-set-key [f8]
+(global-set-key [f8] 'ef)
+(global-set-key [\C-f8]
   (lambda (fname-regexp) (interactive "sOrg file regex: ")
     (ef (shell-quote-argument fname-regexp) (concat *my-pim-dir* "orgs/"))))
-(global-set-key [\C-f8] 'ef)
 (global-set-key [f9] 'bookmark-jump)
 (global-set-key [\C-f9] 'bookmark-set)
 (global-set-key [f10] 'zoom-frame)
