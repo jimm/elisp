@@ -1135,6 +1135,21 @@ gzip.")))
 (setq calendar-standard-time-zone-name "EST")
 (setq calendar-daylight-time-zone-name "EDT")
 
+; http://blog.plover.com/prog/revert-all.html
+(defun revert-all-buffers ()
+  "Refreshes all open buffers from their respective files"
+  (interactive)
+  (let* ((list (buffer-list))
+         (buffer (car list)))
+    (while buffer
+      (when (and (buffer-file-name buffer) 
+                 (not (buffer-modified-p buffer)))
+        (set-buffer buffer)
+        (revert-buffer t t t))
+      (setq list (cdr list))
+      (setq buffer (car list))))
+  (message "Refreshed open files"))
+
 (defun cbo4 ()
   (interactive)
   (setq c-basic-offset 4)
