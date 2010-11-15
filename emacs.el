@@ -101,6 +101,7 @@
 (setq dabbrev-case-replace nil)         ; preserve case when expanding
 (setq grep-command "grep -n ")
 (fset 'yes-or-no-p 'y-or-n-p)           ; accept simple 'y'/space, 'n'/delete
+(custom-set-variables '(safe-local-variable-values '((Syntax . Common-Lisp))))
 
 ;; Build a custom grep-find-command
 (let* ((bad-names (list "*.log" ".svn" ".git" "CVS" "TAGS" "*~" "*.class"
