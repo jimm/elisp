@@ -100,6 +100,7 @@
 (setq Man-notify 'aggressive)           ; when man found, jump there *immed*
 (setq dabbrev-case-replace nil)         ; preserve case when expanding
 (setq grep-command "grep -n ")
+(fset 'yes-or-no-p 'y-or-n-p)           ; accept simple 'y'/space, 'n'/delete
 
 ;; Build a custom grep-find-command
 (let* ((bad-names (list "*.log" ".svn" ".git" "CVS" "TAGS" "*~" "*.class"
