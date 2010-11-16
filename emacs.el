@@ -16,6 +16,10 @@
   "If F is bound, calls it with ARGS."
   `(when (fboundp (quote ,f)) (funcall (quote ,f) ,@args)))
 
+(defmacro unless-boundp-setq (var val)
+  "If VAR is not bound, sets it to VAL."
+  `(unless (boundp (quote ,var)) (setq ,var ,val)))
+
 (defun ensure-ends-with-slash (dir)
   "If DIR does not end with \"/\", return a new copy of DIR that
   does."
@@ -789,8 +793,7 @@ sql-send-paragraph."
   (interactive)
   (tell-iterm (concat "(load-file \"" (buffer-file-name) "\")")))
 
-(unless (boundp 'package-activated-list)
-  (setq package-activated-list '()))
+(unless-boundp-setq package-activated-list ())
 
 ;;
 ;; Lisp-mode and slime-mode
