@@ -5,6 +5,11 @@ Welcome to my Emacs initialization files.
 The main initialization file is emacs.el, which is loaded as part of a
 machine-specific bootstrap process.
 
+= ELPA
+
+I use ELPA, the Emacs Lisp Package Archive (http://tromey.com/elpa/), but
+don't check that directory into this repository.
+
 = Load Path
 
 The global variable +*my-emacs-lib-dir*+ must be defined to point to this
