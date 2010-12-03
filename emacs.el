@@ -276,7 +276,7 @@ a simple algorithm that may grow over time if needed."
 ;; Browse away!
 ;;
 ;(autoload 'browse-url-netscape "browse-url" "Ask Netscape to show a URL" t)
-(defvar shell-open-file-list '("\\.html$" "\\.pdf$" "\\.app$" "\\.rtfd?$"))
+(defvar shell-open-file-list '("\\.html$" "\\.pdf$" "\\.app$" "\\.rtfd?$" "\\.docx?$"))
 
 (defun matches-regexp-in-list-p (str list)
   (cond ((null list) nil)
@@ -293,7 +293,7 @@ a simple algorithm that may grow over time if needed."
 
 (defun open-url-using-emacs-p (str)
   (let ((len (length str)))
-    (and (equal (string-match "file:" str) 0)
+    (and (string-prefix-p "file:" str)
          (not (matches-regexp-in-list-p str shell-open-file-list)))))
 
 ;(setq browse-url-generic-program "mozilla-firefox")
@@ -305,10 +305,12 @@ a simple algorithm that may grow over time if needed."
            (find-file (substring url-str ; chop off "file://" or "file:" first
                                  (if (equal (string-match "file://" url-str) 0)
                                      7 5))))
-          ((string-match "addr:" (substring url-str 0 5))
+          ((string-prefix-p "addr:" url-str)
            (address (substring url-str 5)))
-          ((string-match "date:" (substring url-str 0 5))
+          ((string-prefix-p "date:" url-str)
            (my-goto-calendar-date (substring url-str 5)))
+          ((not (string-prefix-p "http://" url-str))
+           (browse-url-generic (concat "http://" url-str)))
           (t
            (browse-url-generic url-str)))))
 (setq browse-url-browser-function 'my-url-open)
@@ -1547,7 +1549,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
     (interactive)
     (find-file *my-remember-data-file*)
     (goto-char (point-max))))
-; f7 is free
+(global-set-key [f7] 'my-url-open)
 (global-set-key [f8] 'ef)
 (global-set-key [\C-f8]
   (lambda (fname-regexp) (interactive "sOrg file regex: ")
