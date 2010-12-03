@@ -291,7 +291,7 @@ a simple algorithm that may grow over time if needed."
 			      (car date-list)
 			      (caddr date-list)))))
 
-(defun open-url-using-emacs (str)
+(defun open-url-using-emacs-p (str)
   (let ((len (length str)))
     (and (equal (string-match "file:" str) 0)
          (not (matches-regexp-in-list-p str shell-open-file-list)))))
@@ -301,7 +301,7 @@ a simple algorithm that may grow over time if needed."
 (defun my-url-open (&optional url new-window)
   (interactive)
   (let* ((url-str (if (null url) (read-string "URL: ") url)))
-    (cond ((open-url-using-emacs url-str)
+    (cond ((open-url-using-emacs-p url-str)
            (find-file (substring url-str ; chop off "file://" or "file:" first
                                  (if (equal (string-match "file://" url-str) 0)
                                      7 5))))
