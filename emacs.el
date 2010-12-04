@@ -298,7 +298,9 @@ a simple algorithm that may grow over time if needed."
 
 ;(setq browse-url-generic-program "mozilla-firefox")
 (setq browse-url-generic-program "open")
-(defun my-url-open (&optional url)
+
+(defun my-url-open (&optional url unused)
+  "UNUSED is there because org-open-at-point demands it."
   (interactive)
   (let* ((url-str (if (null url) (read-string "URL: ") url)))
     (cond ((open-url-using-emacs-p url-str)
@@ -313,6 +315,7 @@ a simple algorithm that may grow over time if needed."
            (browse-url-generic (concat "http://" url-str)))
           (t
            (browse-url-generic url-str)))))
+
 (setq browse-url-browser-function 'my-url-open)
 
 ; Java class Javadoc lookup
