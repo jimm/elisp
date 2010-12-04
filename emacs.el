@@ -298,7 +298,7 @@ a simple algorithm that may grow over time if needed."
 
 ;(setq browse-url-generic-program "mozilla-firefox")
 (setq browse-url-generic-program "open")
-(defun my-url-open (&optional url new-window)
+(defun my-url-open (&optional url)
   (interactive)
   (let* ((url-str (if (null url) (read-string "URL: ") url)))
     (cond ((open-url-using-emacs-p url-str)
@@ -314,6 +314,14 @@ a simple algorithm that may grow over time if needed."
           (t
            (browse-url-generic url-str)))))
 (setq browse-url-browser-function 'my-url-open)
+
+; Local javadoc lookup
+(defun my-javadoc-open (&optional klass)
+  (interactive)
+  (let* ((klass-str (if (null klass) (read-string "Full class name: ") klass))
+         (klass-path (replace-regexp-in-string "\\." "/" klass-str))
+         (url (concat "http://download.oracle.com/javase/1.5.0/docs/api/" klass-path ".html")))
+    (browse-url-generic url)))
 
 ;;; ================================================================
 ;;; Finding files
@@ -1550,6 +1558,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
     (find-file *my-remember-data-file*)
     (goto-char (point-max))))
 (global-set-key [f7] 'my-url-open)
+(global-set-key [\C-f7] 'my-javadoc-open)
 (global-set-key [f8] 'ef)
 (global-set-key [\C-f8]
   (lambda (fname-regexp) (interactive "sOrg file regex: ")
