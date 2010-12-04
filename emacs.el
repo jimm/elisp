@@ -315,7 +315,7 @@ a simple algorithm that may grow over time if needed."
            (browse-url-generic url-str)))))
 (setq browse-url-browser-function 'my-url-open)
 
-; Local javadoc lookup
+; Java class Javadoc lookup
 (defun my-javadoc-open (&optional klass)
   (interactive)
   (let* ((klass-str (if (null klass) (read-string "Full class name: ") klass))
