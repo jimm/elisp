@@ -557,7 +557,10 @@ and returns it."
 ;;
 ;; Objective-C mode
 ;;
-(setq objc-mode-hook '(lambda () (if window-system (font-lock-mode 1))))
+(setq objc-mode-hook
+      '(lambda ()
+         (if window-system (font-lock-mode 1))
+         (setq c-basic-offset 4)))
 
 ;;
 ;; Groovy mode
@@ -1250,6 +1253,12 @@ and wc -w"
 
 ;;; cfengine mode
 (add-to-list 'auto-mode-alist '("\\.cf$" . cfengine-mode))
+
+;;
+;; Go mode
+;;
+(autoload 'go-mode "go-mode" t nil)
+(add-to-list 'auto-mode-alist '("\\.go$" . go-mode))
 
 ;;
 ;; Haskell mode
