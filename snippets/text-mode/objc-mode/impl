@@ -1,0 +1,17 @@
+#name: @implementation
+# --
+#import <$1.h>
+
+@implementation ${1:`(substring (file-name-nondirectory (buffer-file-name)) 0 -2)`}
+
+- init {
+    if (self = [super init]) {
+        $0
+    }
+}
+
+- (void)dealloc {
+    [super dealloc];
+}
+
+@end

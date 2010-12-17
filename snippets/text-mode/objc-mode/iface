@@ -1,0 +1,12 @@
+#name: @interface
+# --
+/* -*- objc -*- */
+
+@interface ${1:`(substring (file-name-nondirectory (buffer-file-name)) 0 -2)`} : ${2:NSObject} {
+    $0
+}
+
+- init;
+- (void)dealloc;
+
+@end

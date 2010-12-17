@@ -1,0 +1,13 @@
+#name : foo { ... } ; foo:value { ... }
+# --
+- (${1:id})${2:foo}
+{
+    return $2;
+}
+
+- (void)${2}:($1)value
+{
+    [$2 autorelease];
+    $2 = [value retain];
+}
+$0
