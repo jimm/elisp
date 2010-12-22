@@ -1340,14 +1340,9 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (setq my-load-yasnippet (fboundp 'define-globalized-minor-mode))
 (when my-load-yasnippet
   (require 'yasnippet)
-  (setq yas/snippet-dirs (concat *my-emacs-lib-dir* "snippets"))
+  (setq yas/snippet-dirs (concat *my-emacs-lib-dir* "snippets/"))
   (yas/load-directory yas/snippet-dirs)
-  (yas/global-mode 1)
-  (add-hook 'yas/after-exit-snippet-hook
-	    (lambda ()
-	      (save-excursion
-		(indent-region yas/snippet-beg yas/snippet-end))
-	      (indent-according-to-mode))))
+  (yas/global-mode 1))
 
 ;;
 ;; Org Mode
@@ -1362,7 +1357,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (setq org-mode-hook
       '(lambda ()
          (when my-load-yasnippet
-           (yas/minor-mode-off))
+           (yas/minor-mode-off))        ; TODO see org mode example in YAS docs
          (setq org-export-with-sub-superscripts nil)))
 
 ; TODO use light/dark versions code
