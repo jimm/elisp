@@ -311,7 +311,7 @@ a simple algorithm that may grow over time if needed."
            (address (substring url-str 5)))
           ((string-prefix-p "date:" url-str)
            (my-goto-calendar-date (substring url-str 5)))
-          ((not (string-prefix-p "http://" url-str))
+          ((and (not (string-prefix-p "http://" url-str)) (not (string-prefix-p "https://" url-str)))
            (browse-url-generic (concat "http://" url-str)))
           (t
            (browse-url-generic url-str)))))
@@ -1340,8 +1340,9 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (setq my-load-yasnippet (fboundp 'define-globalized-minor-mode))
 (when my-load-yasnippet
   (require 'yasnippet)
-  (yas/initialize)
-  (yas/load-directory (concat *my-emacs-lib-dir* "snippets"))
+  (setq yas/snippet-dirs (concat *my-emacs-lib-dir* "snippets"))
+  (yas/load-directory yas/snippet-dirs)
+  (yas/global-mode 1)
   (add-hook 'yas/after-exit-snippet-hook
 	    (lambda ()
 	      (save-excursion
