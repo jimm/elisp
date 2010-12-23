@@ -26,10 +26,10 @@
   '((t (:foreground "blue" weight: bold)))
   "rdoc mode header level 4")
 
-(define-generic-mode rdoc-mode
-  '()					;comment-list
-  '()					;keyword-list
-  '(					;font-lock-list
+(define-generic-mode 'rdoc-mode       ;quote still allowed for backwd compat
+  '()                                 ;comment-list
+  '()                                 ;keyword-list
+  '(                                  ;font-lock-list
     ("^=[^=].*" . 'rdoc-header-1)
     ("^==[^=].*" . 'rdoc-header-2)
     ("^===[^=].*" . 'rdoc-header-3)

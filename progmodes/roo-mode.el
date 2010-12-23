@@ -2,9 +2,9 @@
   '((t (:foreground "blue")))
   "roo mode option face")
 
-(define-generic-mode roo-mode
-  '("//" "/\\*.*\\*/")                  ;comment-list
-  '(                                    ;keyword-list
+(define-generic-mode roo-mode         ;quote still allowed for backwd compat
+  '("//" "/\\*.*\\*/")                ;comment-list
+  '(                                  ;keyword-list
     "project"
     "persistence" "setup"
     "entity"
