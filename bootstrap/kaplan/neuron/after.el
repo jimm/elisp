@@ -56,6 +56,17 @@
     (insert "play test")
     (eshell-send-input)))
 
+;;
+;; Google Chrome edit server
+;;
+;(require 'edit-server)
+;(edit-server-start)
+; does not work; asks to kill process anyway
+;(add-hook 'kill-emacs-hook 'edit-server-stop)
+; does not work
+; (add-to-list 'kill-emacs-query-functions 'edit-server-stop)
+
+;; Start Emacs server
 (server-start)
 
 (global-set-key [f4]

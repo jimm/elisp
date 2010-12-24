@@ -26,6 +26,17 @@
 (setq sql-password "happyx2joyx2")
 (setq sql-database "icarly_cms_development")
 
+;;
+;; Google Chrome edit server
+;;
+;(require 'edit-server)
+;(edit-server-start)
+; does not work; asks to kill process anyway
+;(add-hook 'kill-emacs-hook 'edit-server-stop)
+; does not work
+; (add-to-list 'kill-emacs-query-functions 'edit-server-stop)
+
+;; Start Emacs server
 (server-start)
 
 (global-set-key [\C-f4]
