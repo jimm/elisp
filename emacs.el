@@ -832,6 +832,14 @@ sql-send-paragraph."
   (inferior-lisp "clisp"))
 
 ;;
+;; SBCL
+;;
+(defun sbcl ()
+  (interactive)
+  (setq inferior-lisp-program "sbcl")
+  (inferior-lisp "sbcl"))
+
+;;
 ;; Emacs-Lisp-mode
 ;;
 (setq emacs-lisp-mode-hook
