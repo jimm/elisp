@@ -34,9 +34,6 @@
 (set-register ?d sa-db)
 (set-register ?e st-db)
 
-(custom-set-variables
- '(pmd-java-home "/usr/bin/java"))
-
 (server-start)
 
 (global-set-key [f4]

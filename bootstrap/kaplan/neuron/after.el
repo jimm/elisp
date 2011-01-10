@@ -38,9 +38,6 @@
 (set-register ?d sa-db)
 (set-register ?e st-db)
 
-(custom-set-variables
- '(pmd-java-home "/usr/bin/java"))
-
 (defun oraclexe (cmd)
   (interactive "sCommand [start]: ")
   (let ((c (if (> (length cmd) 0) cmd "start")))

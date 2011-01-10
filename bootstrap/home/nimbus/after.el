@@ -15,9 +15,6 @@
 (set-register ?n compile-ant)
 (set-register ?q "rake test ")
 
-(custom-set-variables
- '(pmd-java-home "/usr/bin/java"))
-
 (setq sql-sqlite-program "sqlite3")
 
 ; Development (local) only. Username/password won't work anywhere else.
