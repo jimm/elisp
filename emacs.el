@@ -520,11 +520,6 @@ and returns it."
          )
       )
 
-(autoload 'pmd-current-buffer "pmd" "PMD Mode" t)
-(autoload 'pmd-current-dir "pmd" "PMD Mode" t)
-(custom-set-variables
- '(pmd-home "/usr/local/pmd"))
-
 ;;;
 ;; Compilation mode
 ;;
