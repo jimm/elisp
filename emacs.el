@@ -7,9 +7,10 @@
 ;;; interfacing with ELPA, the package archive.
 ;;; Move this code earlier if you want to reference
 ;;; packages in your .emacs.
-(when
-    (load
-     (expand-file-name "~/.emacs.d/elpa/package.el"))
+(when (load (expand-file-name "~/.emacs.d/elpa/package.el"))
+  (add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/"))
+  ;; Add the user-contributed repository
+  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
   (package-initialize))
 
 (defmacro when-fboundp-call (f &rest args)
