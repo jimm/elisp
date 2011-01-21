@@ -27,49 +27,38 @@
 	(concat "~" (substring pwd home-len))
       pwd)))
 
+(defun curr-dir-git-branch-string (pwd)
+  "Returns current git branch as a string, or the empty string if
+PWD is not in a git repo."
+  (interactive)
+  (let* ((git-root-dir (locate-dominating-file pwd ".git")))
+    (if git-root-dir (concat "["
+                             (substring
+                              (shell-command-to-string (concat "cd " pwd " && git branch | grep '\\*' | sed -e 's/^\\* //'"))
+                              0 -1)
+                             "] ")
+      "")))
+
 (setq eshell-prompt-function
       (lambda ()
-	(concat ((lambda (p-lst)
-                   (if (> (length p-lst) 3)
-                       (concat
-                        (mapconcat (lambda (elm) (if (zerop (length elm)) ""
-						   (substring elm 0 1)))
-                                   (butlast p-lst 3)
-                                   "/")
-                        "/"
-                        (mapconcat (lambda (elm) elm)
-                                   (last p-lst 3)
-                                   "/"))
-                     (mapconcat (lambda (elm) elm)
-                                p-lst
-                                "/")))
-                 (split-string (pwd-repl-home (eshell/pwd)) "/"))
-                "> ")))
-
-; From http://www.emacswiki.org/cgi-bin/wiki.pl/EshellNavigation
-; See also eshell-mode-hook below, with binding to eshell-bol-maybe-my.
-
- ;;;###autoload
-(defun bol-maybe-general-my (prompt &optional alt-bol-fcn)
-  (interactive)
-  (if (and (string-match (concat "^" (regexp-quote prompt)
-                                 " *$")
-                         (buffer-substring-no-properties
-                          (line-beginning-position)
-                          (point)))
-           (not (bolp)))
-      (beginning-of-line)
-    (if alt-bol-fcn
-        (funcall alt-bol-fcn)
-      (beginning-of-line)
-      (search-forward-regexp prompt))))
-
-
-;;;###autoload
-(defun eshell-bol-maybe-my ()
-  (interactive)
-  (bol-maybe-general-my (funcall eshell-prompt-function)))
-
+	(concat
+         (curr-dir-git-branch-string (eshell/pwd))
+         ((lambda (p-lst)
+            (if (> (length p-lst) 3)
+                (concat
+                 (mapconcat (lambda (elm) (if (zerop (length elm)) ""
+                                            (substring elm 0 1)))
+                            (butlast p-lst 3)
+                            "/")
+                 "/"
+                 (mapconcat (lambda (elm) elm)
+                            (last p-lst 3)
+                            "/"))
+              (mapconcat (lambda (elm) elm)
+                         p-lst
+                         "/")))
+          (split-string (pwd-repl-home (eshell/pwd)) "/"))
+         "> ")))
 
 ;; ; From http://www.emacswiki.org/cgi-bin/wiki.pl/EshellWThirtyTwo
 ;; ; Return nil, otherwise you'll see the return from w32-shell-execute
@@ -81,6 +70,5 @@
 
 (add-hook 'eshell-mode-hook
 	  '(lambda ()
-	     (local-set-key (kbd "C-a") 'eshell-bol-maybe-my)
 	     (local-set-key "\C-c\C-q" 'eshell-kill-process)
 	     (local-set-key "\C-c\C-k" 'compile)))
