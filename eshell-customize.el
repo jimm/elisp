@@ -27,15 +27,11 @@
 	(concat "~" (substring pwd home-len))
       pwd)))
 
-;;; Determine if the git command exists
-(setq eshell-git-command-p
-      (eshell-search-path "git"))
-
 (defun curr-dir-git-branch-string (pwd)
   "Returns current git branch as a string, or the empty string if
 PWD is not in a git repo (or the git command is not found)."
   (interactive)
-  (if (and eshell-git-command-p
+  (if (and (eshell-search-path "git")
            (locate-dominating-file pwd ".git"))
       (let ((git-output (shell-command-to-string (concat "cd " pwd " && git branch | grep '\\*' | sed -e 's/^\\* //'"))))
         (concat "[" (substring git-output 0 -1) "] "))
