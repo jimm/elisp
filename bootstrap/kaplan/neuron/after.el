@@ -19,7 +19,7 @@
 
 (defvar compile-ant "ant -e -s build.xml ")
 (defvar compile-rake "rake test ")
-(defvar compile-brain "cd $brain && mvn clean install")
+(defvar compile-brain "cd $brain && bin/maven.sh -s")
 
 (set-register ?n compile-ant)
 (set-register ?q compile-rake)
