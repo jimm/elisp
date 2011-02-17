@@ -551,6 +551,11 @@ and returns it."
 ;(setq js2-use-font-lock-faces t)
 
 ;;
+;; CoffeeScript
+;;
+(add-to-list 'auto-mode-alist '("\\.coffee$" . javascript-mode)) ; for now
+
+;;
 ;; Objective-C mode
 ;;
 (setq objc-mode-hook
