@@ -553,7 +553,9 @@ and returns it."
 ;;
 ;; CoffeeScript
 ;;
-(add-to-list 'auto-mode-alist '("\\.coffee$" . javascript-mode)) ; for now
+(autoload 'coffee-mode "coffeescript" nil t)
+(add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
+(add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
 
 ;;
 ;; Objective-C mode
