@@ -553,7 +553,7 @@ and returns it."
 ;;
 ;; CoffeeScript
 ;;
-(autoload 'coffee-mode "coffeescript" nil t)
+(autoload 'coffee-mode "coffee" nil t)
 (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
 (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
 
