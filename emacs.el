@@ -1275,7 +1275,7 @@ and wc -w"
 ;; Haskell mode
 ;;
 (autoload 'haskell-mode "haskell-mode" "Haskell mode" t nil)
-(add-to-list 'auto-mode-alist '("\\.s$" . haskell-mode))
+(add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
 
 ;;
 ;; Hexl mode
