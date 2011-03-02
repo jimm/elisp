@@ -1458,7 +1458,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;;
 ;; Drools
 ;;
-(autoload 'drools-mode "drools" "Drools mode")
+(autoload 'drools-mode "drools-mode" "Drools mode")
 (add-to-list 'auto-mode-alist '("\\.drl$" . drools-mode))
 
 ;;
