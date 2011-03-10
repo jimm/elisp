@@ -819,6 +819,10 @@ sql-send-paragraph."
 ;;
 ;; Now that I'm using Clojure, I don't want sbcl to be the default program.
 (setq inferior-lisp-program "clj -n")
+(defun clj ()
+  (interactive)
+  (setq inferior-lisp-program "clj -n")
+  (inferior-lisp "clj -n"))
 ;; (require 'slime)
 ;; (slime-setup)
 (setq lisp-mode-hook
