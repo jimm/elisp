@@ -1,0 +1,3 @@
+#name: (map #(...) ...)
+# --
+(map ${2:map-func} ${1:sequence})$0
