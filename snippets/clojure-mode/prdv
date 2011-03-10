@@ -1,0 +1,3 @@
+#name: (println "var =" var); ; DEBUG
+# --
+(println "${1:var} =" $1$0) ; DEBUG
