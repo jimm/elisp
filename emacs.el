@@ -556,6 +556,10 @@ and returns it."
 (autoload 'coffee-mode "coffee-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
 (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
+(add-hook 'coffee-mode-hook
+  '(lambda()
+     (setq coffee-js-mode 'javascript-mode)
+     (set (make-local-variable 'tab-width) 2)))
 
 ;;
 ;; Objective-C mode
