@@ -541,9 +541,9 @@ and returns it."
 ;;;
 (autoload 'javascript-mode "javascript" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . javascript-mode))
-(setq javascript-mode-hook
-      (lambda ()
-        (setq js-indent-level 2)))
+(add-hook 'javascript-mode-hook
+  (lambda ()
+    (setq js-indent-level 2)))
 ;; (autoload 'js2-mode "js2-mode" nil t)
 ;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
@@ -557,7 +557,7 @@ and returns it."
 (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
 (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
 (add-hook 'coffee-mode-hook
-  '(lambda()
+  '(lambda ()
      (setq coffee-js-mode 'javascript-mode)
      (set (make-local-variable 'tab-width) 2)))
 
