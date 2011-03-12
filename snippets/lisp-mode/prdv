@@ -1,0 +1,3 @@
+#name: (format *error-output* "var = ~o" var) ; DEBUG
+# --
+(format *error-output* "${1:var} = ~0" $1$0) ; DEBUG
