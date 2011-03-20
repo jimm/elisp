@@ -1331,11 +1331,10 @@ and wc -w"
 ;;
 (setq
  rcirc-default-server "irc.freenode.net"
- rcirc-default-nick "jimm"
-; rcirc-authinfo '(("freenode" nickserv "jimm_"))
-; rcirc-authinfo '(("freenode" nickserv "jimm"))
- rcirc-startup-channels-alist
-   '(("\\.freenode\\.net$" "#10gen"))
+ rcirc-default-nick "jmenard42"
+; rcirc-authinfo '(("freenode" nickserv "jmenard42"))
+; rcirc-startup-channels-alist
+;   '(("\\.freenode\\.net$" "#emacs"))
 )
   "A list of IRC channel names that are monitored for notifications."
 (defvar my-rcirc-notifiy-channels
