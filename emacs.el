@@ -320,11 +320,16 @@ a simple algorithm that may grow over time if needed."
 (setq browse-url-browser-function 'my-url-open)
 
 ; Java class Javadoc lookup
+(defvar *my-javadoc-url*
+  "http://download.oracle.com/javase/1.5.0/docs/api/"
+  "The start of the URL to use to open Java API docs. Override this when
+you have a local copy, for example.")
+
 (defun my-javadoc-open (&optional klass)
   (interactive)
   (let* ((klass-str (if (null klass) (read-string "Full class name: ") klass))
          (klass-path (replace-regexp-in-string "\\." "/" klass-str))
-         (url (concat "http://download.oracle.com/javase/1.5.0/docs/api/" klass-path ".html")))
+         (url (concat *my-javadoc-url* klass-path ".html")))
     (browse-url-generic url)))
 
 ;;; ================================================================
@@ -542,8 +547,8 @@ and returns it."
 (autoload 'javascript-mode "javascript" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . javascript-mode))
 (add-hook 'javascript-mode-hook
-  (lambda ()
-    (setq js-indent-level 2)))
+  '(lambda ()
+    (setq javascript-indent-level 2)))
 ;; (autoload 'js2-mode "js2-mode" nil t)
 ;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
