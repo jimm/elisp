@@ -4,6 +4,9 @@
 
 (setq edit-server-new-frame-height 77)
 
+(setq *my-javadoc-url*
+      "file:///Users/jimm/Documents/documentation/java-api/api/")
+
 ;; Standard Java indent level
 (add-hook 'java-mode-hook (lambda () (setq c-basic-offset 4)))
 
