@@ -1076,7 +1076,11 @@ gzip.")))
 (setq python-mode-hook
       '(lambda ()
          (turn-on-font-lock)
-	 (define-key python-mode-map "\C-cr" 'run-python-buffer)))
+	 (define-key python-mode-map "\C-cr" 'run-python-buffer)
+         ;; these two are in addition to the \C-< and \C-> bindings
+         ;; that already exist in Pythong mode
+	 (define-key python-mode-map "\M-[" 'python-shift-left)
+	 (define-key python-mode-map "\M-]" 'python-shift-right)))
 
 ;;
 ;; Xrdb-mode
