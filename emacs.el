@@ -1069,7 +1069,14 @@ gzip.")))
 ; Emacs now comes with its own Python mode called simply "python"
 ; (autoload 'python-mode "python-mode" "Python mode." t)
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
-(setq python-mode-hook '(lambda () (turn-on-font-lock)))
+(defun run-python-buffer ()
+  (interactive)
+  (save-buffer)
+  (compile (concat "python " (buffer-file-name))))
+(setq python-mode-hook
+      '(lambda ()
+         (turn-on-font-lock)
+	 (define-key python-mode-map "\C-cr" 'run-python-buffer)))
 
 ;;
 ;; Xrdb-mode
