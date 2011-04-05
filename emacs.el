@@ -1411,7 +1411,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (autoload 'haml-mode "haml-mode" "haml mode")
 (autoload 'sass-mode "sass-mode" "sass mode")
 (add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
-(add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
+(add-to-list 'auto-mode-alist '("\\.s\\(a\\|c\\)?ss$" . sass-mode))
 (defun load-haml ()
   "A convenience function that loads Haml and Sass modes."
   (interactive)
