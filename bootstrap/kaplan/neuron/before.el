@@ -14,7 +14,7 @@
                                       (background-color . "lavender")
                                       (cursor-color . "orange"))))
   (setq default-frame-alist initial-frame-alist)
-  (set-face-attribute 'mode-line nil :background "orange"))
+  (set-face-attribute 'mode-line nil :foreground "yellow" :background "black"))
 (add-to-list 'load-path "/usr/share/emacs/22.1/lisp" t)
 (add-to-list 'load-path "/usr/share/emacs/22.1/site-lisp" t)
 (defvar *my-erlang-emacs-tools-dir*
