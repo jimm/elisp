@@ -11,9 +11,9 @@
 (add-hook 'java-mode-hook (lambda () (setq c-basic-offset 4)))
 
 ;; this is dev-only info; won't work in production of course
-(setq sql-user "brain")                 ; Oracle dev instance
-(setq sql-password "brain")
-(setq sql-database "oraclexe")
+(setq sql-user "sa_db_user")
+(setq sql-password "vertebrae")
+(setq sql-database "sa_development")
 (setq sql-server "localhost")           ; MySQL
 (setq sql-sqlite-program "sqlite3")     ; SQLite
 
