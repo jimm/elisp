@@ -1400,10 +1400,10 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (set-face-attribute 'org-level-2 nil :foreground "ForestGreen")
 
 ; My own "addr:" link type
-(org-add-link-type "addr" 'my-org-addr-open)
 (defun my-org-addr-open (entry)
   "Find ENTRY in my address_book.org file."
   (address entry))
+(when-fboundp-call org-add-link-type "addr" 'my-org-addr-open)
 
 ;;
 ;; HAML and SASS
