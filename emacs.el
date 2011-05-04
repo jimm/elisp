@@ -1383,11 +1383,13 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;; Org Mode
 ;;
 (require 'org)
+(unless (boundp 'org-ans1)
+  (defvar org-ans1)
+  (defvar org-ans2))
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 ;; recommended
 (setq org-agenda-include-diary t)
-(setq org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org")
-			     (concat *my-pim-dir* "orgs/icarly.org")))
+(setq org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org")))
 (setq org-startup-folded 'content)
 (setq org-mode-hook
       '(lambda ()

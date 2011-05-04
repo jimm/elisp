@@ -65,6 +65,9 @@
     (insert "play test")
     (eshell-send-input)))
 
+(setq org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org")
+			     (concat *my-pim-dir* "orgs/kaplan/todo.org")))
+
 ;;
 ;; Google Chrome edit server
 ;;
