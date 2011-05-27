@@ -9,11 +9,13 @@
           "/emacs/"))
 
 (when window-system
-  (defvar *basic-frame-alist* '((background-color . "gray90")
+  (defvar *basic-frame-alist* '((background-color . "gray95")
+				(cursor-color . "orange")
 				(tool-bar-mode . nil)))
   (setq initial-frame-alist
 	(append *basic-frame-alist* '((height . 48) (top . 0) (left . 0))))
-  (setq default-frame-alist *basic-frame-alist*))
+  (setq default-frame-alist *basic-frame-alist*)
+  (set-face-attribute 'mode-line nil :foreground "yellow" :background "black"))
 
 (add-to-list 'load-path "/usr/share/emacs/21.2/lisp" t)
 (add-to-list 'load-path "/usr/share/emacs/21.2/site-lisp" t)
