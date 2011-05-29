@@ -1,4 +1,4 @@
-(defvar *my-pim-dir* "~/pim/")
+(defvar *my-pim-dir* "/Users/jimm/pim/")
 (defvar *arc-dir* "/usr/local/src/Lisp/arc/")
 
 (setq ns-command-modifier 'meta)        ; define Command as Meta key
