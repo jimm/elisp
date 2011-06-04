@@ -56,9 +56,6 @@
 (define-abbrev-table 'emacs-lisp-mode-abbrev-table '(
     ))
 
-(define-abbrev-table 'emacs-wiki-mode-abbrev-table '(
-    ))
-
 (define-abbrev-table 'erlang-mode-abbrev-table '(
     ))
 

@@ -217,14 +217,6 @@ for example 'String foo'"
   "</target>" >)
 
 ;;
-;; Emacs WIKI
-;;
-(define-skeleton emacs-wiki-example-skeleton
-  "Inserts an example tag"
-  "<example>" \n
-  _ "</example>" \n)
-
-;;
 ;; PostgreSQL
 ;;
 (define-skeleton psql-create-skeleton
