@@ -62,4 +62,4 @@ customization file "emacs.el", then an "after.el" file.
 
 = See Also
 
-See also http://www.io.com/~jimm/emacs_tips.html.
+See also http://www.jimmenard.com/emacs_tips.html.
