@@ -66,7 +66,7 @@
     (eshell-send-input)))
 
 (setq org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org")
-			     (concat *my-pim-dir* "orgs/kaplan/todo.org")))
+			     (concat *my-pim-dir* "orgs/ideeli/todo.org")))
 
 ;;
 ;; Google Chrome edit server
@@ -84,7 +84,7 @@
 (global-set-key [f4]
   (lambda ()
     (interactive)
-    (find-file (concat *my-pim-dir* "orgs/kaplan/todo.org"))))
+    (find-file (concat *my-pim-dir* "orgs/ideeli/todo.org"))))
 (global-set-key [\C-f4]
   (lambda ()
     (interactive)
@@ -92,7 +92,7 @@
 (global-set-key [f6]
   (lambda ()
     (interactive)
-    (find-file (concat *my-pim-dir* "orgs/kaplan/notes.org"))
+    (find-file (concat *my-pim-dir* "orgs/ideeli/notes.org"))
     (goto-char (point-max))))
 (global-set-key [\C-f6]
   (lambda ()
