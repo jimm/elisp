@@ -112,7 +112,7 @@
 
 ;; Build a custom grep-find-command
 (let* ((bad-names (list "*.log" ".svn" ".git" "CVS" "TAGS" "*~" "*.class"
-                       "*.[wj]ar" "target" "javadoc" "bytecode"))
+                       "*.[wj]ar" "target" "javadoc" "bytecode" "*.beam"))
        (gfc (concat "find . \\( -name "
                     (mapconcat 'shell-quote-argument bad-names " -o -name ")
                     " \\) -prune -o -type f -print0 | xargs -0 grep -H -n ")))
