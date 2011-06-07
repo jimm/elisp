@@ -1,4 +1,4 @@
-(defvar *my-pim-dir* "~/pim/")
+(defvar *my-pim-dir* "/Users/jimm/pim/")
 
 (setq ns-command-modifier 'meta)        ; define Command as Meta key
 (setq ns-option-modifier "none")        ; unbind option key
@@ -15,8 +15,10 @@
                                       (cursor-color . "orange"))))
   (setq default-frame-alist initial-frame-alist)
   (set-face-attribute 'mode-line nil :foreground "yellow" :background "black"))
+
 (add-to-list 'load-path "/usr/share/emacs/22.1/lisp" t)
 (add-to-list 'load-path "/usr/share/emacs/22.1/site-lisp" t)
+
 (defvar *my-erlang-emacs-tools-dir*
   (concat (car (reverse
                 (sort (file-expand-wildcards "/opt/local/lib/erlang/lib/tools*") 'string-lessp)
