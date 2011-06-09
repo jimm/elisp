@@ -1515,9 +1515,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;;             crypt-encryption-file-extension "\\(Secure\\)$\\|\\(secure\\.org\\)$\\|\\(\\.enc\\)$")
 ;; (crypt-rebuild-tables)
 
-; Making epa-file-cache-passphrase-for-symmetric-encryption non-nil is not
-; safe. See variable's docs.
-; (setq epa-file-cache-passphrase-for-symmetric-encryption t) ; remember passphrase for save
+(setq epa-file-cache-passphrase-for-symmetric-encryption t) ; remember passphrase for save
 
 ;;
 ;; WebJump
