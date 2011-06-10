@@ -39,10 +39,17 @@ PWD is not in a git repo (or the git command is not found)."
           "[(no branch)] "))
     ""))
 
+(defun curr-dir-svn-string (pwd)
+  (interactive)
+  (when (and (eshell-search-path "svn")
+             (locate-dominating-file pwd ".svn"))
+    "[svn] "))
+
 (setq eshell-prompt-function
       (lambda ()
-	(concat
+        (concat
          (curr-dir-git-branch-string (eshell/pwd))
+         (curr-dir-svn-string (eshell/pwd))
          ((lambda (p-lst)
             (if (> (length p-lst) 3)
                 (concat
