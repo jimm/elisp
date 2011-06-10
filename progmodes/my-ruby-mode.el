@@ -80,16 +80,17 @@ Rails root dir is found."
   (forward-char 2)
   (just-one-space))
 
-(defun run-one-rails-test (test-name)
-  "Will run TEST-NAME from the current buffer, which is presumed to be a test
-file. If TEST-NAME is empty or nil, runs all tests in the file."
+(defun run-ruby-test (test-name)
+  "Will run TEST-NAME from the current buffer's file, which is
+presumed to be a test file. If TEST-NAME is empty or nil, runs
+all tests in the file."
   (interactive "sTest name (empty for all tests in the file): ")
-  (let ((rails-root-dir (locate-dominating-file (file-name-directory (buffer-file-name)) "Rakefile")))
-    (if rails-root-dir
-        (let ((root-relative-file (substring (buffer-file-name) (length (expand-file-name rails-root-dir)))))
+  (let ((root-dir (locate-dominating-file (file-name-directory (buffer-file-name)) "Rakefile")))
+    (if root-dir
+        (let ((root-relative-file (substring (buffer-file-name) (length (expand-file-name root-dir)))))
           (progn
             (save-buffer)
-            (compile (concat "cd " rails-root-dir " && ruby -I test " root-relative-file
+            (compile (concat "cd " root-dir " && ruby -I test " root-relative-file
                              (when (> (length test-name) 0)
                                (concat " -n " test-name))))))
       (error "Can not find RAILS_ROOT (Rakefile not found)"))))
@@ -102,7 +103,7 @@ file. If TEST-NAME is empty or nil, runs all tests in the file."
 	 (define-key ruby-mode-map "\C-cr" 'run-ruby-buffer)
 	 (define-key ruby-mode-map "\C-cd" 'debug-comment)
 	 (define-key ruby-mode-map "\C-ch" 'insert-ruby-hash-arrow)
-	 (define-key ruby-mode-map "\C-t" 'run-one-rails-test)
+	 (define-key ruby-mode-map "\C-t" 'run-ruby-test)
 ;; 	 (setq c-tab-always-indent nil)
  	 (setq ruby-indent-level 2)
 	 (font-lock-mode 1)))
