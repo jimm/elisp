@@ -22,48 +22,13 @@
 
 (defvar compile-ant "ant -e -s build.xml ")
 (defvar compile-rake "rake test ")
-(defvar compile-brain "cd $brain && bin/maven.sh ")
+(defvar compile-brain "makeup ")
 
 (set-register ?n compile-ant)
 (set-register ?q compile-rake)
-(set-register ?m compile-brain)
+(set-register ?m compile-default)
 
-(setq compile-command compile-brain)
-
-(defvar sa-db
-  "/Users/jimm/src/spine_align/db/development.sqlite3")
-(defvar sa-db-perforce
-  "/Users/jimm/Documents/Perforce/brain/brain/spine_align/db/development.sqlite3")
-(defvar st-db
-  "/Users/jimm/src/sandbox/taxonomy/SpineTagger/spineTagger.db")
-(defvar st-db-perforce
-  "/Users/jimm/Documents/Perforce/prfny3a01_1666/Jim_Menard_neuron/depot/CoreTech/Brain/jimm_sandbox/taxonomy/SpineTagger/spineTagger.db")
-(set-register ?d sa-db)
-(set-register ?e st-db)
-
-(defun oraclexe (cmd)
-  (interactive "sCommand [start]: ")
-  (let ((c (if (> (length cmd) 0) cmd "start")))
-    (shell-command (concat "oraclexe " c))))
-
-(defun brain-play-test ()
-  (interactive)
-  (let ((eshell-buffer-name "play-server"))
-    (eshell)
-    (oraclexe "start")
-    (insert "cd $brain")
-    (eshell-send-input)
-    (insert "play test")
-    (eshell-send-input)))
-
-(defun sa-play-test ()
-  (interactive)
-  (let ((eshell-buffer-name "play-server"))
-    (eshell)
-    (insert "cd $sa")
-    (eshell-send-input)
-    (insert "play test")
-    (eshell-send-input)))
+(setq compile-command compile-default)
 
 (setq org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org")
 			     (concat *my-pim-dir* "orgs/ideeli/todo.org")))
