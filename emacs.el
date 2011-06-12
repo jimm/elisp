@@ -1001,7 +1001,8 @@ sql-send-paragraph."
 	'("/usr/local/scala/share/scala/misc/scala-tool-support/emacs/"
 	  "/usr/local/scala/misc/scala-tool-support/emacs/"
           "/opt/local/share/scala/misc/scala-tool-support/emacs/"
-          "/opt/local/share/scala-2.8/misc/scala-tool-support/emacs/")))
+          "/opt/local/share/scala-2.8/misc/scala-tool-support/emacs/"
+          "/opt/local/share/scala-2.9/misc/scala-tool-support/emacs/")))
   "Different versions of Scala have used different layouts, so
 this figures out where the Emacs support lives.")
 	 
