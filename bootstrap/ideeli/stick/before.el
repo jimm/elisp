@@ -11,7 +11,7 @@
   (defvar *basic-frame-alist* '((tool-bar-mode . nil)))
   (setq initial-frame-alist
 	(append *basic-frame-alist* '((height . 77) (top . 0) (left . 0)
-                                      (background-color . "gray90")
+                                      (background-color . "white")
                                       (cursor-color . "orange"))))
   (setq default-frame-alist initial-frame-alist)
   (set-face-attribute 'mode-line nil :foreground "yellow" :background "black"))
