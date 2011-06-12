@@ -22,7 +22,7 @@
 
 (defvar compile-ant "ant -e -s build.xml ")
 (defvar compile-rake "rake test ")
-(defvar compile-brain "makeup ")
+(defvar compile-default "makeup ")
 
 (set-register ?n compile-ant)
 (set-register ?q compile-rake)
