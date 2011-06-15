@@ -31,13 +31,12 @@
   "Returns current git branch as a string, or the empty string if
 PWD is not in a git repo (or the git command is not found)."
   (interactive)
-  (if (and (eshell-search-path "git")
-           (locate-dominating-file pwd ".git"))
-      (let ((git-output (shell-command-to-string (concat "cd " pwd " && git branch | grep '\\*' | sed -e 's/^\\* //'"))))
-        (if (> (length git-output) 0)
-            (concat "[" (substring git-output 0 -1) "] ")
-          "[(no branch)] "))
-    ""))
+  (when (and (eshell-search-path "git")
+             (locate-dominating-file pwd ".git"))
+    (let ((git-output (shell-command-to-string (concat "cd " pwd " && git branch | grep '\\*' | sed -e 's/^\\* //'"))))
+      (if (> (length git-output) 0)
+          (concat "[" (substring git-output 0 -1) "] ")
+        "[(no branch)] "))))
 
 (defun curr-dir-svn-string (pwd)
   (interactive)
@@ -48,8 +47,8 @@ PWD is not in a git repo (or the git command is not found)."
 (setq eshell-prompt-function
       (lambda ()
         (concat
-         (curr-dir-git-branch-string (eshell/pwd))
-         (curr-dir-svn-string (eshell/pwd))
+         (or (curr-dir-git-branch-string (eshell/pwd))
+             (curr-dir-svn-string (eshell/pwd)))
          ((lambda (p-lst)
             (if (> (length p-lst) 3)
                 (concat
