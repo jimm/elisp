@@ -140,7 +140,7 @@
 ;; (display-time)                       ; display time and "Mail" in mode lines
 (defun generate-random-sig ()
   (interactive)
-  (shell-command "randomSig.rb"))
+  (shell-command "random_sig.rb"))
 ;;; The following code randomly generates a sig every N seconds. Now a days,
 ;;; a cron job takes care of this.
 ;; (load "timer")
