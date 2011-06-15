@@ -638,6 +638,13 @@ and returns it."
     (progn
       (load "eshell")
       (load "eshell-customize")
+
+      (custom-set-faces
+       '(eshell-prompt
+         ((((class color) (background light)) (:foreground "Blue" :bold t))
+          (((class color) (background dark)) (:foreground "SteelBlue" :bold t))
+          (t (:bold t)))))
+
       (unless aquamacs-p
           (progn
             (load "my-environment")
