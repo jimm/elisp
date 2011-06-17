@@ -103,7 +103,7 @@ all tests in the file."
 	 (define-key ruby-mode-map "\C-cr" 'run-ruby-buffer)
 	 (define-key ruby-mode-map "\C-cd" 'debug-comment)
 	 (define-key ruby-mode-map "\C-ch" 'insert-ruby-hash-arrow)
-	 (define-key ruby-mode-map "\C-t" 'run-ruby-test)
+	 (define-key ruby-mode-map "\C-ct" 'run-ruby-test)
 ;; 	 (setq c-tab-always-indent nil)
  	 (setq ruby-indent-level 2)
 	 (font-lock-mode 1)))
