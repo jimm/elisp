@@ -34,19 +34,24 @@ PWD is not in a git repo (or the git command is not found)."
   (when (and (eshell-search-path "git")
              (locate-dominating-file pwd ".git"))
     (let ((git-output (shell-command-to-string (concat "cd " pwd " && git branch | grep '\\*' | sed -e 's/^\\* //'"))))
-      (if (> (length git-output) 0)
-          (concat "[g:" (substring git-output 0 -1) "] ")
-        "[g:(no branch)] "))))
+      (concat "[g:"
+              (if (> (length git-output) 0)
+                  (substring git-output 0 -1)
+                "(no branch)")
+              "] "))))
 
 (defun curr-dir-svn-string (pwd)
   (interactive)
   (when (and (eshell-search-path "svn")
              (locate-dominating-file pwd ".svn"))
-    (if (string-match-p "/trunk\\(/.*\\)?" pwd)
-        "[s:trunk] "
-      (if (string-match "/branches/\\([^/]+\\)\\(/.*\\)?" pwd)
-          (concat "[s:" (match-string 1 pwd) "] ")
-        "[s:(no branch)] "))))
+    (concat "[s:"
+            (cond ((string-match-p "/trunk\\(/.*\\)?" pwd)
+                   "trunk")
+                  ((string-match "/branches/\\([^/]+\\)\\(/.*\\)?" pwd)
+                   (match-string 1 pwd))
+                  (t
+                   "(no branch)"))
+            "] ")))
 
 (setq eshell-prompt-function
       (lambda ()
