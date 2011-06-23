@@ -1,3 +1,4 @@
 #name : foo = #{foo}
+#condition: 'force-in-comment
 # --
 ${1:foo} = #{$1}

@@ -1,3 +1,4 @@
 #name: <code>null</code>
+#condition: 'force-in-comment
 # --
 <code>null</code>

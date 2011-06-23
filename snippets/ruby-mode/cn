@@ -1,3 +1,4 @@
 #name : foo.class.name
+#condition: 'force-in-comment
 # --
 ${1:self} class name = #{$1.class.name}

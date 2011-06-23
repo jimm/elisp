@@ -1,3 +1,4 @@
 #name: <code>true</code>
+#condition: 'force-in-comment
 # --
 <code>true</code>
