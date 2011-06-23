@@ -1,0 +1,3 @@
+#name: $stderr.puts "var.inspect = #{var.inspect}" # DEBUG
+# --
+$stderr.puts "${1:var} = #{$1.inspect$0}" # DEBUG
