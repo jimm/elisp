@@ -641,8 +641,8 @@ and returns it."
 
       (custom-set-faces
        '(eshell-prompt
-         ((((class color) (background light)) (:foreground "Blue" :bold t))
-          (((class color) (background dark)) (:foreground "SteelBlue" :bold t))
+         ((((class color) (background light)) (:foreground "Blue"))
+          (((class color) (background dark)) (:foreground "SteelBlue")o)
           (t (:bold t)))))
 
       (unless aquamacs-p
