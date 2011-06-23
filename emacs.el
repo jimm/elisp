@@ -623,12 +623,10 @@ and returns it."
           )
       )
 
-
 ;;
 ;; sh-mode
 ;;
-(setq sh-mode-hook (lambda () (define-key sh-mode-map "\C-c=" my-shell)))
-
+(setq sh-mode-hook (lambda () (define-key sh-mode-map "\C-c\C-k" 'compile)))
 
 ;;
 ;; Eshell-mode
@@ -939,7 +937,7 @@ sql-send-paragraph."
          (require 'tex-mode)
          (auto-fill-mode 1)
          (define-key sgml-mode-map "\C-c\C-k" 'compile)
-         (define-key sgml-mode-map "\C-c=" my-shell)
+
          ))
 
 (setq html-mode-hook
