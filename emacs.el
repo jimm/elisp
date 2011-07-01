@@ -1567,6 +1567,32 @@ me about the channels listed in my-rcirc-notifiy-channels."
             (buffer-name))))
 
 ;;
+;; scrambling a word
+;;
+(defun word-at-point ()
+  (save-excursion
+    (forward-word)
+    (push-mark)
+    (backward-word)
+    (buffer-substring-no-properties (point) (mark))))
+
+(defun do-scramble-word (word scrambled)
+  (if (zerop (length word))
+      scrambled
+    (let ((i (random (length word))))
+    (do-scramble-word
+     (concat (substring word 0 i) (substring word (1+ i)))
+     (concat scrambled (substring word i (1+ i)))))))
+
+(defun scramble-word ()
+  (interactive)
+  (let ((word (do-scramble-word (word-at-point) "")))
+    (save-excursion
+      (forward-word)
+      (backward-kill-word 1)
+      (insert word))))
+
+;;
 ;; Global key bindings
 ;;
 
