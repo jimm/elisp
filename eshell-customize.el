@@ -2,7 +2,7 @@
 ;; the function eshell-script-initialize in em-script.el.
 
 (setq eshell-history-size 512)
-(setq eshell-prompt-regexp "^[^>]*> ")
+(setq eshell-prompt-regexp "^[^#$\\n]*[#$] ")
 
 (load "em-hist")			; So the history vars are defined
 (if (boundp 'eshell-save-history-on-exit)
@@ -73,7 +73,7 @@ PWD is not in a git repo (or the git command is not found)."
                          p-lst
                          "/")))
           (split-string (pwd-repl-home (eshell/pwd)) "/"))
-         "> ")))
+         "$ ")))
 
 ;; ; From http://www.emacswiki.org/cgi-bin/wiki.pl/EshellWThirtyTwo
 ;; ; Return nil, otherwise you'll see the return from w32-shell-execute
