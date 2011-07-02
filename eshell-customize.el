@@ -2,7 +2,7 @@
 ;; the function eshell-script-initialize in em-script.el.
 
 (setq eshell-history-size 512)
-(setq eshell-prompt-regexp "^[^#$\\n]*[#$] ")
+(setq eshell-prompt-regexp "^[^#$]*[#$] ")
 
 (load "em-hist")			; So the history vars are defined
 (if (boundp 'eshell-save-history-on-exit)
