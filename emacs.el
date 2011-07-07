@@ -643,13 +643,21 @@ and returns it."
           (((class color) (background dark)) (:foreground "SteelBlue")o)
           (t (:bold t)))))
 
+
+
       (unless aquamacs-p
         ; Mac OS X doesn't set path properly when Emacs.app is launched.
         ; Since Mac OS X is pretty much all I use these days, I've put this
         ; code here. Shouldn't do any harm if run on another flavor of Unix.
         (when (file-exists-p "/bin/bash")
-          (load "my-environment")
-          (my-read-env (shell-command-to-string "/bin/bash -l -c '/usr/bin/env'"))
+          ;; Launch subshell and pring env vars, then parse that and set our
+          ;; env vars.
+          (let ((all-env-vars (shell-command-to-string "/bin/bash -l -c '/usr/bin/env'")))
+            (mapc (lambda (line)
+                    (when (string-match "\\([^=]+\\)=\\(.*\\)" line)
+                      (setenv (match-string 1 line) (match-string 2 line))))
+                  (split-string all-env-vars "\n")))
+
           (let ((path (getenv "PATH")))
             (setq eshell-path-env path)
             (setq exec-path (split-string path ":")))))))
