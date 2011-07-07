@@ -644,22 +644,15 @@ and returns it."
           (t (:bold t)))))
 
       (unless aquamacs-p
-          (progn
-            (load "my-environment")
-            (let ((f "~/.environment"))
-              (when (file-exists-p f) (my-read-env f)))
-            (let ((f "~/.dir_env_vars/"))
-              (when (file-exists-p f) (my-read-env-files-in-dir f)))
-            ; Mac OS X doesn't set path properly when Emacs.app is launched.
-            ; Since Mac OS X is pretty much all I use these days, I've put
-            ; this code here. Shouldn't do any harm if run on another flavor
-            ; of Unix.
-            (when (file-exists-p "/bin/bash")
-              (let ((path (shell-command-to-string
-                           "/bin/bash -l -c 'echo -n $PATH'")))
-                (setenv "PATH" path)
-                (setq eshell-path-env path)
-                (setq exec-path (split-string path ":"))))))))
+        ; Mac OS X doesn't set path properly when Emacs.app is launched.
+        ; Since Mac OS X is pretty much all I use these days, I've put this
+        ; code here. Shouldn't do any harm if run on another flavor of Unix.
+        (when (file-exists-p "/bin/bash")
+          (load "my-environment")
+          (my-read-env (shell-command-to-string "/bin/bash -l -c '/usr/bin/env'"))
+          (let ((path (getenv "PATH")))
+            (setq eshell-path-env path)
+            (setq exec-path (split-string path ":")))))))
 
 ;;
 ;; Shell-mode
@@ -842,10 +835,13 @@ sql-send-paragraph."
   (inferior-lisp "clj -n"))
 ;; (require 'slime)
 ;; (slime-setup)
+(setq clojure-mode-hook
+      (lambda ()
+        (define-key lisp-mode-map "\C-cd" 'debug-comment)))
 (setq lisp-mode-hook
-      '(lambda ()
-         (define-key lisp-mode-map "\r" 'newline-and-indent)
-         (define-key lisp-mode-map "\C-cd" 'debug-comment)))
+      (lambda ()
+        (define-key lisp-mode-map "\r" 'newline-and-indent)
+        (define-key lisp-mode-map "\C-cd" 'debug-comment)))
 
 ;;
 ;; Clisp
