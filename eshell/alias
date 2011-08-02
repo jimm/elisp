@@ -1,12 +1,13 @@
-alias file file -h $*
-alias du du -h
-alias maven maven -Eb $*
-alias e find-file $1
-alias t find-file $1
-alias l ls $*
-alias la ls -a $*
-alias ll ls -la $*
-alias lt ls -lt $*
-alias df df -h
-alias sudo *sudo $*
+alias devctl /Users/jimm/src/ideeli/branches/fb_cc/bin/adhoc/devctl
 alias su *su $*
+alias sudo *sudo $*
+alias df df -h
+alias lt ls -lt $*
+alias ll ls -la $*
+alias la ls -a $*
+alias l ls $*
+alias t find-file $1
+alias e find-file $1
+alias maven maven -Eb $*
+alias du du -h
+alias file file -h $*
