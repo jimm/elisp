@@ -1307,6 +1307,10 @@ and wc -w"
 ;;
 (autoload 'go-mode "go-mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.go$" . go-mode))
+(add-hook 'go-mode-hook
+          (lambda ()
+            (tab-four)
+            (setq indent-tabs-mode t)))
 
 ;;
 ;; Haskell mode
