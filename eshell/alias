@@ -1,4 +1,4 @@
-alias devctl /Users/jimm/src/ideeli/branches/fb_cc/bin/adhoc/devctl $*
+alias devctl /Users/jimm/src/ideeli/trunk/bin/adhoc/devctl $*
 alias file file -h $*
 alias du du -h
 alias maven maven -Eb $*
@@ -11,3 +11,4 @@ alias lt ls -lt $*
 alias df df -h
 alias sudo *sudo $*
 alias su *su $*
+alias svn-diff svn diff -r PREV $*

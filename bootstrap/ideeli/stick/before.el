@@ -21,7 +21,7 @@
 
 (defvar *my-erlang-emacs-tools-dir*
   (concat (car (reverse
-                (sort (file-expand-wildcards "/opt/local/lib/erlang/lib/tools*") 'string-lessp)
+                (sort (file-expand-wildcards "/usr/local/lib/erlang/lib/tools*") 'string-lessp)
                ))
           "/emacs/"))
 
