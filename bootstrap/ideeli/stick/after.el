@@ -65,3 +65,10 @@
     (find-file (concat *my-pim-dir* "orgs/notes.org"))
     (goto-char (point-max))))
 (global-set-key [f11] 'other-window)
+
+; My own "jcard:" link type
+(defun my-org-jcard-open (card)
+  "Open JIRA card."
+  (my-url-open (concat "https://jira.ideeli.com/browse/" card)))
+
+(when-fboundp-call org-add-link-type "jcard" 'my-org-jcard-open)
