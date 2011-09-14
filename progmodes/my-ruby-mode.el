@@ -69,8 +69,17 @@ Rails root dir is found."
 
 (defun run-ruby-buffer ()
   (interactive)
-  (save-buffer)
-  (compile (concat "ruby " (buffer-file-name))))
+  (let ((fn (buffer-file-name)))
+    (if (file-exists-p fn)
+        (progn
+          (save-buffer)
+          (compile (concat "ruby " (buffer-file-name))))
+      (progn
+        (let ((tmpfile (make-temp-file "ruby-region-" nil ".rb")))
+          (write-region nil nil tmpfile)
+          (compile (concat "ruby " tmpfile)))))))
+;; Can't remove temp file because compile is async and file could be deleted
+;; before it is used by compile.
 
 (defun insert-ruby-hash-arrow ()
   (interactive "*")
