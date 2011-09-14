@@ -1403,15 +1403,28 @@ me about the channels listed in my-rcirc-notifiy-channels."
   (defvar org-ans1)
   (defvar org-ans2))
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+
+(defun my-org-execute-src ()
+  (interactive)
+  (let* ((info (org-edit-src-find-region-and-lang))
+         (p-beg (car info))
+         (p-end (cadr info))
+         (lang (substring-no-properties (caddr info) 0))
+         (tmpfile (make-temp-file "org-src-")))
+          (write-region p-beg p-end tmpfile)
+          (compile (concat lang " " tmpfile))))
+
+
 ;; recommended
 (setq org-agenda-include-diary t)
 (setq org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org")))
 (setq org-startup-folded 'content)
 (setq org-mode-hook
-      '(lambda ()
-         (when my-load-yasnippet
-           (yas/minor-mode-off))        ; TODO see org mode example in YAS docs
-         (setq org-export-with-sub-superscripts nil)))
+      (lambda ()
+        (when my-load-yasnippet
+          (yas/minor-mode-off))      ; TODO see org mode example in YAS docs
+        (setq org-export-with-sub-superscripts nil)
+        (define-key org-mode-map "\C-cr" 'my-org-execute-src)))
 
 ; TODO use light/dark versions code
 (set-face-attribute 'org-level-1 nil :height 140 :bold t)
