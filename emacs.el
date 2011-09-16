@@ -841,6 +841,10 @@ sql-send-paragraph."
   (interactive)
   (setq inferior-lisp-program "clj -n")
   (inferior-lisp "clj -n"))
+(defun lein-repl ()
+  (interactive)
+  (setq inferior-lisp-program "lein repl")
+  (inferior-lisp "lein-repl"))
 ;; (require 'slime)
 ;; (slime-setup)
 (setq clojure-mode-hook
