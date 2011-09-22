@@ -1592,6 +1592,19 @@ me about the channels listed in my-rcirc-notifiy-channels."
             (buffer-name))))
 
 ;;
+;; Time manipulation
+;;
+(defun add-times (&rest time-strings)
+  "Takes a list of hour:minute time strings such as \"1:23\" or
+\"0:44\" adds them up, and returns a string in the same format."
+  (let ((parsed (mapcar 'parse-time-string time-strings)))
+    (format-seconds 
+     "%h:%02m"
+     (+
+      (apply '+ (mapcar (lambda (p) (* 60 (cadr p))) parsed)) ; minutes
+      (apply '+ (mapcar (lambda (p) (* 3600 (caddr p))) parsed)))))) ; hours
+
+;;
 ;; scrambling a word
 ;;
 (defun word-at-point ()
