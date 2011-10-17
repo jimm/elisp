@@ -66,6 +66,16 @@
     (goto-char (point-max))))
 (global-set-key [f11] 'other-window)
 
+; For run-ruby-test
+(setq *ruby-test-inject-command* "~/src/sandbox/drop_all_test_data.sh . && rm log/test.log")
+
+; Reads all tables used in logs/test.log and outptus them as a single
+; fixtures statement.
+(defun copy-fixtures ()
+  (interactive)
+  (shell-command "cd ~/src/ideeli/trunk && ~/src/sandbox/test_tables.rb | pbcopy")
+  (yank))
+
 ; My own "jcard:" link type
 (defun my-org-jcard-open (card)
   "Open JIRA card."

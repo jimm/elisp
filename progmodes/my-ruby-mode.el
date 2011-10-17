@@ -92,14 +92,20 @@ Rails root dir is found."
 (defun run-ruby-test (test-name)
   "Will run TEST-NAME from the current buffer's file, which is
 presumed to be a test file. If TEST-NAME is empty or nil, runs
-all tests in the file."
+all tests in the file.
+
+If *ruby-test-inject-command* exists it is run after cd-ing to
+the root dir and before running the test."
   (interactive "sTest name (empty for all tests in the file): ")
   (let ((root-dir (locate-dominating-file (file-name-directory (buffer-file-name)) "Rakefile")))
     (if root-dir
         (let ((root-relative-file (substring (buffer-file-name) (length (expand-file-name root-dir)))))
           (progn
             (save-buffer)
-            (compile (concat "cd " root-dir " && ruby -I test " root-relative-file
+            (compile (concat "cd " root-dir
+                             (when *ruby-test-inject-command*
+                               (concat " && " *ruby-test-inject-command*))
+                             " && ruby -I test " root-relative-file
                              (when (> (length test-name) 0)
                                (concat " -n " test-name))))))
       (error "Can not find RAILS_ROOT (Rakefile not found)"))))
