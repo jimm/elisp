@@ -69,8 +69,8 @@
 ; For run-ruby-test
 (setq *ruby-test-inject-command* "~/src/sandbox/drop_all_test_data.sh . && rm log/test.log")
 
-; Reads all tables used in logs/test.log and outptus them as a single
-; fixtures statement.
+; Reads all tables used in logs/test.log and inserts them at point as a
+; single fixtures statement.
 (defun copy-fixtures ()
   (interactive)
   (shell-command "cd ~/src/ideeli/trunk && ~/src/sandbox/test_tables.rb | pbcopy")
