@@ -90,6 +90,14 @@
   (replace-string "# " "" nil (mark) (point))
   (search-backward "fixtures"))
 
+;; ; Open a console
+(defun console (&optional dir)
+  (interactive "D")
+  (inf-ruby)
+  (rename-buffer "*console*" t)
+  (insert (concat "Dir.chdir('" (expand-file-name dir) "'); load 'script/console'"))
+  (comint-send-input))
+
 ; My own "jcard:" link type
 (defun my-org-jcard-open (card)
   "Open JIRA card."
