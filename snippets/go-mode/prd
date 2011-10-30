@@ -1,0 +1,3 @@
+#name: fmt.Println("") // DEBUG
+# --
+fmt.Println("$0") // DEBUG
