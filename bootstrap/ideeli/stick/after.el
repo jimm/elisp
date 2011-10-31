@@ -92,7 +92,7 @@
 
 ;; ; Open a console
 (defun console (&optional dir)
-  (interactive "D")
+  (interactive "DRAILS_ROOT: ")
   (inf-ruby)
   (rename-buffer "*console*" t)
   (insert (concat "Dir.chdir('" (expand-file-name dir) "'); load 'script/console'"))
