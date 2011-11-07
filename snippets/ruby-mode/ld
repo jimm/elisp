@@ -1,0 +1,3 @@
+#name: logger.debug("") # DEBUG
+# --
+logger.debug("$0") # DEBUG

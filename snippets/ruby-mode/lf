@@ -1,0 +1,3 @@
+#name: logger.fatal("")
+# --
+logger.fatal("$0")

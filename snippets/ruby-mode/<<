@@ -1,4 +1,4 @@
-#name : if ... end
+#name : <<EOS ... EOS
 # --
 <<EOS
 $0
