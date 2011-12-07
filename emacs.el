@@ -109,6 +109,7 @@
 (setq grep-command "grep -n ")
 (fset 'yes-or-no-p 'y-or-n-p)           ; accept simple 'y'/space, 'n'/delete
 (custom-set-variables '(safe-local-variable-values '((Syntax . Common-Lisp))))
+(unless (fboundp 'string-match-p) (defalias 'string-match-p 'string-match))
 
 ;; Build a custom grep-find-command
 (let* ((bad-names (list "*.log" ".svn" ".git" "CVS" "TAGS" "*~" "*.class"
@@ -1431,7 +1432,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
         (define-key org-mode-map "\C-cr" 'my-org-execute-src)))
 
 ; TODO use light/dark versions code
-(set-face-attribute 'org-level-1 nil :height 140 :bold t)
+(set-face-attribute 'org-level-1 nil :height 1.2 :bold t)
 (set-face-attribute 'org-level-2 nil :foreground "ForestGreen")
 
 ; My own "addr:" link type
