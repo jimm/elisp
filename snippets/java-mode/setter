@@ -1,0 +1,3 @@
+#name: setter
+# --
+public void ${1:$(if (equal (downcase text) "boolean") "is" "set")}${2:$(capitalize-first-char-of-string text)}($1 value) { ${2:ivar} = value; }$0
