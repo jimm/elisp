@@ -1,0 +1,4 @@
+#Author : Jim Menard <jim@jimmenard.com>
+#name : System.err.println("obj = " + obj)
+# --
+System.err.println("${1:obj} = " + $1) // DEBUG
