@@ -1522,6 +1522,11 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (add-to-list 'auto-mode-alist '("\\.drl$" . drools-mode))
 
 ;;
+;; Smalltalk
+;;
+(require 'smalltalk-mode)
+
+;;
 ;; Roo command files
 ;;
 (require 'roo-mode)
