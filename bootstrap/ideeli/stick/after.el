@@ -67,7 +67,7 @@
 (global-set-key [f11] 'other-window)
 
 ; For run-ruby-test
-(setq *ruby-test-inject-command* "~/src/sandbox/drop_all_test_data.sh . && rm -f log/test.log")
+(setq *ruby-test-inject-command* "drop_all_test_data.sh . && rm -f log/test.log")
 
 ; Reads all tables used in logs/test.log and inserts them at point as a
 ; single fixtures statement.
