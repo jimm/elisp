@@ -3,7 +3,7 @@
   ;keyword-list
   '("self")
   '(("'[^']+'" . 'font-lock-string-face)) ;font-lock-list
-  '("\.st$")				;auto-mode-list
+  '("\\.st$")				;auto-mode-list
   '((lambda () (auto-fill-mode nil)))	;function-list
   "Major mode for editing Smalltalk files.")
 
