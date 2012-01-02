@@ -153,7 +153,8 @@
 ;; and Java/Ruby test files.
 ;;
 (defun my-ff-find-other-file (&optional in-other-window ignore-include)
-  "Find other Java file or, if not a Java file, call `ff-find-other-file`."
+  "Find other Java or Ruby file or, if not a Java or Ruby file,
+call `ff-find-other-file`."
   (interactive "P")
   (let* ((fname (buffer-file-name))
 	 (ext (file-name-extension fname)))
@@ -168,23 +169,24 @@
   "Visits `Foo.java' when given `FooTest.java' and vice versa.
 Default file-name is current buffer's name."
   (interactive)
-  (let* ((fname (if file-name file-name (buffer-file-name)))
+  (let* ((fname (file-name-nondirectory (or file-name (buffer-file-name))))
          (non-test-from-end (- -5 (length ext)))
          (test-from-end (- -1 (length ext)))
 	 (target (if (equal (concat "Test." ext) (substring fname non-test-from-end))
 		     (concat (substring fname 0 non-test-from-end) (concat "." ext))
 		   (concat (substring fname 0 test-from-end) (concat "Test." ext)))))
-    (ef (file-name-nondirectory target) default-directory)))
+    (ef target default-directory)))
 
 (defun find-other-ruby-file (&optional file-name)
   "Visits `foo.rb' when given `foo_test.rb' and vice versa.
 Default file-name is current buffer's name."
   (interactive)
-  (let* ((fname (file-name-nondirectory (if file-name file-name (buffer-file-name))))
-	 (target (if (equal "_test.rb" (substring fname -8))
+  (let* ((fname (file-name-nondirectory (or file-name (buffer-file-name))))
+	 (target (if (and (> (length fname) 8)
+                          (equal "_test.rb" (substring fname -8)))
                      (concat (substring fname 0 -8) ".rb")
 		   (concat (substring fname 0 -3) "_test.rb"))))
-    (ef (file-name-nondirectory target) default-directory)))
+    (ef target default-directory)))
 
 (setq ff-other-file-alist
       '(("\\.cpp$" . ((".hpp" ".hh" ".h")))
