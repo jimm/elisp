@@ -455,7 +455,10 @@ the current directory, suitable for creation"
 (add-to-list 'auto-mode-alist '("\\.[ch]pp?$" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.h?$" . c++-mode)) ; mostly C++, now a days
 (add-to-list 'auto-mode-alist '("\\.pde$" . c++-mode)) ; Arduino
-(setq c++-mode-hook '(lambda () (c-set-style "stroustrup")))
+(setq c++-mode-hook
+      (lambda ()
+        (c-set-style "stroustrup")
+        (setq c-basic-offset 2)))
 
 ;;
 ;; Java-mode
