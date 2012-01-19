@@ -1529,7 +1529,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;;
 ;; Smalltalk
 ;;
-(require 'smalltalk-mode)
+(add-to-list 'auto-mode-alist '("\\.st$" . smalltalk-mode))
 
 ;;
 ;; Roo command files
