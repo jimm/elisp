@@ -33,16 +33,13 @@ On each box, I create a soft link from the appropriate =dot_emacs= file to
 ~/.emacs. Here's the .emacs file on the machine I'm using right now, which
 is really a link to ~/Library/elisp/home/nimbus/dot_emacs:
 
-#+begin_example
   ;; -*- emacs-lisp -*-
   (defvar *my-emacs-lib-dir* "~/Library/elisp/")
   (load-file (concat *my-emacs-lib-dir* "bootstrap-init.el"))
   (bootstrap-init "home" "nimbux")
-#+end_src
 
 Here's bootstrap-init.el:
 
-#+begin_example
   ;;; *my-emacs-lib-dir* must be defined
 
   (defun bootstrap-file (domain machine file-name)
@@ -59,7 +56,6 @@ Here's bootstrap-init.el:
     (load-init-if-exists domain machine "after")
     (setq bookmark-default-file
           (bootstrap-file domain machine "emacs.bmk")))
-#+end_src
 
 So you can see that bootstrap-init runs a "before.el" file, then my main
 customization file "emacs.el", then an "after.el" file.
