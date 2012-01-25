@@ -33,29 +33,33 @@ On each box, I create a soft link from the appropriate =dot_emacs= file to
 ~/.emacs. Here's the .emacs file on the machine I'm using right now, which
 is really a link to ~/Library/elisp/home/nimbus/dot_emacs:
 
-    ;; -*- emacs-lisp -*-
-    (defvar *my-emacs-lib-dir* "~/Library/elisp/")
-    (load-file (concat *my-emacs-lib-dir* "bootstrap-init.el"))
-    (bootstrap-init "home" "nimbux")
+#+begin_src emacs-lisp
+  ;; -*- emacs-lisp -*-
+  (defvar *my-emacs-lib-dir* "~/Library/elisp/")
+  (load-file (concat *my-emacs-lib-dir* "bootstrap-init.el"))
+  (bootstrap-init "home" "nimbux")
+#+end_src
 
 Here's bootstrap-init.el:
 
-    ;;; *my-emacs-lib-dir* must be defined
+#+begin_src emacs-lisp
+  ;;; *my-emacs-lib-dir* must be defined
 
-    (defun bootstrap-file (domain machine file-name)
-      (concat *my-emacs-lib-dir* "bootstrap/" domain "/" machine "/" file-name))
+  (defun bootstrap-file (domain machine file-name)
+    (concat *my-emacs-lib-dir* "bootstrap/" domain "/" machine "/" file-name))
 
-    (defun load-init-if-exists (domain machine file)
-      (let ((f (bootstrap-file domain machine (concat file ".el"))))
-        (if (file-exists-p f)
-          (load-file f))))
+  (defun load-init-if-exists (domain machine file)
+    (let ((f (bootstrap-file domain machine (concat file ".el"))))
+      (if (file-exists-p f)
+        (load-file f))))
 
-    (defun bootstrap-init (domain machine)
-      (load-init-if-exists domain machine "before")
-      (load-file (concat *my-emacs-lib-dir* "emacs"))
-      (load-init-if-exists domain machine "after")
-      (setq bookmark-default-file
-            (bootstrap-file domain machine "emacs.bmk")))
+  (defun bootstrap-init (domain machine)
+    (load-init-if-exists domain machine "before")
+    (load-file (concat *my-emacs-lib-dir* "emacs"))
+    (load-init-if-exists domain machine "after")
+    (setq bookmark-default-file
+          (bootstrap-file domain machine "emacs.bmk")))
+#+end_src
 
 So you can see that bootstrap-init runs a "before.el" file, then my main
 customization file "emacs.el", then an "after.el" file.
