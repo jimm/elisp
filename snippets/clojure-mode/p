@@ -1,0 +1,3 @@
+#name: "print-me" print-me
+# --
+"$1" $1$0
