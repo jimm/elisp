@@ -1437,8 +1437,8 @@ me about the channels listed in my-rcirc-notifiy-channels."
         (define-key org-mode-map "\C-cr" 'my-org-execute-src)))
 
 ; TODO use light/dark versions code
-(set-face-attribute 'org-level-1 nil :height 1.2 :bold t)
-(set-face-attribute 'org-level-2 nil :foreground "ForestGreen")
+(set-face-attribute 'org-level-1 nil :height 1.2 :bold t :foreground "Black")
+(set-face-attribute 'org-level-2 nil :foreground "DarkGreen")
 (set-face-attribute 'org-todo nil :foreground "Firebrick")
 
 ; My own "addr:" link type
