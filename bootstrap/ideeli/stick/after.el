@@ -73,7 +73,7 @@
 ; single fixtures statement.
 (defun copy-fixtures ()
   (interactive)
-  (shell-command "cd ~/src/ideeli/trunk && ~/src/sandbox/test_tables.rb | pbcopy")
+  (shell-command "cd ~/src/ideeli-git && test_tables.rb | pbcopy")
   (yank)
   (exchange-point-and-mark)
   (insert "# ")
