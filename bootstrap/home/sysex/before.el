@@ -9,6 +9,8 @@
 ; http://www.reddit.com/r/programming/comments/95uv7/emacs_231_has_been_released/c0bj6zp
 (setq mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control)))))
 
+(set-default-font "-apple-Monaco-medium-normal-normal-*-13-*-*-*-m-0-fontset-auto1")
+
 (when window-system
   (defvar *basic-frame-alist* '(; (background-color . "lavender")
                                 ; (cursor-color . "green")
