@@ -12,12 +12,13 @@
 (set-default-font "-apple-Monaco-medium-normal-normal-*-13-*-*-*-m-0-fontset-auto1")
 
 (when window-system
-  (defvar *basic-frame-alist* '(; (background-color . "lavender")
-                                ; (cursor-color . "green")
+  (defvar *basic-frame-alist* '((background-color . "ghost white")
+                                (cursor-color . "orange")
 				(tool-bar-mode . nil)))
   (setq initial-frame-alist
 	(append *basic-frame-alist* '((height . 76) (top . 0) (left . 0))))
-  (setq default-frame-alist *basic-frame-alist*))
+  (setq default-frame-alist *basic-frame-alist*)
+  (set-face-attribute 'mode-line nil :foreground "yellow" :background "black"))
 
 (add-to-list 'load-path "/usr/share/emacs/22.1/lisp" t)
 (add-to-list 'load-path "/usr/share/emacs/22.1/site-lisp" t)

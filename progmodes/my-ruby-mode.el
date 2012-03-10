@@ -103,7 +103,7 @@ to the root dir and before running the test."
           (progn
             (save-buffer)
             (compile (concat "cd " (shell-quote-argument (expand-file-name root-dir))
-                             (when *ruby-test-inject-command*
+                             (when (boundp *ruby-test-inject-command*)
                                (concat " && " *ruby-test-inject-command*))
                              " && ruby -I test " root-relative-file
                              (when (> (length test-name) 0)
