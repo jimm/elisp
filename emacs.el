@@ -972,6 +972,7 @@ sql-send-paragraph."
 ;;
 (autoload 'css-mode "css-mode" "CSS mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.css$" . css-mode))
+(add-to-list 'auto-mode-alist '("\\.less$" . css-mode))
 (custom-set-variables
  '(css-indent-offset 2))
 
