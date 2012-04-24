@@ -548,6 +548,18 @@ and returns it."
       (cons
        '("\\(\\([a-zA-Z0-9]*/\\)*\\([a-zA-Z0-9]*\\.scala\\)\\):\\([0-9]*\\).*" 1 2)
        compilation-error-regexp-alist))
+;;
+;; YASnippet
+;;
+;; This needs to be before a few other modes so we can turn yas minor mode
+;; on/off there.
+;;
+(setq my-load-yasnippet (fboundp 'define-globalized-minor-mode))
+(when my-load-yasnippet
+  (require 'yasnippet)
+  (setq yas/snippet-dirs (concat *my-emacs-lib-dir* "snippets/"))
+  (yas/load-directory yas/snippet-dirs)
+  (yas/global-mode 1))
 
 ;;
 ;; JavaScript
@@ -555,9 +567,11 @@ and returns it."
 (autoload 'javascript-mode "javascript" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . javascript-mode))
 (add-hook 'js-mode-hook
-  '(lambda ()
-    (setq js-indent-level 2)            ; need both?????
-    (setq javascript-indent-level 2)))
+          (lambda ()
+            (setq js-indent-level 2)    ; need both?????
+            (setq javascript-indent-level 2)
+            (when my-load-yasnippet
+              (yas/minor-mode-off))))
 ;; (autoload 'js2-mode "js2-mode" nil t)
 ;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
@@ -1394,17 +1408,6 @@ me about the channels listed in my-rcirc-notifiy-channels."
               
 (add-hook 'rcirc-print-hooks 'my-rcirc-print-hook)
 
-;;
-;; YASnippet
-;;
-;; This needs to be before org mode so we can turn off yas minor mode there.
-;;
-(setq my-load-yasnippet (fboundp 'define-globalized-minor-mode))
-(when my-load-yasnippet
-  (require 'yasnippet)
-  (setq yas/snippet-dirs (concat *my-emacs-lib-dir* "snippets/"))
-  (yas/load-directory yas/snippet-dirs)
-  (yas/global-mode 1))
 
 ;;
 ;; Org Mode
