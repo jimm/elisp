@@ -110,7 +110,7 @@
 (fset 'yes-or-no-p 'y-or-n-p)           ; accept simple 'y'/space, 'n'/delete
 (custom-set-variables
  '(safe-local-variable-values
-   (quote ((org-publish-project-alist ("patchmaster" :base-directory "." :publishing-directory "../public_html" :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>"))
+   (quote ((org-publish-project-alist ("patchmaster" :base-directory "." :publishing-directory "../public_html" :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>" :author "Jim Menard" :email "jim@jimmenard.com"))
            (Syntax . Common-Lisp)))))
 (unless (fboundp 'string-match-p) (defalias 'string-match-p 'string-match))
 
