@@ -108,7 +108,10 @@
 (setq dabbrev-case-replace nil)         ; preserve case when expanding
 (setq grep-command "grep -n ")
 (fset 'yes-or-no-p 'y-or-n-p)           ; accept simple 'y'/space, 'n'/delete
-(custom-set-variables '(safe-local-variable-values '((Syntax . Common-Lisp))))
+(custom-set-variables
+ '(safe-local-variable-values
+   (quote ((org-publish-project-alist ("patchmaster" :base-directory "." :publishing-directory "../public_html" :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>"))
+           (Syntax . Common-Lisp)))))
 (unless (fboundp 'string-match-p) (defalias 'string-match-p 'string-match))
 
 ;; Build a custom grep-find-command
