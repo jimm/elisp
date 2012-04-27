@@ -32,7 +32,8 @@
 
 (setq org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org")
 			     (concat *my-pim-dir* "orgs/ideeli/todo.org")))
-(setq org-todo-keywords '((sequence "TODO" "CR" "TEST" "DONE")))
+(condition-case ex
+    (setq org-todo-keywords '((sequence "TODO" "CR" "TEST" "DONE"))))
 
 ;;
 ;; Google Chrome edit server

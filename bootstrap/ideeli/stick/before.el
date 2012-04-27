@@ -4,7 +4,8 @@
 (setq ns-option-modifier "none")        ; unbind option key
 
 ; http://debbugs.gnu.org/cgi/bugreport.cgi?bug=5683#19
-(setq x-colors (ns-list-colors))        ; fix build bug in 23.4
+(when (fboundp 'ns-list-colors)
+  (setq x-colors (ns-list-colors)))     ; fix build bug in 23.4
 
 ; Smoother mouse wheel scrolling
 ; http://www.reddit.com/r/programming/comments/95uv7/emacs_231_has_been_released/c0bj6zp
