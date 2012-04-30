@@ -277,9 +277,9 @@ a simple algorithm that may grow over time if needed."
 (autoload 'remember "remember" nil t)
 (setq *my-remember-data-file* (concat *my-pim-dir* "orgs/notes.org"))
 (setq remember-mode-hook
-      '(lambda ()
-	 (setq remember-data-file *my-remember-data-file*)
-         (setq remember-diary-file diary-file)))
+      (lambda ()
+        (setq remember-data-file *my-remember-data-file*)
+        (setq remember-diary-file diary-file)))
 
 ;;
 ;; Browse away!
@@ -361,7 +361,7 @@ tree."
 	 (filter-regexp "\\.git\\|\\.svn\\|classes\\|build\\|target\\|TAGS\\|CVS\\|~")
 	 (files
 	  (remove-if
-	   '(lambda (f) (string-match filter-regexp f))
+	   (lambda (f) (string-match filter-regexp f))
 	   (split-string (shell-command-to-string
 			  (concat "find " dirname " -name " fname-regexp)))))
 	 (len (length files)))
@@ -385,7 +385,7 @@ for FNAME-REGEXP."
 	 (filter-regexp "\\.git\\|\\.svn\\|classes\\|build\\|target\\|TAGS\\|CVS\\|~")
 	 (files
 	  (remove-if
-	   '(lambda (f) (string-match filter-regexp f))
+	   (lambda (f) (string-match filter-regexp f))
            (directory-files dirname t fname-regexp)))
 	 (len (length files)))
     (cond ((zerop len)
@@ -423,34 +423,32 @@ the current directory, suitable for creation"
 ;; Text-mode
 ;;
 (setq text-mode-hook
-      '(lambda ()
-         (auto-fill-mode 1)
-         (four-tab-stops)))
+      (lambda ()
+        (auto-fill-mode 1)
+        (four-tab-stops)))
 
 ;;
 ;; For both C and C++ mode
 ;;
 (setq c-mode-common-hook
-      '(lambda ()
-;;	 (setq c-basic-offset 4)
-         (setq c-basic-offset 2)
-         (setq c-tab-always-indent nil)
+      (lambda ()
+;;	(setq c-basic-offset 4)
+        (setq c-basic-offset 2)
+        (setq c-tab-always-indent nil)
 ; BAD! BAD! Screws up ^D
-;        (setq c-delete-function 'backward-delete-char)
-         (setq c-recognize-knr-p nil)
+;       (setq c-delete-function 'backward-delete-char)
+        (setq c-recognize-knr-p nil)
 
-;;       (define-key c-mode-map "{" 'skeleton-pair-insert-maybe)
-;;       (define-key c-mode-map "(" 'skeleton-pair-insert-maybe)
+        ;; (define-key c-mode-map "{" 'skeleton-pair-insert-maybe)
+        ;; (define-key c-mode-map "(" 'skeleton-pair-insert-maybe)
 
-;;          (local-set-key "\M-o" 'fh-open-header-file-other-window)
-;;          (local-set-key "\M-O" 'fh-open-header-file-other-frame)
-         (local-set-key "\r" 'newline-and-indent)
-         (autoload 'fh-open-header-file-other-window "find-header"
-           "Locate header file and load it into other window" t)
-         (autoload 'fh-open-header-file-other-frame "find-header"
-           "Locate header file and load it into other frame" t)
-         )
-      )
+        ;; (local-set-key "\M-o" 'fh-open-header-file-other-window)
+        ;; (local-set-key "\M-O" 'fh-open-header-file-other-frame)
+        (local-set-key "\r" 'newline-and-indent)
+        (autoload 'fh-open-header-file-other-window "find-header"
+          "Locate header file and load it into other window" t)
+        (autoload 'fh-open-header-file-other-frame "find-header"
+          "Locate header file and load it into other frame" t)))
 
 ;;
 ;; C++-mode
@@ -525,17 +523,15 @@ and returns it."
 (add-to-list 'auto-mode-alist '("\\.jsp$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.w[as]r$" . archive-mode))
 (setq java-mode-hook
-      '(lambda ()
-;        (c-set-style "java")           ; error in cc-mode.el; "Java" there
-;;       (c-set-offset 'inclass 0)
-         (if window-system (font-lock-mode 1))
-;;       (define-key java-mode-map "{" 'skeleton-pair-insert-maybe)
-;;       (define-key java-mode-map "(" 'skeleton-pair-insert-maybe)
-         (define-key java-mode-map "\C-cp" 'my-insert-println)
-         (define-key java-mode-map "\C-ce" 'my-insert-err-println)
-         (define-key java-mode-map "\C-cd" 'my-insert-debug-println)
-         )
-      )
+      (lambda ()
+;       (c-set-style "java")           ; error in cc-mode.el; "Java" there
+;;      (c-set-offset 'inclass 0)
+        (if window-system (font-lock-mode 1))
+        ;; (define-key java-mode-map "{" 'skeleton-pair-insert-maybe)
+        ;; (define-key java-mode-map "(" 'skeleton-pair-insert-maybe)
+        (define-key java-mode-map "\C-cp" 'my-insert-println)
+        (define-key java-mode-map "\C-ce" 'my-insert-err-println)
+        (define-key java-mode-map "\C-cd" 'my-insert-debug-println)))
 
 ;;;
 ;; Compilation mode
@@ -588,17 +584,17 @@ and returns it."
 (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
 (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
 (add-hook 'coffee-mode-hook
-  '(lambda ()
-     (setq coffee-js-mode 'javascript-mode)
-     (set (make-local-variable 'tab-width) 2)))
+          (lambda ()
+            (setq coffee-js-mode 'javascript-mode)
+            (set (make-local-variable 'tab-width) 2)))
 
 ;;
 ;; Objective-C mode
 ;;
 (setq objc-mode-hook
-      '(lambda ()
-         (if window-system (font-lock-mode 1))
-         (setq c-basic-offset 4)))
+      (lambda ()
+        (if window-system (font-lock-mode 1))
+        (setq c-basic-offset 4)))
 
 ;;
 ;; Groovy mode
@@ -610,41 +606,39 @@ and returns it."
   (save-buffer)
   (compile (concat "groovy " (buffer-file-name))))
 (setq groovy-mode-hook
-      '(lambda ()
-         (setq groovy-basic-offset 4)
-         (define-key groovy-mode-map "\r" 'newline-and-indent)
-	 (define-key groovy-mode-map "\C-cr" 'run-groovy-buffer)
-         (font-lock-mode 1)))
+      (lambda ()
+        (setq groovy-basic-offset 4)
+        (define-key groovy-mode-map "\r" 'newline-and-indent)
+        (define-key groovy-mode-map "\C-cr" 'run-groovy-buffer)
+        (font-lock-mode 1)))
 
 ;; Groovy shell mode
 (autoload 'run-groovy "inf-groovy" "Run an inferior Groovy shell process")
 (autoload 'inf-groovy-keys "inf-groovy"
   "Set local key defs for inf-groovy in groovy-mode")
 (add-hook 'groovy-mode-hook
-          '(lambda ()
-             (inf-groovy-keys)))
+          (lambda ()
+            (inf-groovy-keys)))
 
 ;;
 ;; Scheme mode
 ;;
 (setq scheme-mode-hook
-      '(lambda ()
-         (define-key scheme-mode-map "\r" 'newline-and-indent)
-         (define-key scheme-mode-map "\C-cd" 'debug-comment)))
+      (lambda ()
+        (define-key scheme-mode-map "\r" 'newline-and-indent)
+        (define-key scheme-mode-map "\C-cd" 'debug-comment)))
 
 ;;
 ;; Perl-mode
 ;;
 (autoload 'perl-mode "perl-mode" "Perl mode" t nil)
 (setq perl-mode-hook
-      '(lambda ()
-          (define-key perl-mode-map "\r" 'newline-and-indent)
-          (define-key perl-mode-map "\M-\C-h" 'backward-kill-word)
-          (define-key perl-mode-map "\C-cd" 'debug-comment)
-          (setq perl-indent-level 2)
-          (setq c-tab-always-indent nil)
-          )
-      )
+      (lambda ()
+        (define-key perl-mode-map "\r" 'newline-and-indent)
+        (define-key perl-mode-map "\M-\C-h" 'backward-kill-word)
+        (define-key perl-mode-map "\C-cd" 'debug-comment)
+        (setq perl-indent-level 2)
+        (setq c-tab-always-indent nil)))
 
 ;;
 ;; sh-mode
@@ -716,14 +710,14 @@ and returns it."
                   ".txt"))
   )
 (setq tex-mode-hook
-      '(lambda () (define-key tex-mode-map "\C-c\C-k" 'compile)))
+      (lambda () (define-key tex-mode-map "\C-c\C-k" 'compile)))
 (setq latex-mode-hook
-      '(lambda ()
-        (define-key latex-mode-map "\C-c\C-p" 'tex-print)
-;;      (define-key latex-mode-map "\C-c\C-t" 'my-tex-to-text)
-        (define-key latex-mode-map "\C-c\C-k" 'compile)
-        (define-key latex-mode-map "\C-c\C-i" 'find-mine)
-        (define-key latex-mode-map "\C-c\C-s" 'my-tex-slide-dvi-view)))
+      (lambda ()
+       (define-key latex-mode-map "\C-c\C-p" 'tex-print)
+       ;; (define-key latex-mode-map "\C-c\C-t" 'my-tex-to-text)
+       (define-key latex-mode-map "\C-c\C-k" 'compile)
+       (define-key latex-mode-map "\C-c\C-i" 'find-mine)
+       (define-key latex-mode-map "\C-c\C-s" 'my-tex-slide-dvi-view)))
 
 
 ;;
@@ -753,23 +747,22 @@ sql-send-paragraph."
     (sql-send-paragraph)))
   
 (setq sql-mode-hook
-      '(lambda ()
-         (define-key sql-mode-map "\C-ct" 'show-create-table)
-	 (define-key sql-mode-map "\C-c\C-c" 'my-sql-send-paragraph)
-	 (if (not (fboundp 'sql-send-string))
-	     (defun sql-send-string (str)
-	       "Send a string to the SQL process."
-	       (interactive "sSQL Text: ")
-	       (if (buffer-live-p sql-buffer)
-		   (save-excursion
-		     (comint-send-string sql-buffer str)
-		     (comint-send-string sql-buffer "\n")
-		     (message "Sent string to buffer %s." (buffer-name sql-buffer))
-		     (if sql-pop-to-buffer-after-send-region
-			 (pop-to-buffer sql-buffer)
-		       (display-buffer sql-buffer)))
-		 (message "No SQL process started."))))
-	 ))
+      (lambda ()
+        (define-key sql-mode-map "\C-ct" 'show-create-table)
+        (define-key sql-mode-map "\C-c\C-c" 'my-sql-send-paragraph)
+        (if (not (fboundp 'sql-send-string))
+            (defun sql-send-string (str)
+              "Send a string to the SQL process."
+              (interactive "sSQL Text: ")
+              (if (buffer-live-p sql-buffer)
+                  (save-excursion
+                    (comint-send-string sql-buffer str)
+                    (comint-send-string sql-buffer "\n")
+                    (message "Sent string to buffer %s." (buffer-name sql-buffer))
+                    (if sql-pop-to-buffer-after-send-region
+                        (pop-to-buffer sql-buffer)
+                      (display-buffer sql-buffer)))
+                (message "No SQL process started."))))))
 
 ;;
 ;; Mail-mode and message-mode.
@@ -794,31 +787,31 @@ sql-send-paragraph."
     (insert "\n\nJim")))
 
 (setq mail-mode-hook
-      '(lambda ()
+      (lambda ()
                                         ; Generate random sig every time
-         ; ^C-^W redefines keys formerly used for the mail-signature command
-         (define-key mail-mode-map "\C-c\C-b" 'remove-bcc)
-         (shell-command "~/bin/randomSig.pl ~/misc/signatures")
-;;       (mime-mode)
+        ; ^C-^W redefines keys formerly used for the mail-signature command
+        (define-key mail-mode-map "\C-c\C-b" 'remove-bcc)
+        (shell-command "~/bin/randomSig.pl ~/misc/signatures")
+;;      (mime-mode)
          ))
 
 (add-hook 'mail-setup-hook              ; Auto-expand mail aliases
-          '(lambda ()
-             (mail-abbrevs-setup)
-             (substitute-key-definition 'next-line
-                                        'mail-abbrev-next-line
-                                        mail-mode-map global-map)
-             (substitute-key-definition 'end-of-buffer
-                                        'mail-abbrev-end-of-buffer
-                                        mail-mode-map global-map)
-             (add-jim-before-sig)))
+          (lambda ()
+            (mail-abbrevs-setup)
+            (substitute-key-definition 'next-line
+                                       'mail-abbrev-next-line
+                                       mail-mode-map global-map)
+            (substitute-key-definition 'end-of-buffer
+                                       'mail-abbrev-end-of-buffer
+                                       mail-mode-map global-map)
+            (add-jim-before-sig)))
 
 (setq message-mode-hook
-      '(lambda ()
+      (lambda ()
                                         ; Generate random sig every time
-         ; ^C-^W redefines keys formerly used for the mail-signature command
-         (define-key message-mode-map "\C-c\C-b" 'remove-bcc)
-         (shell-command "~/bin/randomSig.pl ~/misc/signatures")))
+        ; ^C-^W redefines keys formerly used for the mail-signature command
+        (define-key message-mode-map "\C-c\C-b" 'remove-bcc)
+        (shell-command "~/bin/randomSig.pl ~/misc/signatures")))
 
 (setq mail-yank-prefix "> ")            ; Inserted before yanked text
 ;;(setq mail-yank-ignored-headers
@@ -832,19 +825,17 @@ sql-send-paragraph."
 ;; Message-mode (for USENET posts)
 ;;
 (setq message-mode-hook
-      '(lambda () (shell-command "randomSig.rb")))
+      (lambda () (shell-command "randomSig.rb")))
 
 (add-hook 'message-setup-hook           ; Auto-expand mail aliases
-          '(lambda ()
-;;           (mail-abbrevs-setup)
-             (substitute-key-definition 'next-line
-                                        'mail-abbrev-next-line
-                                        message-mode-map global-map)
-             (substitute-key-definition 'end-of-buffer
-                                        'mail-abbrev-end-of-buffer
-                                        message-mode-map global-map)
-
-             ))
+          (lambda ()
+;;          (mail-abbrevs-setup)
+            (substitute-key-definition 'next-line
+                                       'mail-abbrev-next-line
+                                       message-mode-map global-map)
+            (substitute-key-definition 'end-of-buffer
+                                       'mail-abbrev-end-of-buffer
+                                       message-mode-map global-map)))
 
 ;;
 ;; Clojure-mode (lisp)
@@ -898,9 +889,9 @@ sql-send-paragraph."
 ;; Emacs-Lisp-mode
 ;;
 (setq emacs-lisp-mode-hook
-      '(lambda ()
-	 (define-key emacs-lisp-mode-map "\C-cd" 'debug-comment)
-         (define-key emacs-lisp-mode-map "\r" 'newline-and-indent)))
+      (lambda ()
+        (define-key emacs-lisp-mode-map "\C-cd" 'debug-comment)
+        (define-key emacs-lisp-mode-map "\r" 'newline-and-indent)))
 
 ;;
 ;; Arc-mode (lisp)
@@ -925,13 +916,12 @@ sql-send-paragraph."
   (save-buffer)
   (compile (concat "php -f " (buffer-file-name))))
 (setq php-mode-hook
-      '(lambda ()
-         (auto-fill-mode 1)
-         (define-key php-mode-map "\C-d" 'delete-char)
-         (define-key php-mode-map "\C-ct" 'html-mode)
-         (define-key php-mode-map "\C-ch" 'insert-ruby-hash-arrow)
-         (define-key php-mode-map "\C-cr" 'run-php-buffer)
-         ))
+      (lambda ()
+        (auto-fill-mode 1)
+        (define-key php-mode-map "\C-d" 'delete-char)
+        (define-key php-mode-map "\C-ct" 'html-mode)
+        (define-key php-mode-map "\C-ch" 'insert-ruby-hash-arrow)
+        (define-key php-mode-map "\C-cr" 'run-php-buffer)))
 
 ;;
 ;; HTML-mode and SGML-mode
@@ -964,25 +954,22 @@ sql-send-paragraph."
         '("xsd" "wsd[ld]" "jwcs" "application" "page" "ftl"))
 
 (setq sgml-mode-hook
-      '(lambda ()
-         (require 'tex-mode)
-         (auto-fill-mode 1)
-         (define-key sgml-mode-map "\C-c\C-k" 'compile)
-
-         ))
+      (lambda ()
+        (require 'tex-mode)
+        (auto-fill-mode 1)
+        (define-key sgml-mode-map "\C-c\C-k" 'compile)))
 
 (setq html-mode-hook
-      '(lambda ()
-         (auto-fill-mode 1)
-         (define-key html-mode-map "\C-c;" 'my-html-insert-comment)
-         (define-key html-mode-map "\C-cp" 'php-mode)
-         ;; The remaining functions are defined in my-ruby-mode.el
-         (define-key html-mode-map "\C-ce" 'erb-eval-skeleton)
-         (define-key html-mode-map "\C-cp" 'erb-print-skeleton)
-         (define-key html-mode-map "\C-ch" 'insert-ruby-hash-arrow)
-         (define-key html-mode-map "\C-cl" 'rails-link-to-skeleton)
-         (define-key html-mode-map "\C-cr" 'rails-render-partial-skeleton)
-         ))
+      (lambda ()
+        (auto-fill-mode 1)
+        (define-key html-mode-map "\C-c;" 'my-html-insert-comment)
+        (define-key html-mode-map "\C-cp" 'php-mode)
+        ;; The remaining functions are defined in my-ruby-mode.el
+        (define-key html-mode-map "\C-ce" 'erb-eval-skeleton)
+        (define-key html-mode-map "\C-cp" 'erb-print-skeleton)
+        (define-key html-mode-map "\C-ch" 'insert-ruby-hash-arrow)
+        (define-key html-mode-map "\C-cl" 'rails-link-to-skeleton)
+        (define-key html-mode-map "\C-cr" 'rails-render-partial-skeleton)))
 
 ;;
 ;; CSS-mode
@@ -1009,10 +996,9 @@ sql-send-paragraph."
 (add-to-list 'auto-mode-alist '("\\.[he]rl$" . erlang-mode))
 (add-to-list 'auto-mode-alist '("\\.yaws$" . erlang-mode))
 (add-hook 'erlang-mode-hook
-          '(lambda()
-             (setq indent-tabs-mode nil)
-             (comment-set-column 32)
-             ))
+          (lambda ()
+            (setq indent-tabs-mode nil)
+            (comment-set-column 32)))
 
 ;;
 ;; Lua-mode
@@ -1033,8 +1019,7 @@ sql-send-paragraph."
 ;; into /usr/local/scala/misc/scala-tool-support/emacs"
 
 (defvar *scala-emacs-support-dir*
-  (car (member-if
-	(lambda (f) (file-exists-p f))
+  (car (member-if 'file-exists-p
 	'("/usr/local/scala/share/scala/misc/scala-tool-support/emacs/"
 	  "/usr/local/scala/misc/scala-tool-support/emacs/"
           "/opt/local/share/scala/misc/scala-tool-support/emacs/"
@@ -1080,19 +1065,19 @@ this figures out where the Emacs support lives.")
   (dired-do-kill-lines))
 
 (setq dired-mode-hook
-      '(lambda ()
-         (define-key dired-mode-map "\C-c\C-c" 'my-dired-cruft-remove)
-         (define-key dired-mode-map "\C-c." 'my-dired-dot-remove)
-         (defvar dired-compress-file-suffixes
-           '(("\\.gz\\'" "" "gunzip")
-             ("\\.tgz\\'" ".tar" "gunzip")
-             ("\\.Z\\'" "" "uncompress")
-             ;; For .z, try gunzip.  It might be an old gzip file,
-             ;; or it might be from compact? pack? (which?) but gunzip
-             ;; handles both.
-             ("\\.z\\'" "" "gunzip")
-             ;; This item controls naming for compression.
-             ("\\.tar\\'" ".tar.gz" nil))
+      (lambda ()
+        (define-key dired-mode-map "\C-c\C-c" 'my-dired-cruft-remove)
+        (define-key dired-mode-map "\C-c." 'my-dired-dot-remove)
+        (defvar dired-compress-file-suffixes
+          '(("\\.gz\\'" "" "gunzip")
+            ("\\.tgz\\'" ".tar" "gunzip")
+            ("\\.Z\\'" "" "uncompress")
+            ;; For .z, try gunzip.  It might be an old gzip file,
+            ;; or it might be from compact? pack? (which?) but gunzip
+            ;; handles both.
+            ("\\.z\\'" "" "gunzip")
+            ;; This item controls naming for compression.
+            ("\\.tar\\'" ".tar.gz" nil))
   "Control changes in file name suffixes for compression and uncompression.
 Each element specifies one transformation rule, and has the form:
   (REGEXP NEW-SUFFIX PROGRAM)
@@ -1115,19 +1100,19 @@ gzip.")))
   (save-buffer)
   (compile (concat "python " (buffer-file-name))))
 (setq python-mode-hook
-      '(lambda ()
-         (turn-on-font-lock)
-	 (define-key python-mode-map "\C-cr" 'run-python-buffer)
-         ;; these two are in addition to the \C-< and \C-> bindings
-         ;; that already exist in Pythong mode
-	 (define-key python-mode-map "\M-[" 'python-shift-left)
-	 (define-key python-mode-map "\M-]" 'python-shift-right)))
+      (lambda ()
+        (turn-on-font-lock)
+        (define-key python-mode-map "\C-cr" 'run-python-buffer)
+        ;; these two are in addition to the \C-< and \C-> bindings
+        ;; that already exist in Pythong mode
+        (define-key python-mode-map "\M-[" 'python-shift-left)
+        (define-key python-mode-map "\M-]" 'python-shift-right)))
 
 ;;
 ;; Xrdb-mode
 ;;
 (autoload 'xrdb-mode "xrdb-mode" "X resource database editing mode." t)
-(setq xrdb-mode-hook '(lambda () (if window-system (font-lock-mode 1))))
+(setq xrdb-mode-hook (lambda () (if window-system (font-lock-mode 1))))
 
 ;;
 ;; VM-mode
@@ -1140,13 +1125,13 @@ gzip.")))
 (autoload 'vm-mail "vm" "Send a mail message using VM." t)
 (autoload 'vm-submit-bug-report "vm" "Send a bug report about VM." t)
 (setq vm-mode-hook
-      '(lambda ()
-;;       (mime-mode)
-         (define-key vm-mode-map "i" 'vm-visit-folder)
-         (define-key vm-mode-map "o" 'vm-save-message)
-         (define-key vm-mode-map "s" 'vm-save-and-expunge-folder)
-         (define-key vm-mode-map "x" 'vm-expunge-folder)
-         (define-key vm-mode-map "j" 'vm-goto-message)))
+      (lambda ()
+;;      (mime-mode)
+        (define-key vm-mode-map "i" 'vm-visit-folder)
+        (define-key vm-mode-map "o" 'vm-save-message)
+        (define-key vm-mode-map "s" 'vm-save-and-expunge-folder)
+        (define-key vm-mode-map "x" 'vm-expunge-folder)
+        (define-key vm-mode-map "j" 'vm-goto-message)))
 
 ;;
 ;; SES-mode
