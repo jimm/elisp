@@ -107,12 +107,20 @@
 (setq Man-notify 'aggressive)           ; when man found, jump there *immed*
 (setq dabbrev-case-replace nil)         ; preserve case when expanding
 (setq grep-command "grep -n ")
+(setq mode-require-final-newline nil)	; do not force newlines
+
 (fset 'yes-or-no-p 'y-or-n-p)           ; accept simple 'y'/space, 'n'/delete
+(unless (fboundp 'string-match-p) (defalias 'string-match-p 'string-match))
+
+;; Custom variable settings
 (custom-set-variables
+ '(abbrev-mode t)
+ '(eshell-save-history-on-exit t)
+ '(sgml-xml-mode t)
+ '(woman-use-own-frame nil)
  '(safe-local-variable-values
    (quote ((org-publish-project-alist ("patchmaster" :base-directory "." :publishing-directory "../public_html" :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>" :author "Jim Menard" :email "jim@jimmenard.com"))
            (Syntax . Common-Lisp)))))
-(unless (fboundp 'string-match-p) (defalias 'string-match-p 'string-match))
 
 ;; Build a custom grep-find-command
 (let* ((bad-names (list "*.log" ".svn" ".git" "CVS" "TAGS" "*~" "*.class"
@@ -125,13 +133,7 @@
 (setq visible-bell t)
 (setq version-control 'never)           ; When to make backup files
 (setq vc-handled-backends '())          ; disable VC minor mode
-;(setq lpr-switches '("-dowl_ps")) ; for {lpr,print}-{buffer,region}
-(setq frame-title-format "%b - emacs")
-;(setq indent-tabs-mode nil)
-
-; Do this, *or* in snippet files make first line
-;    # -*- require-final-newline: nil -*-
-(setq mode-require-final-newline nil)	; Do not force newlines
+(setq frame-title-format "%b - Emacs")
 
 (when (functionp 'tool-bar-mode) (tool-bar-mode -1))
 (unless window-system (menu-bar-mode nil))
@@ -1192,16 +1194,6 @@ gzip.")))
    nil
    (cond ((eq 80 (frame-width)) (zoom-frame-width-cols))
 	 (t 80))))
-
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(abbrev-mode t)
- '(eshell-save-history-on-exit t)
- '(sgml-xml-mode t)
- '(woman-use-own-frame nil))
 
 (defvar woman-manpath
   '("/usr/man" "/usr/share/man" "/usr/local/man" "/usr/local/share/man" "/opt/local/man"))
