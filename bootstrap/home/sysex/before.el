@@ -12,7 +12,7 @@
 (set-default-font "-apple-Monaco-medium-normal-normal-*-13-*-*-*-m-0-fontset-auto1")
 
 (when window-system
-  (defvar *basic-frame-alist* '((background-color . "ghost white")
+  (defvar *basic-frame-alist* '((background-color . "white")
                                 (cursor-color . "orange")
 				(tool-bar-mode . nil)))
   (setq initial-frame-alist
