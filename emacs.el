@@ -10,9 +10,10 @@
 (let ((f (expand-file-name "~/.emacs.d/elpa/package.el")))
   (when (and (file-exists-p f)
              (load f))
-    (add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/"))
-    ;; Add the user-contributed repository
-    (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+    (when (boundp 'package-archives)
+      (add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/"))
+      ;; Add the user-contributed repository
+      (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/")))
     (package-initialize)))
 
 (defmacro when-fboundp-call (f &rest args)

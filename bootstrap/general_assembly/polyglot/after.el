@@ -6,6 +6,10 @@
 ;; (setq sql-server "localhost")
 ;; (setq sql-database "db")
 
+(require 'markdown-mode)
+(add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\)$" . markdown-mode))
+(setq markdown-command "maruku")
+
 (setq browse-url-generic-program "open")
 (setq Man-switches "-M /usr/share/man:/usr/local/share/man")
 
