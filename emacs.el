@@ -153,6 +153,11 @@
 ;; (load "timer")
 ;; (run-at-time t 300 'generate-random-sig)
 
+;;;
+;;; YAML-mode
+;;;
+(autoload 'yaml-mode "yaml" nil t)
+(add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
 
 ;;
 ;; For flipping back and forth between files and headers, or Java/Ruby files
