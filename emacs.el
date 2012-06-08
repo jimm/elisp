@@ -1676,6 +1676,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (global-set-key [f9] 'bookmark-jump)
 (global-set-key [\C-f9] 'bookmark-set)
 (global-set-key [f10] 'zoom-frame)
+(global-set-key [f11] 'other-window)
 
 ;; smex
 (global-set-key (kbd "M-x") 'smex)

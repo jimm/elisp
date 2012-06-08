@@ -66,7 +66,6 @@
     (interactive)
     (find-file (concat *my-pim-dir* "orgs/notes.org"))
     (goto-char (point-max))))
-(global-set-key [f11] 'other-window)
 
 ; For run-ruby-test
 (setq *ruby-test-inject-command* "drop_all_test_data.sh . && rm -f log/test.log")
