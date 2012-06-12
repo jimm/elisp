@@ -21,8 +21,6 @@
 
 (setq sql-sqlite-program "sqlite3")
 
-(add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\)$" . markdown-mode))
-
 ;; Start Emacs server
 (server-start)
 
