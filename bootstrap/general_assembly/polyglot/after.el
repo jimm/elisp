@@ -1,4 +1,4 @@
-(defun zoom-frame-width-cols ()
+ (defun zoom-frame-width-cols ()
   (interactive)          ; for testing
   268)                   ; 268 for really full screen, 260 with dock exposed
 
@@ -13,6 +13,7 @@
 (set-face-attribute 'markdown-header-face-2 nil :foreground "DarkGreen")
 (set-face-attribute 'markdown-header-face-3 nil :foreground "Purple" :bold nil)
 (set-face-attribute 'markdown-header-face-4 nil :foreground "Firebrick" :bold nil)
+(set-face-attribute 'markdown-header-face-5 nil :foreground "SeaGreen" :bold nil)
 
 (setq browse-url-generic-program "open")
 (setq Man-switches "-M /usr/share/man:/usr/local/share/man")

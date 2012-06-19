@@ -13,7 +13,7 @@
 (setq mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control)))))
 
 (when window-system
-  (defvar *basic-frame-alist* '((background-color . "white")
+  (defvar *basic-frame-alist* '((background-color . "ghost white")
                                 (cursor-color . "orange")
 				(tool-bar-mode . nil)
                                 (font . "-apple-Monaco-medium-normal-normal-*-14-*-*-*-m-0-fontset-auto1")))
