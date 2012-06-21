@@ -18,6 +18,9 @@
 (setq browse-url-generic-program "open")
 (setq Man-switches "-M /usr/share/man:/usr/local/share/man")
 
+(setq *my-javadoc-url* "file://localhost/Users/jimm/Documents/documentation/jdk_7/api/")
+
+
 (defvar compile-ant "ant -e -s build.xml ")
 (defvar compile-rake "rake test ")
 
