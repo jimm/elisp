@@ -9,7 +9,7 @@
 (require 'markdown-mode)
 (add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\)$" . markdown-mode))
 (setq markdown-command "maruku")
-(set-face-attribute 'markdown-header-face-1 nil :height 1.2 :bold t :foreground "Black")
+(set-face-attribute 'markdown-header-face-1 nil :height 1.3 :bold t :foreground "Black")
 (set-face-attribute 'markdown-header-face-2 nil :foreground "DarkGreen")
 (set-face-attribute 'markdown-header-face-3 nil :foreground "Purple" :bold nil)
 (set-face-attribute 'markdown-header-face-4 nil :foreground "Firebrick" :bold nil)
