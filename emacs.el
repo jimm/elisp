@@ -1026,15 +1026,13 @@ sql-send-paragraph."
 ;; You might need to "sbaz install scala-tool-support" which puts emacs support
 ;; into /usr/local/scala/misc/scala-tool-support/emacs"
 
-(defvar *scala-emacs-support-dir*
+(unless-boundp-setq *scala-emacs-support-dir*
   (car (member-if 'file-exists-p
 	'("/usr/local/scala/share/scala/misc/scala-tool-support/emacs/"
 	  "/usr/local/scala/misc/scala-tool-support/emacs/"
           "/opt/local/share/scala/misc/scala-tool-support/emacs/"
           "/opt/local/share/scala-2.8/misc/scala-tool-support/emacs/"
-          "/opt/local/share/scala-2.9/misc/scala-tool-support/emacs/")))
-  "Different versions of Scala have used different layouts, so
-this figures out where the Emacs support lives.")
+          "/opt/local/share/scala-2.9/misc/scala-tool-support/emacs/"))))
 	 
 (when (and *scala-emacs-support-dir* (file-exists-p *scala-emacs-support-dir*))
   (add-to-list

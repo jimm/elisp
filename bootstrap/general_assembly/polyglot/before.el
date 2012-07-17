@@ -1,5 +1,5 @@
 (defvar *my-pim-dir* "~/pim/")
-(defvar *arc-dir* "/usr/local/src/Lisp/arc/")
+(defvar *scala-emacs-support-dir* "~/src/scala-emacs/")
 
 (setq ns-command-modifier 'meta)        ; define Command as Meta key
 (setq ns-option-modifier "none")        ; unbind option key
