@@ -2,7 +2,7 @@
   (interactive)          ; for testing
   999)
 
-;; (setq sql-user "jimm")
+(setq sql-user "ga_cms")
 ;; (setq sql-server "localhost")
 ;; (setq sql-database "db")
 
@@ -20,11 +20,7 @@
 
 (setq *my-javadoc-url* "file://localhost/Users/jimm/Documents/documentation/jdk_7/api/")
 
-
-(defvar compile-ant "ant -e -s build.xml ")
 (defvar compile-rake "rake test ")
-
-(set-register ?n compile-ant)
 (set-register ?q "rake test ")
 
 (setq sql-sqlite-program "sqlite3")
