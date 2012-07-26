@@ -189,12 +189,13 @@ Default file-name is current buffer's name."
     (ef target default-directory)))
 
 (defun find-other-ruby-file (&optional file-name)
-  "Visits `foo.rb' when given `foo_test.rb' and vice versa.
-Default file-name is current buffer's name."
+  "Visits `foo.rb' when given `foo_(test|spec).rb'. Visits `foo_test.rb' when
+given `foo.rb'. Default file-name is current buffer's name."
   (interactive)
   (let* ((fname (file-name-nondirectory (or file-name (buffer-file-name))))
 	 (target (if (and (> (length fname) 8)
-                          (equal "_test.rb" (substring fname -8)))
+                          (or (equal "_test.rb" (substring fname -8))
+                              (equal "_spec.rb" (substring fname -8))))
                      (concat (substring fname 0 -8) ".rb")
 		   (concat (substring fname 0 -3) "_test.rb"))))
     (ef target default-directory)))
