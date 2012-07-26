@@ -1,10 +1,8 @@
- (defun zoom-frame-width-cols ()
-  (interactive)          ; for testing
-  999)
+(defun zoom-frame-width-cols () 999)
 
 (setq sql-user "ga_cms")
-;; (setq sql-server "localhost")
-;; (setq sql-database "db")
+(setq sql-server "localhost")
+;; (setq sql-database "")
 
 (require 'markdown-mode)
 (add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\)$" . markdown-mode))
@@ -16,12 +14,9 @@
 (set-face-attribute 'markdown-header-face-5 nil :foreground "SeaGreen" :bold nil)
 
 (setq browse-url-generic-program "open")
-(setq Man-switches "-M /usr/share/man:/usr/local/share/man")
+(setq Man-switches "-M /usr/share/man:/usr/local/share/man:/opt/local/share/man")
 
 (setq *my-javadoc-url* "file://localhost/Users/jimm/Documents/documentation/jdk_7/api/")
-
-(defvar compile-rake "rake test ")
-(set-register ?q "rake test ")
 
 (setq sql-sqlite-program "sqlite3")
 
