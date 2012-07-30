@@ -1192,7 +1192,9 @@ gzip.")))
 ;;
 (defun zoom-frame-width-cols ()
   (interactive)				; for testing
-  (- (/ (display-pixel-width) (frame-char-width)) (frame-char-width)))
+  (round (/ (float (display-pixel-width))
+            (+ (float (frame-char-width)) 0.125))))
+
 (defun zoom-frame ()
   (interactive)
   (set-frame-width

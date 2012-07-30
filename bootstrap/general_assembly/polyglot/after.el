@@ -1,6 +1,3 @@
-(defun zoom-frame-width-cols ()
-  (round (/ (float (display-pixel-width)) 8.125)))
-
 (setq sql-user "ga_cms")
 (setq sql-server "localhost")
 ;; (setq sql-database "")
