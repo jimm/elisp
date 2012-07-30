@@ -18,6 +18,14 @@
 
 (setq sql-sqlite-program "sqlite3")
 
+;; Restore old mouse copy behavior
+(setq select-active-regions nil)
+(setq mouse-drag-copy-region t)
+(setq x-select-enable-primary t)
+(setq x-select-enable-clipboard nil)
+;; To fully mimic the previous behavior, should also bind
+;; `mouse-yank-at-click' to mouse-2.
+
 ;; Start Emacs server
 (server-start)
 
