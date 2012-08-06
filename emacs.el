@@ -853,6 +853,17 @@ sql-send-paragraph."
   (interactive)
   (tell-iterm (concat "(load-file \"" (buffer-file-name) "\")")))
 
+(defun send-ns-to-inferior-lisp ()
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (when (search-forward-regexp "(ns \\([a-z][-.a-z0-9_]*\\)" nil t)
+      (let ((ns-name (match-string 1)))
+        (set-buffer "*inferior-lisp*")
+        (goto-char (point-max))
+        (insert (concat "(ns " ns-name ")"))
+        (comint-send-input)))))
+
 (unless-boundp-setq package-activated-list ())
 
 ;;
@@ -868,11 +879,14 @@ sql-send-paragraph."
   (interactive)
   (setq inferior-lisp-program "lein repl")
   (inferior-lisp "lein repl"))
+
 ;; (require 'slime)
 ;; (slime-setup)
+
 (setq clojure-mode-hook
       (lambda ()
-        (define-key lisp-mode-map "\C-cd" 'debug-comment)))
+        (define-key clojure-mode-map "\C-cd" 'debug-comment)
+        (define-key clojure-mode-map "\C-cn" 'send-ns-to-inferior-lisp)))
 (setq lisp-mode-hook
       (lambda ()
         (define-key lisp-mode-map "\r" 'newline-and-indent)
