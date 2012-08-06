@@ -866,6 +866,11 @@ sql-send-paragraph."
 
 (unless-boundp-setq package-activated-list ())
 
+(setq clojure-mode-hook
+      (lambda ()
+        (define-key clojure-mode-map "\C-cd" 'debug-comment)
+        (define-key clojure-mode-map "\C-cn" 'send-ns-to-inferior-lisp)))
+
 ;;
 ;; Lisp-mode and slime-mode
 ;;
@@ -883,10 +888,6 @@ sql-send-paragraph."
 ;; (require 'slime)
 ;; (slime-setup)
 
-(setq clojure-mode-hook
-      (lambda ()
-        (define-key clojure-mode-map "\C-cd" 'debug-comment)
-        (define-key clojure-mode-map "\C-cn" 'send-ns-to-inferior-lisp)))
 (setq lisp-mode-hook
       (lambda ()
         (define-key lisp-mode-map "\r" 'newline-and-indent)
