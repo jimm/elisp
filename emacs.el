@@ -861,7 +861,7 @@ sql-send-paragraph."
       (let ((ns-name (match-string 1)))
         (set-buffer "*inferior-lisp*")
         (goto-char (point-max))
-        (insert (concat "(ns " ns-name ")"))
+        (insert (concat "(in-ns '" ns-name ")"))
         (comint-send-input)))))
 
 (unless-boundp-setq package-activated-list ())
