@@ -533,7 +533,7 @@ and returns it."
 (add-to-list 'auto-mode-alist '("\\.w[as]r$" . archive-mode))
 (setq java-mode-hook
       (lambda ()
-;       (c-set-style "java")           ; error in cc-mode.el; "Java" there
+        (c-set-style "java")
 ;;      (c-set-offset 'inclass 0)
         (if window-system (font-lock-mode 1))
         ;; (define-key java-mode-map "{" 'skeleton-pair-insert-maybe)
