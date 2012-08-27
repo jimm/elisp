@@ -121,6 +121,7 @@
  '(woman-use-own-frame nil)
  '(safe-local-variable-values
    (quote ((org-publish-project-alist ("patchmaster" :base-directory "." :publishing-directory "../public_html" :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>" :author "Jim Menard" :email "jim@jimmenard.com"))
+           (org-publish-project-alist ("trackmaster" :base-directory "." :publishing-directory "../public_html" :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>" :author "Jim Menard" :email "jim@jimmenard.com"))
            (Syntax . Common-Lisp)))))
 
 ;; Build a custom grep-find-command
@@ -421,7 +422,7 @@ the current directory, suitable for creation"
 ;;
 ;; Subversion
 ;;
-(load "psvn")
+(autoload 'svn-status "psvn")
 
 ;;
 ;; Tramp
@@ -441,7 +442,6 @@ the current directory, suitable for creation"
 ;;
 (setq c-mode-common-hook
       (lambda ()
-;;	(setq c-basic-offset 4)
         (setq c-basic-offset 2)
         (setq c-tab-always-indent nil)
 ; BAD! BAD! Screws up ^D
@@ -473,60 +473,8 @@ the current directory, suitable for creation"
 ;;
 ;; Java-mode
 ;;
-(defun upto (list elem)
-  "Returns a list whose elements are those of LIST up to but not
-including ELEM."
-  (if (or (eq nil list) (equal (car list) elem))
-      nil
-    (cons (car list) (upto (cdr list) elem))))
-
-(defun path-to-java-package (path)
-  "Returns a Java package name for PATH, which is a file path.
-Looks for 'src' or 'src/java' in PATH and uses everything after
-that, turning slashes into dots. For example, the path
-/home/foo/project/src/com/yoyodyne/project/Foo.java becomes
-'com.yoyodyne.project'. If PATH is a directory, the last part of
-the path is ignored. That is a bug, but it's one I can live with
-for now."
-  (interactive)
-  (let ((reverse-path-list (cdr (reverse (split-string path "/")))))
-    (mapconcat
-     'identity
-     (reverse (upto reverse-path-list
-		    (if (member "java" reverse-path-list) "java" "src")))
-     ".")))
-
-; See also java-package-skeleton in my-skeleton.el.
-(defun my-java-insert-package ()
-  (interactive "*")
-  (save-excursion
-    (goto-char (point-min))
-    (if (looking-at "package ") (kill-line 1))
-    (insert "package " (path-to-java-package (buffer-file-name)) ";\n")))
-
-(defun my-java-read-package ()
-  "When run within a Java buffer, searches for the package name
-and returns it."
-  (interactive)
-  (save-excursion
-    (goto-char (point-min))
-    (search-forward-regexp "^package +\\(.*\\);")
-    (match-string-no-properties 1)))
-
-(defun my-insert-println ()
-  (interactive "*")
-  (insert "System.out.println(\"\");")
-  (backward-char 3))
-(defun my-insert-err-println ()
-  (interactive "*")
-  (insert "System.err.println(\"\");")
-  (backward-char 3))
-(defun my-insert-debug-println ()
-  (interactive "*")
-  (insert "System.err.println(\"\"); // DEBUG")
-  (beginning-of-line)
-  (forward-word 3)
-  (forward-char 2))
+(eval-after-load "java"
+  (load "my-java-mode"))
 
 (add-to-list 'auto-mode-alist '("\\.aj$" . java-mode)) ; Roo aspect files
 (add-to-list 'auto-mode-alist '("\\.jsp$" . html-mode))
@@ -669,8 +617,6 @@ and returns it."
           (((class color) (background dark)) (:foreground "SteelBlue")o)
           (t (:bold t)))))
 
-
-
       (unless aquamacs-p
         ; Mac OS X doesn't set path properly when Emacs.app is launched.
         ; Since Mac OS X is pretty much all I use these days, I've put this
@@ -705,181 +651,44 @@ and returns it."
 
 ;;
 ;; LaTeX-mode
-(setq tex-dvi-view-command "latex-view '*'") ; in my ~/bin dir
-;(setq tex-dvi-view-command "xdvi -expert -hush")
-(setq tex-dvi-print-command "dvips -f * | lpr")
-(defun my-tex-to-text ()
-  (interactive)
-  (save-buffer)
-  (shell-command (concat
-                  "/usr/bin/dvi2tty "
-                  (file-name-sans-extension (buffer-file-name))
-                  " >"
-                  (file-name-sans-extension (buffer-file-name))
-                  ".txt"))
-  )
-(setq tex-mode-hook
-      (lambda () (define-key tex-mode-map "\C-c\C-k" 'compile)))
-(setq latex-mode-hook
-      (lambda ()
-       (define-key latex-mode-map "\C-c\C-p" 'tex-print)
-       ;; (define-key latex-mode-map "\C-c\C-t" 'my-tex-to-text)
-       (define-key latex-mode-map "\C-c\C-k" 'compile)
-       (define-key latex-mode-map "\C-c\C-i" 'find-mine)
-       (define-key latex-mode-map "\C-c\C-s" 'my-tex-slide-dvi-view)))
+(eval-after-load "latex-mode"
+  (progn
+    (setq tex-dvi-view-command "latex-view '*'") ; in my ~/bin dir
+    ;; (setq tex-dvi-view-command "xdvi -expert -hush")
+    (setq tex-dvi-print-command "dvips -f * | lpr")
 
+    (defun my-tex-to-text ()
+      (interactive)
+      (save-buffer)
+      (shell-command (concat
+                      "/usr/bin/dvi2tty "
+                      (file-name-sans-extension (buffer-file-name))
+                      " >"
+                      (file-name-sans-extension (buffer-file-name))
+                      ".txt"))
+      )
+    (setq tex-mode-hook
+          (lambda () (define-key tex-mode-map "\C-c\C-k" 'compile)))
+    (setq latex-mode-hook
+          (lambda ()
+            (define-key latex-mode-map "\C-c\C-p" 'tex-print)
+            ;; (define-key latex-mode-map "\C-c\C-t" 'my-tex-to-text)
+            (define-key latex-mode-map "\C-c\C-k" 'compile)
+            (define-key latex-mode-map "\C-c\C-i" 'find-mine)
+            (define-key latex-mode-map "\C-c\C-s" 'my-tex-slide-dvi-view)))))
 
 ;;
 ;; Sql-mode
 ;;
-;(autoload 'sql-mode "sql" "SQL mode" t nil)
-(defun show-create-table (table-name)
-  (interactive "sTable name: ")
-  (goto-char (point-min))
-  (search-forward-regexp (concat "create table `?" table-name))
-  (recenter 0))
-
-(defun my-sql-send-paragraph ()
-  "If *my-sql-regex* and *my-sql-regex-replacement* are defined,
-sends the current SQL paragraph with regex replaced by
-replacement. If those variables are not defined, calls
-sql-send-paragraph."
-  (interactive)
-  (if (and (boundp '*my-sql-regex*) (boundp '*my-sql-regex-replacement*))
-      (let ((start (save-excursion (backward-paragraph) (point)))
-	    (end (save-excursion (forward-paragraph) (point))))
-	(sql-send-string
-	 (replace-regexp-in-string
-	  *my-sql-regex*
-	  *my-sql-regex-replacement*
-	  (buffer-substring-no-properties start end))))
-    (sql-send-paragraph)))
-  
-(setq sql-mode-hook
-      (lambda ()
-        (define-key sql-mode-map "\C-ct" 'show-create-table)
-        (define-key sql-mode-map "\C-c\C-c" 'my-sql-send-paragraph)
-        (if (not (fboundp 'sql-send-string))
-            (defun sql-send-string (str)
-              "Send a string to the SQL process."
-              (interactive "sSQL Text: ")
-              (if (buffer-live-p sql-buffer)
-                  (save-excursion
-                    (comint-send-string sql-buffer str)
-                    (comint-send-string sql-buffer "\n")
-                    (message "Sent string to buffer %s." (buffer-name sql-buffer))
-                    (if sql-pop-to-buffer-after-send-region
-                        (pop-to-buffer sql-buffer)
-                      (display-buffer sql-buffer)))
-                (message "No SQL process started."))))))
-
-;;
-;; Mail-mode and message-mode.
-;;
-;(setq display-time-mail-file (expand-file-name "~/Mail/_new_mail"))
-
-(defun remove-bcc ()
-  (interactive "*")
-  (save-excursion
-    (mail-bcc)
-    (beginning-of-line)
-    (kill-line)
-    (kill-line)))
-
-(defun add-jim-before-sig ()
-  (interactive "*")
-  (save-excursion
-    (goto-char (point-min))
-    (search-forward "\n-- \nJim Menard")
-    (beginning-of-line)
-    (previous-line 2)
-    (insert "\n\nJim")))
-
-(setq mail-mode-hook
-      (lambda ()
-                                        ; Generate random sig every time
-        ; ^C-^W redefines keys formerly used for the mail-signature command
-        (define-key mail-mode-map "\C-c\C-b" 'remove-bcc)
-        (shell-command "~/bin/randomSig.pl ~/misc/signatures")
-;;      (mime-mode)
-         ))
-
-(add-hook 'mail-setup-hook              ; Auto-expand mail aliases
-          (lambda ()
-            (mail-abbrevs-setup)
-            (substitute-key-definition 'next-line
-                                       'mail-abbrev-next-line
-                                       mail-mode-map global-map)
-            (substitute-key-definition 'end-of-buffer
-                                       'mail-abbrev-end-of-buffer
-                                       mail-mode-map global-map)
-            (add-jim-before-sig)))
-
-(setq message-mode-hook
-      (lambda ()
-                                        ; Generate random sig every time
-        ; ^C-^W redefines keys formerly used for the mail-signature command
-        (define-key message-mode-map "\C-c\C-b" 'remove-bcc)
-        (shell-command "~/bin/randomSig.pl ~/misc/signatures")))
-
-(setq mail-yank-prefix "> ")            ; Inserted before yanked text
-;;(setq mail-yank-ignored-headers
-;;      (concat mail-yank-ignored-headers
-;;            "\\|^x-[^:]*:\\|^mime-version:\\|^content-type:"))
-(setq mail-self-blind t)                ; BCC: myself automagically
-(setq mail-signature t)                 ; automagically append .sig file
-;;(setq mail-from-style nil)            ; How "From:" fields look.
-
-;;
-;; Message-mode (for USENET posts)
-;;
-(setq message-mode-hook
-      (lambda () (shell-command "randomSig.rb")))
-
-(add-hook 'message-setup-hook           ; Auto-expand mail aliases
-          (lambda ()
-;;          (mail-abbrevs-setup)
-            (substitute-key-definition 'next-line
-                                       'mail-abbrev-next-line
-                                       message-mode-map global-map)
-            (substitute-key-definition 'end-of-buffer
-                                       'mail-abbrev-end-of-buffer
-                                       message-mode-map global-map)))
+(eval-after-load "sql-mode"
+  (load "my-sql-mode"))
 
 ;;
 ;; Clojure-mode (lisp)
 ;;
-(defun reload-clojure-file ()
-  (interactive)
-  (tell-iterm (concat "(load-file \"" (buffer-file-name) "\")")))
 
-(defun in-ns-to-inferior-lisp ()
-  "Send (in-ns 'ns-of-this-buffer) to inferior lisp."
-  (interactive)
-  (save-excursion
-    (goto-char (point-min))
-    (when (search-forward-regexp "(ns \\([a-z][-.a-z0-9_]*\\)" nil t)
-      (let ((ns-name (match-string 1)))
-        (set-buffer "*inferior-lisp*")
-        (goto-char (point-max))
-        (insert (concat "(in-ns '" ns-name ")"))
-        (comint-send-input)))))
-
-(defun ns-to-inferior-lisp ()
-  "Send entire (ns ...) of current buffer to inferior lisp."
-  (interactive)
-  (save-excursion
-    (goto-char (point-min))
-    (when (search-forward-regexp "(ns \\([a-z][-.a-z0-9_]*\\)" nil t)
-      (lisp-eval-defun))))
-
-(unless-boundp-setq package-activated-list ())
-
-(setq clojure-mode-hook
-      (lambda ()
-        (define-key clojure-mode-map "\C-cd" 'debug-comment)
-        (define-key clojure-mode-map "\C-ci" 'in-ns-to-inferior-lisp)
-        (define-key clojure-mode-map "\C-cn" 'ns-to-inferior-lisp)))
+(eval-after-load "clojure-mode"
+  (load "my-clojure-mode"))
 
 ;;
 ;; Lisp-mode and slime-mode
@@ -928,57 +737,47 @@ sql-send-paragraph."
         (define-key emacs-lisp-mode-map "\r" 'newline-and-indent)))
 
 ;;
-;; Arc-mode (lisp)
-;;
-(if (and (boundp '*arc-dir*) (file-exists-p *arc-dir*))
-    (progn
-      (add-to-list 'load-path (concat *arc-dir* "extras/") t)
-      (autoload 'run-arc "inferior-arc"
-        "Run an inferior Arc process, input and output via buffer *arc*.")
-      (autoload 'arc-mode "arc" "Major mode for editing Arc." t)
-      (add-to-list 'auto-mode-alist '("\\.arc$" . arc-mode))
-      (setq arc-program-name (concat *arc-dir* "arc.sh")))
-  (add-to-list 'auto-mode-alist '("\\.arc$" . lisp-mode)))
-
-;;
 ;; PHP-mode
 ;;
 (autoload 'php-mode "php-mode" "PHP mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
-(defun run-php-buffer ()
-  (interactive)
-  (save-buffer)
-  (compile (concat "php -f " (buffer-file-name))))
-(setq php-mode-hook
-      (lambda ()
-        (auto-fill-mode 1)
-        (define-key php-mode-map "\C-d" 'delete-char)
-        (define-key php-mode-map "\C-ct" 'html-mode)
-        (define-key php-mode-map "\C-ch" 'insert-ruby-hash-arrow)
-        (define-key php-mode-map "\C-cr" 'run-php-buffer)))
+(eval-after-load "php-mode"
+  (progn
+    (defun run-php-buffer ()
+      (interactive)
+      (save-buffer)
+      (compile (concat "php -f " (buffer-file-name))))
+    (setq php-mode-hook
+          (lambda ()
+            (auto-fill-mode 1)
+            (define-key php-mode-map "\C-d" 'delete-char)
+            (define-key php-mode-map "\C-ct" 'html-mode)
+            (define-key php-mode-map "\C-ch" 'insert-ruby-hash-arrow)
+            (define-key php-mode-map "\C-cr" 'run-php-buffer)))))
 
 ;;
 ;; HTML-mode and SGML-mode
 ;;
 (custom-set-variables '(sgml-xml-mode t))
-; (defun xml-or-sgml-mode () (if (functionp 'xml-mode) xml-mode sgml-mode))
 
-(defun my-html-insert-comment ()
-  (interactive "*")
-  (insert "<!--  -->")
-  (backward-char 4)
-  )
+(eval-after-load "html-mode"
+  (progn
+    (defun my-html-insert-comment ()
+      (interactive "*")
+      (insert "<!--  -->")
+      (backward-char 4)
+      )
 
-(defun unescape-html ()
-  (interactive "*")
-  (let ((repl-alist '(("&lt;" . "<") ("&gt;" . ">") ("&quot;" . "\"")
-                      ("&apos;" . "'") ("&amp;" . "&"))))
-    (save-excursion
-      (mapcar (lambda (alist)
-                (goto-char (point-min))
-                (while (re-search-forward (car alist) nil t)
-                  (replace-match (cdr alist) nil nil)))
-              repl-alist))))
+    (defun unescape-html ()
+      (interactive "*")
+      (let ((repl-alist '(("&lt;" . "<") ("&gt;" . ">") ("&quot;" . "\"")
+                          ("&apos;" . "'") ("&amp;" . "&"))))
+        (save-excursion
+          (mapcar (lambda (alist)
+                    (goto-char (point-min))
+                    (while (re-search-forward (car alist) nil t)
+                      (replace-match (cdr alist) nil nil)))
+                  repl-alist))))))
 
 (mapcar (lambda (ext)
           (add-to-list 'auto-mode-alist
@@ -987,23 +786,25 @@ sql-send-paragraph."
         ; ftl: FreeMarker
         '("xsd" "wsd[ld]" "jwcs" "application" "page" "ftl"))
 
-(setq sgml-mode-hook
-      (lambda ()
-        (require 'tex-mode)
-        (auto-fill-mode 1)
-        (define-key sgml-mode-map "\C-c\C-k" 'compile)))
+(eval-after-load "sgml-mode"
+  (progn
+    (setq sgml-mode-hook
+          (lambda ()
+            (require 'tex-mode)
+            (auto-fill-mode 1)
+            (define-key sgml-mode-map "\C-c\C-k" 'compile)))
 
-(setq html-mode-hook
-      (lambda ()
-        (auto-fill-mode 1)
-        (define-key html-mode-map "\C-c;" 'my-html-insert-comment)
-        (define-key html-mode-map "\C-cp" 'php-mode)
-        ;; The remaining functions are defined in my-ruby-mode.el
-        (define-key html-mode-map "\C-ce" 'erb-eval-skeleton)
-        (define-key html-mode-map "\C-cp" 'erb-print-skeleton)
-        (define-key html-mode-map "\C-ch" 'insert-ruby-hash-arrow)
-        (define-key html-mode-map "\C-cl" 'rails-link-to-skeleton)
-        (define-key html-mode-map "\C-cr" 'rails-render-partial-skeleton)))
+    (setq html-mode-hook
+          (lambda ()
+            (auto-fill-mode 1)
+            (define-key html-mode-map "\C-c;" 'my-html-insert-comment)
+            (define-key html-mode-map "\C-cp" 'php-mode)
+            ;; The remaining functions are defined in my-ruby-mode.el
+            (define-key html-mode-map "\C-ce" 'erb-eval-skeleton)
+            (define-key html-mode-map "\C-cp" 'erb-print-skeleton)
+            (define-key html-mode-map "\C-ch" 'insert-ruby-hash-arrow)
+            (define-key html-mode-map "\C-cl" 'rails-link-to-skeleton)
+            (define-key html-mode-map "\C-cr" 'rails-render-partial-skeleton)))))
 
 ;;
 ;; CSS-mode
@@ -1017,8 +818,25 @@ sql-send-paragraph."
 ;;
 ;; Ruby-mode
 ;;
-(load "my-ruby-mode")
+;; Use "M-x run-ruby" to start inf-ruby.
+(autoload 'ruby-mode "ruby-mode" "Ruby mode" t nil)
+(autoload 'run-ruby "inf-ruby" "Ruby inferior process (irb)" t nil)
+
+(defalias  'inf-ruby 'run-ruby)
+(defalias  'inferior-ruby 'run-ruby)
+(defalias 'irb 'run-ruby)
+
+(add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.r\\(b\\(w\\|x\\)?\\|html?\\|js\\)$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\([Rr]ake\\|[Cc]ap\\|[Gg]em\\)file$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.gem\\(spec\\)?$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.duby$" . ruby-mode))
+
+(eval-after-load "ruby-mode"
+  (load "my-ruby-mode"))
+(eval-after-load "inf-ruby"
+  (load "my-ruby-mode"))
 
 ;;
 ;; Erlang-mode
@@ -1141,31 +959,6 @@ gzip.")))
         (define-key python-mode-map "\M-]" 'python-shift-right)))
 
 ;;
-;; Xrdb-mode
-;;
-(autoload 'xrdb-mode "xrdb-mode" "X resource database editing mode." t)
-(setq xrdb-mode-hook (lambda () (if window-system (font-lock-mode 1))))
-
-;;
-;; VM-mode
-;;;
-(autoload 'vm "vm" "Start VM on your primary inbox." t)
-(autoload 'vm-other-frame "vm" "Like `vm' but starts in another frame." t)
-(autoload 'vm-visit-folder "vm" "Start VM on an arbitrary folder." t)
-(autoload 'vm-visit-virtual-folder "vm" "Visit a VM virtual folder." t)
-(autoload 'vm-mode "vm" "Run VM major mode on a buffer" t)
-(autoload 'vm-mail "vm" "Send a mail message using VM." t)
-(autoload 'vm-submit-bug-report "vm" "Send a bug report about VM." t)
-(setq vm-mode-hook
-      (lambda ()
-;;      (mime-mode)
-        (define-key vm-mode-map "i" 'vm-visit-folder)
-        (define-key vm-mode-map "o" 'vm-save-message)
-        (define-key vm-mode-map "s" 'vm-save-and-expunge-folder)
-        (define-key vm-mode-map "x" 'vm-expunge-folder)
-        (define-key vm-mode-map "j" 'vm-goto-message)))
-
-;;
 ;; SES-mode
 ;;
 (autoload 'ses-mode "ses" "Spreadsheet mode" t)
@@ -1192,12 +985,6 @@ gzip.")))
 (defun tab-two () (interactive) (setq tab-width 2))
 (defun tab-four () (interactive) (setq tab-width 4))
 (defun tab-eight () (interactive) (setq tab-width 8))
-
-
-(defun gnus1 ()
-  (interactive)
-  (delete-other-windows)
-  (gnus))
 
 (defun do-not-use ()
   (interactive)
@@ -1294,7 +1081,6 @@ even though I'm using save-excursion."
   "Open an email client"
   (interactive)
   (shell-command "open mailto:"))
-
 
 (defun word-count ()
   "Count words in buffer, reporting both (buffer size / 5) and wc -w"
@@ -1420,7 +1206,6 @@ me about the channels listed in my-rcirc-notifiy-channels."
               
 (add-hook 'rcirc-print-hooks 'my-rcirc-print-hook)
 
-
 ;;
 ;; Org Mode
 ;;
@@ -1534,7 +1319,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;;
 ;; Android
 ;;
-(require 'android-mode)
+(autoload 'android-mode "android-mode")
 (custom-set-variables '(android-mode-sdk-dir "/usr/local/android-sdk-mac"))
 
 ;;
@@ -1551,7 +1336,8 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;;
 ;; Roo command files
 ;;
-(require 'roo-mode)
+(autoload 'roo-mode "roo-mode")
+(add-to-list 'auto-mode-alist '("\\.roo$" . roo-mode))
 
 ;;
 ;; Uniquify
@@ -1633,7 +1419,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
       (apply '+ (mapcar (lambda (p) (* 3600 (caddr p))) parsed)))))) ; hours
 
 ;;
-;; scrambling a word
+;; Scrambling a word
 ;;
 (defun word-at-point ()
   (save-excursion
@@ -1672,7 +1458,6 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (global-set-key "\C-x\C-k" 'compile)
 (global-set-key "\C-x\C-m" 'open-email-client)
 (global-set-key "\C-c\C-k" 'compile)
-(global-set-key "\C-x\C-n" 'gnus)
 (global-set-key "\C-x\C-z" 'shrink-window)
 (global-set-key "\M-\C-h" 'backward-kill-word)
 (global-set-key "\M-\033" 'eval-expression)

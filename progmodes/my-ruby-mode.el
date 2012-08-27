@@ -1,19 +1,6 @@
 (require 'rails-find-other-file)
 (require 'rdoc-mode)
 
-;; Use "M-x run-ruby" to start inf-ruby.
-(autoload 'ruby-mode "ruby-mode" "Ruby mode" t nil)
-(autoload 'run-ruby "inf-ruby" "Ruby inferior process (irb)" t nil)
-(defalias  'inf-ruby 'run-ruby)
-(defalias  'inferior-ruby 'run-ruby)
-(defalias 'irb 'run-ruby)
-(add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.r\\(b\\(w\\|x\\)?\\|html?\\|js\\)$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\([Rr]ake\\|[Cc]ap\\|[Gg]em\\)file$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.gem\\(spec\\)?$" . ruby-mode))
-;; (setq ruby-indent-tabs-mode t)
-
 (defun rails-root-p (path)
   "Returns true if path is a Rails root directory. Uses a heuristic that
 involves looking for known Rails directories."
@@ -119,81 +106,5 @@ to the root dir and before running the test."
 	 (define-key ruby-mode-map "\C-cd" 'debug-comment)
 	 (define-key ruby-mode-map "\C-ch" 'insert-ruby-hash-arrow)
 	 (define-key ruby-mode-map "\C-ct" 'run-ruby-test)
-;; 	 (setq c-tab-always-indent nil)
  	 (setq ruby-indent-level 2)
 	 (font-lock-mode 1)))
-
-(defvar *rails-default-port* 3000)
-
-;; ================================================================
-;; Mongrel
-;; ================================================================
-(defun mongrel-start (dir &optional port)
-  "Start mongrel_rails daemon from directory DIR on the specified
-PORT (default *rails-default-port*)."
-  (interactive (list
-                (expand-file-name (read-directory-name "RAILS_ROOT: " nil default-directory t))
-                (read-number "Port: " *rails-default-port*)))
-  (shell-command (concat "cd " dir " && mongrel_rails start -d -p " (int-to-string (or port *rails-default-port*)))))
-
-(defun mongrel-stop (dir)
-  "Stop mongrel_rails daemon running in directory DIR."
-  (interactive "DRAILS_ROOT: ")
-  (shell-command (concat "cd " dir " && mongrel_rails stop")))
-
-(defun mongrel-restart (dir &optional port)
-  "Restart mongrel_rails daemon from directory DIR on the
-specified PORT (default *rails-default-port*)."
-  (interactive (list
-                (expand-file-name (read-directory-name "RAILS_ROOT: " nil default-directory t))
-                (read-number "Port: " *rails-default-port*)))
-  (mongrel-stop dir)
-  (mongrel-start dir (or port *rails-default-port*)))
-
-;; ================================================================
-;; Thin
-;; ================================================================
-(defun thin-start (dir &optional port)
-  "Start thin daemon from directory DIR on the specified
-PORT (default *rails-default-port*)."
-  (interactive (list
-                (expand-file-name (read-directory-name "RAILS_ROOT: " nil default-directory t))
-                (read-number "Port: " *rails-default-port*)))
-  (shell-command (concat "cd " dir " && thin start --daemonize -p " (int-to-string (or port *rails-default-port*)))))
-
-(defun thin-stop (dir)
-  "Stop thin daemon running in directory DIR."
-  (interactive "DRAILS_ROOT: ")
-  (shell-command (concat "cd " dir " && thin stop")))
-
-(defun thin-restart (dir &optional port)
-  "Restart thin daemon from directory DIR on the
-specified PORT (default *rails-default-port*)."
-  (interactive (list
-                (expand-file-name (read-directory-name "RAILS_ROOT: " nil default-directory t))
-                (read-number "Port: " *rails-default-port*)))
-  (thin-stop dir)
-  (thin-start dir (or port *rails-default-port*)))
-
-;; ================================================================
-;; Built-in Rails server script
-;; ================================================================
-
-(defun rails-server-start (&optional dir)
-  "Start script/server from directory DIR."
-  (interactive "DRAILS_ROOT: ")
-  (shell-command (concat "cd " dir " && script/server &")
-                 "*rails-server*"))
-
-;; ================================================================
-;; Gem server
-;; ================================================================
-
-(defun gem-server ()
-  (interactive)
-  (shell-command "gem server &" "*gem-server*")
-  (bury-buffer (get-buffer "*gem-server*"))) ; doesn't hide buffer
-
-(defun gem-server-stop ()
-  (interactive)
-  (interrupt-process (get-buffer "*gem-server*")))
