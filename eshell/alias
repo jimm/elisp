@@ -1,3 +1,4 @@
+alias be bundle exec $*
 alias p padrino
 alias devctl /Users/jimm/src/ideeli-git/bin/adhoc/devctl $*
 alias dbupdate rake db:migrate db:test:clone_structure
