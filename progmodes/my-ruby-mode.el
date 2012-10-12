@@ -82,7 +82,8 @@ presumed to be a test file. If TEST-NAME is empty or nil, runs
 all tests in the file.
 
 If *ruby-test-inject-command* is defined it is run after changing
-to the root dir and before running the test."
+to the root dir and before running the test. For example, you can
+use this to delete the log/test.log file."
   (interactive "sTest name (empty for all tests in the file): ")
   (let ((root-dir (locate-dominating-file (file-name-directory (buffer-file-name)) "Rakefile")))
     (if root-dir
@@ -97,6 +98,29 @@ to the root dir and before running the test."
                                (concat " -n " test-name))))))
       (error "Can not find RAILS_ROOT (Rakefile not found)"))))
 
+(defun run-ruby-spec (spec-name-fragment)
+  "Will run all specs whose full names include SPEC-NAME-FRAGMENT
+from the current buffer's file, which is presumed to be an RSpec
+test file. If SPEC-NAME-FRAGMENT is empty or nil, runs all tests
+in the file.
+
+If *ruby-test-inject-command* is defined it is run after changing
+to the root dir and before running the test. For example, you can
+use this to delete the log/test.log file."
+  (interactive "sSpec name fragment (empty for all tests in the file): ")
+  (let ((root-dir (locate-dominating-file (file-name-directory (buffer-file-name)) "Rakefile")))
+    (if root-dir
+        (let ((root-relative-file (substring (buffer-file-name) (length (expand-file-name root-dir)))))
+          (progn
+            (save-buffer)
+            (compile (concat "cd " (shell-quote-argument (expand-file-name root-dir))
+                             (when (boundp '*ruby-test-inject-command*)
+                               (concat " && " *ruby-test-inject-command*))
+                             " && rspec " root-relative-file
+                             (when (> (length spec-name-fragment) 0)
+                               (concat " -e " (shell-quote-argument spec-name-fragment)))))))
+      (error "Can not find RAILS_ROOT (Rakefile not found)"))))
+
 (setq ruby-mode-hook
       '(lambda ()
 	 (define-key ruby-mode-map "\r" 'newline-and-indent)
@@ -106,5 +130,6 @@ to the root dir and before running the test."
 	 (define-key ruby-mode-map "\C-cd" 'debug-comment)
 	 (define-key ruby-mode-map "\C-ch" 'insert-ruby-hash-arrow)
 	 (define-key ruby-mode-map "\C-ct" 'run-ruby-test)
+	 (define-key ruby-mode-map "\C-cs" 'run-ruby-spec)
  	 (setq ruby-indent-level 2)
 	 (font-lock-mode 1)))
