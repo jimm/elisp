@@ -694,7 +694,7 @@ the current directory, suitable for creation"
 ;; Lisp-mode and slime-mode
 ;;
 ;; Now that I'm using Clojure, I don't want sbcl to be the default program.
-(setq inferior-lisp-program "clj -n")
+(setq inferior-lisp-program "lein repl")
 (defun clj ()
   (interactive)
   (setq inferior-lisp-program "clj -n")
