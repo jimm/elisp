@@ -1472,6 +1472,8 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (global-set-key [f4]
   (lambda () (interactive) (find-file (concat *my-pim-dir* "orgs/todo.org"))))
 (global-set-key [f5]
+  (lambda () (interactive) (switch-to-buffer "*inferior-lisp*")))
+(global-set-key [\C-f5]
   (lambda () (interactive) (switch-to-buffer "*SQL*")))
 (global-set-key [f6]
   (lambda ()
