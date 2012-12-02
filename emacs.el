@@ -537,12 +537,24 @@ the current directory, suitable for creation"
 ;;
 ;; CoffeeScript
 ;;
+(defun run-coffee-buffer ()
+  (interactive)
+  (compile (concat "coffee " (shell-quote-argument (buffer-file-name)))))
+
+(defun compile-coffee-buffer ()
+  (interactive)
+  (shell-command (concat "coffee"
+                         " -o " (shell-quote-argument (file-name-directory (buffer-file-name)))
+                         " -c " (shell-quote-argument (buffer-file-name)))))
+
 (autoload 'coffee-mode "coffee-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
 (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
 (add-hook 'coffee-mode-hook
           (lambda ()
             (setq coffee-js-mode 'javascript-mode)
+            (define-key coffee-mode-map "\C-cr" 'run-coffee-buffer)
+            (define-key coffee-mode-map "\C-ck" 'compile-coffee-buffer)
             (set (make-local-variable 'tab-width) 2)))
 
 ;;
