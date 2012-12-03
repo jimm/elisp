@@ -626,7 +626,7 @@ the current directory, suitable for creation"
       (custom-set-faces
        '(eshell-prompt
          ((((class color) (background light)) (:foreground "Blue"))
-          (((class color) (background dark)) (:foreground "SteelBlue")o)
+          (((class color) (background dark)) (:foreground "SteelBlue"))
           (t (:bold t)))))
 
       (unless aquamacs-p
