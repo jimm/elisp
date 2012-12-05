@@ -18,7 +18,7 @@
 				(tool-bar-mode . nil)
                                 (font . "-apple-Monaco-medium-normal-normal-*-14-*-*-*-m-0-fontset-auto1")))
   (setq initial-frame-alist
-	(append *basic-frame-alist* '((height . 76) (top . 0) (left . 0))))
+	(append *basic-frame-alist* '((height . 63) (top . 0) (left . 0))))
   (setq default-frame-alist *basic-frame-alist*)
   (set-face-attribute 'mode-line nil :foreground "yellow" :background "black"))
 
