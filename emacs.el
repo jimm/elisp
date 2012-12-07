@@ -1021,6 +1021,12 @@ gzip.")))
   (round (/ (float (display-pixel-width))
             (+ (float (frame-char-width)) 0.125))))
 
+(defun zoom-frame-height-lines ()
+  (interactive)				; for testing
+  (- (round (/ (float (display-pixel-height))
+               (float (frame-char-height))))
+     4))                                ; not sure why we need this, actually
+
 (defun zoom-frame ()
   (interactive)
   (set-frame-width
