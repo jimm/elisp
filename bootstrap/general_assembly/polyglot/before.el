@@ -29,3 +29,4 @@
           "/emacs/"))
 
 (setq-default indent-tabs-mode nil)
+(setq *more-grep-find-bad-names* (list "public"))
