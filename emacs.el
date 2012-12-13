@@ -83,7 +83,7 @@
 (mouse-wheel-mode 1)
 
 ;; Emacs 23-specific values
-(when (>= 23 emacs-major-version)
+(when (>= emacs-major-version 23)
   (progn
     (transient-mark-mode -1)
     (setq confirm-nonexistent-file-or-buffer nil)))
@@ -125,8 +125,11 @@
            (Syntax . Common-Lisp)))))
 
 ;; Build a custom grep-find-command
-(let* ((bad-names (list "*.log" ".svn" ".git" "CVS" "TAGS" "*~" "*.class"
-                       "*.[wj]ar" "target" "javadoc" "bytecode" "*.beam"))
+(unless-boundp-setq *more-grep-find-bad-names* ())
+(let* ((more-bad-names (or *more-grep-find-bad-names* ()))
+       (bad-names (append (list "*.log" ".svn" ".git" "CVS" "TAGS" "*~" "*.class"
+                                "*.[wj]ar" "target" "javadoc" "bytecode" "*.beam")
+                          more-bad-names))
        (gfc (concat "find . \\( -name "
                     (mapconcat 'shell-quote-argument bad-names " -o -name ")
                     " \\) -prune -o -type f -print0 | xargs -0 grep -H -n ")))
