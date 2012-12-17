@@ -2,19 +2,26 @@
 
 ;;; Note: this file should be loaded by bootstrap-init.el.
 
-;;; This was installed by package-install.el.
-;;; This provides support for the package system and
-;;; interfacing with ELPA, the package archive.
-;;; Move this code earlier if you want to reference
-;;; packages in your .emacs.
-(let ((f (expand-file-name "~/.emacs.d/elpa/package.el")))
-  (when (and (file-exists-p f)
-             (load f))
-    (when (boundp 'package-archives)
-      (add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/"))
-      ;; Add the user-contributed repository
-      (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/")))
-    (package-initialize)))
+(if (>= emacs-major-version 24)
+  (progn
+    (setq package-archives '(("elpa" . "http://tromey.com/elpa/")
+                             ("gnu" . "http://elpa.gnu.org/packages/")
+                             ("marmalade" . "http://marmalade-repo.org/packages/")
+                             ("melpa" . "http://melpa.milkbox.net/packages/"))))
+  (progn
+    ;; This was installed by package-install.el.
+    ;; This provides support for the package system and
+    ;; interfacing with ELPA, the package archive.
+    ;; Move this code earlier if you want to reference
+    ;; packages in your .emacs.
+    (let ((f (expand-file-name "~/.emacs.d/elpa/package.el")))
+      (when (and (file-exists-p f)
+                 (load f))
+        (when (boundp 'package-archives)
+          (add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/"))
+          ;; Add the user-contributed repository
+          (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/")))
+        (package-initialize)))))
 
 (defmacro when-fboundp-call (f &rest args)
   "If F is bound, calls it with ARGS."
@@ -201,7 +208,7 @@ given `foo.rb'. Default file-name is current buffer's name."
                           (or (equal "_test.rb" (substring fname -8))
                               (equal "_spec.rb" (substring fname -8))))
                      (concat (substring fname 0 -8) ".rb")
-		   (concat (substring fname 0 -3) "_test.rb"))))
+ 		   (concat (substring fname 0 -3) "_test.rb"))))
     (ef target default-directory)))
 
 (setq ff-other-file-alist
