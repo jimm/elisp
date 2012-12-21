@@ -1495,6 +1495,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (global-set-key "\M- " 'just-one-space)
 
 (global-set-key [f1] my-shell)
+(global-set-key [\C-f1] 'shell)
 (global-set-key [f2] 'remember)
 (global-set-key [f3] 'calendar)
 (global-set-key [\C-f3]
