@@ -16,6 +16,7 @@
 
 (setq *my-javadoc-url* "file://localhost/Users/jimm/Documents/documentation/jdk_7/api/")
 
+(setq compile-command "bundle exec rake spec")
 (setq sql-sqlite-program "sqlite3")
 
 (when (>= emacs-major-version 24)
