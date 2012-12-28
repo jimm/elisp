@@ -430,6 +430,27 @@ the current directory, suitable for creation"
 ;;; ================================================================
 
 ;;
+;; Shell script
+;;
+(defun run-sh-buffer ()
+  (interactive)
+  (let ((fn (buffer-file-name)))
+    (if (file-exists-p fn)
+        (progn
+          (save-buffer)
+          (compile (buffer-file-name)))
+      (progn
+        (let ((tmpfile (make-temp-file "sh-region-" nil ".sh")))
+          (write-region nil nil tmpfile)
+          (compile tmpfile))))))
+;; Can't remove temp file because compile is async and file could be deleted
+;; before it is used by compile.
+
+(add-hook 'sh-mode-hook
+          '(lambda ()
+             (define-key sh-mode-map "\C-cr" 'run-sh-buffer)))
+
+;;
 ;; Subversion
 ;;
 (autoload 'svn-status "psvn")
@@ -438,6 +459,15 @@ the current directory, suitable for creation"
 ;; Tramp
 ;;
 (setq tramp-default-method "ssh")
+
+;;
+;; ssh-ing
+;;
+(defun ssh (host &optional user)
+  (interactive "sHost: ")
+  (shell (concat "*" host "*"))
+  (insert (concat "ssh " host))
+  (comint-send-input))
 
 ;;
 ;; Text-mode
