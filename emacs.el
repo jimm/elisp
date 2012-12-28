@@ -47,6 +47,10 @@
 (defvar my-shell 'eshell
   "The shell to use inside Emacs; examples include 'shell or 'eshell.")
 (setq eshell-directory-name (concat *my-emacs-lib-dir* "eshell/"))
+(defun goto-shell (shell)
+  (funcall shell)
+  (end-of-buffer))
+  
 
 (if (equal default-directory "/") (setq default-directory "~/"))
 
@@ -1524,8 +1528,8 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (global-set-key "\C-c\C-l" 'current-line-to-top)
 (global-set-key "\M- " 'just-one-space)
 
-(global-set-key [f1] my-shell)
-(global-set-key [\C-f1] 'shell)
+(global-set-key [f1] '(lambda () (interactive) (goto-shell my-shell)))
+(global-set-key [\C-f1] (lambda () (interactive) (goto-shell 'shell)))
 (global-set-key [f2] 'remember)
 (global-set-key [f3] 'calendar)
 (global-set-key [\C-f3]
