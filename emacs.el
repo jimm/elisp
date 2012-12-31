@@ -128,8 +128,18 @@
  '(sgml-xml-mode t)
  '(woman-use-own-frame nil)
  '(safe-local-variable-values
-   (quote ((org-publish-project-alist ("patchmaster" :base-directory "." :publishing-directory "../public_html" :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>" :author "Jim Menard" :email "jim@jimmenard.com"))
-           (org-publish-project-alist ("trackmaster" :base-directory "." :publishing-directory "../public_html" :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>" :author "Jim Menard" :email "jim@jimmenard.com"))
+   (quote ((org-publish-project-alist ("patchmaster"
+                                       :base-directory "."
+                                       :publishing-directory "../public_html"
+                                       :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>"
+                                       :author "Jim Menard"
+                                       :email "jim@jimmenard.com"))
+           (org-publish-project-alist ("trackmaster"
+                                       :base-directory "."
+                                       :publishing-directory "../public_html"
+                                       :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>"
+                                       :author "Jim Menard"
+                                       :email "jim@jimmenard.com"))
            (Syntax . Common-Lisp)))))
 
 ;; Build a custom grep-find-command
