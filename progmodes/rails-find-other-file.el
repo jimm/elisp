@@ -30,7 +30,7 @@
 	(t (rails-root-dir (file-name-directory path)))))
 
 ;; (defmacro rails-make-rails-app-dir-func (which)
-;;   '(defun ,(concat "rails-" which "-dir") (path)
+;;   '(defun ,(intern (concat "rails-" which "-dir")) (path)
 ;;      (concat (rails-root-dir path) "app/" ,which "/")))
 
 (defun rails-controllers-dir (path)
