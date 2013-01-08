@@ -474,7 +474,9 @@ the current directory, suitable for creation"
 ;;
 ;; ssh-ing
 ;;
-(defun ssh (host &optional user)
+(defun ssh (host)
+  "Open a shell on a buffer named *HOST* and run ssh HOST. Note that HOST can
+  be of the form USER@HOST."
   (interactive "sHost: ")
   (shell (concat "*" host "*"))
   (insert (concat "ssh " host))
