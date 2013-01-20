@@ -1,6 +1,6 @@
-(defun zoom-frame-width-cols ()
-  (interactive)          ; for testing
-  268)                   ; 268 for really full screen, 260 with dock exposed
+;; (defun zoom-frame-width-cols ()
+;;   (interactive)          ; for testing
+;;   268)                   ; 268 for really full screen, 260 with dock exposed
 
 ;; (setq sql-user "jimm")
 ;; (setq sql-server "localhost")
