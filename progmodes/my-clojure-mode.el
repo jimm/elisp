@@ -29,6 +29,7 @@
 
 (setq clojure-mode-hook
       (lambda ()
+        (define-key clojure-mode-map "\r" 'newline-and-indent)
         (define-key clojure-mode-map "\C-cd" 'debug-comment)
         (define-key clojure-mode-map "\C-ci" 'in-ns-to-inferior-lisp)
         (define-key clojure-mode-map "\C-cn" 'ns-to-inferior-lisp)))
