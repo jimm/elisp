@@ -86,6 +86,7 @@
 ;; Ubuntu stuff
 ;(menu-bar-enable-clipboard)
 (setq x-select-enable-clipboard t)
+(setq mouse-drag-copy-region t)
 (when-fboundp-call set-scroll-bar-mode 'right)
 (setq skeleton-pair nil)
 (mouse-wheel-mode 1)
@@ -1516,6 +1517,36 @@ me about the channels listed in my-rcirc-notifiy-channels."
       (forward-word)
       (backward-kill-word 1)
       (insert word))))
+
+;;
+;; Reformat my bank's transactions CSV file
+;;
+(defun reformat-bank-transactions ()
+  (interactive)
+
+  (beginning-of-buffer)
+  (search-forward "<Date>,<CheckNum>")
+  (end-of-line)
+  (forward-char)
+  (delete-region 1 (point))
+
+  (end-of-buffer)
+  (search-backward "/")
+  (end-of-line)
+  (forward-char)
+  (push-mark)
+  (end-of-buffer)
+  (delete-region (point) (mark))
+
+  (beginning-of-buffer)
+  (while (search-forward "" nil t)
+    (replace-match "" nil t))
+  (beginning-of-buffer)
+  (while (search-forward " XXXXXX" nil t)
+    (replace-match "" nil t))
+
+  (mark-whole-buffer)
+  (reverse-region (point) (mark)))
 
 ;;
 ;; Global key bindings
