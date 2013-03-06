@@ -762,6 +762,8 @@ the current directory, suitable for creation"
 ;; Lisp-mode and slime-mode
 ;;
 ;; Now that I'm using Clojure, I don't want sbcl to be the default program.
+;;
+;; Note: use nREPL instead (M-x nrepl-jack-in).
 (setq inferior-lisp-program "lein repl")
 (defun clj ()
   (interactive)
