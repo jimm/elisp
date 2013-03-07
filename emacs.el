@@ -940,7 +940,8 @@ the current directory, suitable for creation"
 ;; You might need to "sbaz install scala-tool-support" which puts emacs support
 ;; into /usr/local/scala/misc/scala-tool-support/emacs"
 
-(require 'scala-mode-auto)
+(autoload 'scala-mode "scala-mode2" "Scala mode" t nil)
+(add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
 (add-hook 'scala-mode-hook
           '(lambda ()
              (define-key scala-mode-map [f1] my-shell) ; I don't use Speedbar
@@ -949,7 +950,7 @@ the current directory, suitable for creation"
 (defun run-scala-buffer ()
   (interactive)
   (save-buffer)
-  (compile (concat "scala " (buffer-file-name)))))
+  (compile (concat "scala " (buffer-file-name))))
 
 ;;
 ;; Dired-mode
