@@ -6,6 +6,8 @@
 ;; (setq sql-server "localhost")
 ;; (setq sql-database "db")
 
+(setq dired-use-ls-dired nil)
+
 (setq browse-url-generic-program "open")
 (setq Man-switches "-M /usr/share/man:/usr/local/share/man")
 
