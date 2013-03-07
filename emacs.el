@@ -940,27 +940,16 @@ the current directory, suitable for creation"
 ;; You might need to "sbaz install scala-tool-support" which puts emacs support
 ;; into /usr/local/scala/misc/scala-tool-support/emacs"
 
-(unless-boundp-setq *scala-emacs-support-dir*
-  (car (member-if 'file-exists-p
-	'("/usr/local/scala/share/scala/misc/scala-tool-support/emacs/"
-	  "/usr/local/scala/misc/scala-tool-support/emacs/"
-          "/opt/local/share/scala/misc/scala-tool-support/emacs/"
-          "/opt/local/share/scala-2.8/misc/scala-tool-support/emacs/"
-          "/opt/local/share/scala-2.9/misc/scala-tool-support/emacs/"))))
-	 
-(when (and *scala-emacs-support-dir* (file-exists-p *scala-emacs-support-dir*))
-  (add-to-list
-   'load-path *scala-emacs-support-dir* t)
-  (require 'scala-mode-auto)
-  (add-hook 'scala-mode-hook
-	    '(lambda ()
-               (define-key scala-mode-map [f1] my-shell) ; I don't use Speedbar
-               (define-key scala-mode-map "\r" 'newline-and-indent)
-               (define-key scala-mode-map "\C-cr" 'run-scala-buffer)))
-  (defun run-scala-buffer ()
-    (interactive)
-    (save-buffer)
-    (compile (concat "scala " (buffer-file-name)))))
+(require 'scala-mode-auto)
+(add-hook 'scala-mode-hook
+          '(lambda ()
+             (define-key scala-mode-map [f1] my-shell) ; I don't use Speedbar
+             (define-key scala-mode-map "\r" 'newline-and-indent)
+             (define-key scala-mode-map "\C-cr" 'run-scala-buffer)))
+(defun run-scala-buffer ()
+  (interactive)
+  (save-buffer)
+  (compile (concat "scala " (buffer-file-name)))))
 
 ;;
 ;; Dired-mode
