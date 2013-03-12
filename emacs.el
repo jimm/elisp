@@ -2,12 +2,11 @@
 
 ;;; Note: this file should be loaded by bootstrap-init.el.
 
-(if (>= emacs-major-version 24)
-  (progn
-    (setq package-archives '(("elpa" . "http://tromey.com/elpa/")
-                             ("gnu" . "http://elpa.gnu.org/packages/")
-                             ("marmalade" . "http://marmalade-repo.org/packages/")
-                             ("melpa" . "http://melpa.milkbox.net/packages/"))))
+(setq package-archives '(("elpa" . "http://tromey.com/elpa/")
+                         ("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+(when (< emacs-major-version 24)
   (progn
     ;; This was installed by package-install.el.
     ;; This provides support for the package system and
@@ -16,12 +15,8 @@
     ;; packages in your .emacs.
     (let ((f (expand-file-name "~/.emacs.d/elpa/package.el")))
       (when (and (file-exists-p f)
-                 (load f))
-        (when (boundp 'package-archives)
-          (add-to-list 'package-archives '("elpa" . "http://tromey.com/elpa/"))
-          ;; Add the user-contributed repository
-          (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/")))
-        (package-initialize)))))
+                 (load f))))))
+(package-initialize)
 
 (defmacro when-fboundp-call (f &rest args)
   "If F is bound, calls it with ARGS."
@@ -69,7 +64,6 @@
 (setq ido-enable-flex-matching t)
 
 ;; SMEX mode
-(require 'smex)
 (smex-initialize)
 
 (require 'generic-x); DOS batch, ini files and much more
@@ -564,12 +558,9 @@ the current directory, suitable for creation"
 ;; This needs to be before a few other modes so we can turn yas minor mode
 ;; on/off there.
 ;;
-(setq my-load-yasnippet (fboundp 'define-globalized-minor-mode))
-(when my-load-yasnippet
-  (require 'yasnippet)
-  (setq yas/snippet-dirs (concat *my-emacs-lib-dir* "snippets/"))
-  (yas/load-directory yas/snippet-dirs)
-  (yas/global-mode 1))
+(yas-global-mode 1)
+(add-to-list 'yas-snippet-dirs (concat *my-emacs-lib-dir* "snippets"))
+(yas-reload-all)
 
 ;;
 ;; JavaScript
@@ -579,9 +570,7 @@ the current directory, suitable for creation"
 (add-hook 'js-mode-hook
           '(lambda ()
              (setq js-indent-level 2)   ; need both?????
-             (setq javascript-indent-level 2)
-             (when my-load-yasnippet
-               (yas/minor-mode-off))))
+             (setq javascript-indent-level 2)))
 ;; (autoload 'js2-mode "js2-mode" nil t)
 ;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
@@ -1298,8 +1287,6 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (setq org-startup-folded 'content)
 (add-hook 'org-mode-hook
           '(lambda ()
-             (when my-load-yasnippet
-               (yas/minor-mode-off))      ; TODO see org mode example in YAS docs
              (setq org-export-with-sub-superscripts nil)
              (define-key org-mode-map "\C-cr" 'my-org-execute-src)))
 
