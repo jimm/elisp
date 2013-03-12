@@ -116,27 +116,6 @@
 (fset 'yes-or-no-p 'y-or-n-p)           ; accept simple 'y'/space, 'n'/delete
 (unless (fboundp 'string-match-p) (defalias 'string-match-p 'string-match))
 
-;; Custom variable settings
-(custom-set-variables
- '(abbrev-mode t)
- '(eshell-save-history-on-exit t)
- '(sgml-xml-mode t)
- '(woman-use-own-frame nil)
- '(safe-local-variable-values
-   (quote ((org-publish-project-alist ("patchmaster"
-                                       :base-directory "."
-                                       :publishing-directory "../public_html"
-                                       :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>"
-                                       :author "Jim Menard"
-                                       :email "jim@jimmenard.com"))
-           (org-publish-project-alist ("trackmaster"
-                                       :base-directory "."
-                                       :publishing-directory "../public_html"
-                                       :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>"
-                                       :author "Jim Menard"
-                                       :email "jim@jimmenard.com"))
-           (Syntax . Common-Lisp)))))
-
 ;; Build a custom grep-find-command
 (unless-boundp-setq *more-grep-find-bad-names* ())
 (let* ((more-bad-names (or *more-grep-find-bad-names* ()))
@@ -555,9 +534,6 @@ the current directory, suitable for creation"
 ;;
 ;; YASnippet
 ;;
-;; This needs to be before a few other modes so we can turn yas minor mode
-;; on/off there.
-;;
 (yas-global-mode 1)
 (add-to-list 'yas-snippet-dirs (concat *my-emacs-lib-dir* "snippets"))
 (yas-reload-all)
@@ -667,12 +643,6 @@ the current directory, suitable for creation"
     (progn
       (load "eshell")
       (load "eshell-customize")
-
-      (custom-set-faces
-       '(eshell-prompt
-         ((((class color) (background light)) (:foreground "Blue"))
-          (((class color) (background dark)) (:foreground "SteelBlue"))
-          (t (:bold t)))))
 
       (unless aquamacs-p
         ; Mac OS X doesn't set path properly when Emacs.app is launched.
@@ -817,8 +787,6 @@ the current directory, suitable for creation"
 ;;
 ;; HTML-mode and SGML-mode
 ;;
-(custom-set-variables '(sgml-xml-mode t))
-
 (eval-after-load "html-mode"
   (progn
     (defun my-html-insert-comment ()
@@ -871,8 +839,6 @@ the current directory, suitable for creation"
 (autoload 'css-mode "css-mode" "CSS mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.css$" . css-mode))
 (add-to-list 'auto-mode-alist '("\\.less$" . css-mode))
-(custom-set-variables
- '(css-indent-offset 2))
 
 ;;
 ;; Ruby-mode
@@ -1373,7 +1339,6 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;; Android
 ;;
 (autoload 'android-mode "android-mode")
-(custom-set-variables '(android-mode-sdk-dir "/usr/local/android-sdk-mac"))
 
 ;;
 ;; Drools
@@ -1589,3 +1554,34 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (global-set-key "\C-cw" 'toggle-current-window-dedication)
 (set-register ?b "#+begin_src")
 (set-register ?e "#+end_src")
+
+;; Custom variable settings
+(custom-set-variables
+ '(abbrev-mode t)
+ '(android-mode-sdk-dir "/usr/local/android-sdk-mac")
+ '(css-indent-offset 2)
+ '(eshell-save-history-on-exit t)
+ '(sgml-xml-mode t)
+ '(woman-use-own-frame nil)
+ '(sgml-xml-mode t)
+ '(safe-local-variable-values
+   (quote ((org-publish-project-alist ("patchmaster"
+                                       :base-directory "."
+                                       :publishing-directory "../public_html"
+                                       :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>"
+                                       :author "Jim Menard"
+                                       :email "jim@jimmenard.com"))
+           (org-publish-project-alist ("trackmaster"
+                                       :base-directory "."
+                                       :publishing-directory "../public_html"
+                                       :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>"
+                                       :author "Jim Menard"
+                                       :email "jim@jimmenard.com"))
+           (Syntax . Common-Lisp)))))
+
+;; Custom faces
+(custom-set-faces
+ '(eshell-prompt
+   ((((class color) (background light)) (:foreground "Blue"))
+    (((class color) (background dark)) (:foreground "SteelBlue"))
+    (t (:bold t)))))
