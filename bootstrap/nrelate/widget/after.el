@@ -1,6 +1,7 @@
-;; (defun zoom-frame-width-cols ()
-;;   (interactive)          ; for testing
-;;   268)                   ; 268 for really full screen, 260 with dock exposed
+(defun zoom-frame-width-cols ()
+  (interactive)				; for testing
+  (round (/ (float (display-pixel-width))
+            (+ (float (frame-char-width)) 0.175))))
 
 ;; (setq sql-user "jimm")
 ;; (setq sql-server "localhost")
@@ -20,16 +21,6 @@
 (setq sql-sqlite-program "sqlite3")
 
 (add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\)$" . markdown-mode))
-
-;;
-;; Google Chrome edit server
-;;
-;(require 'edit-server)
-;(edit-server-start)
-; does not work; asks to kill process anyway
-;(add-hook 'kill-emacs-hook 'edit-server-stop)
-; does not work
-; (add-to-list 'kill-emacs-query-functions 'edit-server-stop)
 
 ;; Start Emacs server
 (server-start)
