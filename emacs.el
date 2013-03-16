@@ -769,7 +769,7 @@ the current directory, suitable for creation"
 ;; PHP-mode
 ;;
 (autoload 'php-mode "php-mode" "PHP mode" t nil)
-(add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
+(add-to-list 'auto-mode-alist '("\\.\\(php\\|inc\\)$" . php-mode))
 (eval-after-load "php-mode"
   (progn
     (defun run-php-buffer ()
