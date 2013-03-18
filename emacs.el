@@ -1381,6 +1381,11 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (setq epa-file-cache-passphrase-for-symmetric-encryption t) ; remember passphrase for save
 
 ;;
+;; Read RSS feeds via Gnus using Gwene (gwene.org)
+;;
+(setq gnus-site-init-file (concat *my-emacs-lib-dir* "gnus-init.el"))
+
+;;
 ;; WebJump
 ;;
 (setq webjump-sites
