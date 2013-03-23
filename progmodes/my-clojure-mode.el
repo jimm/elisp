@@ -31,5 +31,9 @@
       (lambda ()
         (define-key clojure-mode-map "\r" 'newline-and-indent)
         (define-key clojure-mode-map "\C-cd" 'debug-comment)
+        ;; nREPL mode has two key bindings that do the same thing: \C-c\C-c
+        ;; and C-M-x both run nrepl-eval-expression-at-point. Normally
+        ;; \C-c\C-c is bound to comment-region, so let's reinstate that.
+        (define-key nrepl-interaction-mode-map "\C-c\C-c" 'comment-region)
         (define-key clojure-mode-map "\C-ci" 'in-ns-to-inferior-lisp)
         (define-key clojure-mode-map "\C-cn" 'ns-to-inferior-lisp)))

@@ -722,7 +722,7 @@ the current directory, suitable for creation"
 ;;
 ;; Now that I'm using Clojure, I don't want sbcl to be the default program.
 ;;
-;; Note: use nREPL instead (M-x nrepl-jack-in).
+;; Note: use nREPL instead by running (M-x nrepl-jack-in) to start lein nrepl.
 (setq inferior-lisp-program "lein repl")
 (defun clj ()
   (interactive)
