@@ -2,3 +2,22 @@
 (defvar *my-emacs-lib-dir* "~/Library/elisp/")
 (load-file (concat *my-emacs-lib-dir* "bootstrap-init.el"))
 (bootstrap-init "nrelate" "widget")
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(abbrev-mode t t)
+ '(android-mode-sdk-dir "/usr/local/android-sdk-mac")
+ '(css-indent-offset 2)
+ '(eshell-save-history-on-exit t)
+ '(safe-local-variable-values (quote ((org-publish-project-alist ("patchmaster" :base-directory "." :publishing-directory "../public_html" :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>" :author "Jim Menard" :email "jim@jimmenard.com")) (org-publish-project-alist ("trackmaster" :base-directory "." :publishing-directory "../public_html" :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>" :author "Jim Menard" :email "jim@jimmenard.com")) (Syntax . Common-Lisp))))
+ '(send-mail-function (quote mailclient-send-it))
+ '(sgml-xml-mode t)
+ '(woman-use-own-frame nil))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(eshell-prompt ((((class color) (background light)) (:foreground "Blue")) (((class color) (background dark)) (:foreground "SteelBlue")) (t (:bold t)))))

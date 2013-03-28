@@ -120,7 +120,8 @@
 (unless-boundp-setq *more-grep-find-bad-names* ())
 (let* ((more-bad-names (or *more-grep-find-bad-names* ()))
        (bad-names (append (list "*.log" ".svn" ".git" "CVS" "TAGS" "*~" "*.class"
-                                "*.[wj]ar" "target" "javadoc" "bytecode" "*.beam")
+                                "*.[wj]ar" "target" "javadoc" "bytecode" "*.beam"
+                                "*.swf")
                           more-bad-names))
        (gfc (concat "find . \\( -name "
                     (mapconcat 'shell-quote-argument bad-names " -o -name ")
@@ -542,7 +543,7 @@ the current directory, suitable for creation"
 ;; JavaScript
 ;;;
 (autoload 'javascript-mode "javascript" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . javascript-mode))
+(add-to-list 'auto-mode-alist '("\\.[aj]s$" . javascript-mode))
 (add-hook 'js-mode-hook
           '(lambda ()
              (setq js-indent-level 2)   ; need both?????
