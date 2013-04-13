@@ -364,15 +364,15 @@ tree."
   (interactive "sFilename regex: \nDSearch root directory: ")
   (let* ((dir (file-name-as-directory root-directory))
 	 (dirname (directory-file-name dir))
-	 (filter-regexp "\\.git\\|\\.svn\\|classes\\|build\\|target\\|TAGS\\|CVS\\|~")
 	 (files
 	  (remove-if
-	   (lambda (f) (string-match filter-regexp f))
+	   (lambda (f) (string-match
+                        "^\\(\\.(git\\|svn)\\)\\|\\(classes\\|build\\|target\\|CVS\\)$\\|^~"
+                        f))
 	   (split-string (shell-command-to-string
 			  (concat "find " dirname " -name " fname-regexp)))))
 	 (len (length files)))
     (cond ((zerop len)
-	   ; (message "%s not found in %s" fname-regexp dir))
 	   (cond ((file-system-root-dir-p dirname) (message "%s not found" fname-regexp))
 		 (t (ef fname-regexp (file-name-directory dirname)))))
 	  ((= 1 len) (find-file (car files)))
