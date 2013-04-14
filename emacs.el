@@ -2,6 +2,14 @@
 
 ;;; Note: this file should be loaded by bootstrap-init.el.
 
+(defmacro when-fboundp-call (f &rest args)
+  "If F is bound, calls it with ARGS."
+  `(when (fboundp (quote ,f)) (funcall (quote ,f) ,@args)))
+
+(defmacro unless-boundp-setq (var val)
+  "If VAR is not bound, sets it to VAL."
+  `(unless (boundp (quote ,var)) (setq ,var ,val)))
+
 (setq package-archives '(("elpa" . "http://tromey.com/elpa/")
                          ("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
@@ -16,15 +24,7 @@
     (let ((f (expand-file-name "~/.emacs.d/elpa/package.el")))
       (when (and (file-exists-p f)
                  (load f))))))
-(package-initialize)
-
-(defmacro when-fboundp-call (f &rest args)
-  "If F is bound, calls it with ARGS."
-  `(when (fboundp (quote ,f)) (funcall (quote ,f) ,@args)))
-
-(defmacro unless-boundp-setq (var val)
-  "If VAR is not bound, sets it to VAL."
-  `(unless (boundp (quote ,var)) (setq ,var ,val)))
+(when-fboundp-call package-initialize)
 
 (defun ensure-ends-with-slash (dir)
   "If DIR does not end with \"/\", return a new copy of DIR that
@@ -64,7 +64,7 @@
 (setq ido-enable-flex-matching t)
 
 ;; SMEX mode
-(smex-initialize)
+(when-fboundp-call smex-initialize)
 
 (require 'generic-x); DOS batch, ini files and much more
 (add-to-list 'auto-mode-alist
@@ -535,9 +535,10 @@ the current directory, suitable for creation"
 ;;
 ;; YASnippet
 ;;
-(yas-global-mode 1)
-(add-to-list 'yas-snippet-dirs (concat *my-emacs-lib-dir* "snippets"))
-(yas-reload-all)
+(when (fboundp 'yas-reload-all)
+  (yas-global-mode 1)
+  (add-to-list 'yas-snippet-dirs (concat *my-emacs-lib-dir* "snippets"))
+  (yas-reload-all))
 
 ;;
 ;; JavaScript
