@@ -365,7 +365,7 @@ tree."
   (let* ((dir (file-name-as-directory root-directory))
 	 (dirname (directory-file-name dir))
 	 (files
-	  (remove-if
+	  (cl-remove-if
 	   (lambda (f) (string-match
                         "^\\(\\.(git\\|svn)\\)\\|\\(classes\\|build\\|target\\|CVS\\)$\\|^~"
                         f))
