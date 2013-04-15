@@ -535,7 +535,7 @@ the current directory, suitable for creation"
 ;;
 ;; YASnippet
 ;;
-(when (fboundp 'yas-reload-all)
+(when (fboundp 'yas-global-mode)
   (yas-global-mode 1)
   (add-to-list 'yas-snippet-dirs (concat *my-emacs-lib-dir* "snippets"))
   (yas-reload-all))
