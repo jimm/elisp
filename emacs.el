@@ -268,15 +268,6 @@ a simple algorithm that may grow over time if needed."
 ;;
 (setq diary-file (concat *my-pim-dir* "diary")) ; must be before remember mode hook def
 
-(defun put-pim ()
- (interactive)
- (save-some-buffers)
- (shell-command "put-pim &"))
-
-(defun get-pim ()
- (interactive)
- (shell-command "get-pim &"))
-
 ;;
 ;; Remember mode
 ;;
@@ -899,15 +890,16 @@ the current directory, suitable for creation"
 
 (autoload 'scala-mode "scala-mode2" "Scala mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
+(defun run-scala-buffer ()
+  (interactive)
+  (save-buffer)
+  (compile (concat "scala " (buffer-file-name))))
+(load "inf-sbt")
 (add-hook 'scala-mode-hook
           '(lambda ()
              (define-key scala-mode-map [f1] my-shell) ; I don't use Speedbar
              (define-key scala-mode-map "\r" 'newline-and-indent)
              (define-key scala-mode-map "\C-cr" 'run-scala-buffer)))
-(defun run-scala-buffer ()
-  (interactive)
-  (save-buffer)
-  (compile (concat "scala " (buffer-file-name))))
 
 ;;
 ;; Dired-mode
@@ -1091,9 +1083,9 @@ of STR anywhere."
      (error (concat "\"" search-str "\" not found")))))
 
 (defun email (str)
-  "Find first email of STR in my personal Wiki address book. For
-some reason, the AddressBook file's buffer remains in the front,
-even though I'm using save-excursion."
+  "Find first email of STR in my address book Org Mode file. For
+some reason, the file's buffer remains in the front, even though
+I'm using save-excursion."
   (interactive "sEmail address of: ")
   (save-excursion
     (address str)
