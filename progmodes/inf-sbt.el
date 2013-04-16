@@ -14,9 +14,6 @@
 (defvar inf-sbt-default-implementation "sbt"
   "Which sbt implementation to use if none is specified.")
 
-(defvar inf-sbt-first-prompt-pattern "^> *"
-  "First prompt regex pattern of sbt interpreter.")
-
 (defvar inf-sbt-prompt-pattern "^> *"
   "Prompt regex pattern of sbt interpreter.")
 
@@ -27,12 +24,6 @@
   (let ((map (copy-keymap comint-mode-map)))
     map)
   "*Mode map for inf-sbt-mode")
-
-(defvar inf-sbt-implementations
-  '(("sbt"     . "sbt"))
-  "An alist of sbt implementations to irb executable names.")
-
-(defvar inf-sbt-at-top-level-prompt-p t)
 
 ;; FIXME
 (defconst inf-sbt-error-regexp-alist
@@ -50,7 +41,7 @@
   (define-key scala-mode-map "\C-c\C-m" 'sbt-send-command)
   (define-key scala-mode-map "\C-c\C-z" 'sbt-switch-to-inf))
 
-(defvar inf-sbt-buffer nil "Current irb process buffer.")
+(defvar inf-sbt-buffer nil "Current sbt process buffer.")
 
 (defun inf-sbt-mode ()
   "Major mode for interacting with an inferior sbt process.
@@ -107,30 +98,22 @@ to continue it."
   "Snarf the sexp ending at point"
   (save-excursion
     (let ((end (point)))
-      (re-search-backward inf-sbt-first-prompt-pattern)
+      (re-search-backward inf-sbt-prompt-pattern)
       (inf-sbt-remove-in-string (buffer-substring (point) end)
                                  inf-sbt-prompt-pattern))))
 
 ;;;###autoload
-(defun inf-sbt (&optional impl)
-  "Run an inferior Sbt process in a buffer.
-With prefix argument, prompts for which Sbt implementation
-\(from the list `inf-sbt-implementations') to use. Runs the
+(defun inf-sbt ()
+  "Run an inferior sbt process in a buffer. Runs the
 hooks `inf-sbt-mode-hook' \(after the `comint-mode-hook' is
 run)."
 
-  (interactive (list (if current-prefix-arg
-                         (completing-read "Sbt Implementation: "
-                                          (mapc #'car inf-sbt-implementations))
-                       inf-sbt-default-implementation)))
-  (setq impl (or impl "sbt"))
-
-  (let ((command (cdr (assoc impl inf-sbt-implementations))))
-    (run-sbt command impl)))
+  (interactive)
+  (run-sbt))
 
 ;;;###autoload
-(defun run-sbt (&optional command name)
-  "Run an inferior Sbt process, input and output via buffer *sbt*.
+(defun run-sbt ()
+  "Run an inferior sbt process, input and output via buffer *sbt*.
 If there is a process already running in `*sbt*', switch to that buffer.
 With argument, allows you to edit the command line (default is value
 of `sbt-program-name').  Runs the hooks `inferior-sbt-mode-hook'
@@ -138,19 +121,15 @@ of `sbt-program-name').  Runs the hooks `inferior-sbt-mode-hook'
 \(Type \\[describe-mode] in the process buffer for a list of commands.)"
 
   (interactive)
-  (setq command (or command (cdr (assoc inf-sbt-default-implementation
-                                        inf-sbt-implementations))))
-  (setq name (or name "sbt"))
 
   (if (not (comint-check-proc inf-sbt-buffer))
-      (let ((commandlist (split-string-and-unquote command)))
-        (set-buffer (apply 'make-comint name (car commandlist)
-                           nil (cdr commandlist)))
+      (let ((commandlist "sbt"))
+        (set-buffer (make-comint "sbt" "sbt"))
         (inf-sbt-mode)))
-  (pop-to-buffer (setq inf-sbt-buffer (format "*%s*" name))))
+  (pop-to-buffer (setq inf-sbt-buffer "*sbt*")))
 
 (defun inf-sbt-proc ()
-  "Returns the current IRB process. See variable inf-sbt-buffer."
+  "Returns the current SBT process. See variable inf-sbt-buffer."
   (or (get-buffer-process (if (eq major-mode 'inf-sbt-mode)
                               (current-buffer)
                             inf-sbt-buffer))
@@ -159,10 +138,10 @@ of `sbt-program-name').  Runs the hooks `inferior-sbt-mode-hook'
 ;; These commands are added to the sbt-mode keymap:
 
 (defconst sbt-send-terminator "--inf-sbt-%x-%d-%d-%d--"
-  "Template for irb here document terminator.
+  "Template for sbt here document terminator.
 Must not contain sbt meta characters.")
 
-(defconst inf-sbt-eval-binding "IRB.conf[:MAIN_CONTEXT].workspace.binding")
+(defconst inf-sbt-eval-binding "SBT.conf[:MAIN_CONTEXT].workspace.binding")
 
 (defconst sbt-eval-separator "")
 
@@ -218,29 +197,10 @@ Must not contain sbt meta characters.")
     (comint-send-region (inf-sbt-proc) start end)
     (comint-send-string (inf-sbt-proc) (concat "\n" term "\n"))))
 
-(defun sbt-send-definition ()
-  "Send the current definition to the inferior Sbt process."
-  (interactive)
-  (save-excursion
-    (sbt-end-of-defun)
-    (let ((end (point)))
-      (sbt-beginning-of-defun)
-      (sbt-send-region (point) end))))
-
 (defun sbt-send-last-sexp ()
   "Send the previous sexp to the inferior Sbt process."
   (interactive)
   (sbt-send-region (save-excursion (sbt-backward-sexp) (point)) (point)))
-
-(defun sbt-send-block ()
-  "Send the current block to the inferior Sbt process."
-  (interactive)
-  (save-excursion
-    (sbt-end-of-block)
-    (end-of-line)
-    (let ((end (point)))
-      (sbt-beginning-of-block)
-      (sbt-send-region (point) end))))
 
 (defun sbt-switch-to-inf (eob-p)
   "Switch to the sbt process buffer.
@@ -258,20 +218,6 @@ With argument, positions cursor at end of buffer."
 Then switch to the process buffer."
   (interactive "r")
   (sbt-send-region start end)
-  (sbt-switch-to-inf t))
-
-(defun sbt-send-definition-and-go ()
-  "Send the current definition to the inferior Sbt.
-Then switch to the process buffer."
-  (interactive)
-  (sbt-send-definition)
-  (sbt-switch-to-inf t))
-
-(defun sbt-send-block-and-go ()
-  "Send the current block to the inferior Sbt.
-Then switch to the process buffer."
-  (interactive)
-  (sbt-send-block)
   (sbt-switch-to-inf t))
 
 (defun sbt-escape-single-quoted (str)
@@ -292,7 +238,7 @@ The reason for this is unknown. Remove this line from `completions'."
 	 (comint-filt (process-filter proc))
 	 (kept "") completions)
     (set-process-filter proc (lambda (proc string) (setq kept (concat kept string))))
-    (process-send-string proc (format "puts IRB::InputCompletor::CompletionProc.call('%s').compact\n"
+    (process-send-string proc (format "puts SBT::InputCompletor::CompletionProc.call('%s').compact\n"
                                       (sbt-escape-single-quoted seed)))
     (while (and (not (string-match inf-sbt-prompt-pattern kept))
                 (accept-process-output proc 2)))
@@ -311,8 +257,8 @@ The reason for this is unknown. Remove this line from `completions'."
                            completions nil t curr)))))
 
 (defun inf-sbt-complete (command)
-  "Complete the sbt code at point. Relies on the irb/completion
-Module used by readline when running irb through a terminal"
+  "Complete the sbt code at point. Relies on the sbt/completion
+Module used by readline when running sbt through a terminal"
   (interactive (list (inf-sbt-completion-at-point)))
   (when command
    (kill-whole-line 0)
