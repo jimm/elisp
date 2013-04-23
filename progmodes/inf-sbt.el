@@ -39,6 +39,7 @@
   (define-key scala-mode-map "\C-c\C-r" 'sbt-run)
   (define-key scala-mode-map "\C-c\C-j" 'sbt-package)
   (define-key scala-mode-map "\C-c\C-m" 'sbt-send-command)
+  (define-key scala-mode-map "\C-c\C-e" 'sbt-expose-inf)
   (define-key scala-mode-map "\C-c\C-z" 'sbt-switch-to-inf))
 
 (defvar inf-sbt-buffer nil "Current sbt process buffer.")
@@ -57,6 +58,7 @@ inf-sbt-mode-hook (in that order).
 You can send commands to the inferior sbt process from other buffers
 containing Scala source.
     sbt-switch-to-inf switches the current buffer to the sbt process buffer.
+    sbt-expose-inf exposes the sbt process buffer.
     sbt-clean sends the `clean' command to the sbt process.
     sbt-compile sends the `compile' command to the sbt process.
     sbt-test sends the `test' command to the sbt process.
@@ -171,6 +173,10 @@ Must not contain sbt meta characters.")
   (interactive)
   (sbt-send-command "run"))
 
+(defun sbt-package ()
+  (interactive)
+  (sbt-send-command "package"))
+
 (defun sbt-send-region (start end)
   "Send the current region to the inferior Sbt process."
   (interactive "r")
@@ -212,6 +218,13 @@ With argument, positions cursor at end of buffer."
   (cond (eob-p
          (push-mark)
          (goto-char (point-max)))))
+
+(defun sbt-expose-inf (eob-p)
+  "Expose the sbt process buffer."
+  (interactive)
+  (if (get-buffer inf-sbt-buffer)
+      (display-buffer inf-sbt-buffer)
+    (error "No current process buffer. See variable inf-sbt-buffer.")))
 
 (defun sbt-send-region-and-go (start end)
   "Send the current region to the inferior Sbt process.
