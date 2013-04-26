@@ -900,6 +900,8 @@ the current directory, suitable for creation"
              (define-key scala-mode-map [f1] my-shell) ; I don't use Speedbar
              (define-key scala-mode-map "\r" 'newline-and-indent)
              (define-key scala-mode-map "\C-cr" 'run-scala-buffer)))
+;; That bright red face for vars is too annoying
+(set-face-attribute 'scala-font-lock:var-face nil :bold nil :foreground "red3")
 
 ;;
 ;; Dired-mode
