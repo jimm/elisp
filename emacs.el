@@ -618,7 +618,7 @@ the current directory, suitable for creation"
              (define-key perl-mode-map "\r" 'newline-and-indent)
              (define-key perl-mode-map "\M-\C-h" 'backward-kill-word)
              (define-key perl-mode-map "\C-cd" 'debug-comment)
-             (setq perl-indent-level 2)
+             (setq c-basic-offset 2)
              (setq c-tab-always-indent nil)))
 
 ;;
@@ -772,6 +772,7 @@ the current directory, suitable for creation"
     (add-hook 'php-mode-hook
               '(lambda ()
                  (auto-fill-mode 1)
+                 (setq c-basic-offset 4)
                  (define-key php-mode-map "\C-d" 'delete-char)
                  (define-key php-mode-map "\C-ct" 'html-mode)
                  (define-key php-mode-map "\C-ch" 'insert-ruby-hash-arrow)
@@ -1510,7 +1511,6 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (global-set-key "\C-x\C-z" 'shrink-window)
 (global-set-key "\M-\C-h" 'backward-kill-word)
 (global-set-key "\M-\033" 'eval-expression)
-(global-set-key "\C-c\C-l" 'current-line-to-top)
 (global-set-key "\M- " 'just-one-space)
 
 (global-set-key [f1] my-shell)
