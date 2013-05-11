@@ -21,7 +21,7 @@
     ;; interfacing with ELPA, the package archive.
     ;; Move this code earlier if you want to reference
     ;; packages in your .emacs.
-    (let ((f (expand-file-name "~/.emacs.d/elpa/package.el")))
+    (let ((f (expand-file-name (concat user-emacs-directory "elpa/package.el"))))
       (when (and (file-exists-p f)
                  (load f))))))
 (when-fboundp-call package-initialize)
