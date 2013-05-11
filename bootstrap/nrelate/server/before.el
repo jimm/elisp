@@ -1,3 +1,5 @@
+(defvar *my-pim-dir* "~/jimm/pim/")
+
 (setq user-emacs-directory "~/jimm/.emacs.d/")
 (setq bookmark-default-file "~/jimm/.emacs.d/bookmarks")
 (setq eshell-directory-name "~/jimm/.emacs.d/eshell/")
