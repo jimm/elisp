@@ -1333,6 +1333,12 @@ me about the channels listed in my-rcirc-notifiy-channels."
              (define-key LilyPond-mode-map "\C-c\C-k" 'compile)))
 
 ;;
+;; KeyMaster
+;;
+(autoload 'keymaster-mode "keymaster-mode")
+(add-to-list 'auto-mode-alist '("\\.km$" . keymaster-mode))
+
+;;
 ;; Android
 ;;
 (autoload 'android-mode "android-mode")
