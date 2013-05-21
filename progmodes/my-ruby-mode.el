@@ -131,5 +131,7 @@ use this to delete the log/test.log file."
              (define-key ruby-mode-map "\C-ch" 'insert-ruby-hash-arrow)
              (define-key ruby-mode-map "\C-ct" 'run-ruby-test)
              (define-key ruby-mode-map "\C-cs" 'run-ruby-spec)
+             (define-key ruby-mode-map "{" 'self-insert-command)
+             (define-key ruby-mode-map "}" 'self-insert-command)
              (setq ruby-indent-level 2)
              (font-lock-mode 1)))
