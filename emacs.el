@@ -535,7 +535,7 @@ the current directory, suitable for creation"
 ;; JavaScript
 ;;;
 (autoload 'javascript-mode "javascript" nil t)
-(add-to-list 'auto-mode-alist '("\\.[aj]s$" . javascript-mode))
+(add-to-list 'auto-mode-alist '("\\.[agj]s$" . javascript-mode))
 (add-hook 'js-mode-hook
           '(lambda ()
              (setq js-indent-level 2)   ; need both?????
