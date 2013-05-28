@@ -1578,6 +1578,12 @@ me about the channels listed in my-rcirc-notifiy-channels."
                                        :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>"
                                        :author "Jim Menard"
                                        :email "jim@jimmenard.com"))
+           (org-publish-project-alist ("keymaster"
+                                       :base-directory "."
+                                       :publishing-directory "../public_html"
+                                       :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>"
+                                       :author "Jim Menard"
+                                       :email "jim@jimmenard.com"))
            (org-publish-project-alist ("trackmaster"
                                        :base-directory "."
                                        :publishing-directory "../public_html"
