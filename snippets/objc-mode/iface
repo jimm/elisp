@@ -6,7 +6,7 @@
     $0
 }
 
-- init;
+- (id)init;
 - (void)dealloc;
 
 @end

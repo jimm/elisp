@@ -4,10 +4,12 @@
 
 @implementation ${1:`(substring (file-name-nondirectory (buffer-file-name)) 0 -2)`}
 
-- init {
-    if (self = [super init]) {
-        $0
-    }
+- (id)init {
+    self = [super init];
+
+    $0
+
+    return self;
 }
 
 - (void)dealloc {
