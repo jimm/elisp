@@ -872,6 +872,21 @@ the current directory, suitable for creation"
              (comment-set-column 32)))
 
 ;;
+;; Elixir-mode
+;;
+;; ELPA package isn't good enough yet. Need to clone emacs-lang/emacs-elixir
+;; into ~.emacs.d and use that instead.
+
+(when (file-exists-p "~/.emacs.d/emacs-elixir/elixir-mode.el")
+  (add-to-list 'load-path "~/.emacs.d/emacs-elixir")
+  (require 'elixir-mode-setup)
+  (elixir-mode-setup)
+  (add-hook 'elixir-mode-hook
+            '(lambda ()
+               ;; Can't get define-key elixir-mode-map to work
+               (local-set-key "\r" 'newline-and-indent))))
+
+;;
 ;; Lua-mode
 ;;
 (autoload 'lua-mode "lua-mode" "Lua mode" t nil)
