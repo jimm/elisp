@@ -874,8 +874,9 @@ the current directory, suitable for creation"
 ;;
 ;; Elixir-mode
 ;;
-;; ELPA package isn't good enough yet. Need to clone emacs-lang/emacs-elixir
-;; into ~.emacs.d and use that instead.
+;; ELPA package isn't good enough yet. Need to clone
+;; https://github.com/elixir-lang/emacs-elixir into ~.emacs.d and use that
+;; instead.
 
 (when (file-exists-p "~/.emacs.d/emacs-elixir/elixir-mode.el")
   (add-to-list 'load-path "~/.emacs.d/emacs-elixir")
