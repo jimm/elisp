@@ -121,7 +121,7 @@
 (let* ((more-bad-names (or *more-grep-find-bad-names* ()))
        (bad-names (append (list "*.log" ".svn" ".git" "CVS" "TAGS" "*~" "*.class"
                                 "*.[wj]ar" "target" "javadoc" "bytecode" "*.beam"
-                                "*.swf")
+                                "*.swf" "*.o" "_site")
                           more-bad-names))
        (gfc (concat "find . \\( -name "
                     (mapconcat 'shell-quote-argument bad-names " -o -name ")
