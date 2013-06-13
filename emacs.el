@@ -1310,6 +1310,14 @@ me about the channels listed in my-rcirc-notifiy-channels."
 "	end tell\n"
 "end tell\n"
 ))))
+(defun send-current-line-to-iterm ()
+  "Send the current line to iTerm using tell-iterm."
+  (interactive)
+  (save-excursion
+    (beginning-of-line)
+    (push-mark)
+    (end-of-line)
+    (tell-iterm (buffer-substring-no-properties (point) (mark)))))
 
 ;;
 ;; Textile mode
