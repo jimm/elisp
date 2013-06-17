@@ -878,6 +878,23 @@ the current directory, suitable for creation"
 ;; https://github.com/elixir-lang/emacs-elixir into ~.emacs.d and use that
 ;; instead.
 
+(defun iex ()
+  "Adds \"-e File.cd('MIXDIR') -S mix\" flags to iex when
+  starting the iex comint buffer."
+  (interactive)
+  (let* ((mixfile (get-closest-pathname "mix.exs"))
+         (dir (file-name-directory mixfile))
+         (abs-dir (if (equal "~" (substring dir 0 1))
+                      (concat (getenv "HOME") (substring dir 1))
+                    dir)))
+    (message abs-dir)
+    (unless (comint-check-proc "*IEX*")
+      (set-buffer
+       (apply 'make-comint "IEX"
+              "iex" nil (list "-e" (concat "File.cd('" abs-dir "')")
+                              "-S" "mix"))))
+    (pop-to-buffer "*IEX*")))
+
 (when (file-exists-p "~/.emacs.d/emacs-elixir/elixir-mode.el")
   (add-to-list 'load-path "~/.emacs.d/emacs-elixir")
   (require 'elixir-mode-setup)
