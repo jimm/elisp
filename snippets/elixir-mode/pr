@@ -1,0 +1,3 @@
+#name: pr
+# --
+IO.puts "$0"

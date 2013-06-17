@@ -1,0 +1,9 @@
+#name: mod
+# --
+defmodule ${1:`(underscores-to-camel-case (substring (file-name-nondirectory (buffer-file-name)) 0 -3))`} do
+
+  @moduledoc """
+  $0
+  """
+
+end

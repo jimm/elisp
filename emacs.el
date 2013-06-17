@@ -138,6 +138,11 @@
 
 (global-font-lock-mode t)               ; always turn on, where available
 
+(defun underscores-to-camel-case (str)
+  "Converts STR, which is a word using underscores, to camel case."
+  (interactive "S")
+  (apply 'concat (mapcar 'capitalize (split-string str "_"))))
+
 ;;
 ;; Display time and add time-related hooks
 ;;
