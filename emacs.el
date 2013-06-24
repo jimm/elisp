@@ -882,7 +882,7 @@ the current directory, suitable for creation"
 ;; Elixir-mode
 ;;
 ;; ELPA package isn't good enough yet. Need to clone
-;; https://github.com/elixir-lang/emacs-elixir into ~.emacs.d and use that
+;; https://github.com/elixir-lang/emacs-elixir into ~/.emacs.d and use that
 ;; instead.
 
 (defun iex ()
@@ -904,8 +904,7 @@ the current directory, suitable for creation"
 
 (when (file-exists-p "~/.emacs.d/emacs-elixir/elixir-mode.el")
   (add-to-list 'load-path "~/.emacs.d/emacs-elixir")
-  (require 'elixir-mode-setup)
-  (elixir-mode-setup)
+  (require 'elixir-mode)
   (add-hook 'elixir-mode-hook
             '(lambda ()
                ;; Can't get define-key elixir-mode-map to work
