@@ -29,7 +29,7 @@
 (global-set-key [f4]
   (lambda ()
     (interactive)
-    (find-file (concat *my-pim-dir* "orgs/nrelate/todo.org"))))
+    (find-file (concat *my-pim-dir* "orgs/work/nrelate/todo.org"))))
 (global-set-key [\C-f4]
   (lambda ()
     (interactive)
@@ -37,7 +37,7 @@
 (global-set-key [f6]
   (lambda ()
     (interactive)
-    (find-file (concat *my-pim-dir* "orgs/nrelate/notes.org"))))
+    (find-file (concat *my-pim-dir* "orgs/work/nrelate/notes.org"))))
 (global-set-key [\C-f6]
   (lambda ()
     (interactive)
