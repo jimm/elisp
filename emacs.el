@@ -1518,6 +1518,17 @@ me about the channels listed in my-rcirc-notifiy-channels."
       (insert word))))
 
 ;;
+;; Reorganize current frame's buffers to show current buffer and current
+;; buffer's directory.
+;;
+(defun center-of-attention ()
+  (interactive)
+  (delete-other-windows)
+  (split-window-right)
+  (other-window 1)
+  (dired "."))
+
+;;
 ;; Reformat my bank's transactions CSV file
 ;;
 (defun reformat-bank-transactions ()
@@ -1568,7 +1579,8 @@ me about the channels listed in my-rcirc-notifiy-channels."
 
 (global-set-key [f1] my-shell)
 (global-set-key [\C-f1] 'shell)
-(global-set-key [f2] 'remember)
+(global-set-key [f2] 'center-of-attention)
+(global-set-key [\C-f2] 'remember)
 (global-set-key [f3] 'calendar)
 (global-set-key [\C-f3]
   '(lambda () (interactive) (diary-show-all-entries))) ; (find-file diary-file)
