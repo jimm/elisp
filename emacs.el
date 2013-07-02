@@ -894,7 +894,6 @@ the current directory, suitable for creation"
          (abs-dir (if (equal "~" (substring dir 0 1))
                       (concat (getenv "HOME") (substring dir 1))
                     dir)))
-    (message abs-dir)
     (unless (comint-check-proc "*IEX*")
       (set-buffer
        (apply 'make-comint "IEX"
