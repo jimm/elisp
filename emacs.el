@@ -121,7 +121,7 @@
 (let* ((more-bad-names (or *more-grep-find-bad-names* ()))
        (bad-names (append (list "*.log" ".svn" ".git" "CVS" "TAGS" "*~" "*.class"
                                 "*.[wj]ar" "target" "javadoc" "bytecode" "*.beam"
-                                "*.swf" "*.o" "_site")
+                                "*.swf" "*.o" "_site" "*.pyc")
                           more-bad-names))
        (gfc (concat "find . \\( -name "
                     (mapconcat 'shell-quote-argument bad-names " -o -name ")
@@ -906,8 +906,8 @@ the current directory, suitable for creation"
   (require 'elixir-mode)
   (add-hook 'elixir-mode-hook
             '(lambda ()
-               ;; Can't get define-key elixir-mode-map to work
-               (local-set-key "\r" 'newline-and-indent))))
+               (define-key elixir-mode-map "\C-cd" 'debug-comment)
+               (define-key elixir-mode-map "\r" 'newline-and-indent))))
 
 ;;
 ;; Lua-mode
