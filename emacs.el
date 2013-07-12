@@ -927,20 +927,21 @@ the current directory, suitable for creation"
 ;; You might need to "sbaz install scala-tool-support" which puts emacs support
 ;; into /usr/local/scala/misc/scala-tool-support/emacs"
 
-(autoload 'scala-mode "scala-mode2" "Scala mode" t nil)
-(add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
-(defun run-scala-buffer ()
-  (interactive)
-  (save-buffer)
-  (compile (concat "scala " (buffer-file-name))))
-(load "inf-sbt")
-(add-hook 'scala-mode-hook
-          '(lambda ()
-             (define-key scala-mode-map [f1] my-shell) ; I don't use Speedbar
-             (define-key scala-mode-map "\r" 'newline-and-indent)
-             (define-key scala-mode-map "\C-cr" 'run-scala-buffer)))
-;; That bright red face for vars is too annoying
-(set-face-attribute 'scala-font-lock:var-face nil :bold nil :foreground "red3")
+(condition-case ex
+    (autoload 'scala-mode "scala-mode2" "Scala mode" t nil)
+  (add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
+  (defun run-scala-buffer ()
+    (interactive)
+    (save-buffer)
+    (compile (concat "scala " (buffer-file-name))))
+  (load "inf-sbt")
+  (add-hook 'scala-mode-hook
+            '(lambda ()
+               (define-key scala-mode-map [f1] my-shell) ; I don't use Speedbar
+               (define-key scala-mode-map "\r" 'newline-and-indent)
+               (define-key scala-mode-map "\C-cr" 'run-scala-buffer)))
+  ;; That bright red face for vars is too annoying
+  (set-face-attribute 'scala-font-lock:var-face nil :bold nil :foreground "red3"))
 
 ;;
 ;; Dired-mode
