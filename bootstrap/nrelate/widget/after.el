@@ -3,6 +3,16 @@
   (round (/ (float (display-pixel-width))
             (+ (float (frame-char-width)) 0.175))))
 
+(defun embiggen ()
+  (interactive)
+  (set-face-attribute 'default nil :font "Monaco 18")
+  (set-frame-width (zoom-frame-width-cols)))
+
+(defun unembiggen ()
+  (interactive)
+  (set-face-attribute 'default nil :font "Monaco 13")
+  (set-frame-height nil 58))
+
 ;; (setq sql-user "jimm")
 ;; (setq sql-server "localhost")
 ;; (setq sql-database "db")
