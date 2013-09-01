@@ -143,10 +143,21 @@
   (interactive "S")
   (apply 'concat (mapcar 'capitalize (split-string str "_"))))
 
+;; I prefer zap-upto-char most of the time
+(defun zap-upto-char (arg char)
+  "Kill up to but not including ARGth occurrence of CHAR.
+Case is ignored if `case-fold-search' is non-nil in the current buffer.
+Goes backward if ARG is negative; error if CHAR not found."
+  (interactive (list (prefix-numeric-value current-prefix-arg)
+		     (read-char "Zap upto char: " t)))
+  (zap-to-char arg char)
+  (insert-char char))
+
 ;;
 ;; Display time and add time-related hooks
 ;;
 ;; (display-time)                       ; display time and "Mail" in mode lines
+
 (defun generate-random-sig ()
   (interactive)
   (shell-command "random_sig.rb"))
@@ -945,6 +956,25 @@ the current directory, suitable for creation"
       (set-face-attribute 'scala-font-lock:var-face nil :bold nil :foreground "red3"))
   (error nil))
 
+;;; Derived from path-to-java-package in progmodes/my-java-mode.el
+(defun path-to-scala-package (path)
+  "Returns a Scala package name for PATH, which is a file path.
+Looks for 'src' or 'src/scala/{main,test}' in PATH and uses everything after
+that, turning slashes into dots. For example, the path
+/home/foo/project/src/main/scala/com/yoyodyne/project/Foo.scala becomes
+'com.yoyodyne.project'. If PATH is a directory, the last part of
+the path is ignored. That is a bug, but it's one I can live with
+for now."
+  (interactive)
+  (let ((reverse-path-list (cdr (reverse (split-string path "/")))))
+    (mapconcat
+     'identity
+     (reverse (upto reverse-path-list
+		    (if (or (member "main" reverse-path-list)
+                            (member "test" reverse-path-list))
+                        "scala" "src")))
+     ".")))
+
 ;;
 ;; Dired-mode
 ;;
@@ -1564,6 +1594,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;; Global key bindings
 ;;
 
+(global-set-key "\M-z" 'zap-upto-char)
 (global-set-key "\M-`" 'my-ff-find-other-file)
 (global-set-key "\C-c1" 'find-grep-dired)
 (global-set-key "\C-c2" 'grep-find)
@@ -1620,8 +1651,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (global-set-key "\C-ca" 'org-agenda)
 
 (global-set-key "\C-cw" 'toggle-current-window-dedication)
-(set-register ?b "#+begin_src")
-(set-register ?e "#+end_src")
+(set-register ?s "#+begin_src \n#+end_src")
 
 ;; Custom variable settings
 (custom-set-variables
