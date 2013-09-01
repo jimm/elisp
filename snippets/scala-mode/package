@@ -1,0 +1,4 @@
+#Author : Jim Menard <jim@jimmenard.com>
+#name: package ...
+# --
+package `(path-to-scala-package (buffer-file-name))`
