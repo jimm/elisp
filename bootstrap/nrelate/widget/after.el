@@ -13,6 +13,7 @@
   (set-face-attribute 'default nil :font "Monaco 13")
   (set-frame-height nil 58))
 
+(setq sql-mysql-options (list "-A"))
 ;; (setq sql-user "jimm")
 ;; (setq sql-server "localhost")
 ;; (setq sql-database "db")
