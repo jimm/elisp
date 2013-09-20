@@ -151,7 +151,8 @@ Goes backward if ARG is negative; error if CHAR not found."
   (interactive (list (prefix-numeric-value current-prefix-arg)
 		     (read-char "Zap upto char: " t)))
   (zap-to-char arg char)
-  (insert-char char))
+  (insert-char char)
+  (backward-char))
 
 ;;
 ;; Display time and add time-related hooks
@@ -1324,10 +1325,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
              (setq org-export-with-sub-superscripts nil)
              (define-key org-mode-map "\C-cr" 'my-org-execute-src)))
 
-; TODO use light/dark versions code
-(set-face-attribute 'org-level-1 nil :height 1.2 :bold t :foreground "Black")
-(set-face-attribute 'org-level-2 nil :foreground "DarkGreen")
-(set-face-attribute 'org-todo nil :foreground "Firebrick")
+(set-face-attribute 'org-level-1 nil :height 1.2 :bold t)
 
 ; My own "addr:" link type
 (defun my-org-addr-open (entry)
