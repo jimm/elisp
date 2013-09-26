@@ -21,7 +21,7 @@
     ;; interfacing with ELPA, the package archive.
     ;; Move this code earlier if you want to reference
     ;; packages in your .emacs.
-    (let ((f (expand-file-name (concat user-emacs-directory "elpa/package.el"))))
+    (let ((f (expand-file-name "~/.emacs.d/elpa/package.el")))
       (when (and (file-exists-p f)
                  (load f))))))
 (when-fboundp-call package-initialize)
@@ -62,9 +62,6 @@
 (load-library "ido")
 (ido-mode t)
 (setq ido-enable-flex-matching t)
-
-;; SMEX mode
-(when-fboundp-call smex-initialize)
 
 (require 'generic-x); DOS batch, ini files and much more
 (add-to-list 'auto-mode-alist
@@ -1637,12 +1634,14 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (global-set-key [f10] 'zoom-frame)
 (global-set-key [f11] 'other-window)
 
-;; smex
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-;; This is your old M-x. (Was "C-c C-c M-x" in smex sample, but "C-c C-c" is
-;; already taken by my comment-region binding.
-(global-set-key (kbd "C-c C-x M-x") 'execute-extended-command)
+;; SMEX mode
+(when (fboundp 'smex-initialize)
+  (smex-initialize)
+  (global-set-key (kbd "M-x") 'smex)
+  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+  ;; This is your old M-x. (Was "C-c C-c M-x" in smex sample, but "C-c C-c" is
+  ;; already taken by my comment-region binding.
+  (global-set-key (kbd "C-c C-x M-x") 'execute-extended-command))
 
 ;; org mode
 (global-set-key "\C-cl" 'org-store-link)
