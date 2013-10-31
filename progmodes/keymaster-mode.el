@@ -1,3 +1,5 @@
+;; See http://jimm.github.io/keymaster/
+
 ;; (defface keymaster-note-face
 ;;   '((t (:foreground "ForestGreen")))
 ;;   "keymaster mode option face")
