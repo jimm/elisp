@@ -903,11 +903,13 @@ the current directory, suitable for creation"
          (abs-dir (if (equal "~" (substring dir 0 1))
                       (concat (getenv "HOME") (substring dir 1))
                     dir)))
+    ;; The rest of this does what elixir-mode-iex does, but it's set up to
+    ;; take the raw prefix arg, not a string or list containing additional
+    ;; args.
     (unless (comint-check-proc "*IEX*")
       (set-buffer
-       (apply 'make-comint "IEX"
-              "iex" nil (list "-e" (concat "File.cd('" abs-dir "')")
-                              "-S" "mix"))))
+       (apply 'make-comint "IEX" elixir-iex-command nil
+              (list "-e" (concat "File.cd('" abs-dir "')") "-S" "mix"))))
     (pop-to-buffer "*IEX*")))
 
 (when (file-exists-p "~/.emacs.d/emacs-elixir/elixir-mode.el")
