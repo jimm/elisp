@@ -1347,6 +1347,24 @@ me about the channels listed in my-rcirc-notifiy-channels."
   (load (concat *my-emacs-lib-dir* "progmodes/sass-mode")))
 
 ;;
+;; Org Present Mode
+;;
+;; https://github.com/rlister/org-present
+(autoload 'org-present "org-present" nil t)
+
+(add-hook 'org-present-mode-hook
+          (lambda ()
+            (blink-cursor-mode 0)
+            (org-present-big)
+            (org-display-inline-images)))
+
+(add-hook 'org-present-mode-quit-hook
+          (lambda ()
+            (blink-cursor-mode 1)
+            (org-present-small)
+            (org-remove-inline-images)))
+
+;;
 ;; iTerm
 ;;
 (defun tell-iterm (str)
