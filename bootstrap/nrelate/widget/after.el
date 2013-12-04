@@ -18,6 +18,8 @@
 ;; (setq sql-server "localhost")
 ;; (setq sql-database "db")
 
+(require 'mmm-defaults)
+
 (setq dired-use-ls-dired nil)
 
 (setq browse-url-generic-program "open")
