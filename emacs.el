@@ -449,7 +449,11 @@ the current directory, suitable for creation"
 ;;
 ;; Tramp
 ;;
-(setq tramp-default-method "ssh")
+; (setq tramp-default-method "scp")
+(defun debug-tramp ()
+  (interactive)
+  (setq tramp-debug-buffer t)
+  (setq tramp-verbose 10))
 
 ;;
 ;; ssh-ing
@@ -678,7 +682,6 @@ the current directory, suitable for creation"
 (add-hook 'comint-output-filter-functions
           'comint-watch-for-password-prompt)
 (setq shell-completion-execonly nil)    ; Any file is completion candidate
-(setq shell-prompt-pattern "^[^>\n]*> ")
 (add-hook 'shell-mode-hook
           '(lambda ()
              (auto-fill-mode -1)
