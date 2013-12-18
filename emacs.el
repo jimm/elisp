@@ -1103,7 +1103,14 @@ gzip.")))
    (cond ((eq 80 (frame-width)) (zoom-frame-width-cols))
 	 (t 80))))
 
+(defun max-frame-height ()
+  (interactive)
+  (set-frame-height
+   nil
+   (zoom-frame-height-lines)))
+
 (defvar woman-manpath
+  (getenv "MANPATH")
   '("/usr/man" "/usr/share/man" "/usr/local/man" "/usr/local/share/man" "/opt/local/man"))
 
 ; Time and time zone information, for calendar's sunrise-sunset and related
@@ -1658,6 +1665,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (global-set-key [f9] 'bookmark-jump)
 (global-set-key [\C-f9] 'bookmark-set)
 (global-set-key [f10] 'zoom-frame)
+(global-set-key [\C-f10] 'max-frame-height)
 (global-set-key [f11] 'other-window)
 
 ;; SMEX mode
