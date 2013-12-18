@@ -1109,10 +1109,6 @@ gzip.")))
    nil
    (zoom-frame-height-lines)))
 
-(defvar woman-manpath
-  (getenv "MANPATH")
-  '("/usr/man" "/usr/share/man" "/usr/local/man" "/usr/local/share/man" "/opt/local/man"))
-
 ; Time and time zone information, for calendar's sunrise-sunset and related
 ; funcs.
 (setq calendar-load-hook (cons 'american-calendar calendar-load-hook))
