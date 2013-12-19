@@ -11,7 +11,7 @@
 (defun unembiggen ()
   (interactive)
   (set-face-attribute 'default nil :font "Monaco 13")
-  (set-frame-height nil 58))
+  (max-frame-height))
 
 (setq sql-mysql-options (list "-A"))
 ;; (setq sql-user "jimm")
