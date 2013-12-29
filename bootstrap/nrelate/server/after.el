@@ -3,12 +3,14 @@
   (round (/ (float (display-pixel-width))
             (+ (float (frame-char-width)) 0.175))))
 
-(setq sql-user "root")
-(setq sql-server "10.10.10.43")
+(setq sql-user "vulcan")
+(setq sql-server "10.10.10.17")
 (setq sql-database "linksDBProd")
 
 (setq dired-use-ls-dired nil)
-
+(add-hook 'tramp-mode-hook
+          (lambda ()
+            (add-to-list 'tramp-default-user-alist '("ssh\\|scp" "10\\.10\\.*" "vulcan"))))
 (setq sql-sqlite-program "sqlite3")
 
 (add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\)$" . markdown-mode))
