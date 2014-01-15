@@ -71,7 +71,6 @@
 ;; Global variable settings and options
 ;;
 (when-fboundp-call appt-activate 1)	; appointment notification
-(put 'eval-expression 'disabled nil)
 (when-fboundp-call line-number-mode -1) ; don't display 'em
 
 ;; Ubuntu stuff
@@ -365,7 +364,11 @@ you have a local copy, for example.")
 for FNAME-REGEXP. If one file is found, that file is opened. If
 more than one id found, opens a dired buffer on the list of
 files. If no files are found, continue searching up the directory
-tree."
+tree.
+
+Ignores certain directories such as .git, .svn, and target. This
+list is hard-coded, though it would be easy to make it an
+optional argument."
   (interactive "sFilename regex: \nDSearch root directory: ")
   (let* ((dir (file-name-as-directory root-directory))
 	 (dirname (directory-file-name dir))
@@ -1641,9 +1644,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (global-set-key [\C-f1] 'shell)
 (global-set-key [f2] 'center-of-attention)
 (global-set-key [\C-f2] 'remember)
-(global-set-key [f3] 'calendar)
-(global-set-key [\C-f3]
-  '(lambda () (interactive) (diary-show-all-entries))) ; (find-file diary-file)
+(global-set-key [f3] 'magit-status)
 (global-set-key [f4]
   '(lambda () (interactive) (find-file (concat *my-pim-dir* "orgs/todo.org"))))
 (global-set-key [f5]
