@@ -54,20 +54,6 @@ Rails root dir is found."
       (fill-region start (point))
       (widen))))
 
-(defun run-ruby-buffer ()
-  (interactive)
-  (let ((fn (buffer-file-name)))
-    (if (file-exists-p fn)
-        (progn
-          (save-buffer)
-          (compile (concat "ruby " (buffer-file-name))))
-      (progn
-        (let ((tmpfile (make-temp-file "ruby-region-" nil ".rb")))
-          (write-region nil nil tmpfile)
-          (compile (concat "ruby " tmpfile)))))))
-;; Can't remove temp file because compile is async and file could be deleted
-;; before it is used by compile.
-
 (defun insert-ruby-hash-arrow ()
   (interactive "*")
   (insert "=>")
@@ -126,7 +112,7 @@ use this to delete the log/test.log file."
              (define-key ruby-mode-map "\r" 'newline-and-indent)
              (define-key ruby-mode-map "\M-\C-h" 'backward-kill-word)
              (define-key ruby-mode-map "\M-q" 'jw-rb-fill-comment-region)
-             (define-key ruby-mode-map "\C-cr" 'run-ruby-buffer)
+             (define-key ruby-mode-map "\C-cr" (run-buffer-with "ruby"))
              (define-key ruby-mode-map "\C-cd" 'debug-comment)
              (define-key ruby-mode-map "\C-ch" 'insert-ruby-hash-arrow)
              (define-key ruby-mode-map "\C-ct" 'run-ruby-test)

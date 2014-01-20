@@ -151,6 +151,29 @@ Goes backward if ARG is negative; error if CHAR not found."
   (insert-char char)
   (backward-char))
 
+(defun run-buffer (compile-cmd)
+  "Saves the current buffer to the file it's associated with, or
+  a temp file if no such file exists yet. Runs that file in the
+  compilation buffer using the given command.
+
+  The temp file, if created, is not deleted at the end of this
+  function because the compilation is performed asynchronously so
+  we don't want to delete the file before it's done being run."
+  (interactive "sCompile command:")
+  (if (file-exists-p (buffer-file-name))
+      (progn
+        (save-buffer)
+        (compile (concat compile-cmd " " (buffer-file-name))))
+    (progn
+      (let ((tmpfile (make-temp-file "emacs-region-" nil nil)))
+        (write-region nil nil tmpfile)
+        (compile (concat compile-cmd " " tmpfile))))))
+;; Can't remove temp file because compile is async and file could be deleted
+;; before it is used by compile.
+
+(defmacro run-buffer-with (compile-cmd)
+  `(lambda () (interactive) (run-buffer ,compile-cmd)))
+
 ;;
 ;; Display time and add time-related hooks
 ;;
@@ -427,23 +450,9 @@ the current directory, suitable for creation"
 ;;
 ;; Shell script
 ;;
-(defun run-sh-buffer ()
-  (interactive)
-  (let ((fn (buffer-file-name)))
-    (if (file-exists-p fn)
-        (progn
-          (save-buffer)
-          (compile (buffer-file-name)))
-      (progn
-        (let ((tmpfile (make-temp-file "sh-region-" nil ".sh")))
-          (write-region nil nil tmpfile)
-          (compile tmpfile))))))
-;; Can't remove temp file because compile is async and file could be deleted
-;; before it is used by compile.
-
 (add-hook 'sh-mode-hook
           '(lambda ()
-             (define-key sh-mode-map "\C-cr" 'run-sh-buffer)))
+             (define-key sh-mode-map "\C-cr" (run-buffer-with ""))))
 
 ;;
 ;; Subversion
@@ -573,10 +582,6 @@ the current directory, suitable for creation"
 ;;
 ;; CoffeeScript
 ;;
-(defun run-coffee-buffer ()
-  (interactive)
-  (compile (concat "coffee " (shell-quote-argument (buffer-file-name)))))
-
 (defun compile-coffee-buffer ()
   (interactive)
   (shell-command (concat "coffee"
@@ -589,7 +594,7 @@ the current directory, suitable for creation"
 (add-hook 'coffee-mode-hook
           '(lambda ()
              (setq coffee-js-mode 'javascript-mode)
-             (define-key coffee-mode-map "\C-cr" 'run-coffee-buffer)
+             (define-key coffee-mode-map "\C-cr" (run-buffer-with "coffee"))
              (define-key coffee-mode-map "\C-ck" 'compile-coffee-buffer)
              (set (make-local-variable 'tab-width) 2)))
 
@@ -606,15 +611,11 @@ the current directory, suitable for creation"
 ;;
 (autoload 'groovy-mode "groovy-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.groovy$" . groovy-mode))
-(defun run-groovy-buffer ()
-  (interactive)
-  (save-buffer)
-  (compile (concat "groovy " (buffer-file-name))))
 (add-hook 'groovy-mode-hook
           '(lambda ()
              (setq groovy-basic-offset 4)
              (define-key groovy-mode-map "\r" 'newline-and-indent)
-             (define-key groovy-mode-map "\C-cr" 'run-groovy-buffer)
+             (define-key groovy-mode-map "\C-cr" (run-buffer-with "groovy"))
              (font-lock-mode 1)))
 
 ;; Groovy shell mode
@@ -788,10 +789,6 @@ the current directory, suitable for creation"
 (add-to-list 'auto-mode-alist '("\\.\\(php\\|inc\\)$" . php-mode))
 (eval-after-load "php-mode"
   (progn
-    (defun run-php-buffer ()
-      (interactive)
-      (save-buffer)
-      (compile (concat "php -f " (buffer-file-name))))
     (add-hook 'php-mode-hook
               '(lambda ()
                  (auto-fill-mode 1)
@@ -799,7 +796,7 @@ the current directory, suitable for creation"
                  (define-key php-mode-map "\C-d" 'delete-char)
                  (define-key php-mode-map "\C-ct" 'html-mode)
                  (define-key php-mode-map "\C-ch" 'insert-ruby-hash-arrow)
-                 (define-key php-mode-map "\C-cr" 'run-php-buffer)))))
+                 (define-key php-mode-map "\C-cr" (run-buffer-with "php -f"))))))
 
 ;;
 ;; HTML-mode and SGML-mode
@@ -949,16 +946,12 @@ the current directory, suitable for creation"
     (progn
       (autoload 'scala-mode "scala-mode2" "Scala mode" t nil)
       (add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
-      (defun run-scala-buffer ()
-        (interactive)
-        (save-buffer)
-        (compile (concat "scala " (buffer-file-name))))
       (load "inf-sbt")
       (add-hook 'scala-mode-hook
                 '(lambda ()
                    (define-key scala-mode-map [f1] my-shell) ; I don't use Speedbar
                    (define-key scala-mode-map "\r" 'newline-and-indent)
-                   (define-key scala-mode-map "\C-cr" 'run-scala-buffer)))
+                   (define-key scala-mode-map "\C-cr" (run-buffer-with "scala"))))
       ;; That bright red face for vars is too annoying
       (set-face-attribute 'scala-font-lock:var-face nil :bold nil :foreground "red3"))
   (error nil))
@@ -1035,14 +1028,10 @@ gzip.")))
 ; Emacs now comes with its own Python mode called simply "python"
 ; (autoload 'python-mode "python-mode" "Python mode." t)
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
-(defun run-python-buffer ()
-  (interactive)
-  (save-buffer)
-  (compile (concat "python " (buffer-file-name))))
 (add-hook 'python-mode-hook
           '(lambda ()
              (turn-on-font-lock)
-             (define-key python-mode-map "\C-cr" 'run-python-buffer)
+             (define-key python-mode-map "\C-cr" (run-buffer-with "python"))
              ;; these two are in addition to the \C-< and \C-> bindings
              ;; that already exist in Pythong mode
              (define-key python-mode-map "\M-[" 'python-indent-shift-left)
