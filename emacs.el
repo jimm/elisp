@@ -1033,7 +1033,7 @@ gzip.")))
              (turn-on-font-lock)
              (define-key python-mode-map "\C-cr" (run-buffer-with "python"))
              ;; these two are in addition to the \C-< and \C-> bindings
-             ;; that already exist in Pythong mode
+             ;; that already exist in Python mode
              (define-key python-mode-map "\M-[" 'python-indent-shift-left)
              (define-key python-mode-map "\M-]" 'python-indent-shift-right)))
 
