@@ -46,13 +46,14 @@
 
 (if (equal default-directory "/") (setq default-directory "~/"))
 
-; Add *my-emacs-lib-dir* subdirs to the end of load-path, so if it's
-; pre-installed that version is used first.
+;; Add *my-emacs-lib-dir* subdirs to the end of load-path, so if it's
+;; pre-installed that version is used first.
+;;
+;; Note that *my-emacs-lib-dir* should already be on the load path. It gets
+;; added by bootstrap-init.el.
 (mapc (lambda (dir)
         (add-to-list 'load-path (concat *my-emacs-lib-dir* dir "/") t))
       '("progmodes" "ses" "remember" "org/lisp"))
-; Don't need any org mode contributions yet
-; (add-to-list 'load-path (concat *my-emacs-lib-dir* "org/contrib/lisp/") t)
 
 (setq abbrev-file-name (concat *my-emacs-lib-dir* "abbrev_defs.el"))
 (read-abbrev-file abbrev-file-name t)
@@ -1485,7 +1486,10 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;; This is last because it modifies write-file-hooks. See the comment at the
 ;; beginning of crypt++.el.
 ;;
-(require 'crypt++)
+
+;; This used to be required, but not any more with the Mac OS X build of Emacs.
+;; (require 'crypt++)
+
 ;; (setq crypt-encryption-type 'gpg
 ;;             crypt-encryption-file-extension "\\(Secure\\)$\\|\\(secure\\.org\\)$\\|\\(\\.enc\\)$")
 ;; (crypt-rebuild-tables)
