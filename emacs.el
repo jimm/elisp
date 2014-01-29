@@ -1395,6 +1395,21 @@ me about the channels listed in my-rcirc-notifiy-channels."
     (tell-iterm (buffer-substring-no-properties (point) (mark)))))
 
 ;;
+;; Markdown mode
+;;
+(add-hook 'markdown-mode-hook
+          (lambda ()
+
+            (set-face-attribute 'markdown-header-delimiter-face nil  :foreground "black")
+            (set-face-attribute 'markdown-header-face-1 nil  :foreground "blue" :height 1.2 :bold)
+            (set-face-attribute 'markdown-header-face-2 nil :foreground "brown")
+            (set-face-attribute 'markdown-header-face-3 nil :foreground "darkgreen")
+            (set-face-attribute 'markdown-header-face-4 nil :foreground "black")
+            (set-face-attribute 'markdown-header-face-5 nil :foreground "black")
+            (set-face-attribute 'markdown-header-face-6 nil :foreground "black")))
+
+
+;;
 ;; Textile mode
 ;;
 (autoload 'textile-mode "textile-mode" "textile mode")
