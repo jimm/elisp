@@ -1,4 +1,5 @@
 #name: (defn func [args] ...)
 # --
-(defn ${1:func} [$2]
+(defn ${1:func}
+  [$2]
   $0)

@@ -1,3 +1,3 @@
-#name: "preey-print-me" pretty-print-me
+#name: "pretty-print-me" pretty-print-me
 # --
 "$1" (pprint $1)$0
