@@ -1392,7 +1392,8 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (add-to-list 'auto-mode-alist '("\\.textile$" . textile-mode))
 (add-hook 'textile-mode-hook
           '(lambda ()
-             (auto-fill-mode 0)))
+             (auto-fill-mode 0)
+             (visual-line-mode 1)))
 
 ;;
 ;; LilyPond mode
