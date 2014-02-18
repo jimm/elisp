@@ -1,8 +1,3 @@
-(defun zoom-frame-width-cols ()
-  (interactive)				; for testing
-  (round (/ (float (display-pixel-width))
-            (+ (float (frame-char-width)) 0.175))))
-
 (defun embiggen ()
   (interactive)
   (set-face-attribute 'default nil :font "Monaco 18")

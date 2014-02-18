@@ -15,11 +15,13 @@
   (defvar *basic-frame-alist* '((background-color . "ghost white")
                                 (cursor-color . "orange")
 				(tool-bar-mode . nil)
-                                (font . "-apple-Monaco-medium-normal-normal-*-13-*-*-*-m-0-fontset-auto1")))
+                                (font . "Monaco 13")))
   (setq initial-frame-alist
 	(append *basic-frame-alist* '((height . 58) (top . 0) (left . 0))))
   (setq default-frame-alist *basic-frame-alist*)
   (set-face-attribute 'mode-line nil :foreground "yellow" :background "black"))
+
+(setq *zoom-frame-width-factor* 0.175)
 
 (add-to-list 'load-path "/usr/share/emacs/22.1/lisp" t)
 (add-to-list 'load-path "/usr/share/emacs/22.1/site-lisp" t)

@@ -1058,16 +1058,21 @@ gzip.")))
 ;;
 ;; Frame management
 ;;
+(defcustom *zoom-frame-width-factor* 0.125
+  "Fudge factor for display column width calculations.")
+(defcustom *zoom-frame-height-diff* 4
+  "Fudge factor for display column height calculations.")
+
 (defun zoom-frame-width-cols ()
   (interactive)				; for testing
   (round (/ (float (display-pixel-width))
-            (+ (float (frame-char-width)) 0.125))))
+            (+ (float (frame-char-width)) *zoom-frame-width-factor*))))
 
 (defun zoom-frame-height-lines ()
   (interactive)				; for testing
   (- (round (/ (float (display-pixel-height))
                (float (frame-char-height))))
-     4))                                ; not sure why we need this, actually
+     *zoom-frame-height-diff*))
 
 (defun zoom-frame ()
   (interactive)
@@ -1281,6 +1286,9 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 
 (defun my-org-execute-src ()
+  "Saves current Org mode src block to a temp file and executes
+  it by using the source language name (e.g., \"sh\", \"ruby\")
+  as a command. Obviously doesn't work for all langauges."
   (interactive)
   (let* ((info (org-edit-src-find-region-and-lang))
          (p-beg (car info))
@@ -1289,7 +1297,6 @@ me about the channels listed in my-rcirc-notifiy-channels."
          (tmpfile (make-temp-file "org-src-")))
           (write-region p-beg p-end tmpfile)
           (compile (concat lang " " tmpfile))))
-
 
 ;; recommended
 (setq org-agenda-include-diary t)

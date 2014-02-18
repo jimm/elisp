@@ -1,8 +1,3 @@
-(defun zoom-frame-width-cols ()
-  (interactive)				; for testing
-  (round (/ (float (display-pixel-width))
-            (+ (float (frame-char-width)) 0.175))))
-
 (setq sql-user "vulcan")
 (setq sql-server "10.10.10.17")
 (setq sql-database "linksDBProd")
