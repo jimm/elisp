@@ -1629,7 +1629,6 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (global-set-key "\C-c\C-k" 'compile)
 (global-set-key "\C-x\C-z" 'shrink-window)
 (global-set-key "\M-\C-h" 'backward-kill-word)
-(global-set-key "\M-\033" 'eval-expression)
 (global-set-key "\M- " 'just-one-space)
 
 (global-set-key [f1] my-shell)
