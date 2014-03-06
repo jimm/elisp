@@ -1295,8 +1295,8 @@ me about the channels listed in my-rcirc-notifiy-channels."
          (p-end (cadr info))
          (lang (substring-no-properties (caddr info) 0))
          (tmpfile (make-temp-file "org-src-")))
-          (write-region p-beg p-end tmpfile)
-          (compile (concat lang " " tmpfile))))
+    (write-region p-beg p-end tmpfile)
+    (compile (concat lang " " tmpfile))))
 
 ;; recommended
 (setq org-agenda-include-diary t)
