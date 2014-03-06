@@ -112,7 +112,7 @@ use this to delete the log/test.log file."
              (define-key ruby-mode-map "\r" 'newline-and-indent)
              (define-key ruby-mode-map "\M-\C-h" 'backward-kill-word)
              (define-key ruby-mode-map "\M-q" 'jw-rb-fill-comment-region)
-             (define-key ruby-mode-map "\C-cr" (run-buffer-with "ruby"))
+             (define-key ruby-mode-map "\C-cr" 'executable-interpret)
              (define-key ruby-mode-map "\C-cd" 'debug-comment)
              (define-key ruby-mode-map "\C-ch" 'insert-ruby-hash-arrow)
              (define-key ruby-mode-map "\C-ct" 'run-ruby-test)
