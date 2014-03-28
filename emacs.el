@@ -60,7 +60,6 @@
 (load "my-skeletons")
 
 ;; IDO mode
-(load-library "ido")
 (ido-mode t)
 (setq ido-enable-flex-matching t)
 
