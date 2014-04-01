@@ -150,6 +150,19 @@ Goes backward if ARG is negative; error if CHAR not found."
   (insert-char char)
   (backward-char))
 
+(defun generate-random-password (&optional arg)
+  "Generate a random password ARG characters long (16 by default).
+Characters are selected from upper- and lower-case letters,
+numbers, and punctuation."
+  (interactive "P")
+  (let* ((chars "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!?@#$%^&*-_=+/.,")
+         (chars-len (length chars)))
+    (mapconcat (lambda (dummy)
+                 (let ((idx (random chars-len)))
+                   (substring chars idx (+ idx 1))))
+               (number-sequence 0 (- arg 1))
+               "")))
+
 ;;
 ;; Display time and add time-related hooks
 ;;
