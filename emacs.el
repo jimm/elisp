@@ -145,7 +145,7 @@
 Case is ignored if `case-fold-search' is non-nil in the current buffer.
 Goes backward if ARG is negative; error if CHAR not found."
   (interactive (list (prefix-numeric-value current-prefix-arg)
-		     (read-char "Zap upto char: " t)))
+		     (read-char "Zap up to char: " t)))
   (zap-to-char arg char)
   (insert-char char)
   (backward-char))
