@@ -150,7 +150,7 @@ Goes backward if ARG is negative; error if CHAR not found."
   (insert-char char)
   (backward-char))
 
-(defun generate-random-password (&optional arg)
+(defun generate-random-password (arg)
   "Generate a random password ARG characters long (16 by default).
 Characters are selected from upper- and lower-case letters,
 numbers, and punctuation."
@@ -162,6 +162,12 @@ numbers, and punctuation."
                    (substring chars idx (+ idx 1))))
                (number-sequence 0 (- arg 1))
                "")))
+
+(defun insert-random-password (arg)
+  "Generate a random password ARG characters long (16 by default) and
+insert it at point. See `generate-random-password`."
+  (interactive "P")
+  (insert (generate-random-password arg)))
 
 ;;
 ;; Display time and add time-related hooks
