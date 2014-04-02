@@ -16,6 +16,13 @@
     (clipboard-kill-ring-save 1 (point)))
   (message "Password saved to clipboard"))
 
+(defun vulcan-password-to-iterm ()
+  (interactive)
+  (with-current-buffer (find-file-noselect (concat *my-pim-dir* "orgs/work/nrelate/keyring.org.gpg"))
+    (beginning-of-buffer)
+    (send-current-line-to-iterm))
+  (message "Password sent to iTerm"))
+
 (setq sql-mysql-options (list "-A"))
 ;; (setq sql-user "jimm")
 ;; (setq sql-server "localhost")
@@ -60,4 +67,5 @@
   (lambda ()
     (interactive)
     (find-file (concat *my-pim-dir* "orgs/notes.org"))))
-(global-set-key [f7] 'vulcan-password-to-clipboard)
+(global-set-key [f7] 'vulcan-password-to-iterm)
+(global-set-key [\C-f7] 'vulcan-password-to-clipboard)
