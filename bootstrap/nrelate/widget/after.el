@@ -8,6 +8,14 @@
   (set-face-attribute 'default nil :font "Monaco 13")
   (max-frame-height))
 
+(defun vulcan-password-to-clipboard ()
+  (interactive)
+  (with-current-buffer (find-file-noselect (concat *my-pim-dir* "orgs/work/nrelate/keyring.org.gpg"))
+    (beginning-of-buffer)
+    (end-of-line)
+    (clipboard-kill-ring-save 1 (point)))
+  (message "Password saved to clipboard"))
+
 (setq sql-mysql-options (list "-A"))
 ;; (setq sql-user "jimm")
 ;; (setq sql-server "localhost")
@@ -52,3 +60,4 @@
   (lambda ()
     (interactive)
     (find-file (concat *my-pim-dir* "orgs/notes.org"))))
+(global-set-key [f7] 'vulcan-password-to-clipboard)
