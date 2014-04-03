@@ -10,11 +10,15 @@
 
 (defun vulcan-password-to-clipboard ()
   (interactive)
-  (with-current-buffer (find-file-noselect (concat *my-pim-dir* "orgs/work/nrelate/keyring.org.gpg"))
-    (beginning-of-buffer)
-    (end-of-line)
-    (clipboard-kill-ring-save 1 (point)))
-  (message "Password saved to clipboard"))
+  (let ((buf
+         (find-file-noselect
+          (concat *my-pim-dir*
+                  "orgs/work/nrelate/keyring.org.gpg"))))
+    (with-current-buffer buf
+      (beginning-of-buffer)
+      (end-of-line)
+      (clipboard-kill-ring-save 1 (point)))
+    (message "Password saved to clipboard")))
 
 (defun vulcan-password-to-iterm ()
   (interactive)
@@ -38,10 +42,7 @@
 (setq Man-switches "-M /usr/share/man:/usr/local/share/man")
 
 (defvar compile-ant "ant -e -s build.xml ")
-(defvar compile-rake "rake test ")
-
 (set-register ?n compile-ant)
-(set-register ?q "rake test ")
 
 (setq sql-sqlite-program "sqlite3")
 
@@ -51,21 +52,14 @@
 ;; Start Emacs server
 (server-start)
 
-(global-set-key [f4]
-  (lambda ()
-    (interactive)
-    (find-file (concat *my-pim-dir* "orgs/work/nrelate/todo.org"))))
-(global-set-key [\C-f4]
-  (lambda ()
-    (interactive)
-    (find-file (concat *my-pim-dir* "orgs/todo.org"))))
-(global-set-key [f6]
-  (lambda ()
-    (interactive)
-    (find-file (concat *my-pim-dir* "orgs/work/nrelate/notes.org"))))
-(global-set-key [\C-f6]
-  (lambda ()
-    (interactive)
-    (find-file (concat *my-pim-dir* "orgs/notes.org"))))
-(global-set-key [f7] 'vulcan-password-to-iterm)
+(defmacro find-org-file (path)
+  `(lambda ()
+     (interactive)
+     (find-file (concat *my-pim-dir* "orgs/" ,path))))
+
+(global-set-key [f4]    (find-org-file "work/nrelate/todo.org"))
+(global-set-key [\C-f4] (find-org-file "todo.org"))
+(global-set-key [f6]    (find-org-file "work/nrelate/notes.org"))
+(global-set-key [\C-f6] (find-org-file "notes.org"))
+(global-set-key [f7]    'vulcan-password-to-iterm)
 (global-set-key [\C-f7] 'vulcan-password-to-clipboard)
