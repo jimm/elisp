@@ -10,8 +10,7 @@
   "If VAR is not bound, sets it to VAL."
   `(unless (boundp (quote ,var)) (setq ,var ,val)))
 
-(setq package-archives '(("elpa" . "http://tromey.com/elpa/")
-                         ("gnu" . "http://elpa.gnu.org/packages/")
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/")))
 (when (< emacs-major-version 24)
