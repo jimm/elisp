@@ -107,6 +107,7 @@
 (setq dabbrev-case-replace nil)         ; preserve case when expanding
 (setq grep-command "grep -n ")
 (setq mode-require-final-newline nil)	; do not force newlines
+(setq recenter-positions '(top middle bottom)) ; change default cycle order
 
 (fset 'yes-or-no-p 'y-or-n-p)           ; accept simple 'y'/space, 'n'/delete
 (unless (fboundp 'string-match-p) (defalias 'string-match-p 'string-match))
@@ -1694,7 +1695,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 
 ;; Custom variable settings
 (custom-set-variables
- '(abbrev-mode t)
+ '(abbrev-mode nil)                     ; this is the default default, anyway
  '(android-mode-sdk-dir "/usr/local/android-sdk-mac")
  '(css-indent-offset 2)
  '(eshell-save-history-on-exit t)
