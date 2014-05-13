@@ -1094,16 +1094,18 @@ gzip.")))
 
 (defun zoom-frame ()
   (interactive)
-  (set-frame-width
-   nil
-   (cond ((eq 80 (frame-width)) (zoom-frame-width-cols))
-	 (t 80))))
+  (let ((frame (selected-frame)))
+    (set-frame-position frame 0 0)
+    (set-frame-width
+     frame
+     (cond ((eq 80 (frame-width)) (zoom-frame-width-cols))
+           (t 80)))))
 
 (defun max-frame-height ()
   (interactive)
-  (set-frame-height
-   nil
-   (zoom-frame-height-lines)))
+  (let ((frame (selected-frame)))
+    (set-frame-position frame 0 0)
+    (set-frame-height frame (zoom-frame-height-lines))))
 
 ; Time and time zone information, for calendar's sunrise-sunset and related
 ; funcs.
