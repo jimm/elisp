@@ -27,6 +27,20 @@
     (send-current-line-to-iterm))
   (message "Password sent to iTerm"))
 
+(defun mindspark-password-to-clipboard ()
+  (interactive)
+  (let ((buf
+         (find-file-noselect
+          (concat *my-pim-dir*
+                  "orgs/work/nrelate/keyring.org.gpg"))))
+    (with-current-buffer buf
+      (beginning-of-buffer)
+      (next-line)
+      (let ((start-point (point)))
+        (end-of-line)
+        (clipboard-kill-ring-save start-point (point))))
+    (message "Password saved to clipboard")))
+
 (setq sql-mysql-options (list "-A"))
 ;; (setq sql-user "jimm")
 ;; (setq sql-server "localhost")
@@ -62,4 +76,4 @@
 (global-set-key [f6]    (find-org-file "work/nrelate/notes.org"))
 (global-set-key [\C-f6] (find-org-file "notes.org"))
 (global-set-key [f7]    'vulcan-password-to-iterm)
-(global-set-key [\C-f7] 'vulcan-password-to-clipboard)
+(global-set-key [\C-f7] 'mindspark-password-to-clipboard)
