@@ -893,23 +893,33 @@ the current directory, suitable for creation"
 ;; https://github.com/elixir-lang/emacs-elixir into ~/.emacs.d and use that
 ;; instead.
 
-(defun iex ()
+(defvar iex-buffer "*IEX*")
+
+(defun iex (&optional arg)
   "Adds \"-e File.cd('MIXDIR') -S mix\" flags to iex when
-  starting the iex comint buffer."
-  (interactive)
+  starting the iex comint buffer. With a non-nil ARG, skips mix."
+  (interactive (list (prefix-numeric-value current-prefix-arg)))
   (let* ((mixfile (get-closest-pathname "mix.exs"))
          (dir (file-name-directory mixfile))
          (abs-dir (if (equal "~" (substring dir 0 1))
                       (concat (getenv "HOME") (substring dir 1))
-                    dir)))
+                    dir))
+         (iex-opts (if arg
+                       ()
+                     (list "-e" (concat "File.cd('" abs-dir "')") "-S" "mix"))))
     ;; The rest of this does what elixir-mode-iex does, but it's set up to
     ;; take the raw prefix arg, not a string or list containing additional
     ;; args.
-    (unless (comint-check-proc "*IEX*")
+    (unless (comint-check-proc iex-buffer)
       (set-buffer
-       (apply 'make-comint "IEX" elixir-iex-command nil
-              (list "-e" (concat "File.cd('" abs-dir "')") "-S" "mix"))))
-    (pop-to-buffer "*IEX*")))
+       (apply 'make-comint "IEX" elixir-iex-command nil iex-opts)))
+    (pop-to-buffer iex-buffer)))
+
+(defun iex-switch-to-inf ()
+  (interactive)
+  (if (get-buffer iex-buffer)
+      (pop-to-buffer iex-buffer)
+    (error "No current iex buffer.")))
 
 (when (file-exists-p "~/.emacs.d/emacs-elixir/elixir-mode.el")
   (add-to-list 'load-path "~/.emacs.d/emacs-elixir")
@@ -917,7 +927,9 @@ the current directory, suitable for creation"
   (add-hook 'elixir-mode-hook
             '(lambda ()
                (define-key elixir-mode-map "\C-cd" 'debug-comment)
-               (define-key elixir-mode-map "\r" 'newline-and-indent))))
+               (define-key elixir-mode-map "\r" 'newline-and-indent)
+               (define-key elixir-mode-map "\C-cr" 'executable-interpret)
+               (define-key elixir-mode-map "\C-c\C-z" 'iex-switch-to-inf))))
 
 ;;
 ;; Lua-mode
