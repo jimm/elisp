@@ -58,9 +58,12 @@
 (read-abbrev-file abbrev-file-name t)
 (load "my-skeletons")
 
+;;
 ;; IDO mode
-(ido-mode t)
-(setq ido-enable-flex-matching t)
+;;
+(when (fboundp 'ido-mode)
+  (ido-mode t)
+  (setq ido-enable-flex-matching t))
 
 (require 'generic-x); DOS batch, ini files and much more
 (add-to-list 'auto-mode-alist
@@ -430,10 +433,11 @@ for FNAME-REGEXP."
 
 ;; See also find-up and the built-in function locate-dominating-file.
 (defun get-closest-pathname (file)
-  "Determine the pathname of the first instance of FILE starting from the
-current directory towards root. This may not do the correct thing in presence
-of links. If it does not find FILE, then it shall return the name of FILE in
-the current directory, suitable for creation"
+  "Find the first instance of FILE at or above the current directory.
+If it does not find FILE, then it returns the name of FILE in the
+current directory, suitable for creation.
+
+This may not do the correct thing in presence of links."
   (let* ((path (expand-file-name file))
          (f (file-name-nondirectory path))
          (d (locate-dominating-file path f)))
@@ -893,7 +897,11 @@ the current directory, suitable for creation"
 ;; https://github.com/elixir-lang/emacs-elixir into ~/.emacs.d and use that
 ;; instead.
 
-(defvar iex-buffer "*IEX*")
+(defvar iex-proc-name "IEX"
+  "The name of the comint process for iex.")
+(defun iex-buf-name ()
+  "Returns the name of the iex buffer, derived from iex-proc-name."
+  (concat "*" iex-proc-name "*"))
 
 (defun iex (&optional arg)
   "Adds \"-e File.cd('MIXDIR') -S mix\" flags to iex when
@@ -910,15 +918,16 @@ the current directory, suitable for creation"
     ;; The rest of this does what elixir-mode-iex does, but it's set up to
     ;; take the raw prefix arg, not a string or list containing additional
     ;; args.
-    (unless (comint-check-proc iex-buffer)
+    (unless (comint-check-proc (iex-buf-name))
       (set-buffer
-       (apply 'make-comint "IEX" elixir-iex-command nil iex-opts)))
-    (pop-to-buffer iex-buffer)))
+       (apply 'make-comint iex-proc-name (or elixir-iex-command "iex") nil iex-opts)))
+    (iex-switch-to-inf)))
 
 (defun iex-switch-to-inf ()
+  "Switch to the iex buffer. Signals an error if it does not exist."
   (interactive)
-  (if (get-buffer iex-buffer)
-      (pop-to-buffer iex-buffer)
+  (if (get-buffer (iex-buf-name))
+      (pop-to-buffer (iex-buf-name))
     (error "No current iex buffer.")))
 
 (when (file-exists-p "~/.emacs.d/emacs-elixir/elixir-mode.el")
@@ -1432,7 +1441,13 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (add-hook 'textile-mode-hook
           '(lambda ()
              (auto-fill-mode 0)
-             (visual-line-mode 1)))
+             (visual-line-mode 1)
+             (set-face-attribute 'textile-h1-face nil :foreground "blue" :height 1.2 :bold t)
+             (set-face-attribute 'textile-h2-face nil :foreground "brown" :height 1.0)
+             (set-face-attribute 'textile-h3-face nil :foreground "darkgreen" :height 1.0)
+             (set-face-attribute 'textile-h4-face nil :foreground "black" :height 1.0)
+             (set-face-attribute 'textile-h5-face nil :foreground "black" :height 1.0)
+             (set-face-attribute 'textile-h6-face nil :foreground "black" :height 1.0)))
 
 ;;
 ;; LilyPond mode
