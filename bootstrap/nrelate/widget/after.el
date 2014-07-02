@@ -71,6 +71,11 @@
      (interactive)
      (find-file (concat *my-pim-dir* "orgs/" ,path))))
 
+(org-add-link-type
+ "jira"
+ (lambda (url)
+   (browse-url-generic (concat "https://jira.iaccap.com:8443/browse/" url))))
+
 (global-set-key [f4]    (find-org-file "work/nrelate/todo.org"))
 (global-set-key [\C-f4] (find-org-file "todo.org"))
 (global-set-key [f6]    (find-org-file "work/nrelate/notes.org"))
