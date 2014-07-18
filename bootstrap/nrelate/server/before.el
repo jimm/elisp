@@ -1,4 +1,4 @@
-(defvar *my-pim-dir* "~/pim/")
+(defvar *my-pim-dir* "~/jimm/pim/")
 
 (setq user-emacs-directory "~/jimm/.emacs.d/")
 (setq bookmark-default-file "~/jimm/.emacs.d/bookmarks")
@@ -19,7 +19,7 @@
   (defvar *basic-frame-alist* '((background-color . "ghost white")
                                 (cursor-color . "orange")
 				(tool-bar-mode . nil)
-                                (font . "-apple-Monaco-medium-normal-normal-*-13-*-*-*-m-0-fontset-auto1")))
+                                (font . "Monaco 13")))
   (setq initial-frame-alist
 	(append *basic-frame-alist* '((height . 58) (top . 0) (left . 0))))
   (setq default-frame-alist *basic-frame-alist*)
