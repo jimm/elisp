@@ -40,6 +40,8 @@
 
 (defvar my-shell 'eshell
   "The shell to use inside Emacs; examples include 'shell or 'eshell.")
+(defvar my-alternate-shell 'shell
+  "Bound to alternate key.")
 
 (setq eshell-directory-name (concat *my-emacs-lib-dir* "eshell/"))
 
@@ -1679,7 +1681,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (global-set-key "\M- " 'just-one-space)
 
 (global-set-key [f1] my-shell)
-(global-set-key [\C-f1] 'shell)
+(global-set-key [\C-f1] my-alternate-shell)
 (global-set-key [f2] 'center-of-attention)
 (global-set-key [\C-f2] 'remember)
 (global-set-key [f3] 'magit-status)
