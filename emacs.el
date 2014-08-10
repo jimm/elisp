@@ -122,7 +122,7 @@
 (let* ((more-bad-names (or *more-grep-find-bad-names* ()))
        (bad-names (append (list "*.log" ".svn" ".git" "CVS" "TAGS" "*~" "*.class"
                                 "*.[wj]ar" "target" "javadoc" "bytecode" "*.beam"
-                                "*.swf" "*.o" "_site" "*.pyc")
+                                "*.swf" "*.o" "_site" "*.pyc" ".idea")
                           more-bad-names))
        (gfc (concat "find . \\( -name "
                     (mapconcat 'shell-quote-argument bad-names " -o -name ")
@@ -1433,6 +1433,19 @@ me about the channels listed in my-rcirc-notifiy-channels."
             (set-face-attribute 'markdown-header-face-4 nil :foreground "black")
             (set-face-attribute 'markdown-header-face-5 nil :foreground "black")
             (set-face-attribute 'markdown-header-face-6 nil :foreground "black")))
+
+
+;;
+;; GMail plugin
+;; gmail-message-mode and edit-server
+;;
+(when (require 'edit-server nil t)
+  (setq edit-server-new-frame nil)
+  (edit-server-start))
+
+(add-hook 'ham-mode-hook
+          (lambda ()
+            (setq ham-mode-markdown-command '("~/.rbenv/shims/kramdown" file))))
 
 
 ;;
