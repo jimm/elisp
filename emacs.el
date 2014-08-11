@@ -305,6 +305,21 @@ a simple algorithm that may grow over time if needed."
 ;;
 (setq diary-file (concat *my-pim-dir* "diary")) ; must be before remember mode hook def
 
+(defun address (str)
+  "Find STR in my address book file. Looks first for STR as the
+beginning of a name. If not found, looks for the first occurrence
+of STR anywhere."
+  (interactive "sSearch string: ")
+  (let ((search-str (replace-regexp-in-string "+" " " str))
+        (current-buf (current-buffer)))
+    (find-file (concat *my-pim-dir* "orgs/address_book.org"))
+    (goto-char (point-min))
+    (or
+     (search-forward (concat "\n\n" search-str) nil t)
+     (search-forward (concat "\n" search-str) nil t)
+     (search-forward search-str nil t)
+     (error (concat "\"" search-str "\" not found")))))
+
 ;;
 ;; Remember mode
 ;;
@@ -342,24 +357,24 @@ a simple algorithm that may grow over time if needed."
 ;(setq browse-url-generic-program "mozilla-firefox")
 (setq browse-url-generic-program "open")
 
-(defun my-url-open (&optional url unused)
-  "UNUSED is there because org-open-at-point demands it."
-  (interactive)
-  (let* ((url-str (if (null url) (read-string "URL: ") url)))
-    (cond ((open-url-using-emacs-p url-str)
-           (find-file (substring url-str ; chop off "file://" or "file:" first
-                                 (if (equal (string-match "file://" url-str) 0)
-                                     7 5))))
-          ((string-prefix-p "addr:" url-str)
-           (address (substring url-str 5)))
-          ((string-prefix-p "date:" url-str)
-           (my-goto-calendar-date (substring url-str 5)))
-          ((and (not (string-prefix-p "http://" url-str)) (not (string-prefix-p "https://" url-str)))
-           (browse-url-generic (concat "http://" url-str)))
-          (t
-           (browse-url-generic url-str)))))
+;; (defun my-url-open (&optional url unused)
+;;   "UNUSED is there because org-open-at-point demands it."
+;;   (interactive)
+;;   (let* ((url-str (if (null url) (read-string "URL: ") url)))
+;;     (cond ((open-url-using-emacs-p url-str)
+;;            (find-file (substring url-str ; chop off "file://" or "file:" first
+;;                                  (if (equal (string-match "file://" url-str) 0)
+;;                                      7 5))))
+;;           ((string-prefix-p "addr:" url-str)
+;;            (address (substring url-str 5)))
+;;           ((string-prefix-p "date:" url-str)
+;;            (my-goto-calendar-date (substring url-str 5)))
+;;           ((and (not (string-prefix-p "http://" url-str)) (not (string-prefix-p "https://" url-str)))
+;;            (browse-url-generic (concat "http://" url-str)))
+;;           (t
+;;            (browse-url-generic url-str)))))
 
-(setq browse-url-browser-function 'my-url-open)
+;; (setq browse-url-browser-function 'my-url-open)
 
 ; Java class Javadoc lookup
 (defvar *my-javadoc-url*
@@ -1165,21 +1180,6 @@ gzip.")))
   (setq c-basic-offset 2)
   (setq ruby-indent-level 2))
 
-(defun address (str)
-  "Find STR in my address book file. Looks first for STR as the
-beginning of a name. If not found, looks for the first occurrence
-of STR anywhere."
-  (interactive "sSearch string: ")
-  (let ((search-str (replace-regexp-in-string "+" " " str))
-        (current-buf (current-buffer)))
-    (find-file (concat *my-pim-dir* "orgs/address_book.org"))
-    (goto-char (point-min))
-    (or
-     (search-forward (concat "\n\n" search-str) nil t)
-     (search-forward (concat "\n" search-str) nil t)
-     (search-forward search-str nil t)
-     (error (concat "\"" search-str "\" not found")))))
-
 (defun email (str)
   "Find first email of STR in my address book Org Mode file. For
 some reason, the file's buffer remains in the front, even though
@@ -1346,9 +1346,11 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (setq org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org")))
 (setq org-startup-folded 'content)
 (add-hook 'org-mode-hook
-          '(lambda ()
-             (setq org-export-with-sub-superscripts nil)
-             (define-key org-mode-map "\C-cr" 'my-org-execute-src)))
+          (lambda ()
+            (org-add-link-type "addr" 'address)
+            (org-add-link-type "date" 'my-goto-calendar-date)
+            (setq org-export-with-sub-superscripts nil)
+            (define-key org-mode-map "\C-cr" 'my-org-execute-src)))
 
 (set-face-attribute 'org-level-1 nil :height 1.2 :bold t)
 
@@ -1709,8 +1711,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
      (interactive)
      (find-file *my-remember-data-file*)
      (goto-char (point-max))))
-(global-set-key [f7] 'my-url-open)
-(global-set-key [\C-f7] 'my-javadoc-open)
+(global-set-key [f7] 'my-javadoc-open)
 (global-set-key [f8] 'ef)
 (global-set-key [\C-f8]
   '(lambda (fname-regexp) (interactive "sOrg file regex: ")
