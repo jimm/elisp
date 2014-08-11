@@ -333,13 +333,6 @@ of STR anywhere."
 ;;
 ;; Browse away!
 ;;
-;(autoload 'browse-url-netscape "browse-url" "Ask Netscape to show a URL" t)
-(defvar shell-open-file-list '("\\.html$" "\\.pdf$" "\\.app$" "\\.rtfd?$" "\\.docx?$"))
-
-(defun matches-regexp-in-list-p (str list)
-  (cond ((null list) nil)
-        ((string-match (car list) str) t)
-        (t (matches-regexp-in-list-p str (cdr list)))))
 
 (defun my-goto-calendar-date (str)
   (interactive "sDate: ")
@@ -349,32 +342,8 @@ of STR anywhere."
 			      (car date-list)
 			      (caddr date-list)))))
 
-(defun open-url-using-emacs-p (str)
-  (let ((len (length str)))
-    (and (string-prefix-p "file:" str)
-         (not (matches-regexp-in-list-p str shell-open-file-list)))))
-
 ;(setq browse-url-generic-program "mozilla-firefox")
 (setq browse-url-generic-program "open")
-
-;; (defun my-url-open (&optional url unused)
-;;   "UNUSED is there because org-open-at-point demands it."
-;;   (interactive)
-;;   (let* ((url-str (if (null url) (read-string "URL: ") url)))
-;;     (cond ((open-url-using-emacs-p url-str)
-;;            (find-file (substring url-str ; chop off "file://" or "file:" first
-;;                                  (if (equal (string-match "file://" url-str) 0)
-;;                                      7 5))))
-;;           ((string-prefix-p "addr:" url-str)
-;;            (address (substring url-str 5)))
-;;           ((string-prefix-p "date:" url-str)
-;;            (my-goto-calendar-date (substring url-str 5)))
-;;           ((and (not (string-prefix-p "http://" url-str)) (not (string-prefix-p "https://" url-str)))
-;;            (browse-url-generic (concat "http://" url-str)))
-;;           (t
-;;            (browse-url-generic url-str)))))
-
-;; (setq browse-url-browser-function 'my-url-open)
 
 ; Java class Javadoc lookup
 (defvar *my-javadoc-url*
