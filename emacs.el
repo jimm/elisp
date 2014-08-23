@@ -122,7 +122,8 @@
 (let* ((more-bad-names (or *more-grep-find-bad-names* ()))
        (bad-names (append (list "*.log" ".svn" ".git" "CVS" "TAGS" "*~" "*.class"
                                 "*.[wj]ar" "target" "javadoc" "bytecode" "*.beam"
-                                "*.swf" "*.o" "_site" "*.pyc" ".idea")
+                                "*.swf" "*.o" "_site" "*.pyc" ".idea" "_build"
+                                "ebin")
                           more-bad-names))
        (gfc (concat "find . \\( -name "
                     (mapconcat 'shell-quote-argument bad-names " -o -name ")
@@ -889,24 +890,38 @@ This may not do the correct thing in presence of links."
   "Returns the name of the iex buffer, derived from iex-proc-name."
   (concat "*" iex-proc-name "*"))
 
-(defun iex (&optional arg)
+(defun iex-mix ()
   "Adds \"-e File.cd('MIXDIR') -S mix\" flags to iex when
-  starting the iex comint buffer. With a non-nil ARG, skips mix."
-  (interactive (list (prefix-numeric-value current-prefix-arg)))
+  starting the iex comint buffer."
+  (interactive)
   (let* ((mixfile (get-closest-pathname "mix.exs"))
          (dir (file-name-directory mixfile))
          (abs-dir (if (equal "~" (substring dir 0 1))
                       (concat (getenv "HOME") (substring dir 1))
                     dir))
-         (iex-opts (if arg
-                       ()
-                     (list "-e" (concat "File.cd('" abs-dir "')") "-S" "mix"))))
+         (iex-opts (list "-e" (concat "File.cd('" abs-dir "')") "-S" "mix")))
     ;; The rest of this does what elixir-mode-iex does, but it's set up to
     ;; take the raw prefix arg, not a string or list containing additional
     ;; args.
     (unless (comint-check-proc (iex-buf-name))
       (set-buffer
        (apply 'make-comint iex-proc-name (or elixir-iex-command "iex") nil iex-opts)))
+    (iex-switch-to-inf)))
+
+(defun iex ()
+  "iex in a comint buffer"
+  (interactive)
+  (let* ((mixfile (get-closest-pathname "mix.exs"))
+         (dir (file-name-directory mixfile))
+         (abs-dir (if (equal "~" (substring dir 0 1))
+                      (concat (getenv "HOME") (substring dir 1))
+                    dir)))
+    ;; The rest of this does what elixir-mode-iex does, but it's set up to
+    ;; take the raw prefix arg, not a string or list containing additional
+    ;; args.
+    (unless (comint-check-proc (iex-buf-name))
+      (set-buffer
+       (apply 'make-comint iex-proc-name (or elixir-iex-command "iex") nil ())))
     (iex-switch-to-inf)))
 
 (defun iex-switch-to-inf ()
