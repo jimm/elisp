@@ -1700,8 +1700,6 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (global-set-key [\C-f8]
   '(lambda (fname-regexp) (interactive "sOrg file regex: ")
      (ef (shell-quote-argument fname-regexp) (concat *my-pim-dir* "orgs/"))))
-(global-set-key [f9] 'bookmark-jump)
-(global-set-key [\C-f9] 'bookmark-set)
 (global-set-key [f10] 'zoom-frame)
 (global-set-key [\C-f10] 'max-frame-height)
 (global-set-key [f11] 'other-window)
