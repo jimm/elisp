@@ -14,15 +14,14 @@
                          ("marmalade" . "http://marmalade-repo.org/packages/")
                          ("melpa" . "http://melpa.milkbox.net/packages/")))
 (when (< emacs-major-version 24)
-  (progn
-    ;; This was installed by package-install.el.
-    ;; This provides support for the package system and
-    ;; interfacing with ELPA, the package archive.
-    ;; Move this code earlier if you want to reference
-    ;; packages in your .emacs.
-    (let ((f (expand-file-name "~/.emacs.d/elpa/package.el")))
-      (when (and (file-exists-p f)
-                 (load f))))))
+  ;; This was installed by package-install.el.
+  ;; This provides support for the package system and
+  ;; interfacing with ELPA, the package archive.
+  ;; Move this code earlier if you want to reference
+  ;; packages in your .emacs.
+  (let ((f (expand-file-name "~/.emacs.d/elpa/package.el")))
+    (when (and (file-exists-p f)
+               (load f)))))
 (when-fboundp-call package-initialize)
 
 (defun ensure-ends-with-slash (dir)
@@ -87,9 +86,8 @@
 
 ;; Emacs 23-specific values
 (when (>= emacs-major-version 23)
-  (progn
-    (transient-mark-mode -1)
-    (setq confirm-nonexistent-file-or-buffer nil)))
+  (transient-mark-mode -1)
+  (setq confirm-nonexistent-file-or-buffer nil))
 
 (setq bookmark-save-flag 1)		; see bootstrap-ini for loc of file
 (setq sentence-end-double-space nil)
@@ -643,27 +641,26 @@ This may not do the correct thing in presence of links."
 ;; Eshell-mode
 ;; must come after defining ef
 ;;
-(if (eq my-shell 'eshell)
-    (progn
-      (load "eshell")
-      (load "eshell-customize")
+(when (eq my-shell 'eshell)
+  (load "eshell")
+  (load "eshell-customize")
 
-      (unless aquamacs-p
-        ; Mac OS X doesn't set path properly when Emacs.app is launched.
-        ; Since Mac OS X is pretty much all I use these days, I've put this
-        ; code here. Shouldn't do any harm if run on another flavor of Unix.
-        (when (file-exists-p "/bin/bash")
-          ;; Launch subshell and pring env vars, then parse that and set our
-          ;; env vars.
-          (let ((all-env-vars (shell-command-to-string "/bin/bash -l -c '/usr/bin/env'")))
-            (mapc (lambda (line)
-                    (when (string-match "\\([^=]+\\)=\\(.*\\)" line)
-                      (setenv (match-string 1 line) (match-string 2 line))))
-                  (split-string all-env-vars "\n")))
+  (unless aquamacs-p
+    ;; Mac OS X doesn't set path properly when Emacs.app is launched.
+    ;; Since Mac OS X is pretty much all I use these days, I've put this
+    ;; code here. Shouldn't do any harm if run on another flavor of Unix.
+    (when (file-exists-p "/bin/bash")
+      ;; Launch subshell and pring env vars, then parse that and set our
+      ;; env vars.
+      (let ((all-env-vars (shell-command-to-string "/bin/bash -l -c '/usr/bin/env'")))
+        (mapc (lambda (line)
+                (when (string-match "\\([^=]+\\)=\\(.*\\)" line)
+                  (setenv (match-string 1 line) (match-string 2 line))))
+              (split-string all-env-vars "\n")))
 
-          (let ((path (getenv "PATH")))
-            (setq eshell-path-env path)
-            (setq exec-path (split-string path ":")))))))
+      (let ((path (getenv "PATH")))
+        (setq eshell-path-env path)
+        (setq exec-path (split-string path ":"))))))
 
 ;;
 ;; Shell-mode
@@ -792,8 +789,7 @@ This may not do the correct thing in presence of links."
     (defun my-html-insert-comment ()
       (interactive "*")
       (insert "<!--  -->")
-      (backward-char 4)
-      )
+      (backward-char 4))
 
     (defun unescape-html ()
       (interactive "*")
