@@ -74,14 +74,13 @@ use this to delete the log/test.log file."
   (let ((root-dir (locate-dominating-file (file-name-directory (buffer-file-name)) "Rakefile")))
     (if root-dir
         (let ((root-relative-file (substring (buffer-file-name) (length (expand-file-name root-dir)))))
-          (progn
-            (save-buffer)
-            (compile (concat "cd " (shell-quote-argument (expand-file-name root-dir))
-                             (when (boundp '*ruby-test-inject-command*)
-                               (concat " && " *ruby-test-inject-command*))
-                             " && ruby -I test " root-relative-file
-                             (when (> (length test-name) 0)
-                               (concat " -n " test-name))))))
+          (save-buffer)
+          (compile (concat "cd " (shell-quote-argument (expand-file-name root-dir))
+                           (when (boundp '*ruby-test-inject-command*)
+                             (concat " && " *ruby-test-inject-command*))
+                           " && ruby -I test " root-relative-file
+                           (when (> (length test-name) 0)
+                             (concat " -n " test-name)))))
       (error "Can not find RAILS_ROOT (Rakefile not found)"))))
 
 (defun run-ruby-spec (spec-name-fragment)
@@ -97,14 +96,13 @@ use this to delete the log/test.log file."
   (let ((root-dir (locate-dominating-file (file-name-directory (buffer-file-name)) "Rakefile")))
     (if root-dir
         (let ((root-relative-file (substring (buffer-file-name) (length (expand-file-name root-dir)))))
-          (progn
-            (save-buffer)
-            (compile (concat "cd " (shell-quote-argument (expand-file-name root-dir))
-                             (when (boundp '*ruby-test-inject-command*)
-                               (concat " && " *ruby-test-inject-command*))
-                             " && rspec " root-relative-file
-                             (when (> (length spec-name-fragment) 0)
-                               (concat " -e " (shell-quote-argument spec-name-fragment)))))))
+          (save-buffer)
+          (compile (concat "cd " (shell-quote-argument (expand-file-name root-dir))
+                           (when (boundp '*ruby-test-inject-command*)
+                             (concat " && " *ruby-test-inject-command*))
+                           " && rspec " root-relative-file
+                           (when (> (length spec-name-fragment) 0)
+                             (concat " -e " (shell-quote-argument spec-name-fragment))))))
       (error "Can not find RAILS_ROOT (Rakefile not found)"))))
 
 (add-hook 'ruby-mode-hook
