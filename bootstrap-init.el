@@ -1,4 +1,5 @@
-;;; *my-emacs-lib-dir* must be defined
+;;;; *my-emacs-lib-dir* must be defined. See "Bootstrap Process" in
+;;;; *README.org.
 
 (defun bootstrap-file (domain machine file-name)
   "Returns the path to FILE-NAME for MACHINE in DOMAIN. The
@@ -18,6 +19,13 @@ is newer than the .el file."
 	   (load-file f)))))
 
 (defun bootstrap-init (domain machine)
+  "Finds the directory bootstrap/DOMAIN/MACHINE and loads three
+files: \"before.el\" from that directory, \"emacs.el\" in this
+directory, and \"after.el\" from that directory. Finally, it sets
+the location of the bookmark save file to that directory.
+
+The variable *my-emacs-lib-dir* must be defined before calling
+this function."
   (setq *my-emacs-bootstrap-domain* domain)
   (setq *my-emacs-bootstrap-machine* machine)
   (add-to-list 'load-path *my-emacs-lib-dir* t) ; add to end of load path

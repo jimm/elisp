@@ -36,32 +36,14 @@ that machine's bootstrap/DOMAIN/MACHINE directory to ~/.emacs. Here's the
   ;; -*- emacs-lisp -*-
   (defvar *my-emacs-lib-dir* "~/Library/elisp/")
   (load-file (concat *my-emacs-lib-dir* "bootstrap-init.el"))
-  (bootstrap-init "home" "nimbus")
+  (bootstrap-init "home" "sysex")
 #+end_src
 
-Here's bootstrap-init.el:
-
-#+begin_src emacs-lisp
-  ;;; *my-emacs-lib-dir* must be defined
-
-  (defun bootstrap-file (domain machine file-name)
-    (concat *my-emacs-lib-dir* "bootstrap/" domain "/" machine "/" file-name))
-
-  (defun load-init-if-exists (domain machine file)
-    (let ((f (bootstrap-file domain machine (concat file ".el"))))
-      (if (file-exists-p f)
-        (load-file f))))
-
-  (defun bootstrap-init (domain machine)
-    (load-init-if-exists domain machine "before")
-    (load-file (concat *my-emacs-lib-dir* "emacs"))
-    (load-init-if-exists domain machine "after")
-    (setq bookmark-default-file
-          (bootstrap-file domain machine "emacs.bmk")))
-#+end_src
-
-So you can see that bootstrap-init runs a "before.el" file, then my main
-customization file "emacs.el", then an "after.el" file.
+See bootstrap-init.el for the definition of =bootstrap-init=. That function
+finds the directory corresponding containing the customization files
+corresponding to its args. It then runs the "before.el" file in that
+directory, then my main customization file "emacs.el", then the "after.el"
+file.
 
 * See Also
 
