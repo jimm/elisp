@@ -45,6 +45,11 @@ corresponding to its args. It then runs the "before.el" file in that
 directory, then my main customization file "emacs.el", then the "after.el"
 file.
 
+Note that the variable =*my-emacs-lib-dir*= must be defined before calling
+=bootstrap-init=. Yes, we could pass its value into that function, but since
+it is used and assumed to exist elsewhere, that function might as well
+assume it exists.
+
 * See Also
 
 See also my [[http://www.jimmenard.com/emacs_tips.html][Emacs tips]] page.
