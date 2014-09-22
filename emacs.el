@@ -53,7 +53,7 @@
 ;; added by bootstrap-init.el.
 (mapc (lambda (dir)
         (add-to-list 'load-path (concat *my-emacs-lib-dir* dir "/") t))
-      '("progmodes" "ses" "remember" "org/lisp"))
+      '("progmodes" "ses"))
 
 (setq abbrev-file-name (concat *my-emacs-lib-dir* "abbrev_defs.el"))
 (read-abbrev-file abbrev-file-name t)
