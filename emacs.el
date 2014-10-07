@@ -982,8 +982,6 @@ gzip.")))
 ;;
 ;; Python-mode
 ;;
-; Emacs now comes with its own Python mode called simply "python"
-; (autoload 'python-mode "python-mode" "Python mode." t)
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (add-hook 'python-mode-hook
           '(lambda ()
