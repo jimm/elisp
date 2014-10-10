@@ -1263,16 +1263,29 @@ me about the channels listed in my-rcirc-notifiy-channels."
     (write-region p-beg p-end tmpfile)
     (compile (concat lang " " tmpfile))))
 
+(defun lower-case-org-mode-templates ()
+  "I like lower-case Org Mode templates. This function returns a
+copy of org-structure-template-alist with lower-case template
+values."
+  (mapcar (lambda (entry) 
+          (list (car entry)
+                (downcase (cadr entry))
+                (caddr entry)))
+   org-structure-template-alist))
+
 ;; recommended
 (setq org-agenda-include-diary t)
 (setq org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org")))
 (setq org-startup-folded 'content)
+
 (add-hook 'org-mode-hook
           (lambda ()
             (org-add-link-type "addr" 'address)
             (org-add-link-type "date" 'my-goto-calendar-date)
             (setq org-export-with-sub-superscripts nil)
-            (define-key org-mode-map "\C-cr" 'my-org-execute-src)))
+            (define-key org-mode-map "\C-cr" 'my-org-execute-src)
+            (setq org-structure-template-alist
+                  (lower-case-org-mode-templates))))
 
 (set-face-attribute 'org-level-1 nil :height 1.2 :bold t)
 
