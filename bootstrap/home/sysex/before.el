@@ -1,5 +1,8 @@
 (defvar *my-pim-dir* "~/pim/")
 
+(setq my-shell 'shell)
+(setq my-alternate-shell 'eshell)
+
 (setq ns-command-modifier 'meta)        ; define Command as Meta key
 (setq ns-option-modifier "none")        ; unbind option key
 
