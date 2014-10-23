@@ -12,7 +12,7 @@
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+                         ("melpa" . "http://melpa.org/packages/")))
 (when (< emacs-major-version 24)
   ;; This was installed by package-install.el.
   ;; This provides support for the package system and
