@@ -1,5 +1,5 @@
 ;;;; *my-emacs-lib-dir* must be defined. See "Bootstrap Process" in
-;;;; *README.org.
+;;;; README.org.
 
 (defun bootstrap-file (domain machine file-name)
   "Returns the path to FILE-NAME for MACHINE in DOMAIN. The
