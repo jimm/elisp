@@ -646,22 +646,28 @@ This may not do the correct thing in presence of links."
   (load "eshell")
   (load "eshell-customize")
 
-  (unless aquamacs-p
-    ;; Mac OS X doesn't set path properly when Emacs.app is launched.
-    ;; Since Mac OS X is pretty much all I use these days, I've put this
-    ;; code here. Shouldn't do any harm if run on another flavor of Unix.
-    (when (file-exists-p "/bin/bash")
-      ;; Launch subshell and pring env vars, then parse that and set our
-      ;; env vars.
-      (let ((all-env-vars (shell-command-to-string "/bin/bash -l -c '/usr/bin/env'")))
-        (mapc (lambda (line)
-                (when (string-match "\\([^=]+\\)=\\(.*\\)" line)
-                  (setenv (match-string 1 line) (match-string 2 line))))
-              (split-string all-env-vars "\n")))
+  ;; Mac OS X doesn't set path properly when Emacs.app is launched.
+  ;; Since Mac OS X is pretty much all I use these days, I've put this
+  ;; code here. Shouldn't do any harm if run on another flavor of Unix.
+  (when (file-exists-p "/bin/bash")
+    ;; Launch subshell and pring env vars, then parse that and set our
+    ;; env vars.
+    (let ((all-env-vars (shell-command-to-string "/bin/bash -l -c '/usr/bin/env'")))
+      (mapc (lambda (line)
+              (when (string-match "\\([^=]+\\)=\\(.*\\)"
+                                  line)
+                (setenv (match-string 1 line)
+                        (match-string 2 line))))
+            (split-string all-env-vars "\n")))
 
-      (let ((path (getenv "PATH")))
-        (setq eshell-path-env path)
-        (setq exec-path (split-string path ":"))))))
+    ;; When eshell is loaded, (getenv "PATH") returns the system default
+    ;; path, not what is set by my bash init files.Now that we've run the
+    ;; above command and set PATH by reading it from bash, we can give the
+    ;; full path to eshell-path-env. As of Emacs 24.4, that variable is
+    ;; buffer-local. Calling set-default overrides the value in the
+    ;; eshell-path-env defvar declaration.
+    (let ((path (getenv "PATH")))
+      (set-default 'eshell-path-env path))))
 
 ;;
 ;; Shell-mode
