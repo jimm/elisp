@@ -652,7 +652,8 @@ This may not do the correct thing in presence of links."
   (when (file-exists-p "/bin/bash")
     ;; Launch subshell and pring env vars, then parse that and set our
     ;; env vars.
-    (let ((all-env-vars (shell-command-to-string "/bin/bash -l -c '/usr/bin/env'")))
+    (let ((all-env-vars (shell-command-to-string "/bin/bash -l -c '/usr/bin/env'"))
+          path-set-p (> (strlen (getenv "PATH")) 0))
       (mapc (lambda (line)
               (when (string-match "\\([^=]+\\)=\\(.*\\)"
                                   line)
@@ -660,14 +661,16 @@ This may not do the correct thing in presence of links."
                         (match-string 2 line))))
             (split-string all-env-vars "\n")))
 
-    ;; When eshell is loaded, (getenv "PATH") returns the system default
-    ;; path, not what is set by my bash init files.Now that we've run the
-    ;; above command and set PATH by reading it from bash, we can give the
-    ;; full path to eshell-path-env. As of Emacs 24.4, that variable is
-    ;; buffer-local. Calling set-default overrides the value in the
-    ;; eshell-path-env defvar declaration.
-    (let ((path (getenv "PATH")))
-      (set-default 'eshell-path-env path))))
+    (when (not path-set-p)
+      ;; When eshell is loaded and the system has not correctly passed in
+      ;; "PATH" (I'm looking at you, OS X), (getenv "PATH") returns the
+      ;; system default path, not what is set by my bash init files. Now
+      ;; that we've run the above command and set PATH by reading it from
+      ;; bash, we can give the full path to eshell-path-env. As of Emacs
+      ;; 24.4, that variable is buffer-local. Calling set-default overrides
+      ;; the value in the eshell-path-env defvar declaration.
+      (let ((path (getenv "PATH")))
+        (setq-default eshell-path-env path)))))
 
 ;;
 ;; Shell-mode
