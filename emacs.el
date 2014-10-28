@@ -632,28 +632,12 @@ This may not do the correct thing in presence of links."
              (setq c-tab-always-indent nil)))
 
 ;;
-;; sh-mode
+;; Environment variables and path. Use "launchctl setenv var value" to set
+;; environment vars on OS X so that they get passed to GUI apps like
+;; Emacs.app when they are launched. Since Mac OS X is pretty much all I use
+;; these days, I've put this code here. Shouldn't do any harm if run on
+;; another flavor of Unix.
 ;;
-(add-hook 'sh-mode-hook
-          '(lambda ()
-             (define-key sh-mode-map "\C-c\C-k" 'compile)))
-
-;;
-;; Environment variables and path. Mac OS X doesn't set path properly when
-;; Emacs.app is launched. Since Mac OS X is pretty much all I use these
-;; days, I've put this code here. Shouldn't do any harm if run on another
-;; flavor of Unix.
-;;
-(when (file-exists-p "/bin/bash")
-  ;; Launch subshell and pring env vars, then parse that and set our
-  ;; env vars.
-  (let ((all-env-vars (shell-command-to-string "/bin/bash -l -c '/usr/bin/env'")))
-    (mapc (lambda (line)
-            (when (string-match "\\([^=]+\\)=\\(.*\\)"
-                                line)
-              (setenv (match-string 1 line)
-                      (match-string 2 line))))
-          (split-string all-env-vars "\n"))))
 
 ;; For each PATH element, prepend it to exec-path if it's not already there.
 (mapc (lambda (path)
@@ -661,22 +645,19 @@ This may not do the correct thing in presence of links."
       (split-string (getenv "PATH") ":"))
 
 ;;
+;; sh-mode
+;;
+(add-hook 'sh-mode-hook
+          '(lambda ()
+             (define-key sh-mode-map "\C-c\C-k" 'compile)))
+
+;;
 ;; Eshell-mode
 ;; must come after defining ef
 ;;
 (when (eq my-shell 'eshell)
   (load "eshell")
-  (load "eshell-customize")
-
-  ;; When eshell is loaded and the system has not correctly passed in
-  ;; "PATH" (I'm looking at you, OS X), (getenv "PATH") returns the
-  ;; system default path, not what is set by my bash init files. Now
-  ;; that we've run the above command and set PATH by reading it from
-  ;; bash, we can give the full path to eshell-path-env. As of Emacs
-  ;; 24.4, that variable is buffer-local. Calling set-default overrides
-  ;; the value in the eshell-path-env defvar declaration.
-  (let ((path (getenv "PATH")))
-    (setq-default eshell-path-env path)))
+  (load "eshell-customize"))
 
 ;;
 ;; Shell-mode
