@@ -40,7 +40,7 @@
     ("\\(?:[^a-zA-Z0-9]\\)?\\+[^+]+\\+\\(?:[^a-zA-Z0-9]\\)" . 'rdoc-code)
     )
   '("README_FOR_APP" "\\.rdoc$")	;auto-mode-list
-  '((lambda () (auto-fill-mode t)))	;function-list
+  ((lambda () (auto-fill-mode t)))	;function-list
   "Major mode for editing RDOC files.")
 
 (provide 'rdoc-mode)

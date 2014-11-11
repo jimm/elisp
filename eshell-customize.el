@@ -81,6 +81,6 @@ PWD is not in a git repo (or the git command is not found)."
 ;;   nil)
 
 (add-hook 'eshell-mode-hook
-	  '(lambda ()
-	     (local-set-key "\C-c\C-q" 'eshell-kill-process)
-	     (local-set-key "\C-c\C-k" 'compile)))
+	  (lambda ()
+            (local-set-key "\C-c\C-q" 'eshell-kill-process)
+            (local-set-key "\C-c\C-k" 'compile)))

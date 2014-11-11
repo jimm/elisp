@@ -57,8 +57,8 @@
   (add-to-list 'load-path "~/.emacs.d/emacs-elixir")
   (require 'elixir-mode)
   (add-hook 'elixir-mode-hook
-            '(lambda ()
-               (define-key elixir-mode-map "\C-cd" 'debug-comment)
-               (define-key elixir-mode-map "\r" 'newline-and-indent)
-               (define-key elixir-mode-map "\C-cr" 'executable-interpret)
-               (define-key elixir-mode-map "\C-c\C-z" 'iex-switch-to-inf))))
+            (lambda ()
+              (define-key elixir-mode-map "\C-cd" 'debug-comment)
+              (define-key elixir-mode-map "\r" 'newline-and-indent)
+              (define-key elixir-mode-map "\C-cr" 'executable-interpret)
+              (define-key elixir-mode-map "\C-c\C-z" 'iex-switch-to-inf))))

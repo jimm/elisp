@@ -326,9 +326,9 @@ of STR anywhere."
 (autoload 'remember "remember" nil t)
 (setq *my-remember-data-file* (concat *my-pim-dir* "orgs/notes.org"))
 (add-hook 'remember-mode-hook
-          '(lambda ()
-             (setq remember-data-file *my-remember-data-file*)
-             (setq remember-diary-file diary-file)))
+          (lambda ()
+            (setq remember-data-file *my-remember-data-file*)
+            (setq remember-diary-file diary-file)))
 
 ;;
 ;; Browse away!
@@ -436,8 +436,8 @@ This may not do the correct thing in presence of links."
 ;; Shell script
 ;;
 (add-hook 'sh-mode-hook
-          '(lambda ()
-             (define-key sh-mode-map "\C-cr" 'executable-interpret)))
+          (lambda ()
+            (define-key sh-mode-map "\C-cr" 'executable-interpret)))
 
 ;;
 ;; Subversion
@@ -468,31 +468,31 @@ This may not do the correct thing in presence of links."
 ;; Text-mode
 ;;
 (add-hook 'text-mode-hook
-          '(lambda ()
-             (auto-fill-mode 1)
-             (four-tab-stops)))
+          (lambda ()
+            (auto-fill-mode 1)
+            (four-tab-stops)))
 
 ;;
 ;; For both C and C++ mode
 ;;
 (add-hook 'c-mode-common-hook
-          '(lambda ()
-             (setq c-basic-offset 2)
-             (setq c-tab-always-indent nil)
-             ;; BAD! BAD! Screws up ^D
-             ;; (setq c-delete-function 'backward-delete-char)
-             (setq c-recognize-knr-p nil)
+          (lambda ()
+            (setq c-basic-offset 2)
+            (setq c-tab-always-indent nil)
+            ;; BAD! BAD! Screws up ^D
+            ;; (setq c-delete-function 'backward-delete-char)
+            (setq c-recognize-knr-p nil)
 
-             ;; (define-key c-mode-map "{" 'skeleton-pair-insert-maybe)
-             ;; (define-key c-mode-map "(" 'skeleton-pair-insert-maybe)
+            ;; (define-key c-mode-map "{" 'skeleton-pair-insert-maybe)
+            ;; (define-key c-mode-map "(" 'skeleton-pair-insert-maybe)
 
-             ;; (local-set-key "\M-o" 'fh-open-header-file-other-window)
-             ;; (local-set-key "\M-O" 'fh-open-header-file-other-frame)
-             (local-set-key "\r" 'newline-and-indent)
-             (autoload 'fh-open-header-file-other-window "find-header"
-               "Locate header file and load it into other window" t)
-             (autoload 'fh-open-header-file-other-frame "find-header"
-               "Locate header file and load it into other frame" t)))
+            ;; (local-set-key "\M-o" 'fh-open-header-file-other-window)
+            ;; (local-set-key "\M-O" 'fh-open-header-file-other-frame)
+            (local-set-key "\r" 'newline-and-indent)
+            (autoload 'fh-open-header-file-other-window "find-header"
+              "Locate header file and load it into other window" t)
+            (autoload 'fh-open-header-file-other-frame "find-header"
+              "Locate header file and load it into other frame" t)))
 
 ;;
 ;; C++-mode
@@ -501,9 +501,9 @@ This may not do the correct thing in presence of links."
 (add-to-list 'auto-mode-alist '("\\.h?$" . c++-mode)) ; mostly C++, now a days
 (add-to-list 'auto-mode-alist '("\\.pde$" . c++-mode)) ; Arduino
 (add-hook 'c++-mode-hook
-          '(lambda ()
-             (c-set-style "stroustrup")
-             (setq c-basic-offset 2)))
+          (lambda ()
+            (c-set-style "stroustrup")
+            (setq c-basic-offset 2)))
 
 ;;
 ;; Java-mode
@@ -515,26 +515,26 @@ This may not do the correct thing in presence of links."
 (add-to-list 'auto-mode-alist '("\\.jsp$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.w[as]r$" . archive-mode))
 (add-hook 'java-mode-hook
-          '(lambda ()
-             (c-set-style "java")
-             ;; (c-set-offset 'inclass 0)
-             (if window-system (font-lock-mode 1))
-             ;; (define-key java-mode-map "{" 'skeleton-pair-insert-maybe)
-             ;; (define-key java-mode-map "(" 'skeleton-pair-insert-maybe)
-             (define-key java-mode-map "\C-cp" 'my-insert-println)
-             (define-key java-mode-map "\C-ce" 'my-insert-err-println)
-             (define-key java-mode-map "\C-cd" 'my-insert-debug-println)))
+          (lambda ()
+            (c-set-style "java")
+            ;; (c-set-offset 'inclass 0)
+            (if window-system (font-lock-mode 1))
+            ;; (define-key java-mode-map "{" 'skeleton-pair-insert-maybe)
+            ;; (define-key java-mode-map "(" 'skeleton-pair-insert-maybe)
+            (define-key java-mode-map "\C-cp" 'my-insert-println)
+            (define-key java-mode-map "\C-ce" 'my-insert-err-println)
+            (define-key java-mode-map "\C-cd" 'my-insert-debug-println)))
 
 ;;;
 ;; Compilation mode
 ;;
 (require 'compile)
-; Maven 2 error messages are of the form file:[line,column]
+                                        ; Maven 2 error messages are of the form file:[line,column]
 (setq compilation-error-regexp-alist
       (cons
        '("^\\(/[^:]+\\):\\[\\([0-9]+\\),\\([0-9]+\\)\\]" 1 2 3)
        compilation-error-regexp-alist))
-; Scala error messages
+                                        ; Scala error messages
 (setq compilation-error-regexp-alist
       (cons
        '("\\(\\([a-zA-Z0-9]*/\\)*\\([a-zA-Z0-9]*\\.scala\\)\\):\\([0-9]*\\).*" 1 2)
@@ -545,8 +545,8 @@ This may not do the correct thing in presence of links."
 
 (when (fboundp 'yas-global-mode)
   (yas-global-mode 1)
-  ; Don't do the following; link ~/.emacs.d/snippets to snippets instead
-  ; (add-to-list 'yas-snippet-dirs (concat *my-emacs-lib-dir* "snippets"))
+                                        ; Don't do the following; link ~/.emacs.d/snippets to snippets instead
+                                        ; (add-to-list 'yas-snippet-dirs (concat *my-emacs-lib-dir* "snippets"))
   (yas-reload-all))
 
 ;;
@@ -555,14 +555,14 @@ This may not do the correct thing in presence of links."
 (autoload 'javascript-mode "javascript" nil t)
 (add-to-list 'auto-mode-alist '("\\.[agj]s$" . javascript-mode))
 (add-hook 'js-mode-hook
-          '(lambda ()
-             (setq js-indent-level 2)   ; need both?????
-             (setq javascript-indent-level 2)))
+          (lambda ()
+            (setq js-indent-level 2)   ; need both?????
+            (setq javascript-indent-level 2)))
 ;; (autoload 'js2-mode "js2-mode" nil t)
 ;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 (setq js2-basic-offset 2)
-;(setq js2-use-font-lock-faces t)
+                                        ;(setq js2-use-font-lock-faces t)
 
 ;;
 ;; CoffeeScript
@@ -577,19 +577,19 @@ This may not do the correct thing in presence of links."
 (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
 (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
 (add-hook 'coffee-mode-hook
-          '(lambda ()
-             (setq coffee-js-mode 'javascript-mode)
-             (define-key coffee-mode-map "\C-cr" 'executable-interpret)
-             (define-key coffee-mode-map "\C-ck" 'compile-coffee-buffer)
-             (set (make-local-variable 'tab-width) 2)))
+          (lambda ()
+            (setq coffee-js-mode 'javascript-mode)
+            (define-key coffee-mode-map "\C-cr" 'executable-interpret)
+            (define-key coffee-mode-map "\C-ck" 'compile-coffee-buffer)
+            (set (make-local-variable 'tab-width) 2)))
 
 ;;
 ;; Objective-C mode
 ;;
 (add-hook 'objc-mode-hook
-          '(lambda ()
-             (if window-system (font-lock-mode 1))
-             (setq c-basic-offset 4)))
+          (lambda ()
+            (if window-system (font-lock-mode 1))
+            (setq c-basic-offset 4)))
 
 ;;
 ;; Groovy mode
@@ -597,39 +597,39 @@ This may not do the correct thing in presence of links."
 (autoload 'groovy-mode "groovy-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.groovy$" . groovy-mode))
 (add-hook 'groovy-mode-hook
-          '(lambda ()
-             (setq groovy-basic-offset 4)
-             (define-key groovy-mode-map "\r" 'newline-and-indent)
-             (define-key groovy-mode-map "\C-cr" 'executable-interpret)
-             (font-lock-mode 1)))
+          (lambda ()
+            (setq groovy-basic-offset 4)
+            (define-key groovy-mode-map "\r" 'newline-and-indent)
+            (define-key groovy-mode-map "\C-cr" 'executable-interpret)
+            (font-lock-mode 1)))
 
 ;; Groovy shell mode
 (autoload 'run-groovy "inf-groovy" "Run an inferior Groovy shell process")
 (autoload 'inf-groovy-keys "inf-groovy"
   "Set local key defs for inf-groovy in groovy-mode")
 (add-hook 'groovy-mode-hook
-          '(lambda ()
-             (inf-groovy-keys)))
+          (lambda ()
+            (inf-groovy-keys)))
 
 ;;
 ;; Scheme mode
 ;;
 (add-hook 'scheme-mode-hook
-          '(lambda ()
-             (define-key scheme-mode-map "\r" 'newline-and-indent)
-             (define-key scheme-mode-map "\C-cd" 'debug-comment)))
+          (lambda ()
+            (define-key scheme-mode-map "\r" 'newline-and-indent)
+            (define-key scheme-mode-map "\C-cd" 'debug-comment)))
 
 ;;
 ;; Perl-mode
 ;;
 (autoload 'perl-mode "perl-mode" "Perl mode" t nil)
 (add-hook 'perl-mode-hook
-          '(lambda ()
-             (define-key perl-mode-map "\r" 'newline-and-indent)
-             (define-key perl-mode-map "\M-\C-h" 'backward-kill-word)
-             (define-key perl-mode-map "\C-cd" 'debug-comment)
-             (setq c-basic-offset 2)
-             (setq c-tab-always-indent nil)))
+          (lambda ()
+            (define-key perl-mode-map "\r" 'newline-and-indent)
+            (define-key perl-mode-map "\M-\C-h" 'backward-kill-word)
+            (define-key perl-mode-map "\C-cd" 'debug-comment)
+            (setq c-basic-offset 2)
+            (setq c-tab-always-indent nil)))
 
 ;;
 ;; Environment variables and path. Use "launchctl setenv var value" to set
@@ -648,8 +648,8 @@ This may not do the correct thing in presence of links."
 ;; sh-mode
 ;;
 (add-hook 'sh-mode-hook
-          '(lambda ()
-             (define-key sh-mode-map "\C-c\C-k" 'compile)))
+          (lambda ()
+            (define-key sh-mode-map "\C-c\C-k" 'compile)))
 
 ;;
 ;; Eshell-mode
@@ -668,9 +668,9 @@ This may not do the correct thing in presence of links."
           'comint-watch-for-password-prompt)
 (setq shell-completion-execonly nil)    ; Any file is completion candidate
 (add-hook 'shell-mode-hook
-          '(lambda ()
-             (auto-fill-mode -1)
-             (setq comint-scroll-show-maximum-output nil)))
+          (lambda ()
+            (auto-fill-mode -1)
+            (setq comint-scroll-show-maximum-output nil)))
 
 ;;
 ;; LaTeX-mode
@@ -692,14 +692,14 @@ This may not do the correct thing in presence of links."
                       ".txt"))
       )
     (add-hook 'tex-mode-hook
-              '(lambda () (define-key tex-mode-map "\C-c\C-k" 'compile)))
+              (lambda () (define-key tex-mode-map "\C-c\C-k" 'compile)))
     (add-hook 'latex-mode-hook
-              '(lambda ()
-                 (define-key latex-mode-map "\C-c\C-p" 'tex-print)
-                 ;; (define-key latex-mode-map "\C-c\C-t" 'my-tex-to-text)
-                 (define-key latex-mode-map "\C-c\C-k" 'compile)
-                 (define-key latex-mode-map "\C-c\C-i" 'find-mine)
-                 (define-key latex-mode-map "\C-c\C-s" 'my-tex-slide-dvi-view)))))
+              (lambda ()
+                (define-key latex-mode-map "\C-c\C-p" 'tex-print)
+                ;; (define-key latex-mode-map "\C-c\C-t" 'my-tex-to-text)
+                (define-key latex-mode-map "\C-c\C-k" 'compile)
+                (define-key latex-mode-map "\C-c\C-i" 'find-mine)
+                (define-key latex-mode-map "\C-c\C-s" 'my-tex-slide-dvi-view)))))
 
 ;;
 ;; Sql-mode
@@ -734,9 +734,9 @@ This may not do the correct thing in presence of links."
 ;; (slime-setup)
 
 (add-hook 'lisp-mode-hook
-          '(lambda ()
-             (define-key lisp-mode-map "\r" 'newline-and-indent)
-             (define-key lisp-mode-map "\C-cd" 'debug-comment)))
+          (lambda ()
+            (define-key lisp-mode-map "\r" 'newline-and-indent)
+            (define-key lisp-mode-map "\C-cd" 'debug-comment)))
 
 ;;
 ;; Clisp
@@ -758,9 +758,9 @@ This may not do the correct thing in presence of links."
 ;; Emacs-Lisp-mode
 ;;
 (add-hook 'emacs-lisp-mode-hook
-          '(lambda ()
-             (define-key emacs-lisp-mode-map "\C-cd" 'debug-comment)
-             (define-key emacs-lisp-mode-map "\r" 'newline-and-indent)))
+          (lambda ()
+            (define-key emacs-lisp-mode-map "\C-cd" 'debug-comment)
+            (define-key emacs-lisp-mode-map "\r" 'newline-and-indent)))
 
 ;;
 ;; PHP-mode
@@ -770,13 +770,13 @@ This may not do the correct thing in presence of links."
 (eval-after-load "php-mode"
   (progn
     (add-hook 'php-mode-hook
-              '(lambda ()
-                 (auto-fill-mode 1)
-                 (setq c-basic-offset 4)
-                 (define-key php-mode-map "\C-d" 'delete-char)
-                 (define-key php-mode-map "\C-ct" 'html-mode)
-                 (define-key php-mode-map "\C-ch" 'insert-ruby-hash-arrow)
-                 (define-key php-mode-map "\C-cr" 'executable-interpret)))))
+              (lambda ()
+                (auto-fill-mode 1)
+                (setq c-basic-offset 4)
+                (define-key php-mode-map "\C-d" 'delete-char)
+                (define-key php-mode-map "\C-ct" 'html-mode)
+                (define-key php-mode-map "\C-ch" 'insert-ruby-hash-arrow)
+                (define-key php-mode-map "\C-cr" 'executable-interpret)))))
 
 ;;
 ;; HTML-mode and SGML-mode
@@ -802,29 +802,29 @@ This may not do the correct thing in presence of links."
 (mapcar (lambda (ext)
           (add-to-list 'auto-mode-alist
                        (cons (concat "\\." ext "$") 'sgml-mode)))
-        ; jwcs, application, page: Tapestry
-        ; ftl: FreeMarker
+                                        ; jwcs, application, page: Tapestry
+                                        ; ftl: FreeMarker
         '("xsd" "wsd[ld]" "jwcs" "application" "page" "ftl"))
 
 (eval-after-load "sgml-mode"
   (progn
     (add-hook 'sgml-mode-hook
-              '(lambda ()
-                 (require 'tex-mode)
-                 (auto-fill-mode 1)
-                 (define-key sgml-mode-map "\C-c\C-k" 'compile)))
+              (lambda ()
+                (require 'tex-mode)
+                (auto-fill-mode 1)
+                (define-key sgml-mode-map "\C-c\C-k" 'compile)))
 
     (add-hook 'html-mode-hook
-              '(lambda ()
-                 (auto-fill-mode 1)
-                 (define-key html-mode-map "\C-c;" 'my-html-insert-comment)
-                 (define-key html-mode-map "\C-cp" 'php-mode)
-                 ;; The remaining functions are defined in my-ruby-mode.el
-                 (define-key html-mode-map "\C-ce" 'erb-eval-skeleton)
-                 (define-key html-mode-map "\C-cp" 'erb-print-skeleton)
-                 (define-key html-mode-map "\C-ch" 'insert-ruby-hash-arrow)
-                 (define-key html-mode-map "\C-cl" 'rails-link-to-skeleton)
-                 (define-key html-mode-map "\C-cr" 'rails-render-partial-skeleton)))))
+              (lambda ()
+                (auto-fill-mode 1)
+                (define-key html-mode-map "\C-c;" 'my-html-insert-comment)
+                (define-key html-mode-map "\C-cp" 'php-mode)
+                ;; The remaining functions are defined in my-ruby-mode.el
+                (define-key html-mode-map "\C-ce" 'erb-eval-skeleton)
+                (define-key html-mode-map "\C-cp" 'erb-print-skeleton)
+                (define-key html-mode-map "\C-ch" 'insert-ruby-hash-arrow)
+                (define-key html-mode-map "\C-cl" 'rails-link-to-skeleton)
+                (define-key html-mode-map "\C-cr" 'rails-render-partial-skeleton)))))
 
 ;;
 ;; CSS-mode
@@ -866,9 +866,9 @@ This may not do the correct thing in presence of links."
 (add-to-list 'auto-mode-alist '("\\.[he]rl$" . erlang-mode))
 (add-to-list 'auto-mode-alist '("\\.yaws$" . erlang-mode))
 (add-hook 'erlang-mode-hook
-          '(lambda ()
-             (setq indent-tabs-mode nil)
-             (comment-set-column 32)))
+          (lambda ()
+            (setq indent-tabs-mode nil)
+            (comment-set-column 32)))
 
 ;;
 ;; Elixir-mode
@@ -902,10 +902,10 @@ This may not do the correct thing in presence of links."
       (add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
       (load "inf-sbt")
       (add-hook 'scala-mode-hook
-                '(lambda ()
-                   (define-key scala-mode-map [f1] my-shell) ; I don't use Speedbar
-                   (define-key scala-mode-map "\r" 'newline-and-indent)
-                   (define-key scala-mode-map "\C-cr" 'executable-interpret)))
+                (lambda ()
+                  (define-key scala-mode-map [f1] my-shell) ; I don't use Speedbar
+                  (define-key scala-mode-map "\r" 'newline-and-indent)
+                  (define-key scala-mode-map "\C-cr" 'executable-interpret)))
       ;; That bright red face for vars is too annoying
       (set-face-attribute 'scala-font-lock:var-face nil :bold nil :foreground "red3"))
   (error nil))
@@ -952,20 +952,20 @@ for now."
   (dired-do-kill-lines))
 
 (add-hook 'dired-mode-hook
-          '(lambda ()
-             (define-key dired-mode-map "\C-c\C-c" 'my-dired-cruft-remove)
-             (define-key dired-mode-map "\C-c." 'my-dired-dot-remove)
-             (defvar dired-compress-file-suffixes
-               '(("\\.gz\\'" "" "gunzip")
-                 ("\\.tgz\\'" ".tar" "gunzip")
-                 ("\\.Z\\'" "" "uncompress")
-                 ;; For .z, try gunzip.  It might be an old gzip file,
-                 ;; or it might be from compact? pack? (which?) but gunzip
-                 ;; handles both.
-                 ("\\.z\\'" "" "gunzip")
-                 ;; This item controls naming for compression.
-                 ("\\.tar\\'" ".tar.gz" nil))
-  "Control changes in file name suffixes for compression and uncompression.
+          (lambda ()
+            (define-key dired-mode-map "\C-c\C-c" 'my-dired-cruft-remove)
+            (define-key dired-mode-map "\C-c." 'my-dired-dot-remove)
+            (defvar dired-compress-file-suffixes
+              '(("\\.gz\\'" "" "gunzip")
+                ("\\.tgz\\'" ".tar" "gunzip")
+                ("\\.Z\\'" "" "uncompress")
+                ;; For .z, try gunzip.  It might be an old gzip file,
+                ;; or it might be from compact? pack? (which?) but gunzip
+                ;; handles both.
+                ("\\.z\\'" "" "gunzip")
+                ;; This item controls naming for compression.
+                ("\\.tar\\'" ".tar.gz" nil))
+              "Control changes in file name suffixes for compression and uncompression.
 Each element specifies one transformation rule, and has the form:
   (REGEXP NEW-SUFFIX PROGRAM)
 The rule applies when the old file name matches REGEXP.
@@ -981,13 +981,13 @@ gzip.")))
 ;;
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (add-hook 'python-mode-hook
-          '(lambda ()
-             (turn-on-font-lock)
-             (define-key python-mode-map "\C-cr" 'executable-interpret)
-             ;; these two are in addition to the \C-< and \C-> bindings
-             ;; that already exist in Python mode
-             (define-key python-mode-map "\M-[" 'python-indent-shift-left)
-             (define-key python-mode-map "\M-]" 'python-indent-shift-right)))
+          (lambda ()
+            (turn-on-font-lock)
+            (define-key python-mode-map "\C-cr" 'executable-interpret)
+            ;; these two are in addition to the \C-< and \C-> bindings
+            ;; that already exist in Python mode
+            (define-key python-mode-map "\M-[" 'python-indent-shift-left)
+            (define-key python-mode-map "\M-]" 'python-indent-shift-right)))
 
 ;;
 ;; SES-mode
@@ -999,19 +999,19 @@ gzip.")))
 ;; Set tab stops to eight chars, not four
 ;;
 (defun eight-tab-stops ()
-    (interactive)
-      (setq tab-stop-list
-            '(8 16 24 32 40 48 56 64 72 80))
-        )
+  (interactive)
+  (setq tab-stop-list
+        '(8 16 24 32 40 48 56 64 72 80))
+  )
 
 ;;
 ;; Set tab stops to four chars, not eight
 ;;
 (defun four-tab-stops ()
-    (interactive)
-      (setq tab-stop-list
-            '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80))
-        )
+  (interactive)
+  (setq tab-stop-list
+        '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80))
+  )
 
 (defun tab-two () (interactive) (setq tab-width 2))
 (defun tab-four () (interactive) (setq tab-width 4))
@@ -1064,8 +1064,8 @@ gzip.")))
     (set-frame-position frame 0 0)
     (set-frame-height frame (zoom-frame-height-lines))))
 
-; Time and time zone information, for calendar's sunrise-sunset and related
-; funcs.
+                                        ; Time and time zone information, for calendar's sunrise-sunset and related
+                                        ; funcs.
 (setq calendar-load-hook (cons 'american-calendar calendar-load-hook))
 (setq calendar-latitude 41.08)          ; + north, - south
 (setq calendar-longitude -73.14)        ; + east, - west
@@ -1075,7 +1075,7 @@ gzip.")))
 (setq calendar-standard-time-zone-name "EST")
 (setq calendar-daylight-time-zone-name "EDT")
 
-; http://blog.plover.com/prog/revert-all.html
+                                        ; http://blog.plover.com/prog/revert-all.html
 (defun revert-all-buffers ()
   "Refreshes all open buffers from their respective files"
   (interactive)
@@ -1163,9 +1163,9 @@ and wc -w"
 (autoload 'go-mode "go-mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.go$" . go-mode))
 (add-hook 'go-mode-hook
-          '(lambda ()
-             (tab-four)
-             (setq indent-tabs-mode t)))
+          (lambda ()
+            (tab-four)
+            (setq indent-tabs-mode t)))
 
 ;;
 ;; Haskell mode
@@ -1220,11 +1220,11 @@ and wc -w"
 (setq
  rcirc-default-server "irc.freenode.net"
  rcirc-default-nick "jmenard42"
-; rcirc-authinfo '(("freenode" nickserv "jmenard42"))
-; rcirc-startup-channels-alist
-;   '(("\\.freenode\\.net$" "#emacs"))
-)
-  "A list of IRC channel names that are monitored for notifications."
+                                        ; rcirc-authinfo '(("freenode" nickserv "jmenard42"))
+                                        ; rcirc-startup-channels-alist
+                                        ;   '(("\\.freenode\\.net$" "#emacs"))
+ )
+"A list of IRC channel names that are monitored for notifications."
 (defvar my-rcirc-notifiy-channels
   '("#jimm-test"))
 (defun my-rcirc-print-hook (process sender response target text)
@@ -1235,7 +1235,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
                           (if (equal response "PRIVMSG") "" (concat " " response))
                           " " text)
                   target)))
-              
+
 (add-hook 'rcirc-print-hooks 'my-rcirc-print-hook)
 
 ;;
@@ -1265,10 +1265,10 @@ me about the channels listed in my-rcirc-notifiy-channels."
 copy of org-structure-template-alist with lower-case template
 values."
   (mapcar (lambda (entry) 
-          (list (car entry)
-                (downcase (cadr entry))
-                (caddr entry)))
-   org-structure-template-alist))
+            (list (car entry)
+                  (downcase (cadr entry))
+                  (caddr entry)))
+          org-structure-template-alist))
 
 ;; recommended
 (setq org-agenda-include-diary t)
@@ -1286,7 +1286,7 @@ values."
 
 (set-face-attribute 'org-level-1 nil :height 1.2 :bold t)
 
-; My own "addr:" link type
+                                        ; My own "addr:" link type
 (defun my-org-addr-open (entry)
   "Find ENTRY in my address_book.org file."
   (address entry))
@@ -1338,14 +1338,14 @@ values."
   (interactive "siTerm input: ")
   (let ((str (replace-regexp-in-string "\"" "\\\"" str t t)))
     (do-applescript (concat
-"tell application \"iTerm\"\n"
-"	tell the current terminal\n"
-"		tell the current session\n"
-"			write text \"" str "\"\n"
-"		end tell\n"
-"	end tell\n"
-"end tell\n"
-))))
+                     "tell application \"iTerm\"\n"
+                     "	tell the current terminal\n"
+                     "		tell the current session\n"
+                     "			write text \"" str "\"\n"
+                     "		end tell\n"
+                     "	end tell\n"
+                     "end tell\n"
+                     ))))
 (defun send-current-line-to-iterm ()
   "Send the current line to iTerm using tell-iterm."
   (interactive)
@@ -1388,15 +1388,15 @@ values."
 (autoload 'textile-mode "textile-mode" "textile mode")
 (add-to-list 'auto-mode-alist '("\\.textile$" . textile-mode))
 (add-hook 'textile-mode-hook
-          '(lambda ()
-             (auto-fill-mode 0)
-             (visual-line-mode 1)
-             (set-face-attribute 'textile-h1-face nil :foreground "blue" :height 1.2 :bold t)
-             (set-face-attribute 'textile-h2-face nil :foreground "brown" :height 1.0)
-             (set-face-attribute 'textile-h3-face nil :foreground "darkgreen" :height 1.0)
-             (set-face-attribute 'textile-h4-face nil :foreground "black" :height 1.0)
-             (set-face-attribute 'textile-h5-face nil :foreground "black" :height 1.0)
-             (set-face-attribute 'textile-h6-face nil :foreground "black" :height 1.0)))
+          (lambda ()
+            (auto-fill-mode 0)
+            (visual-line-mode 1)
+            (set-face-attribute 'textile-h1-face nil :foreground "blue" :height 1.2 :bold t)
+            (set-face-attribute 'textile-h2-face nil :foreground "brown" :height 1.0)
+            (set-face-attribute 'textile-h3-face nil :foreground "darkgreen" :height 1.0)
+            (set-face-attribute 'textile-h4-face nil :foreground "black" :height 1.0)
+            (set-face-attribute 'textile-h5-face nil :foreground "black" :height 1.0)
+            (set-face-attribute 'textile-h6-face nil :foreground "black" :height 1.0)))
 
 ;;
 ;; LilyPond mode
@@ -1423,8 +1423,8 @@ values."
 (autoload 'LilyPond-mode "lilypond-init" "lilypond mode")
 (add-to-list 'auto-mode-alist '("\\.ly$" . LilyPond-mode))
 (add-hook 'LilyPond-mode-hook
-          '(lambda ()
-             (define-key LilyPond-mode-map "\C-c\C-k" 'compile)))
+          (lambda ()
+            (define-key LilyPond-mode-map "\C-c\C-k" 'compile)))
 
 ;;
 ;; KeyMaster
@@ -1520,13 +1520,13 @@ values."
 ;; http://dfan.org/blog/2009/02/19/emacs-dedicated-windows/
 ;;
 (defun toggle-current-window-dedication ()
- (interactive)
- (let* ((window    (selected-window))
-        (dedicated (window-dedicated-p window)))
-   (set-window-dedicated-p window (not dedicated))
-   (message "Window %sdedicated to %s"
-            (if dedicated "no longer " "")
-            (buffer-name))))
+  (interactive)
+  (let* ((window    (selected-window))
+         (dedicated (window-dedicated-p window)))
+    (set-window-dedicated-p window (not dedicated))
+    (message "Window %sdedicated to %s"
+             (if dedicated "no longer " "")
+             (buffer-name))))
 
 ;;
 ;; Time manipulation
@@ -1555,9 +1555,9 @@ values."
   (if (zerop (length word))
       scrambled
     (let ((i (random (length word))))
-    (do-scramble-word
-     (concat (substring word 0 i) (substring word (1+ i)))
-     (concat scrambled (substring word i (1+ i)))))))
+      (do-scramble-word
+       (concat (substring word 0 i) (substring word (1+ i)))
+       (concat scrambled (substring word i (1+ i)))))))
 
 (defun scramble-word ()
   (interactive)
@@ -1633,21 +1633,21 @@ values."
 (global-set-key [\C-f2] 'remember)
 (global-set-key [f3] 'magit-status)
 (global-set-key [f4]
-  '(lambda () (interactive) (find-file (concat *my-pim-dir* "orgs/todo.org"))))
+                (lambda () (interactive) (find-file (concat *my-pim-dir* "orgs/todo.org"))))
 (global-set-key [f5]
-  '(lambda () (interactive) (switch-to-buffer "*inferior-lisp*")))
+                (lambda () (interactive) (switch-to-buffer "*inferior-lisp*")))
 (global-set-key [\C-f5]
-  '(lambda () (interactive) (switch-to-buffer "*SQL*")))
+                (lambda () (interactive) (switch-to-buffer "*SQL*")))
 (global-set-key [f6]
-  '(lambda ()
-     (interactive)
-     (find-file *my-remember-data-file*)
-     (goto-char (point-max))))
+                (lambda ()
+                  (interactive)
+                  (find-file *my-remember-data-file*)
+                  (goto-char (point-max))))
 (global-set-key [f7] 'my-javadoc-open)
 (global-set-key [f8] 'ef)
 (global-set-key [\C-f8]
-  '(lambda (fname-regexp) (interactive "sOrg file regex: ")
-     (ef (shell-quote-argument fname-regexp) (concat *my-pim-dir* "orgs/"))))
+                (lambda (fname-regexp) (interactive "sOrg file regex: ")
+                  (ef (shell-quote-argument fname-regexp) (concat *my-pim-dir* "orgs/"))))
 (global-set-key [f10] 'zoom-frame)
 (global-set-key [\C-f10] 'max-frame-height)
 (global-set-key [f11] 'other-window)
