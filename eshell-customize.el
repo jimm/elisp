@@ -1,9 +1,9 @@
 (setq eshell-history-size 512)
 (setq eshell-prompt-regexp "^.*> ")
-(if (zerop (shell-command "which -s random_sig.rb"))
+(when (zerop (shell-command "which -s random_sig.rb"))
     (setq eshell-banner-message
-          (concat (shell-command-to-string "random_sig.rb") "\n\n")))
-
+          (concat (shell-command-to-string
+                   "random_sig.rb") "\n\n")))
 
 (require 'em-hist)			; So the history vars are defined
 (if (boundp 'eshell-save-history-on-exit)
