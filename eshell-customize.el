@@ -1,7 +1,11 @@
 (setq eshell-history-size 512)
 (setq eshell-prompt-regexp "^.*> ")
+(if (zerop (shell-command "which -s random_sig.rb"))
+    (setq eshell-banner-message
+          (concat (shell-command-to-string "random_sig.rb") "\n\n")))
 
-(load "em-hist")			; So the history vars are defined
+
+(require 'em-hist)			; So the history vars are defined
 (if (boundp 'eshell-save-history-on-exit)
     (setq eshell-save-history-on-exit t)) ; Don't ask, just save
 ;(message "eshell-ask-to-save-history is %s" eshell-ask-to-save-history)
