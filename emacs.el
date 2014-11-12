@@ -4,7 +4,7 @@
 
 (defmacro when-fboundp-call (f &rest args)
   "If F is bound, calls it with ARGS."
-  `(when (fboundp (quote ,f)) (funcall (quote ,f) ,@args)))
+  `(when (fboundp (function ,f)) (funcall (function ,f) ,@args)))
 
 (defmacro unless-boundp-setq (var val)
   "If VAR is not bound, sets it to VAL."
@@ -37,9 +37,9 @@
 ;;  )
 ;; - DavidReitter
 
-(defvar my-shell 'eshell
+(defvar my-shell #'eshell
   "The shell to use inside Emacs; examples include 'shell or 'eshell.")
-(defvar my-alternate-shell 'shell
+(defvar my-alternate-shell #'shell
   "Bound to alternate key.")
 
 (setq eshell-directory-name (concat *my-emacs-lib-dir* "eshell/"))
@@ -62,7 +62,7 @@
 ;;
 ;; IDO mode
 ;;
-(when (fboundp 'ido-mode)
+(when (fboundp #'ido-mode)
   (ido-mode t)
   (setq ido-enable-flex-matching t))
 
@@ -113,8 +113,8 @@
 (setq ns-pop-up-frames nil)             ; do not create new frames on Mac
 ; (setq recenter-positions '(top middle bottom)) ; change default cycle order
 
-(fset 'yes-or-no-p 'y-or-n-p)           ; accept simple 'y'/space, 'n'/delete
-(unless (fboundp 'string-match-p) (defalias 'string-match-p 'string-match))
+(fset #'yes-or-no-p #'y-or-n-p)        ; accept simple 'y'/space, 'n'/delete
+(unless (fboundp #'string-match-p) (defalias #'string-match-p #'string-match))
 
 ;; Build a custom grep-find-command
 (unless-boundp-setq *more-grep-find-bad-names* ())
@@ -125,7 +125,7 @@
                                 "ebin")
                           more-bad-names))
        (gfc (concat "find . \\( -name "
-                    (mapconcat 'shell-quote-argument bad-names " -o -name ")
+                    (mapconcat #'shell-quote-argument bad-names " -o -name ")
                     " \\) -prune -o -type f -print0 | xargs -0 grep -H -n ")))
   (setq grep-find-command (cons gfc (+ 1 (length gfc)))))
 
@@ -134,7 +134,7 @@
 (setq vc-handled-backends '())          ; disable VC minor mode
 (setq frame-title-format "%b - Emacs")
 
-(when (functionp 'tool-bar-mode) (tool-bar-mode -1))
+(when (functionp #'tool-bar-mode) (tool-bar-mode -1))
 (unless window-system (menu-bar-mode nil))
 
 (global-font-lock-mode t)               ; always turn on, where available
@@ -142,7 +142,7 @@
 (defun underscores-to-camel-case (str)
   "Converts STR, which is a word using underscores, to camel case."
   (interactive "S")
-  (apply 'concat (mapcar 'capitalize (split-string str "_"))))
+  (apply #'concat (mapcar #'capitalize (split-string str "_"))))
 
 ;; I prefer zap-upto-char most of the time
 (defun zap-upto-char (arg char)
@@ -185,12 +185,12 @@ insert it at point. See `generate-random-password`."
 ;;; The following code randomly generates a sig every N seconds. Now a days,
 ;;; a cron job takes care of this.
 ;; (load "timer")
-;; (run-at-time t 300 'generate-random-sig)
+;; (run-at-time t 300 #'generate-random-sig)
 
 ;;;
 ;;; YAML-mode
 ;;;
-(autoload 'yaml-mode "yaml-mode" nil t)
+(autoload #'yaml-mode "yaml-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
 
 ;;
@@ -252,7 +252,7 @@ given `foo.rb'. Default file-name is current buffer's name."
       ))
 
 ;; When saving files, set execute permission if #! is in first line.
-(add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
+(add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p)
 
 (defun capitalize-next-char ()
   "Capitalize next character and move point right 1 character."
@@ -323,7 +323,7 @@ of STR anywhere."
 ;;
 ;; Remember mode
 ;;
-(autoload 'remember "remember" nil t)
+(autoload #'remember "remember" nil t)
 (setq *my-remember-data-file* (concat *my-pim-dir* "orgs/notes.org"))
 (add-hook 'remember-mode-hook
           (lambda ()
@@ -437,12 +437,12 @@ This may not do the correct thing in presence of links."
 ;;
 (add-hook 'sh-mode-hook
           (lambda ()
-            (define-key sh-mode-map "\C-cr" 'executable-interpret)))
+            (define-key sh-mode-map "\C-cr" #'executable-interpret)))
 
 ;;
 ;; Subversion
 ;;
-(autoload 'svn-status "psvn")
+(autoload #'svn-status "psvn")
 
 ;;
 ;; Tramp
@@ -480,18 +480,18 @@ This may not do the correct thing in presence of links."
             (setq c-basic-offset 2)
             (setq c-tab-always-indent nil)
             ;; BAD! BAD! Screws up ^D
-            ;; (setq c-delete-function 'backward-delete-char)
+            ;; (setq c-delete-function #'backward-delete-char)
             (setq c-recognize-knr-p nil)
 
-            ;; (define-key c-mode-map "{" 'skeleton-pair-insert-maybe)
-            ;; (define-key c-mode-map "(" 'skeleton-pair-insert-maybe)
+            ;; (define-key c-mode-map "{" #'skeleton-pair-insert-maybe)
+            ;; (define-key c-mode-map "(" #'skeleton-pair-insert-maybe)
 
-            ;; (local-set-key "\M-o" 'fh-open-header-file-other-window)
-            ;; (local-set-key "\M-O" 'fh-open-header-file-other-frame)
-            (local-set-key "\r" 'newline-and-indent)
-            (autoload 'fh-open-header-file-other-window "find-header"
+            ;; (local-set-key "\M-o" #'fh-open-header-file-other-window)
+            ;; (local-set-key "\M-O" #'fh-open-header-file-other-frame)
+            (local-set-key "\r" #'newline-and-indent)
+            (autoload #'fh-open-header-file-other-window "find-header"
               "Locate header file and load it into other window" t)
-            (autoload 'fh-open-header-file-other-frame "find-header"
+            (autoload #'fh-open-header-file-other-frame "find-header"
               "Locate header file and load it into other frame" t)))
 
 ;;
@@ -519,11 +519,11 @@ This may not do the correct thing in presence of links."
             (c-set-style "java")
             ;; (c-set-offset 'inclass 0)
             (if window-system (font-lock-mode 1))
-            ;; (define-key java-mode-map "{" 'skeleton-pair-insert-maybe)
-            ;; (define-key java-mode-map "(" 'skeleton-pair-insert-maybe)
-            (define-key java-mode-map "\C-cp" 'my-insert-println)
-            (define-key java-mode-map "\C-ce" 'my-insert-err-println)
-            (define-key java-mode-map "\C-cd" 'my-insert-debug-println)))
+            ;; (define-key java-mode-map "{" #'skeleton-pair-insert-maybe)
+            ;; (define-key java-mode-map "(" #'skeleton-pair-insert-maybe)
+            (define-key java-mode-map "\C-cp" #'my-insert-println)
+            (define-key java-mode-map "\C-ce" #'my-insert-err-println)
+            (define-key java-mode-map "\C-cd" #'my-insert-debug-println)))
 
 ;;;
 ;; Compilation mode
@@ -543,22 +543,22 @@ This may not do the correct thing in presence of links."
 ;; YASnippet
 ;;
 
-(when (fboundp 'yas-global-mode)
-  (yas-global-mode 1)
-                                        ; Don't do the following; link ~/.emacs.d/snippets to snippets instead
-                                        ; (add-to-list 'yas-snippet-dirs (concat *my-emacs-lib-dir* "snippets"))
-  (yas-reload-all))
+(when-fboundp-call yas-global-mode 1)
+
+;; Don't do the following; link ~/.emacs.d/snippets to snippets instead
+;; (add-to-list 'yas-snippet-dirs (concat *my-emacs-lib-dir* "snippets"))
+;; (yas-reload-all)
 
 ;;
 ;; JavaScript
 ;;;
-(autoload 'javascript-mode "javascript" nil t)
+(autoload #'javascript-mode "javascript" nil t)
 (add-to-list 'auto-mode-alist '("\\.[agj]s$" . javascript-mode))
 (add-hook 'js-mode-hook
           (lambda ()
             (setq js-indent-level 2)   ; need both?????
             (setq javascript-indent-level 2)))
-;; (autoload 'js2-mode "js2-mode" nil t)
+;; (autoload #'js2-mode "js2-mode" nil t)
 ;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 (setq js2-basic-offset 2)
@@ -573,14 +573,14 @@ This may not do the correct thing in presence of links."
                          " -o " (shell-quote-argument (file-name-directory (buffer-file-name)))
                          " -c " (shell-quote-argument (buffer-file-name)))))
 
-(autoload 'coffee-mode "coffee-mode" nil t)
+(autoload #'coffee-mode "coffee-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
 (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
 (add-hook 'coffee-mode-hook
           (lambda ()
-            (setq coffee-js-mode 'javascript-mode)
-            (define-key coffee-mode-map "\C-cr" 'executable-interpret)
-            (define-key coffee-mode-map "\C-ck" 'compile-coffee-buffer)
+            (setq coffee-js-mode #'javascript-mode)
+            (define-key coffee-mode-map "\C-cr" #'executable-interpret)
+            (define-key coffee-mode-map "\C-ck" #'compile-coffee-buffer)
             (set (make-local-variable 'tab-width) 2)))
 
 ;;
@@ -594,18 +594,18 @@ This may not do the correct thing in presence of links."
 ;;
 ;; Groovy mode
 ;;
-(autoload 'groovy-mode "groovy-mode" nil t)
+(autoload #'groovy-mode "groovy-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.groovy$" . groovy-mode))
 (add-hook 'groovy-mode-hook
           (lambda ()
             (setq groovy-basic-offset 4)
-            (define-key groovy-mode-map "\r" 'newline-and-indent)
-            (define-key groovy-mode-map "\C-cr" 'executable-interpret)
+            (define-key groovy-mode-map "\r" #'newline-and-indent)
+            (define-key groovy-mode-map "\C-cr" #'executable-interpret)
             (font-lock-mode 1)))
 
 ;; Groovy shell mode
-(autoload 'run-groovy "inf-groovy" "Run an inferior Groovy shell process")
-(autoload 'inf-groovy-keys "inf-groovy"
+(autoload #'run-groovy "inf-groovy" "Run an inferior Groovy shell process")
+(autoload #'inf-groovy-keys "inf-groovy"
   "Set local key defs for inf-groovy in groovy-mode")
 (add-hook 'groovy-mode-hook
           (lambda ()
@@ -616,18 +616,18 @@ This may not do the correct thing in presence of links."
 ;;
 (add-hook 'scheme-mode-hook
           (lambda ()
-            (define-key scheme-mode-map "\r" 'newline-and-indent)
-            (define-key scheme-mode-map "\C-cd" 'debug-comment)))
+            (define-key scheme-mode-map "\r" #'newline-and-indent)
+            (define-key scheme-mode-map "\C-cd" #'debug-comment)))
 
 ;;
 ;; Perl-mode
 ;;
-(autoload 'perl-mode "perl-mode" "Perl mode" t nil)
+(autoload #'perl-mode "perl-mode" "Perl mode" t nil)
 (add-hook 'perl-mode-hook
           (lambda ()
-            (define-key perl-mode-map "\r" 'newline-and-indent)
-            (define-key perl-mode-map "\M-\C-h" 'backward-kill-word)
-            (define-key perl-mode-map "\C-cd" 'debug-comment)
+            (define-key perl-mode-map "\r" #'newline-and-indent)
+            (define-key perl-mode-map "\M-\C-h" #'backward-kill-word)
+            (define-key perl-mode-map "\C-cd" #'debug-comment)
             (setq c-basic-offset 2)
             (setq c-tab-always-indent nil)))
 
@@ -649,13 +649,13 @@ This may not do the correct thing in presence of links."
 ;;
 (add-hook 'sh-mode-hook
           (lambda ()
-            (define-key sh-mode-map "\C-c\C-k" 'compile)))
+            (define-key sh-mode-map "\C-c\C-k" #'compile)))
 
 ;;
 ;; Eshell-mode
 ;; must come after defining ef
 ;;
-(when (eq my-shell 'eshell)
+(when (eq my-shell #'eshell)
   (load "eshell")
   (load "eshell-customize"))
 
@@ -665,7 +665,7 @@ This may not do the correct thing in presence of links."
 
 ;; Don't echo passwords
 (add-hook 'comint-output-filter-functions
-          'comint-watch-for-password-prompt)
+          #'comint-watch-for-password-prompt)
 (setq shell-completion-execonly nil)    ; Any file is completion candidate
 (add-hook 'shell-mode-hook
           (lambda ()
@@ -692,14 +692,14 @@ This may not do the correct thing in presence of links."
                       ".txt"))
       )
     (add-hook 'tex-mode-hook
-              (lambda () (define-key tex-mode-map "\C-c\C-k" 'compile)))
+              (lambda () (define-key tex-mode-map "\C-c\C-k" #'compile)))
     (add-hook 'latex-mode-hook
               (lambda ()
-                (define-key latex-mode-map "\C-c\C-p" 'tex-print)
-                ;; (define-key latex-mode-map "\C-c\C-t" 'my-tex-to-text)
-                (define-key latex-mode-map "\C-c\C-k" 'compile)
-                (define-key latex-mode-map "\C-c\C-i" 'find-mine)
-                (define-key latex-mode-map "\C-c\C-s" 'my-tex-slide-dvi-view)))))
+                (define-key latex-mode-map "\C-c\C-p" #'tex-print)
+                ;; (define-key latex-mode-map "\C-c\C-t" #'my-tex-to-text)
+                (define-key latex-mode-map "\C-c\C-k" #'compile)
+                (define-key latex-mode-map "\C-c\C-i" #'find-mine)
+                (define-key latex-mode-map "\C-c\C-s" #'my-tex-slide-dvi-view)))))
 
 ;;
 ;; Sql-mode
@@ -735,8 +735,8 @@ This may not do the correct thing in presence of links."
 
 (add-hook 'lisp-mode-hook
           (lambda ()
-            (define-key lisp-mode-map "\r" 'newline-and-indent)
-            (define-key lisp-mode-map "\C-cd" 'debug-comment)))
+            (define-key lisp-mode-map "\r" #'newline-and-indent)
+            (define-key lisp-mode-map "\C-cd" #'debug-comment)))
 
 ;;
 ;; Clisp
@@ -759,13 +759,13 @@ This may not do the correct thing in presence of links."
 ;;
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
-            (define-key emacs-lisp-mode-map "\C-cd" 'debug-comment)
-            (define-key emacs-lisp-mode-map "\r" 'newline-and-indent)))
+            (define-key emacs-lisp-mode-map "\C-cd" #'debug-comment)
+            (define-key emacs-lisp-mode-map "\r" #'newline-and-indent)))
 
 ;;
 ;; PHP-mode
 ;;
-(autoload 'php-mode "php-mode" "PHP mode" t nil)
+(autoload #'php-mode "php-mode" "PHP mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.\\(php\\|inc\\)$" . php-mode))
 (eval-after-load "php-mode"
   (progn
@@ -773,10 +773,10 @@ This may not do the correct thing in presence of links."
               (lambda ()
                 (auto-fill-mode 1)
                 (setq c-basic-offset 4)
-                (define-key php-mode-map "\C-d" 'delete-char)
-                (define-key php-mode-map "\C-ct" 'html-mode)
-                (define-key php-mode-map "\C-ch" 'insert-ruby-hash-arrow)
-                (define-key php-mode-map "\C-cr" 'executable-interpret)))))
+                (define-key php-mode-map "\C-d" #'delete-char)
+                (define-key php-mode-map "\C-ct" #'html-mode)
+                (define-key php-mode-map "\C-ch" #'insert-ruby-hash-arrow)
+                (define-key php-mode-map "\C-cr" #'executable-interpret)))))
 
 ;;
 ;; HTML-mode and SGML-mode
@@ -801,7 +801,7 @@ This may not do the correct thing in presence of links."
 
 (mapcar (lambda (ext)
           (add-to-list 'auto-mode-alist
-                       (cons (concat "\\." ext "$") 'sgml-mode)))
+                       (cons (concat "\\." ext "$") #'sgml-mode)))
                                         ; jwcs, application, page: Tapestry
                                         ; ftl: FreeMarker
         '("xsd" "wsd[ld]" "jwcs" "application" "page" "ftl"))
@@ -812,24 +812,24 @@ This may not do the correct thing in presence of links."
               (lambda ()
                 (require 'tex-mode)
                 (auto-fill-mode 1)
-                (define-key sgml-mode-map "\C-c\C-k" 'compile)))
+                (define-key sgml-mode-map "\C-c\C-k" #'compile)))
 
     (add-hook 'html-mode-hook
               (lambda ()
                 (auto-fill-mode 1)
-                (define-key html-mode-map "\C-c;" 'my-html-insert-comment)
-                (define-key html-mode-map "\C-cp" 'php-mode)
+                (define-key html-mode-map "\C-c;" #'my-html-insert-comment)
+                (define-key html-mode-map "\C-cp" #'php-mode)
                 ;; The remaining functions are defined in my-ruby-mode.el
-                (define-key html-mode-map "\C-ce" 'erb-eval-skeleton)
-                (define-key html-mode-map "\C-cp" 'erb-print-skeleton)
-                (define-key html-mode-map "\C-ch" 'insert-ruby-hash-arrow)
-                (define-key html-mode-map "\C-cl" 'rails-link-to-skeleton)
-                (define-key html-mode-map "\C-cr" 'rails-render-partial-skeleton)))))
+                (define-key html-mode-map "\C-ce" #'erb-eval-skeleton)
+                (define-key html-mode-map "\C-cp" #'erb-print-skeleton)
+                (define-key html-mode-map "\C-ch" #'insert-ruby-hash-arrow)
+                (define-key html-mode-map "\C-cl" #'rails-link-to-skeleton)
+                (define-key html-mode-map "\C-cr" #'rails-render-partial-skeleton)))))
 
 ;;
 ;; CSS-mode
 ;;
-(autoload 'css-mode "css-mode" "CSS mode" t nil)
+(autoload #'css-mode "css-mode" "CSS mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.css$" . css-mode))
 (add-to-list 'auto-mode-alist '("\\.less$" . css-mode))
 
@@ -837,12 +837,12 @@ This may not do the correct thing in presence of links."
 ;; Ruby-mode
 ;;
 ;; Use "M-x run-ruby" to start inf-ruby.
-(autoload 'ruby-mode "ruby-mode" "Ruby mode" t nil)
-(autoload 'run-ruby "inf-ruby" "Ruby inferior process (irb)" t nil)
+(autoload #'ruby-mode "ruby-mode" "Ruby mode" t nil)
+(autoload #'run-ruby "inf-ruby" "Ruby inferior process (irb)" t nil)
 
-(defalias  'inf-ruby 'run-ruby)
-(defalias  'inferior-ruby 'run-ruby)
-(defalias 'irb 'run-ruby)
+(defalias  #'inf-ruby #'run-ruby)
+(defalias  #'inferior-ruby #'run-ruby)
+(defalias #'irb #'run-ruby)
 
 (add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.r\\(b\\(w\\|x\\)?\\|html?\\|js\\)$" . ruby-mode))
@@ -862,7 +862,7 @@ This may not do the correct thing in presence of links."
 (when (and (boundp '*my-erlang-emacs-tools-dir*)
 	   (file-exists-p *my-erlang-emacs-tools-dir*))
   (add-to-list 'load-path *my-erlang-emacs-tools-dir* t))
-(autoload 'erlang-mode "erlang" "Erlang mode" t nil)
+(autoload #'erlang-mode "erlang" "Erlang mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.[he]rl$" . erlang-mode))
 (add-to-list 'auto-mode-alist '("\\.yaws$" . erlang-mode))
 (add-hook 'erlang-mode-hook
@@ -881,13 +881,13 @@ This may not do the correct thing in presence of links."
 ;;
 ;; Lua-mode
 ;;
-(autoload 'lua-mode "lua-mode" "Lua mode" t nil)
+(autoload #'lua-mode "lua-mode" "Lua mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
 
 ;;
 ;; ChucK-mode
 ;;
-(autoload 'chuck-mode "chuck-mode" "ChucK mode" t nil)
+(autoload #'chuck-mode "chuck-mode" "ChucK mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.ck$" . chuck-mode))
 
 ;;
@@ -898,14 +898,14 @@ This may not do the correct thing in presence of links."
 
 (condition-case ex
     (progn
-      (autoload 'scala-mode "scala-mode2" "Scala mode" t nil)
+      (autoload #'scala-mode "scala-mode2" "Scala mode" t nil)
       (add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
       (load "inf-sbt")
       (add-hook 'scala-mode-hook
                 (lambda ()
                   (define-key scala-mode-map [f1] my-shell) ; I don't use Speedbar
-                  (define-key scala-mode-map "\r" 'newline-and-indent)
-                  (define-key scala-mode-map "\C-cr" 'executable-interpret)))
+                  (define-key scala-mode-map "\r" #'newline-and-indent)
+                  (define-key scala-mode-map "\C-cr" #'executable-interpret)))
       ;; That bright red face for vars is too annoying
       (set-face-attribute 'scala-font-lock:var-face nil :bold nil :foreground "red3"))
   (error nil))
@@ -922,7 +922,7 @@ for now."
   (interactive)
   (let ((reverse-path-list (cdr (reverse (split-string path "/")))))
     (mapconcat
-     'identity
+     #'identity
      (reverse (upto reverse-path-list
 		    (if (or (member "main" reverse-path-list)
                             (member "test" reverse-path-list))
@@ -953,8 +953,8 @@ for now."
 
 (add-hook 'dired-mode-hook
           (lambda ()
-            (define-key dired-mode-map "\C-c\C-c" 'my-dired-cruft-remove)
-            (define-key dired-mode-map "\C-c." 'my-dired-dot-remove)
+            (define-key dired-mode-map "\C-c\C-c" #'my-dired-cruft-remove)
+            (define-key dired-mode-map "\C-c." #'my-dired-dot-remove)
             (defvar dired-compress-file-suffixes
               '(("\\.gz\\'" "" "gunzip")
                 ("\\.tgz\\'" ".tar" "gunzip")
@@ -983,16 +983,16 @@ gzip.")))
 (add-hook 'python-mode-hook
           (lambda ()
             (turn-on-font-lock)
-            (define-key python-mode-map "\C-cr" 'executable-interpret)
+            (define-key python-mode-map "\C-cr" #'executable-interpret)
             ;; these two are in addition to the \C-< and \C-> bindings
             ;; that already exist in Python mode
-            (define-key python-mode-map "\M-[" 'python-indent-shift-left)
-            (define-key python-mode-map "\M-]" 'python-indent-shift-right)))
+            (define-key python-mode-map "\M-[" #'python-indent-shift-left)
+            (define-key python-mode-map "\M-]" #'python-indent-shift-right)))
 
 ;;
 ;; SES-mode
 ;;
-(autoload 'ses-mode "ses" "Spreadsheet mode" t)
+(autoload #'ses-mode "ses" "Spreadsheet mode" t)
 
 
 ;;
@@ -1001,8 +1001,7 @@ gzip.")))
 (defun eight-tab-stops ()
   (interactive)
   (setq tab-stop-list
-        '(8 16 24 32 40 48 56 64 72 80))
-  )
+        '(8 16 24 32 40 48 56 64 72 80)))
 
 ;;
 ;; Set tab stops to four chars, not eight
@@ -1010,8 +1009,7 @@ gzip.")))
 (defun four-tab-stops ()
   (interactive)
   (setq tab-stop-list
-        '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80))
-  )
+        '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80)))
 
 (defun tab-two () (interactive) (setq tab-width 2))
 (defun tab-four () (interactive) (setq tab-width 4))
@@ -1024,11 +1022,11 @@ gzip.")))
 ;;
 ;; aliases
 ;;
-(defalias 'flfb 'font-lock-fontify-buffer)
-(defalias 'run-hook 'run-hooks)
-(defalias 't2 'tab-two)
-(defalias 't4 'tab-four)
-(defalias 't8 'tab-eight)
+(defalias #'flfb #'font-lock-fontify-buffer)
+(defalias #'run-hook #'run-hooks)
+(defalias #'t2 #'tab-two)
+(defalias #'t4 #'tab-four)
+(defalias #'t8 #'tab-eight)
 
 ;;
 ;; Frame management
@@ -1160,7 +1158,7 @@ and wc -w"
 ;;
 ;; Go mode
 ;;
-(autoload 'go-mode "go-mode" t nil)
+(autoload #'go-mode "go-mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.go$" . go-mode))
 (add-hook 'go-mode-hook
           (lambda ()
@@ -1170,7 +1168,7 @@ and wc -w"
 ;;
 ;; Haskell mode
 ;;
-(autoload 'haskell-mode "haskell-mode" "Haskell mode" t nil)
+(autoload #'haskell-mode "haskell-mode" "Haskell mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
 
 ;;
@@ -1181,13 +1179,13 @@ and wc -w"
 ;;
 ;; http-twiddle
 ;;
-(autoload 'http-twiddle-mode "http-twiddle" "HTTP twiddle mode" t nil)
+(autoload #'http-twiddle-mode "http-twiddle" "HTTP twiddle mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.http-twiddle$" . http-twiddle-mode))
 
 ;;
 ;; C#
 ;;
-(autoload 'csharp-mode "csharp-mode" "C# Mode" t nil)
+(autoload #'csharp-mode "csharp-mode" "C# Mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.cs$" . csharp-mode))
 
 ;;
@@ -1197,7 +1195,7 @@ and wc -w"
   (defvar *git-emacs-support-dir* "/usr/local/src/git/contrib/emacs"))
 (when (file-exists-p *git-emacs-support-dir*)
   (add-to-list 'load-path *git-emacs-support-dir* t)
-  (autoload 'git-status "git" "git" t))
+  (autoload #'git-status "git" "git" t))
 (setenv "GIT_PAGER" "cat")
 
 ;;
@@ -1220,9 +1218,9 @@ and wc -w"
 (setq
  rcirc-default-server "irc.freenode.net"
  rcirc-default-nick "jmenard42"
-                                        ; rcirc-authinfo '(("freenode" nickserv "jmenard42"))
-                                        ; rcirc-startup-channels-alist
-                                        ;   '(("\\.freenode\\.net$" "#emacs"))
+ ;; rcirc-authinfo '(("freenode" nickserv "jmenard42"))
+ ;; rcirc-startup-channels-alist
+ ;;   '(("\\.freenode\\.net$" "#emacs"))
  )
 "A list of IRC channel names that are monitored for notifications."
 (defvar my-rcirc-notifiy-channels
@@ -1236,7 +1234,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
                           " " text)
                   target)))
 
-(add-hook 'rcirc-print-hooks 'my-rcirc-print-hook)
+(add-hook 'rcirc-print-hooks #'my-rcirc-print-hook)
 
 ;;
 ;; Org Mode
@@ -1277,27 +1275,21 @@ values."
 
 (add-hook 'org-mode-hook
           (lambda ()
-            (org-add-link-type "addr" 'address)
-            (org-add-link-type "date" 'my-goto-calendar-date)
+            (org-add-link-type "addr" #'address)
+            (org-add-link-type "date" #'my-goto-calendar-date)
             (setq org-export-with-sub-superscripts nil)
-            (define-key org-mode-map "\C-cr" 'my-org-execute-src)
+            (define-key org-mode-map "\C-cr" #'my-org-execute-src)
             (setq org-structure-template-alist
                   (lower-case-org-mode-templates))))
 
 (set-face-attribute 'org-level-1 nil :height 1.2 :bold t)
 
-                                        ; My own "addr:" link type
-(defun my-org-addr-open (entry)
-  "Find ENTRY in my address_book.org file."
-  (address entry))
-(when-fboundp-call org-add-link-type "addr" 'my-org-addr-open)
-
 ;;
 ;; HAML and SASS
 ;; Found {haml,sass}-mode.el files in the directory path-to-haml-gem/extra/.
 ;;
-(autoload 'haml-mode "haml-mode" "haml mode")
-(autoload 'sass-mode "sass-mode" "sass mode")
+(autoload #'haml-mode "haml-mode" "haml mode")
+(autoload #'sass-mode "sass-mode" "sass mode")
 (add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
 (add-to-list 'auto-mode-alist '("\\.s\\(a\\|c\\)?ss$" . sass-mode))
 (defun load-haml ()
@@ -1310,7 +1302,7 @@ values."
 ;; Org Present Mode
 ;;
 ;; https://github.com/rlister/org-present
-(autoload 'org-present "org-present" nil t)
+(autoload #'org-present "org-present" nil t)
 (defvar org-present-saved-cursor-color "black")
 
 (add-hook 'org-present-mode-hook
@@ -1385,7 +1377,7 @@ values."
 ;;
 ;; Textile mode
 ;;
-(autoload 'textile-mode "textile-mode" "textile mode")
+(autoload #'textile-mode "textile-mode" "textile mode")
 (add-to-list 'auto-mode-alist '("\\.textile$" . textile-mode))
 (add-hook 'textile-mode-hook
           (lambda ()
@@ -1420,27 +1412,27 @@ values."
   "Command used to play MIDI files."
   :group 'LilyPond
   :type 'string)
-(autoload 'LilyPond-mode "lilypond-init" "lilypond mode")
+(autoload #'LilyPond-mode "lilypond-init" "lilypond mode")
 (add-to-list 'auto-mode-alist '("\\.ly$" . LilyPond-mode))
 (add-hook 'LilyPond-mode-hook
           (lambda ()
-            (define-key LilyPond-mode-map "\C-c\C-k" 'compile)))
+            (define-key LilyPond-mode-map "\C-c\C-k" #'compile)))
 
 ;;
 ;; KeyMaster
 ;;
-(autoload 'keymaster-mode "keymaster-mode")
+(autoload #'keymaster-mode "keymaster-mode")
 (add-to-list 'auto-mode-alist '("\\.km$" . keymaster-mode))
 
 ;;
 ;; Android
 ;;
-(autoload 'android-mode "android-mode")
+(autoload #'android-mode "android-mode")
 
 ;;
 ;; Drools
 ;;
-(autoload 'drools-mode "drools-mode" "Drools mode")
+(autoload #'drools-mode "drools-mode" "Drools mode")
 (add-to-list 'auto-mode-alist '("\\.drl$" . drools-mode))
 
 ;;
@@ -1451,7 +1443,7 @@ values."
 ;;
 ;; Roo command files
 ;;
-(autoload 'roo-mode "roo-mode")
+(autoload #'roo-mode "roo-mode")
 (add-to-list 'auto-mode-alist '("\\.roo$" . roo-mode))
 
 ;;
@@ -1534,12 +1526,12 @@ values."
 (defun add-times (&rest time-strings)
   "Takes a list of hour:minute time strings such as \"1:23\" or
 \"0:44\" adds them up, and returns a string in the same format."
-  (let ((parsed (mapcar 'parse-time-string time-strings)))
+  (let ((parsed (mapcar #'parse-time-string time-strings)))
     (format-seconds 
      "%h:%02m"
      (+
-      (apply '+ (mapcar (lambda (p) (* 60 (cadr p))) parsed)) ; minutes
-      (apply '+ (mapcar (lambda (p) (* 3600 (caddr p))) parsed)))))) ; hours
+      (apply #'+ (mapcar (lambda (p) (* 60 (cadr p))) parsed)) ; minutes
+      (apply #'+ (mapcar (lambda (p) (* 3600 (caddr p))) parsed)))))) ; hours
 
 ;;
 ;; Scrambling a word
@@ -1612,26 +1604,26 @@ values."
 ;; Global key bindings
 ;;
 
-(global-set-key "\M-z" 'zap-upto-char)
-(global-set-key "\M-`" 'my-ff-find-other-file)
-(global-set-key "\C-c1" 'find-grep-dired)
-(global-set-key "\C-c2" 'grep-find)
-(global-set-key "\C-c3" 'grep)
-(global-set-key "\C-c\C-c" 'comment-region)
-(global-set-key "\C-h" 'backward-delete-char)
-(global-set-key "\C-x?" 'help-for-help)
-(global-set-key "\C-x\C-k" 'compile)
-(global-set-key "\C-x\C-m" 'open-email-client)
-(global-set-key "\C-c\C-k" 'compile)
-(global-set-key "\C-x\C-z" 'shrink-window)
-(global-set-key "\M-\C-h" 'backward-kill-word)
-(global-set-key "\M- " 'just-one-space)
+(global-set-key "\M-z" #'zap-upto-char)
+(global-set-key "\M-`" #'my-ff-find-other-file)
+(global-set-key "\C-c1" #'find-grep-dired)
+(global-set-key "\C-c2" #'grep-find)
+(global-set-key "\C-c3" #'grep)
+(global-set-key "\C-c\C-c" #'comment-region)
+(global-set-key "\C-h" #'backward-delete-char)
+(global-set-key "\C-x?" #'help-for-help)
+(global-set-key "\C-x\C-k" #'compile)
+(global-set-key "\C-x\C-m" #'open-email-client)
+(global-set-key "\C-c\C-k" #'compile)
+(global-set-key "\C-x\C-z" #'shrink-window)
+(global-set-key "\M-\C-h" #'backward-kill-word)
+(global-set-key "\M- " #'just-one-space)
 
 (global-set-key [f1] my-shell)
 (global-set-key [\C-f1] my-alternate-shell)
-(global-set-key [f2] 'center-of-attention)
-(global-set-key [\C-f2] 'remember)
-(global-set-key [f3] 'magit-status)
+(global-set-key [f2] #'center-of-attention)
+(global-set-key [\C-f2] #'remember)
+(global-set-key [f3] #'magit-status)
 (global-set-key [f4]
                 (lambda () (interactive) (find-file (concat *my-pim-dir* "orgs/todo.org"))))
 (global-set-key [f5]
@@ -1643,29 +1635,29 @@ values."
                   (interactive)
                   (find-file *my-remember-data-file*)
                   (goto-char (point-max))))
-(global-set-key [f7] 'my-javadoc-open)
-(global-set-key [f8] 'ef)
+(global-set-key [f7] #'my-javadoc-open)
+(global-set-key [f8] #'ef)
 (global-set-key [\C-f8]
                 (lambda (fname-regexp) (interactive "sOrg file regex: ")
                   (ef (shell-quote-argument fname-regexp) (concat *my-pim-dir* "orgs/"))))
-(global-set-key [f10] 'zoom-frame)
-(global-set-key [\C-f10] 'max-frame-height)
-(global-set-key [f11] 'other-window)
+(global-set-key [f10] #'zoom-frame)
+(global-set-key [\C-f10] #'max-frame-height)
+(global-set-key [f11] #'other-window)
 
 ;; SMEX mode
-(when (fboundp 'smex-initialize)
+(when (fboundp #'smex-initialize)
   (smex-initialize)
-  (global-set-key (kbd "M-x") 'smex)
-  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+  (global-set-key (kbd "M-x") #'smex)
+  (global-set-key (kbd "M-X") #'smex-major-mode-commands)
   ;; This is your old M-x. (Was "C-c C-c M-x" in smex sample, but "C-c C-c" is
   ;; already taken by my comment-region binding.
-  (global-set-key (kbd "C-c C-x M-x") 'execute-extended-command))
+  (global-set-key (kbd "C-c C-x M-x") #'execute-extended-command))
 
 ;; org mode
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cl" #'org-store-link)
+(global-set-key "\C-ca" #'org-agenda)
 
-(global-set-key "\C-cw" 'toggle-current-window-dedication)
+(global-set-key "\C-cw" #'toggle-current-window-dedication)
 (set-register ?s "#+begin_src \n#+end_src")
 
 ;; Custom variable settings
