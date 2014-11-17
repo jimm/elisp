@@ -174,19 +174,6 @@ insert it at point. See `generate-random-password`."
   (interactive "P")
   (insert (generate-random-password arg)))
 
-;;
-;; Display time and add time-related hooks
-;;
-;; (display-time)                       ; display time and "Mail" in mode lines
-
-(defun generate-random-sig ()
-  (interactive)
-  (shell-command "random_sig.rb"))
-;;; The following code randomly generates a sig every N seconds. Now a days,
-;;; a cron job takes care of this.
-;; (load "timer")
-;; (run-at-time t 300 #'generate-random-sig)
-
 ;;;
 ;;; YAML-mode
 ;;;
