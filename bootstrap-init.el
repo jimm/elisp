@@ -31,6 +31,4 @@ this function."
   (add-to-list 'load-path *my-emacs-lib-dir* t) ; add to end of load path
   (load-init-if-exists domain machine "before")
   (load-library "emacs")
-  (load-init-if-exists domain machine "after")
-  (setq bookmark-default-file
-	(bootstrap-file domain machine "emacs.bmk")))
+  (load-init-if-exists domain machine "after"))

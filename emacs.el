@@ -89,7 +89,7 @@
   (transient-mark-mode -1)
   (setq confirm-nonexistent-file-or-buffer nil))
 
-(setq bookmark-save-flag 1)		; see bootstrap-ini for loc of file
+(setq save-flag 1)		; see bootstrap-ini for loc of file
 (setq sentence-end-double-space nil)
 (turn-on-auto-fill)
 (auto-fill-mode 1)
