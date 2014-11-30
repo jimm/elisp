@@ -10,9 +10,9 @@
   "If VAR is not bound, sets it to VAL."
   `(unless (boundp (quote ,var)) (setq ,var ,val)))
 
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("marmalade" . "http://marmalade-repo.org/packages/")
-                         ("melpa" . "http://melpa.org/packages/")))
+(add-to-list 'package-archives
+             '(("melpa" . "http://melpa.org/packages/"))
+             t)
 (when (< emacs-major-version 24)
   ;; This was installed by package-install.el.
   ;; This provides support for the package system and
@@ -29,13 +29,6 @@
   does."
   (if (equal "/" (substring dir -1)) dir
     (concat dir "/")))
-
-(defvar aquamacs-p (string-match "Aquamacs" (version)))
-;; The following method works and will be supported in the future:
-;;  (when (boundp 'aquamacs-version)
-;;    ... Aquamacs specific code ...
-;;  )
-;; - DavidReitter
 
 (defvar my-shell #'eshell
   "The shell to use inside Emacs; examples include 'shell or 'eshell.")
