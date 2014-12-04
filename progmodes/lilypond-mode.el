@@ -1148,7 +1148,7 @@ LilyPond-command-alist\t\talist from name to command"
     (setq mark-even-if-inactive t))
 
   ;; Context dependent syntax tables in LilyPond-mode
-  (make-local-hook 'post-command-hook) ; XEmacs requires
+  (when-fboundp-call make-local-hook 'post-command-hook) ; XEmacs requires
   (add-hook 'post-command-hook 'LilyPond-mode-context-set-syntax-table nil t)
 
   ;; Turn on paren-mode buffer-locally, i.e., in LilyPond-mode

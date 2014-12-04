@@ -10,9 +10,6 @@
   "If VAR is not bound, sets it to VAL."
   `(unless (boundp (quote ,var)) (setq ,var ,val)))
 
-(add-to-list 'package-archives
-             '(("melpa" . "http://melpa.org/packages/"))
-             t)
 (when (< emacs-major-version 24)
   ;; This was installed by package-install.el.
   ;; This provides support for the package system and
@@ -23,6 +20,10 @@
     (when (and (file-exists-p f)
                (load f)))))
 (when-fboundp-call package-initialize)
+(when (boundp 'package-archives)
+  (add-to-list 'package-archives
+               '(("melpa" . "http://melpa.org/packages/"))
+               t))
 
 (defun ensure-ends-with-slash (dir)
   "If DIR does not end with \"/\", return a new copy of DIR that
@@ -695,23 +696,13 @@ This may not do the correct thing in presence of links."
   (load "my-clojure-mode"))
 
 ;;
-;; Lisp-mode and slime-mode
+;; Clojure
 ;;
-;; Now that I'm using Clojure, I don't want sbcl to be the default program.
-;;
-;; Note: use nREPL instead by running (M-x nrepl-jack-in) to start lein nrepl.
 (setq inferior-lisp-program "lein repl")
-(defun clj ()
-  (interactive)
-  (setq inferior-lisp-program "clj -n")
-  (inferior-lisp "clj -n"))
 (defun lein-repl ()
   (interactive)
   (setq inferior-lisp-program "lein repl")
   (inferior-lisp "lein repl"))
-
-;; (require 'slime)
-;; (slime-setup)
 
 (add-hook 'lisp-mode-hook
           (lambda ()
@@ -719,16 +710,19 @@ This may not do the correct thing in presence of links."
             (define-key lisp-mode-map "\C-cd" #'debug-comment)))
 
 ;;
-;; Clisp
+;; Clisp and SBCL
 ;;
+
+;; (require 'slime)
+;; (slime-setup)
+
+;; Clisp
 (defun clisp ()
   (interactive)
   (setq inferior-lisp-program "clisp")
   (inferior-lisp "clisp"))
 
-;;
 ;; SBCL
-;;
 (defun sbcl ()
   (interactive)
   (setq inferior-lisp-program "sbcl")
