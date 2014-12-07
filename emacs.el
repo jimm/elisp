@@ -126,7 +126,10 @@
 (setq visible-bell t)
 (setq version-control 'never)           ; When to make backup files
 (setq vc-handled-backends '())          ; disable VC minor mode
-(setq frame-title-format "%b - Emacs")
+(setq frame-title-format
+      '((:eval (if (buffer-file-name)
+                   (abbreviate-file-name (buffer-file-name))
+                 "%b"))))
 
 (when (functionp #'tool-bar-mode) (tool-bar-mode -1))
 (unless window-system (menu-bar-mode nil))
@@ -1450,6 +1453,11 @@ values."
 ;; Read RSS feeds via Gnus using Gwene (gwene.org)
 ;;
 (setq gnus-site-init-file (concat *my-emacs-lib-dir* "gnus-init.el"))
+
+;;
+;; Syntax highlighting of dash functions
+;;
+(eval-after-load "dash" '(dash-enable-font-lock))
 
 ;;
 ;; WebJump
