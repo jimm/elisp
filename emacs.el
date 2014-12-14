@@ -1248,7 +1248,7 @@ values."
 ;; recommended
 (setq org-agenda-include-diary t)
 (setq org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org")))
-(setq org-startup-folded 'content)
+(setq org-startup-folded 'nofold)
 
 (add-hook 'org-mode-hook
           (lambda ()
