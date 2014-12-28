@@ -424,11 +424,6 @@ This may not do the correct thing in presence of links."
             (define-key sh-mode-map "\C-cr" #'executable-interpret)))
 
 ;;
-;; Subversion
-;;
-(autoload #'svn-status "psvn")
-
-;;
 ;; Tramp
 ;;
 ; (setq tramp-default-method "scp")
