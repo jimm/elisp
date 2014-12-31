@@ -22,7 +22,7 @@
 (when-fboundp-call package-initialize)
 (when (boundp 'package-archives)
   (add-to-list 'package-archives
-               '(("melpa" . "http://melpa.org/packages/"))
+               '("melpa" . "http://melpa.org/packages/")
                t))
 
 (defun ensure-ends-with-slash (dir)
