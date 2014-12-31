@@ -1208,6 +1208,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 
 (add-hook 'rcirc-print-hooks #'my-rcirc-print-hook)
 
+
 ;;
 ;; Org Mode
 ;;
@@ -1255,6 +1256,15 @@ values."
                   (lower-case-org-mode-templates))))
 
 (set-face-attribute 'org-level-1 nil :height 1.2 :bold t)
+
+;;
+;; Deft
+;;
+(when (fboundp #'deft)
+  (setq deft-extension "org")
+  (setq deft-directory (concat *my-pim-dir* "orgs/"))
+  (setq deft-text-mode #'org-mode)
+  (setq deft-use-filename-as-title t))
 
 ;;
 ;; HAML and SASS
