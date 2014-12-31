@@ -1,9 +1,14 @@
 (setq eshell-history-size 512)
 (setq eshell-prompt-regexp "^.*> ")
-(when (zerop (shell-command "which random_sig.rb >/dev/null 2>&1"))
-    (setq eshell-banner-message
-          (concat (shell-command-to-string
-                   "random_sig.rb") "\n")))
+
+;;; Select a random sig as the eshell banner.
+(let ((sigfile (concat *my-pim-dir* "signatures")))
+  (when (file-exists-p sigfile)
+    (let ((sigs (with-temp-buffer
+                  (insert-file-contents sigfile)
+                  (split-string (buffer-string) "\n\n" t))))
+      (setq eshell-banner-message
+            (concat (nth (random (length sigs)) sigs) "\n\n")))))
 
 (require 'em-hist)			; So the history vars are defined
 (if (boundp 'eshell-save-history-on-exit)
