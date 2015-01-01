@@ -156,7 +156,7 @@ Goes backward if ARG is negative; error if CHAR not found."
   "Generate a random password ARG characters long (16 by default).
 Characters are selected from upper- and lower-case letters,
 numbers, and punctuation."
-  (interactive "P")
+  (interactive "NPassword length: ")
   (let* ((chars "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!?@#$%^&*-_=+/.,")
          (chars-len (length chars)))
     (mapconcat (lambda (dummy)
