@@ -1458,6 +1458,10 @@ values."
 ;; Read RSS feeds via Gnus using Gwene (gwene.org)
 ;;
 (setq gnus-site-init-file (concat *my-emacs-lib-dir* "gnus-init.el"))
+(if (zerop (shell-command "which gnutls-cli >/dev/null 2>&1"))
+    (setq starttls-use-gnutls t
+          starttls-gnutls-program "gnutls-cli"
+          starttls-extra-arguments nil))
 
 ;;
 ;; Syntax highlighting of dash functions
