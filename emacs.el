@@ -136,6 +136,15 @@
 
 (global-font-lock-mode t)               ; always turn on, where available
 
+(defun unix-file ()
+  "Change the current buffer to UTF-8 with Unix line-ends."
+  (interactive)
+  (set-buffer-file-coding-system 'utf-8-unix t))
+(defun dos-file ()
+  "Change the current buffer to UTF-8 with DOS line-ends."
+  (interactive)
+  (set-buffer-file-coding-system 'utf-8-dos t))
+
 (defun underscores-to-camel-case (str)
   "Converts STR, which is a word using underscores, to camel case."
   (interactive "S")
