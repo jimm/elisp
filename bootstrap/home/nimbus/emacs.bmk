@@ -1,0 +1,74 @@
+;;;; Emacs Bookmark Format Version 1 ;;;;
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("weekly_status.org"
+  (filename . "~/src/kaplan/sandbox/docs/weekly_status.org")
+  (front-context-string . "http://confluenc")
+  (rear-context-string)
+  (position . 1))
+ ("keyring.org.gpg"
+  (filename . "~/pim/orgs/keyring.org.gpg")
+  (front-context-string . "#+ STARTUP: show")
+  (rear-context-string)
+  (position . 1))
+ ("site_generator.rb"
+  ((filename . "~/src/jo/icarly/site/trunk/cms/app/models/site_generator.rb")
+   (front-context-string . "require 'fileuti")
+   (rear-context-string)
+   (position . 1)))
+ ("asset.rb"
+  ((filename . "~/src/jo/icarly/site/trunk/icarly_common/app/models/asset.rb")
+   (front-context-string . "require 'fileuti")
+   (rear-context-string)
+   (position . 1)))
+ ("development.log"
+  ((filename . "/sites/icarly/shared/development/cms/logs/development.log")
+   (front-context-string . "# Logfile create")
+   (rear-context-string)
+   (position . 1)))
+ ("notes"
+  ((filename . "~/pim/orgs/icarly.org")
+   (front-context-string . "* Notes\n\n** mach")
+   (rear-context-string . "eleaseForm.pdf\n\n")
+   (position . 10009)))
+ ("cms_schema.sql"
+  ((filename . "/Users/jimm/src/jo/icarly/site/trunk/db/schema/cms_schema.sql")
+   (front-context-string . "set @old_foreign")
+   (rear-context-string)
+   (position . 1)))
+ ("icarly.org"
+  ((filename . "/Users/jimm/pim/orgs/icarly.org")
+   (front-context-string . "* Tech\n\nhaml and")
+   (rear-context-string)
+   (position . 1)))
+ ("job_search.org"
+  ((filename . "~/pim/orgs/job_search.org")
+   (front-context-string . "* Diary\n** <2009")
+   (rear-context-string . "Digital\n- Etsy\n\n")
+   (position . 2706)))
+ ("tvw"
+  ((filename . "/Users/jimm/src/jimm/tvcnp/public_html/")
+   (front-context-string . ".DS_Store\n  -rw-")
+   (rear-context-string . "48 Nov  7 09:51 ")
+   (position . 250)))
+ ("tvcnp.org"
+  ((filename . "~/pim/orgs/tvcnp.org")
+   (front-context-string . "* TVCNP\n\nVerus C")
+   (rear-context-string)
+   (position . 1)))
+ ("emacs.el"
+  ((filename . "~/Library/elisp/emacs.el")
+   (front-context-string . ";; -*- emacs-lis")
+   (rear-context-string)
+   (position . 1)))
+ ("Ruby.java"
+  ((filename . "/usr/local/src/Java/jruby-current/src/org/jruby/Ruby.java")
+   (front-context-string . "public final cla")
+   (rear-context-string . "structures.\n */\n")
+   (position . 6249)))
+ ("core.clj"
+  ((filename . "/Users/jimm/src/clojure/clojure/src/clj/clojure/core.clj")
+   (front-context-string . "(ns clojure.core")
+   (rear-context-string . "this software.\n\n")
+   (position . 465))))
