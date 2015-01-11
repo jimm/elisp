@@ -1,0 +1,7 @@
+;; -*- emacs-lisp -*-
+(defvar *my-emacs-lib-dir*
+  (if (file-exists-p "~/src/elisp/emacs.el")
+      "~/src/elisp/"
+    "/srv/src/elisp/"))
+(load-file (concat *my-emacs-lib-dir* "bootstrap-init.el"))
+(bootstrap-init "aig" "vagrant")
