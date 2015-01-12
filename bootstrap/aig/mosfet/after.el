@@ -92,19 +92,14 @@ login bash shell."
 ;; Start Emacs server
 (server-start)
 
-(global-set-key [f4]
-  (lambda ()
-    (interactive)
-    (find-file (concat *my-pim-dir* "orgs/work/aig/todo.org"))))
-(global-set-key [\C-f4]
-  (lambda ()
-    (interactive)
-    (find-file (concat *my-pim-dir* "orgs/todo.org"))))
-(global-set-key [f6]
-  (lambda ()
-    (interactive)
-    (find-file (concat *my-pim-dir* "orgs/work/aig/notes.org"))))
-(global-set-key [\C-f6]
-  (lambda ()
-    (interactive)
-    (find-file (concat *my-pim-dir* "orgs/notes.org"))))
+(defmacro set-org-file-key (key file)
+  "Map a KEY globally to one of my Org FILEs."
+  `(global-set-key ,key
+     (lambda ()
+       (interactive)
+       (find-file (concat *my-pim-dir* "orgs/" ,file)))))
+
+(set-org-file-key [f4] "work/aig/todo.org")
+(set-org-file-key [\C-f4] "todo.org")
+(set-org-file-key [f6] "work/aig/notes.org")
+(set-org-file-key [\C-f6] "notes.org")
