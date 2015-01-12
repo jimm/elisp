@@ -1061,7 +1061,7 @@ gzip.")))
   (let* ((list (buffer-list))
          (buffer (car list)))
     (while buffer
-      (when (and (buffer-file-name buffer) 
+      (when (and (buffer-file-name buffer)
                  (not (buffer-modified-p buffer)))
         (set-buffer buffer)
         (revert-buffer t t t))
@@ -1244,7 +1244,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
   "I like lower-case Org Mode templates. This function returns a
 copy of org-structure-template-alist with lower-case template
 values."
-  (mapcar (lambda (entry) 
+  (mapcar (lambda (entry)
             (list (car entry)
                   (downcase (cadr entry))
                   (caddr entry)))
@@ -1527,7 +1527,7 @@ values."
   "Takes a list of hour:minute time strings such as \"1:23\" or
 \"0:44\" adds them up, and returns a string in the same format."
   (let ((parsed (mapcar #'parse-time-string time-strings)))
-    (format-seconds 
+    (format-seconds
      "%h:%02m"
      (+
       (apply #'+ (mapcar (lambda (p) (* 60 (cadr p))) parsed)) ; minutes
