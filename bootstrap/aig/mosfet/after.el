@@ -57,29 +57,12 @@ login bash shell."
        (gfc (concat "c:\\cygwin64\\bin\\find.exe . \\( -name "
                     (mapconcat #'shell-quote-argument bad-names " -o -name ")
                     " \\) -prune -o -type f -print0 | xargs -0 c:\\cygwin64\\bin\\grep.exe -H -n ")))
-  (setq grep-find-command (cons gfc (+ 1 (length gfc)))))
+  (setq grep-find-commuand (cons gfc (+ 1 (length gfc)))))
 
 ;;; ================================================================
 
-(defun ensure-todays-date ()
-  "Used by status function. Assumes point is at beginning of
-  status file."
-  (interactive)                         ; DEBUG
-  (let ((date-header (concat "* " (format-time-string "%Y-%m-%d"))))
-    (goto-char (point-min))
-    (unless (looking-at (concat "* " date-header))
-      (insert date-header "\n\n"))))
-
-(defun status (status-str)
-  "Insert a STATUS-STR into my status.org Org file."
-  (interactive "sStatus: ")
-  (find-file (substitute-in-file-name "$poa/status.org"))
-  (ensure-todays-date)
-  (goto-char (point-min))
-  (forward-line)
-  (insert "\n" status-str "\n"))
-
-;;; ================================================================
+(load "status")
+(setq *status-file* (substitute-in-file-name "$poa/status.org"))
 
 (menu-bar-mode 0)
 (display-time)
