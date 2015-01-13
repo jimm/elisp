@@ -1294,22 +1294,12 @@ values."
 ;;
 ;; https://github.com/rlister/org-present
 (autoload #'org-present "org-present" nil t)
-(defvar org-present-saved-cursor-color "black")
-
 (add-hook 'org-present-mode-hook
           (lambda ()
-            ;; (setq org-present-saved-cursor-color (frame-parameter nil 'cursor-color))
-            ;; (set-cursor-color (if (equal "white" (frame-parameter nil 'background-color))
-            ;;                       "ghost white"
-            ;;                     "white"))
-            (blink-cursor-mode 0)
             (org-present-big)
             (org-display-inline-images)))
-
 (add-hook 'org-present-mode-quit-hook
           (lambda ()
-            ;; (set-cursor-color org-present-saved-cursor-color)
-            (blink-cursor-mode 1)
             (org-present-small)
             (org-remove-inline-images)))
 
