@@ -57,7 +57,7 @@ login bash shell."
        (gfc (concat "c:\\cygwin64\\bin\\find.exe . \\( -name "
                     (mapconcat #'shell-quote-argument bad-names " -o -name ")
                     " \\) -prune -o -type f -print0 | xargs -0 c:\\cygwin64\\bin\\grep.exe -H -n ")))
-  (setq grep-find-commuand (cons gfc (+ 1 (length gfc)))))
+  (setq grep-find-command (cons gfc (+ 1 (length gfc)))))
 
 ;;; ================================================================
 
