@@ -86,3 +86,5 @@ login bash shell."
 (set-org-file-key [\C-f4] "todo.org")
 (set-org-file-key [f6] "work/aig/notes.org")
 (set-org-file-key [\C-f6] "notes.org")
+
+(global-set-key [f5] #'status)
