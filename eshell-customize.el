@@ -13,10 +13,8 @@
 (require 'em-hist)			; So the history vars are defined
 (if (boundp 'eshell-save-history-on-exit)
     (setq eshell-save-history-on-exit t)) ; Don't ask, just save
-;(message "eshell-ask-to-save-history is %s" eshell-ask-to-save-history)
 (if (boundp 'eshell-ask-to-save-history)
     (setq eshell-ask-to-save-history 'always)) ; For older(?) version
-;(message "eshell-ask-to-save-history is %s" eshell-ask-to-save-history)
 
 (defun eshell/ef (fname-regexp &rest dir) (ef fname-regexp default-directory))
 
