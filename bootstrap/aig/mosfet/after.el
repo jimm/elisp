@@ -1,8 +1,8 @@
-;; Read $HOME/.environment and set env vars. Makes massive assumptions about
-;; contents of ~/.environment. For example, assumes that no quote escaping
-;; is necessary.
+;; Read my environment setup file and set env vars. Makes massive
+;; assumptions about contents of that file. For example, assumes that no
+;; quote escaping is necessary.
 (let ((lines (with-temp-buffer
-               (insert-file-contents (concat (getenv "HOME") "/Documents/src/sandbox/dotfiles/.environment"))
+               (insert-file-contents (concat (getenv "HOME") "/Documents/src/sandbox/dotfiles/environment"))
                (split-string (buffer-string) "\n" t))))
   (mapc (lambda (line)
           (when (equal "export" (substring line 0 6))
