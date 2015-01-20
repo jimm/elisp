@@ -15,6 +15,7 @@
           lines))
 
 (setq bookmark-default-file "c:/Users/jamenard/.emacs.d/bookmarks")
+(set-default-coding-systems 'utf-8-unix)
 
 ;;; ================================================================
 ;;; Read $PATH from bash login shell and add each element to exec path.
