@@ -10,7 +10,7 @@
 (defun status-ensure-todays-date ()
   "Makes sure that the first line of the current buffer is a
   top-leve Org mode header containing today's date. Assumes the
-  current buffer contains *status-file*."
+  current buffer is open on *status-file*."
   (let ((date-header (concat "* " (format-time-string "%Y-%m-%d"))))
     (goto-char (point-min))
     (unless (looking-at (concat "* " date-header))
