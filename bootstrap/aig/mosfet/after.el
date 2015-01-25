@@ -89,3 +89,6 @@ login bash shell."
 (set-org-file-key [\C-f6] "notes.org")
 
 (global-set-key [f5] #'status)
+
+(when-fboundp-global-set-key "\C-xo" #'switch-window)
+(when-fboundp-global-set-key [f11]   #'switch-window)
