@@ -1591,7 +1591,7 @@ values."
 
 (defmacro when-fboundp-global-set-key (k f)
   `(when (fboundp (function ,f))
-     (global-set-key k f)))
+     (global-set-key ,k (function ,f))))
 
 (global-set-key "\M-z" #'zap-upto-char)
 (global-set-key "\M-`" #'my-ff-find-other-file)
