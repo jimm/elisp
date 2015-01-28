@@ -1326,6 +1326,7 @@ values."
 ;;
 ;; Markdown mode
 ;;
+(add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\)$" . markdown-mode))
 (add-hook 'markdown-mode-hook
           (lambda ()
             (set-face-attribute 'markdown-header-delimiter-face nil :foreground "black")
@@ -1593,6 +1594,13 @@ values."
   `(when (fboundp (function ,f))
      (global-set-key ,k (function ,f))))
 
+(defmacro set-org-file-key (key file)
+  "Map a KEY globally to one of my Org FILEs."
+  `(global-set-key ,key
+     (lambda ()
+       (interactive)
+       (find-file (concat *my-pim-dir* "orgs/" ,file)))))
+
 (global-set-key "\M-z" #'zap-upto-char)
 (global-set-key "\M-`" #'my-ff-find-other-file)
 (global-set-key "\C-c1" #'find-grep-dired)
@@ -1613,8 +1621,7 @@ values."
 (global-set-key [f2] #'center-of-attention)
 (global-set-key [\C-f2] #'remember)
 (when-fboundp-global-set-key [f3] magit-status)
-(global-set-key [f4]
-                (lambda () (interactive) (find-file (concat *my-pim-dir* "orgs/todo.org"))))
+(set-org-file-key [f4] "todo.org")
 (global-set-key [f5]
                 (lambda () (interactive) (switch-to-buffer "*inferior-lisp*")))
 (global-set-key [\C-f5]

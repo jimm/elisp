@@ -17,6 +17,9 @@
 (setq bookmark-default-file "c:/Users/jamenard/.emacs.d/bookmarks")
 (set-default-coding-systems 'utf-8-unix)
 
+(require 'grep)
+(grep-apply-setting 'grep-use-null-device nil)
+
 ;;; ================================================================
 ;;; Read $PATH from bash login shell and add each element to exec path.
 ;;; Munge them a bit in the process.
@@ -71,20 +74,9 @@ login bash shell."
 
 (setq sql-sqlite-program "sqlite3")
 
-(add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\)$" . markdown-mode))
-
 ;; Start Emacs server
 (server-start)
 
-(defmacro set-org-file-key (key file)
-  "Map a KEY globally to one of my Org FILEs."
-  `(global-set-key ,key
-     (lambda ()
-       (interactive)
-       (find-file (concat *my-pim-dir* "orgs/" ,file)))))
-
-(set-org-file-key [f4] "work/aig/todo.org")
-(set-org-file-key [\C-f4] "todo.org")
 (set-org-file-key [f6] "work/aig/notes.org")
 (set-org-file-key [\C-f6] "notes.org")
 
