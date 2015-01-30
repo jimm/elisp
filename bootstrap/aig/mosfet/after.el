@@ -74,6 +74,11 @@ login bash shell."
 
 (setq sql-sqlite-program "sqlite3")
 
+(add-to-list 'webjump-sites
+             '("slack" . "https://aig-science-dev.slack.com/"))
+(add-to-list 'webjump-sites
+             '("todo" . "https://en.todoist.com/"))
+
 ;; Start Emacs server
 (server-start)
 

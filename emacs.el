@@ -1471,7 +1471,6 @@ values."
         ("gm (Google Mail)" .
          [simple-query "https://mail.google.com/mail/"
                        "https://mail.google.com/mail/#" ""])
-        ("gr (Google Reader)" . "https://www.google.com/reader/view/?tab=my")
         ("gg (Google)" .
          [simple-query "http://www.google.com/"
                        "http://www.google.com/search?q=" ""])
