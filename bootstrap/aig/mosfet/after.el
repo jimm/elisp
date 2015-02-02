@@ -5,7 +5,9 @@
                (insert-file-contents (concat (getenv "HOME") "/Documents/src/sandbox/dotfiles/environment"))
                (split-string (buffer-string) "\n" t))))
   (mapc (lambda (line)
-          (when (equal "export" (substring line 0 6))
+          (when (and
+                 (> (length line) 8)    ; "export x"
+                 (equal "export" (substring line 0 6)))
             (let* ((keyval (replace-regexp-in-string "^export *" "" line))
                    (k-n-v (split-string keyval "=" t))
                    (key (car k-n-v))
@@ -28,11 +30,12 @@
   "Return a list containing all the path elements defined by a
 login bash shell."
   (split-string
-   (shell-command-to-string "bash -l -c 'echo -n $PATH'")
+   (shell-command-to-string "c:/cygwin64/bin/bash -l -c 'echo -n $PATH'")
    ":" t))
 
 (defun fix-cygwin-path (path)
   "Given a PATH, return a copy suitable for Emacs."
+  (interactive)
   (cond ((or (equal "." (substring path 0 1))
              (equal "c:" (substring path 0 2)))
          path)
@@ -41,27 +44,12 @@ login bash shell."
         (t
          (concat "c:/cygwin64" path))))
 
-(defvar *git-shell-bin-dir* "c:/Program Files (x86)/Git/bin")
-
-;;; Set exec-path. Note: setting the "PATH" env var seems to screw up
-;;; $EMACSHOME/bin/cmdproxy.exe.
-(let* ((paths (mapcar #'fix-cygwin-path (bash-paths))))
-  (add-to-list 'paths *git-shell-bin-dir*)
+;;; Set PATH, eshell-path-env, and exec-path.
+(let* ((paths (mapcar #'fix-cygwin-path (bash-paths)))
+       (path-string (mapconcat #'identity paths ";")))
+  (setenv "PATH" path-string)
+  (setq eshell-path-env path-string)
   (setq exec-path paths))
-  ;; (mapc (lambda (p) (message p)) paths)
-  ;; (setenv "PATH" (mapconcat (lambda (p) (concat "\"" p "\"")) paths ":"))
-
-;;; ================================================================
-
-(let* ((more-bad-names (or *more-grep-find-bad-names* ()))
-       (bad-names (append (list "*.log" ".git" "TAGS" "*~" "*.class"
-                                "*.[wj]ar" "target" "javadoc" "bytecode"
-                                "*.o" "*.pyc" ".idea" "_build")
-                          more-bad-names))
-       (gfc (concat "c:\\cygwin64\\bin\\find.exe . \\( -name "
-                    (mapconcat #'shell-quote-argument bad-names " -o -name ")
-                    " \\) -prune -o -type f -print0 | xargs -0 c:\\cygwin64\\bin\\grep.exe -H -n ")))
-  (setq grep-find-command (cons gfc (+ 1 (length gfc)))))
 
 ;;; ================================================================
 
