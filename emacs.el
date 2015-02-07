@@ -25,6 +25,11 @@
                '("melpa" . "http://melpa.org/packages/")
                t))
 
+(unless (boundp 'caddr)
+  (defun caddr (list)
+    "Take the caddr of LIST."
+    (car (cdr (cdr list)))))
+
 (defun ensure-ends-with-slash (dir)
   "If DIR does not end with \"/\", return a new copy of DIR that
   does."

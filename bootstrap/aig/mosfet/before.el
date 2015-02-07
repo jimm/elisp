@@ -1,10 +1,6 @@
 (setenv "HOME" "c:/Users/jamenard")
 (defvar *my-pim-dir* "c:/Users/jamenard/Documents/pim/")
 
-(unless (boundp 'caddr)
-  (defun caddr (list)
-    (car (cdr (cdr list)))))
-
 ; Smoother mouse wheel scrolling
 ; http://www.reddit.com/r/programming/comments/95uv7/emacs_231_has_been_released/c0bj6zp
 (setq mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control)))))
