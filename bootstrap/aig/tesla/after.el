@@ -11,36 +11,37 @@
 (setq browse-url-generic-program "open")
 (setq Man-switches "-M /usr/share/man:/usr/local/share/man")
 
-(defvar compile-ant "ant -e -s build.xml ")
-(defvar compile-rake "rake test ")
-
-(set-register ?n compile-ant)
-(set-register ?q "rake test ")
+(load "status")
+(setq *status-file* (substitute-in-file-name "$poa/status.org"))
 
 (setq sql-sqlite-program "sqlite3")
 
-;;
-;; Google Chrome edit server
-;;
-;(require 'edit-server)
-;(edit-server-start)
-; does not work; asks to kill process anyway
-;(add-hook 'kill-emacs-hook 'edit-server-stop)
-; does not work
-; (add-to-list 'kill-emacs-query-functions 'edit-server-stop)
+(add-to-list 'webjump-sites
+             '("slack" . "https://aig-science-dev.slack.com/"))
+(add-to-list 'webjump-sites
+             '("todo" . "https://en.todoist.com/"))
 
 ;; Start Emacs server
 (server-start)
 
-(global-set-key [\C-f4]
-  (lambda ()
-    (interactive)
-    (find-file (concat *my-pim-dir* "orgs/work/aig/todo.org"))))
 (global-set-key [f4]
   (lambda ()
     (interactive)
+    (find-file (concat *my-pim-dir* "orgs/work/aig/todo.org"))))
+(global-set-key [\C-f4]
+  (lambda ()
+    (interactive)
     (find-file (concat *my-pim-dir* "orgs/todo.org"))))
-(global-set-key [\C-f6]
+(global-set-key [f6]
   (lambda ()
     (interactive)
     (find-file (concat *my-pim-dir* "orgs/work/aig/notes.org"))))
+(global-set-key [\C-f6]
+  (lambda ()
+    (interactive)
+    (find-file (concat *my-pim-dir* "orgs/notes.org"))))
+
+(global-set-key [f5] #'status)
+
+(when-fboundp-global-set-key "\C-xo" switch-window)
+(when-fboundp-global-set-key [f11]   switch-window)
