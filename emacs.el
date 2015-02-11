@@ -1267,7 +1267,14 @@ values."
             (setq org-export-with-sub-superscripts nil)
             (define-key org-mode-map "\C-cr" #'my-org-execute-src)
             (setq org-structure-template-alist
-                  (lower-case-org-mode-templates))))
+                  (lower-case-org-mode-templates))
+            ;; yasnippet mode
+            (org-set-local 'yas-trigger-key "TAB")
+            (add-to-list 'org-tab-first-hook
+                         (lambda ()
+                           (let ((yas/fallback-behavior 'return-nil))
+                             (yas/expand))))
+            (define-key yas-keymap "TAB" 'yas-next-field-or-maybe-expand)))
 
 (set-face-attribute 'org-level-1 nil :height 1.2 :bold t)
 
