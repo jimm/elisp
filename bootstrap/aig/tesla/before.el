@@ -15,7 +15,7 @@
   (defvar *basic-frame-alist* '((background-color . "ghost white")
                                 (cursor-color . "orange")
 				(tool-bar-mode . nil)
-                                (font . "Monaco 13")))
+                                (font . "Menio 13")))
   (setq initial-frame-alist
 	(append *basic-frame-alist* '((height . 60) (top . 0) (left . 0))))
   (setq default-frame-alist *basic-frame-alist*)
