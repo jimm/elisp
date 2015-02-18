@@ -75,5 +75,5 @@ login bash shell."
 
 (global-set-key [f5] #'status)
 
-(when-fboundp-global-set-key "\C-xo" switch-window)
-(when-fboundp-global-set-key [f11]   switch-window)
+; (when-fboundp-global-set-key "\C-xo" switch-window)
+; (when-fboundp-global-set-key [f11]   switch-window)
