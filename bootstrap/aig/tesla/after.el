@@ -21,6 +21,10 @@
 (add-to-list 'webjump-sites
              '("todo" . "https://en.todoist.com/"))
 
+(when (fboundp #'deft)
+  (setq deft-directory (concat *my-pim-dir* "orgs/work/aig")))
+
+
 ;; Start Emacs server
 (server-start)
 
