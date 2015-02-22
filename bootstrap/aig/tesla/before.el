@@ -1,4 +1,5 @@
 (defvar *my-pim-dir* "~/pim/")
+(defvar *my-aig-orgs-dir* (concat *my-pim-dir* "orgs/work/aig/"))
 
 (setq ns-command-modifier 'meta)        ; define Command as Meta key
 (setq ns-option-modifier "none")        ; unbind option key
