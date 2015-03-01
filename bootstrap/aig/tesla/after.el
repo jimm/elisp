@@ -53,6 +53,10 @@ configuration to register 'w'."
     (other-window 1)
     (window-configuration-to-register ?w)))
 
+;; Markdown
+(add-hook 'markdown-mode-hook
+          (lambda () (setq markdown-command "multimarkdown")))
+
 ;; Start Emacs server
 (server-start)
 
