@@ -21,13 +21,49 @@
 (add-to-list 'webjump-sites
              '("todo" . "https://en.todoist.com/"))
 
+(when (fboundp #'deft)
+  (setq deft-directory *my-aig-orgs-dir*))
+
+(defun standup-window-config ()
+  "Sets up windows for our stand-up meeting. Saves new window
+configuration to register 'w'."
+  (interactive)
+  (let ((ff (lambda (name)
+              (find-file (concat *my-aig-orgs-dir* name ".org"))
+              (end-of-buffer))))
+
+    (zoom-frame-width-cols)
+    (zoom-frame-height-lines)
+
+    (delete-other-windows)
+    (funcall ff "cam")
+
+    (split-window-right)
+    (split-window-below)
+    (other-window 1)
+    (funcall ff "flier")
+
+    (other-window 1)
+    (funcall ff "mydesk")
+
+    (split-window-below)
+    (other-window 1)
+    (funcall ff "devops")
+
+    (other-window 1)
+    (window-configuration-to-register ?w)))
+
+;; Markdown
+(add-hook 'markdown-mode-hook
+          (lambda () (setq markdown-command "multimarkdown")))
+
 ;; Start Emacs server
 (server-start)
 
 (global-set-key [f4]
   (lambda ()
     (interactive)
-    (find-file (concat *my-pim-dir* "orgs/work/aig/todo.org"))))
+    (find-file (concat *my-aig-orgs-dir* "todo.org"))))
 (global-set-key [\C-f4]
   (lambda ()
     (interactive)
@@ -35,7 +71,7 @@
 (global-set-key [f6]
   (lambda ()
     (interactive)
-    (find-file (concat *my-pim-dir* "orgs/work/aig/notes.org"))))
+    (find-file (concat *my-aig-orgs-dir* "notes.org"))))
 (global-set-key [\C-f6]
   (lambda ()
     (interactive)
