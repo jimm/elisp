@@ -697,6 +697,7 @@ This may not do the correct thing in presence of links."
 ;;
 ;; Sql-mode
 ;;
+(add-to-list 'auto-mode-alist '("\\.mysql$" . sql-mode))
 (eval-after-load "sql-mode"
   (load "my-sql-mode"))
 
