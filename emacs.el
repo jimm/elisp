@@ -1437,6 +1437,16 @@ values."
 (add-to-list 'auto-mode-alist '("\\.roo$" . roo-mode))
 
 ;;
+;; 2048 game
+;;
+(add-hook '2048-mode-hook
+          (lambda ()
+            (define-key 2048-mode-map "j" '2048-down)
+            (define-key 2048-mode-map "k" '2048-up)
+            (define-key 2048-mode-map "h" '2048-left)
+            (define-key 2048-mode-map "l" '2048-right)))
+
+;;
 ;; Uniquify
 ;; http://trey-jackson.blogspot.com/2008/01/emacs-tip-11-uniquify.html
 ;;
