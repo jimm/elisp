@@ -1,10 +1,5 @@
-;; (defun zoom-frame-width-cols ()
-;;   (interactive)          ; for testing
-;;   268)                   ; 268 for really full screen, 260 with dock exposed
-
-;; (setq sql-user "jimm")
-;; (setq sql-server "localhost")
-;; (setq sql-database "db")
+(defvar work-orgs-dir "candi"
+  "Name of $pim/orgs/work subdir where I keep work-related Org mode files.")
 
 (setq dired-use-ls-dired nil)
 
@@ -18,6 +13,10 @@
 (set-register ?q "rake test ")
 
 (setq sql-sqlite-program "sqlite3")
+
+;; (setq sql-user "jimm")
+;; (setq sql-server "localhost")
+;; (setq sql-database "db")
 
 ;;
 ;; Google Chrome edit server
@@ -35,7 +34,7 @@
 (global-set-key [\C-f4]
   (lambda ()
     (interactive)
-    (find-file (concat *my-pim-dir* "orgs/work/aig/todo.org"))))
+    (find-file (concat *my-pim-dir* (concat "orgs/work/" work-orgs-dir "/todo.org")))))
 (global-set-key [f4]
   (lambda ()
     (interactive)
@@ -43,4 +42,4 @@
 (global-set-key [\C-f6]
   (lambda ()
     (interactive)
-    (find-file (concat *my-pim-dir* "orgs/work/aig/notes.org"))))
+    (find-file (concat *my-pim-dir* (concat "orgs/work/" work-orgs-dir "/notes.org")))))
