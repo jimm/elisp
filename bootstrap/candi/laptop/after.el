@@ -1,6 +1,8 @@
-;; (defun zoom-frame-width-cols ()
-;;   (interactive)          ; for testing
-;;   268)                   ; 268 for really full screen, 260 with dock exposed
+(defun zoom-frame-width-cols ()
+ "I need to override this because when I'm hooked up to multiple monitors,
+`display-pixel-width' returns the wrong value."
+ (interactive)
+  176)
 
 ;; (setq sql-user "jimm")
 ;; (setq sql-server "localhost")
