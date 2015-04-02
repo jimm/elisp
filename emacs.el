@@ -560,6 +560,7 @@ This may not do the correct thing in presence of links."
 ;;
 ;; CoffeeScript
 ;;
+(add-to-list 'auto-mode-alist '("\\.cjsx$" . coffee-mode))
 (defun compile-coffee-buffer ()
   (interactive)
   (shell-command (concat "coffee"
