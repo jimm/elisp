@@ -13,9 +13,6 @@
 (setq browse-url-generic-program "open")
 (setq Man-switches "-M /usr/share/man:/usr/local/share/man")
 
-(load "status")
-(setq *status-file* (substitute-in-file-name "$poa/status.org"))
-
 (setq sql-sqlite-program "sqlite3")
 
 (when (fboundp #'deft)
@@ -24,6 +21,12 @@
 ;; Markdown
 (add-hook 'markdown-mode-hook
           (lambda () (setq markdown-command "multimarkdown")))
+
+(defun remove-colorization ()
+  "Remove colorization from the current buffer."
+  (interactive)
+  (save-excursion
+    (replace-regexp "\\[[0-9]+m" "" nil (point-min) (point-max))))
 
 ;; Start Emacs server
 (server-start)
@@ -36,6 +39,10 @@
   (lambda ()
     (interactive)
     (find-file (concat *my-pim-dir* "orgs/todo.org"))))
+(global-set-key [f5]
+                (lambda () (interactive) (switch-to-buffer "*SQL*")))
+(global-set-key [\C-f5]
+                (lambda () (interactive) (switch-to-buffer "*inferior-lisp*")))
 (global-set-key [f6]
   (lambda ()
     (interactive)
@@ -44,8 +51,6 @@
   (lambda ()
     (interactive)
     (find-file (concat *my-pim-dir* "orgs/notes.org"))))
-
-(global-set-key [f5] #'status)
 
 (when-fboundp-global-set-key "\C-xo" switch-window)
 (when-fboundp-global-set-key [f11]   switch-window)
