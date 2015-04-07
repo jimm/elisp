@@ -1340,7 +1340,7 @@ values."
 ;;
 ;; Markdown mode
 ;;
-(add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\)$" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\|mdown\\)$" . markdown-mode))
 (add-hook 'markdown-mode-hook
           (lambda ()
             (set-face-attribute 'markdown-header-delimiter-face nil :foreground "black")
