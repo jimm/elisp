@@ -26,7 +26,8 @@
   "Remove colorization from the current buffer."
   (interactive)
   (save-excursion
-    (replace-regexp "\\[[0-9]+m" "" nil (point-min) (point-max))))
+    (let ((inhibit-read-only nil))
+      (replace-regexp "\\[[0-9]+m" "" nil (point-min) (point-max)))))
 
 ;; Start Emacs server
 (server-start)
