@@ -1,3 +1,12 @@
+;; For each PATH element returned by launchctl, add it to exec-path if it's
+;; not already there. Also make sure it's set as an env var properly within
+;; Emacs.
+(let ((true-path (shell-command-to-string "launchctl getenv \"PATH\"")))
+  (mapc (lambda (path)
+          (add-to-list 'exec-path path))
+        (split-string true-path ":"))
+  (setenv "PATH" true-path))
+
 (defvar *my-pim-dir* "~/pim/")
 (defvar *my-work-orgs-dir* (concat *my-pim-dir* "orgs/work/candi/"))
 (defvar *more-grep-find-bad-names* '("bundle" "*.min.js"))
@@ -19,7 +28,7 @@
 				(tool-bar-mode . nil)
                                 (font . "Menio 13")))
   (setq initial-frame-alist
-	(append *basic-frame-alist* '((height . 60) (top . 0) (left . 0))))
+	(append *basic-frame-alist* '((height . 52) (top . 0) (left . 0))))
   (setq default-frame-alist *basic-frame-alist*)
   (set-face-attribute 'mode-line nil :foreground "yellow" :background "black"))
 
