@@ -29,6 +29,19 @@
     (let ((inhibit-read-only nil))
       (replace-regexp "\\[[0-9]+m" "" nil (point-min) (point-max)))))
 
+;; http://stackoverflow.com/questions/3072648/cucumbers-ansi-colors-messing-up-emacs-compilation-buffer
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region (point-min) (point-max))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+;; Run Rspec test in $candi.
+(defun run-spec (fname)
+  (interactive "f")
+  (compile (concat "cd $candi && RAILS_ENV=test bundle exec bin/rspec " fname)))
+
 ;; Start Emacs server
 (server-start)
 
