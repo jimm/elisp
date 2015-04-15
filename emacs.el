@@ -365,9 +365,9 @@ you have a local copy, for example.")
 ;; must come before loading my eshell customize
 ;;
 (load "find-lisp")
-(defun ef (fname-regexp root-directory)
+(defun ef (find-name-arg root-directory)
   "Searches recursively in ROOT-DIRECTORY or current directory
-for FNAME-REGEXP. If one file is found, that file is opened. If
+for FIND-NAME-ARG. If one file is found, that file is opened. If
 more than one id found, opens a dired buffer on the list of
 files. If no files are found, continue searching up the directory
 tree.
@@ -384,13 +384,13 @@ optional argument."
                         "^\\(\\.(git\\|svn)\\)\\|\\(classes\\|build\\|target\\|CVS\\)$\\|^~"
                         f))
 	   (split-string (shell-command-to-string
-			  (concat "find " dirname " -name " fname-regexp)))))
+			  (concat "find " dirname " -name " find-name-arg)))))
 	 (len (length files)))
     (cond ((zerop len)
-	   (cond ((file-system-root-dir-p dirname) (message "%s not found" fname-regexp))
-		 (t (ef fname-regexp (file-name-directory dirname)))))
+	   (cond ((file-system-root-dir-p dirname) (message "%s not found" find-name-arg))
+		 (t (ef find-name-arg (file-name-directory dirname)))))
 	  ((= 1 len) (find-file (car files)))
-	  (t (find-dired dir (concat "-name " fname-regexp))))))
+	  (t (find-dired dir (concat "-name " find-name-arg))))))
 
 ;; Returns file(s) starting at default directory. See also
 ;; get-closest-pathname defined below (which does the same thing but assumes
