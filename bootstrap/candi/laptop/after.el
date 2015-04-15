@@ -32,6 +32,7 @@
 ;; http://stackoverflow.com/questions/3072648/cucumbers-ansi-colors-messing-up-emacs-compilation-buffer
 (require 'ansi-color)
 (defun colorize-compilation-buffer ()
+  "Display ANSI color codes correctly in the *compilation* buffer."
   (toggle-read-only)
   (ansi-color-apply-on-region (point-min) (point-max))
   (toggle-read-only))
@@ -39,7 +40,8 @@
 
 ;; Run Rspec test in $candi.
 (defun run-spec (fname)
-  (interactive "f")
+  "Run an Rspec test from the $candi directory."
+  (interactive "F")                     ; possibly nonexistent file name so we can append ":NNN"
   (compile (concat "cd $candi && RAILS_ENV=test bundle exec bin/rspec " fname)))
 
 ;; Start Emacs server
