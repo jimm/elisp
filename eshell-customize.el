@@ -16,7 +16,8 @@
 (if (boundp 'eshell-ask-to-save-history)
     (setq eshell-ask-to-save-history 'always)) ; For older(?) version
 
-(defun eshell/ef (fname-regexp &rest dir) (ef fname-regexp default-directory))
+(defun eshell/ef (fname-regexp &optional dir)
+  (ef fname-regexp (or dir default-directory)))
 
 
 ;;; ---- path manipulation
