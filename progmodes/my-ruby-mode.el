@@ -27,33 +27,6 @@ Rails root dir is found."
 	  ((equal "/" path) nil)
 	  (t (find-rails-root (parent-dir path)))))
 
-; Ever try to use M-q to reformat a paragraph in a comment? Ever notice how
-; it will also reformat any following code into the paragraph as well? Put
-; the following into your .emacs file to allow you to reformat the comment
-; without messing up your code. -- JimWeirich
-; From http://www.rubygarden.org/ruby?EmacsExtensions
-
-(defvar jw-rb-para-begin-re "\\(^\\s-*#*\\s-*$\\)\\|\\(^\\s-*[^# ]\\)")
-
-(defun jw-rb-goto-para-begin ()
-  (search-backward-regexp jw-rb-para-begin-re)
-  (beginning-of-line)
-  (forward-line 1) )
-
-(defun jw-rb-goto-para-end ()
-  (search-forward-regexp jw-rb-para-begin-re)
-  (beginning-of-line) )
-
-(defun jw-rb-fill-comment-region ()
-  (interactive "*")
-  (save-excursion
-    (jw-rb-goto-para-begin)
-    (let ((start (point)))
-      (jw-rb-goto-para-end)
-      (narrow-to-region start (point))
-      (fill-region start (point))
-      (widen))))
-
 (defun insert-ruby-hash-arrow ()
   (interactive "*")
   (insert "=>")
@@ -109,7 +82,6 @@ use this to delete the log/test.log file."
           (lambda ()
             (define-key ruby-mode-map "\r" 'newline-and-indent)
             (define-key ruby-mode-map "\M-\C-h" 'backward-kill-word)
-            (define-key ruby-mode-map "\M-q" 'jw-rb-fill-comment-region)
             (define-key ruby-mode-map "\C-cr" 'executable-interpret)
             (define-key ruby-mode-map "\C-cd" 'debug-comment)
             (define-key ruby-mode-map "\C-ch" 'insert-ruby-hash-arrow)

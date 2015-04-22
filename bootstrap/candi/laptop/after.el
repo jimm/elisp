@@ -23,20 +23,21 @@
           (lambda () (setq markdown-command "multimarkdown")))
 
 (defun remove-colorization ()
-  "Remove colorization from the current buffer."
+  "Remove ANSI color codes from the current buffer."
   (interactive)
   (save-excursion
-    (let ((inhibit-read-only nil))
+    (let ((inhibit-read-only t))
       (replace-regexp "\\[[0-9]+m" "" nil (point-min) (point-max)))))
 
 ;; http://stackoverflow.com/questions/3072648/cucumbers-ansi-colors-messing-up-emacs-compilation-buffer
 (require 'ansi-color)
-(defun colorize-compilation-buffer ()
+(defun colorize-current-buffer ()
   "Display ANSI color codes correctly in the *compilation* buffer."
+  (interactive)
   (toggle-read-only)
   (ansi-color-apply-on-region (point-min) (point-max))
   (toggle-read-only))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+(add-hook 'compilation-filter-hook 'colorize-current-buffer)
 
 ;; Run Rspec test in $candi.
 (defun run-spec (fname)
