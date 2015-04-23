@@ -1,3 +1,12 @@
+;; For each PATH element returned by launchctl, add it to exec-path if it's
+;; not already there. Also make sure it's set as an env var properly within
+;; Emacs.
+(let ((true-path (shell-command-to-string "launchctl getenv \"PATH\"")))
+  (mapc (lambda (path)
+          (add-to-list 'exec-path path))
+        (split-string true-path ":"))
+  (setenv "PATH" true-path))
+
 (defvar *my-pim-dir* "~/pim/")
 
 (setq ns-command-modifier 'meta)        ; define Command as Meta key
