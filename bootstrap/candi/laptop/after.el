@@ -34,9 +34,8 @@
 (defun colorize-current-buffer ()
   "Display ANSI color codes correctly in the *compilation* buffer."
   (interactive)
-  (toggle-read-only)
-  (ansi-color-apply-on-region (point-min) (point-max))
-  (toggle-read-only))
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region (point-min) (point-max))))
 (add-hook 'compilation-filter-hook 'colorize-current-buffer)
 
 ;; Run Rspec test in $candi.
