@@ -9,7 +9,7 @@
 ;; (setq sql-database "db")
 
 (setq dired-use-ls-dired nil)
-
+(when-fboundp-call line-number-mode 1)  ; display 'em
 (setq browse-url-generic-program "open")
 (setq Man-switches "-M /usr/share/man:/usr/local/share/man")
 
@@ -39,10 +39,27 @@
 (add-hook 'compilation-filter-hook 'colorize-current-buffer)
 
 ;; Run Rspec test in $candi.
-(defun run-spec (fname)
-  "Run an Rspec test from the $candi directory."
-  (interactive "F")                     ; possibly nonexistent file name so we can append ":NNN"
-  (compile (concat "cd $candi && RAILS_ENV=test bundle exec bin/rspec " fname)))
+(defun run-spec (seed fname)
+  "Run Rspec test FNAME from the $candi directory. If SEED is 1, $RANDOM will be used.
+FNAME may contain extra line number info (e.g., 'foo.rb::42')."
+  (interactive "p\nF") ; possibly nonexistent file name so we can append ":NNN"
+  (let ((seed-str (if (equal seed 1) "$RANDOM" seed)))
+    (compile (concat "cd $candi && RAILS_ENV=test bundle exec bin/rspec --seed=" seed-str " " fname))))
+
+(defvar ctest-cmd-prefix
+  (concat "cd $candi && RAILS_ENV=test bundle exec "))
+(defun ctest-models (seed)
+  (interactive "p")
+  (run-spec seed "spec/models"))
+(defun ctest-javascript ()
+  (interactive)
+  (compile (concat "cd $candi && RAILS_ENV=test bundle exec bin/rake spec:javascript")))
+(defun ctest-f1 (seed)
+  (interactive "p")
+  (run-spec seed "spec/features -t feature_thread:1"))
+(defun ctest-f2 (seed)
+  (interactive "p")
+  (run-spec seed "spec/features -t ~feature_thread:1"))
 
 ;; Start Emacs server
 (server-start)
