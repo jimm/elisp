@@ -1,20 +1,21 @@
-alias core_db_pwd ssh core grep password core/shared/config/database.yml
-alias gpr git pull --rebase
-alias file file -h $*
-alias du du -h
-alias maven maven -Eb $*
-alias e find-file $1
-alias t find-file $1
-alias l ls $*
-alias la ls -a $*
-alias ll ls -la $*
-alias lt ls -lt $*
-alias df df -h
-alias sudo *sudo $*
-alias su *su $*
-alias svn-diff svn diff -r PREV $*
-alias dbupdate rake db:migrate db:test:clone_structure
-alias devctl /Users/jimm/src/ideeli-git/bin/adhoc/devctl $*
-alias p padrino
-alias be bundle exec $*
+alias cserv ~/src/sandbox/bin/services $*
 alias cms_db_pwd ssh cms grep password cms/shared/config/database.yml
+alias be bundle exec $*
+alias p padrino
+alias devctl /Users/jimm/src/ideeli-git/bin/adhoc/devctl $*
+alias dbupdate rake db:migrate db:test:clone_structure
+alias svn-diff svn diff -r PREV $*
+alias su *su $*
+alias sudo *sudo $*
+alias df df -h
+alias lt ls -lt $*
+alias ll ls -la $*
+alias la ls -a $*
+alias l ls $*
+alias t find-file $1
+alias e find-file $1
+alias maven maven -Eb $*
+alias du du -h
+alias file file -h $*
+alias gpr git pull --rebase
+alias core_db_pwd ssh core grep password core/shared/config/database.yml

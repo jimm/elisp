@@ -48,6 +48,9 @@ FNAME may contain extra line number info (e.g., 'foo.rb::42')."
 
 (defvar ctest-cmd-prefix
   (concat "cd $candi && RAILS_ENV=test bundle exec "))
+(defun ctest-db ()
+  (interactive)
+  (compile (concat "cd $candi && RAILS_ENV=test bundle exec bin/rake db:drop db:setup")))
 (defun ctest-models (seed)
   (interactive "p")
   (run-spec seed "spec/models"))
