@@ -41,8 +41,6 @@
 (defvar my-alternate-shell #'shell
   "Bound to alternate key.")
 
-(setq eshell-directory-name (concat *my-emacs-lib-dir* "eshell/"))
-
 (if (equal default-directory "/") (setq default-directory "~/"))
 
 ;; Add *my-emacs-lib-dir* subdirs to the end of load-path, so if it's
