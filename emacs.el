@@ -1266,6 +1266,7 @@ values."
             (org-add-link-type "date" #'my-goto-calendar-date)
             (setq org-export-with-sub-superscripts nil)
             (define-key org-mode-map "\C-cr" #'my-org-execute-src)
+            (define-key org-mode-map "\C-ct" #'org-toggle-link-display)
             (setq org-structure-template-alist
                   (lower-case-org-mode-templates))
             ;; yasnippet mode
