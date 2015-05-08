@@ -113,18 +113,18 @@
 (fset #'yes-or-no-p #'y-or-n-p)        ; accept simple 'y'/space, 'n'/delete
 (unless (fboundp #'string-match-p) (defalias #'string-match-p #'string-match))
 
-;; Build a custom grep-find-command
-(unless-boundp-setq *more-grep-find-bad-names* ())
-(let* ((more-bad-names (or *more-grep-find-bad-names* ()))
-       (bad-names (append (list "*.log" ".svn" ".git" "CVS" "TAGS" "*~" "*.class"
-                                "*.[wj]ar" "target" "javadoc" "bytecode" "*.beam"
-                                "*.swf" "*.o" "_site" "*.pyc" ".idea" "_build"
-                                "ebin")
-                          more-bad-names))
-       (gfc (concat "find . \\( -name "
-                    (mapconcat #'shell-quote-argument bad-names " -o -name ")
-                    " \\) -prune -o -type f -print0 | xargs -0 grep -H -n ")))
-  (setq grep-find-command (cons gfc (+ 1 (length gfc)))))
+;; For rgrep, grep-find, and friends
+(load "grep")
+(setq grep-find-ignored-directories
+      (append (list "tmp" "target" "ebin" "_build" "_site")
+              grep-find-ignored-directories))
+(setq grep-find-ignored-files
+      (list
+       "TAGS" "*.[wj]ar" "*.beam"
+       "*.png" "*.gif" "*.jpg" "*.jpeg"
+       ".#*" "*.o" "*~" "*.so" "*.a" "*.elc"
+       "*.class" "*.lib" "*.lo" "*.la" "*.toc" "*.aux"
+       "*.pyc" "*.pyo"))
 
 (setq visible-bell t)
 (setq version-control 'never)           ; When to make backup files
@@ -1626,7 +1626,7 @@ values."
 (global-set-key "\M-z" #'zap-upto-char)
 (global-set-key "\M-`" #'my-ff-find-other-file)
 (global-set-key "\C-c1" #'find-grep-dired)
-(global-set-key "\C-c2" #'grep-find)
+(global-set-key "\C-c2" #'rgrep)
 (global-set-key "\C-c3" #'grep)
 (global-set-key "\C-c\C-c" #'comment-region)
 (global-set-key "\C-h" #'backward-delete-char)

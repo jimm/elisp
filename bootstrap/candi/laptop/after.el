@@ -15,6 +15,11 @@
 
 (setq sql-sqlite-program "sqlite3")
 
+;; Add to the list of directories and files to ignore from rgrep, grep-find,
+;; and friends.
+(add-to-list 'grep-find-ignored-directories "bundle")
+(add-to-list 'grep-find-ignored-files "*[-.]min.js")
+
 (when (fboundp #'deft)
   (setq deft-directory *my-work-orgs-dir*))
 
