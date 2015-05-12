@@ -49,7 +49,7 @@
 FNAME may contain extra line number info (e.g., 'foo.rb::42')."
   (interactive "p\nF") ; possibly nonexistent file name so we can append ":NNN"
   (let ((seed-str (if (equal seed 1) "$RANDOM" seed)))
-    (compile (concat "cd $candi && RAILS_ENV=test bundle exec bin/rspec --seed=" seed-str " " fname))))
+    (compile (concat "cd $candi && echo > log/test.log && RAILS_ENV=test bundle exec bin/rspec --seed=" seed-str " " fname))))
 
 (defvar ctest-cmd-prefix
   (concat "cd $candi && RAILS_ENV=test bundle exec "))
