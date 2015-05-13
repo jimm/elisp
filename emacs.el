@@ -981,6 +981,24 @@ gzip.")))
 ;;
 (autoload #'ses-mode "ses" "Spreadsheet mode" t)
 
+;;
+;; Dealing with ANSII color codes
+;;
+(defun remove-colorization ()
+  "Remove ANSI color codes from the current buffer."
+  (interactive)
+  (save-excursion
+    (let ((inhibit-read-only t))
+      (replace-regexp "\\[[0-9]+m" "" nil (point-min) (point-max)))))
+
+;; http://stackoverflow.com/questions/3072648/cucumbers-ansi-colors-messing-up-emacs-compilation-buffer
+(require 'ansi-color)
+(defun colorize-current-buffer ()
+  "Display ANSI color codes correctly in the *compilation* buffer."
+  (interactive)
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region (point-min) (point-max))))
+(add-hook 'compilation-filter-hook 'colorize-current-buffer)
 
 ;;
 ;; Set tab stops to eight chars, not four

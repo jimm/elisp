@@ -43,42 +43,82 @@
     (ansi-color-apply-on-region (point-min) (point-max))))
 (add-hook 'compilation-filter-hook 'colorize-current-buffer)
 
-;; Run Rspec test in $candi.
+;;; ================ running RSpec tests ================
+
+(defun candi--seed-arg-string (seed)
+  "Returns \"--seed=SEED\". If SEED is 1, returns \"--seed=$RANDOM\"."
+  (concat "--seed="
+          (if (equal seed 1) "$RANDOM" (int-to-string seed))))
+
+(defun candi--run-spec-command (seed fname)
+  (concat "cd $candi && "
+          "echo > log/test.log && "
+          "RAILS_ENV=test bundle exec bin/rspec " (candi--seed-arg-string seed) " " fname))
+
+(defun candi--run-spec-at-point-command (seed fname)
+  (concat (candi--run-spec-command seed fname)
+          ":" (int-to-string (line-number-at-pos))))
+
 (defun run-spec (seed fname)
-  "Run Rspec test FNAME from the $candi directory. If SEED is 1, $RANDOM will be used.
+  "Run RSpec test FNAME from the $candi directory. If SEED is 1, $RANDOM will be used.
 FNAME may contain extra line number info (e.g., 'foo.rb::42')."
   (interactive "p\nF") ; possibly nonexistent file name so we can append ":NNN"
-  (let ((seed-str (if (equal seed 1) "$RANDOM" seed)))
-    (compile (concat "cd $candi && echo > log/test.log && RAILS_ENV=test bundle exec bin/rspec --seed=" seed-str " " fname))))
+  (compile (candi--run-spec-command seed fname)))
+
+(defun run-spec-at-point (seed)
+  "Run RSpec test at point from the $candi directory. If SEED is 1,
+$RANDOM will be used."
+  (interactive "p")
+  (compile (candi--run-spec-at-point-command seed (buffer-file-name))))
 
 (defun run-spec-at-point-in-iterm (seed)
-  "Run Rspec test at point in iTerm. If SEED is 1, $RANDOM will be used."
+  "Run RSpec test at point in iTerm. If SEED is 1, $RANDOM will be used."
   (interactive "p")
-  (let ((seed-str (if (equal seed 1) "$RANDOM" seed)))
-    (tell-iterm (concat "cd $candi && "
-                        "echo > log/test.log && "
-                        "RAILS_ENV=test bundle exec bin/rspec --seed="
-                        seed-str " " (buffer-file-name) ":"
-                        (int-to-string (line-number-at-pos))))))
-    
+  (tell-iterm (candi--run-spec-at-point-command seed (buffer-file-name))))
 
-(defvar ctest-cmd-prefix
-  (concat "cd $candi && RAILS_ENV=test bundle exec "))
+;;; ================ running RSpec tests using ctest ================
+
+;; TODO: have ctest-cmd open the appropriate log file and turn on
+;; auto-revert-tail-mode.
+
+(defvar candi--ctest-cmd-prefix
+  (concat "cd $candi && ctest"))
+(defun ctest-cmd (cmd &optional fname)
+  "Compile using \"ctest CMD\" and open the FNAME output file using
+`auto-revert-tail-mode'."
+  (interactive "s")
+  (switch-to-buffer "*compilation*")
+  (compile (concat candi--ctest-cmd-prefix " " cmd))
+  (sleep-for 1)                         ; wait for file creation
+  (when fname
+    (find-file (concat (getenv "tc") "/test_" fname ".txt"))
+    (revert-buffer t t t)
+    (auto-revert-tail-mode)))
+(defun ctest-create-output-dir ()
+  (interactive)
+  (ctest-cmd "create-output-dir"))
 (defun ctest-db ()
   (interactive)
-  (compile (concat "cd $candi && RAILS_ENV=test bundle exec bin/rake db:drop db:setup")))
-(defun ctest-models (seed)
-  (interactive "p")
-  (run-spec seed "spec/models"))
+  (ctest-cmd "db"))
+(defun ctest-models ()
+  (interactive)
+  (ctest-cmd "models" "models"))
 (defun ctest-javascript ()
   (interactive)
-  (compile (concat "cd $candi && RAILS_ENV=test bundle exec bin/rake spec:javascript")))
-(defun ctest-f1 (seed)
-  (interactive "p")
-  (run-spec seed "spec/features -t feature_thread:1"))
-(defun ctest-f2 (seed)
-  (interactive "p")
-  (run-spec seed "spec/features -t ~feature_thread:1"))
+  (ctest-cmd "javascript" "javascript"))
+(defun ctest-no-models ()
+  (interactive)
+  (ctest-cmd "no-models" "no_models"))
+(defalias #'ctest-other #'ctest-no-models)
+(defun ctest-f1 ()
+  (interactive)
+  (ctest-cmd "f1" "features_1"))
+(defun ctest-f2 ()
+  (interactive)
+  (ctest-cmd "f2" "features_2"))
+(defun ctest-all ()
+  (interactive)
+  (ctest-cmd "all"))
 
 ;; Start Emacs server
 (server-start)
