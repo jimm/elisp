@@ -51,6 +51,17 @@ FNAME may contain extra line number info (e.g., 'foo.rb::42')."
   (let ((seed-str (if (equal seed 1) "$RANDOM" seed)))
     (compile (concat "cd $candi && echo > log/test.log && RAILS_ENV=test bundle exec bin/rspec --seed=" seed-str " " fname))))
 
+(defun run-spec-at-point-in-iterm (seed)
+  "Run Rspec test at point in iTerm. If SEED is 1, $RANDOM will be used."
+  (interactive "p")
+  (let ((seed-str (if (equal seed 1) "$RANDOM" seed)))
+    (tell-iterm (concat "cd $candi && "
+                        "echo > log/test.log && "
+                        "RAILS_ENV=test bundle exec bin/rspec --seed="
+                        seed-str " " (buffer-file-name) ":"
+                        (int-to-string (line-number-at-pos))))))
+    
+
 (defvar ctest-cmd-prefix
   (concat "cd $candi && RAILS_ENV=test bundle exec "))
 (defun ctest-db ()
