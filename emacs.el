@@ -546,6 +546,7 @@ This may not do the correct thing in presence of links."
 ;;;
 (autoload #'javascript-mode "javascript" nil t)
 (add-to-list 'auto-mode-alist '("\\.[agj]s$" . javascript-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx$" . javascript-mode))
 (add-hook 'js-mode-hook
           (lambda ()
             (setq js-indent-level 2)   ; need both?????
