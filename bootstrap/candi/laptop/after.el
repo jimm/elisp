@@ -4,16 +4,14 @@
  (interactive)
   176)
 
-;; (setq sql-user "jimm")
-;; (setq sql-server "localhost")
-;; (setq sql-database "db")
-
-(setq dired-use-ls-dired nil)
 (when-fboundp-call line-number-mode 1)  ; display 'em
-(setq browse-url-generic-program "open")
-(setq Man-switches "-M /usr/share/man:/usr/local/share/man")
 
-(setq sql-sqlite-program "sqlite3")
+(setq dired-use-ls-dired nil
+      browse-url-generic-program "open"
+      Man-switches "-M /usr/share/man:/usr/local/share/man"
+      sql-sqlite-program "sqlite3"
+      *my-sql-regex* "^--.*"
+      *my-sql-regex-replacement* "")
 
 ;; Add to the list of directories and files to ignore from rgrep, grep-find,
 ;; and friends.
@@ -27,22 +25,6 @@
 (add-hook 'markdown-mode-hook
           (lambda () (setq markdown-command "multimarkdown")))
 
-(defun remove-colorization ()
-  "Remove ANSI color codes from the current buffer."
-  (interactive)
-  (save-excursion
-    (let ((inhibit-read-only t))
-      (replace-regexp "\\[[0-9]+m" "" nil (point-min) (point-max)))))
-
-;; http://stackoverflow.com/questions/3072648/cucumbers-ansi-colors-messing-up-emacs-compilation-buffer
-(require 'ansi-color)
-(defun colorize-current-buffer ()
-  "Display ANSI color codes correctly in the *compilation* buffer."
-  (interactive)
-  (let ((inhibit-read-only t))
-    (ansi-color-apply-on-region (point-min) (point-max))))
-(add-hook 'compilation-filter-hook 'colorize-current-buffer)
-
 ;;; ================ running RSpec tests ================
 
 (defun candi--seed-arg-string (seed)
@@ -50,31 +32,31 @@
   (concat "--seed="
           (if (equal seed 1) "$RANDOM" (int-to-string seed))))
 
-(defun candi--run-spec-command (seed fname)
+(defun candi--rspec-command (seed fname)
   (concat "cd $candi && "
           "echo > log/test.log && "
           "RAILS_ENV=test bundle exec bin/rspec " (candi--seed-arg-string seed) " " fname))
 
-(defun candi--run-spec-at-point-command (seed fname)
-  (concat (candi--run-spec-command seed fname)
+(defun candi--rspec-at-point-command (seed fname)
+  (concat (candi--rspec-command seed fname)
           ":" (int-to-string (line-number-at-pos))))
 
 (defun run-spec (seed fname)
   "Run RSpec test FNAME from the $candi directory. If SEED is 1, $RANDOM will be used.
 FNAME may contain extra line number info (e.g., 'foo.rb::42')."
   (interactive "p\nF") ; possibly nonexistent file name so we can append ":NNN"
-  (compile (candi--run-spec-command seed fname)))
+  (compile (candi--rspec-command seed fname)))
 
 (defun run-spec-at-point (seed)
   "Run RSpec test at point from the $candi directory. If SEED is 1,
 $RANDOM will be used."
   (interactive "p")
-  (compile (candi--run-spec-at-point-command seed (buffer-file-name))))
+  (compile (candi--rspec-at-point-command seed (buffer-file-name))))
 
 (defun run-spec-at-point-in-iterm (seed)
   "Run RSpec test at point in iTerm. If SEED is 1, $RANDOM will be used."
   (interactive "p")
-  (tell-iterm (candi--run-spec-at-point-command seed (buffer-file-name))))
+  (tell-iterm (candi--rspec-at-point-command seed (buffer-file-name))))
 
 ;;; ================ running RSpec tests using ctest ================
 
@@ -119,6 +101,8 @@ $RANDOM will be used."
 (defun ctest-all ()
   (interactive)
   (ctest-cmd "all"))
+
+;; ================================================================
 
 ;; Start Emacs server
 (server-start)
