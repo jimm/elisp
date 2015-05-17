@@ -1,6 +1,3 @@
-;; default-directory is a variable that holds name of directory of current
-;; buffer.
-
 (defun rails-root-dir-p (dir)
   "Returns t if dir is a Rails root directory."
   (interactive "D")
@@ -129,10 +126,6 @@ current buffer."
 	   ((rails-controller-file-p path) (rails-functional-test-file path))
 	   ((rails-api-file-p path) (rails-api-test-file path))
 	   ((rails-view-file-p path) (rails-controller-from-view-file path))))))
-
-;; ================================================================
-;; unused
-;; ================================================================
 
 (defun rails-unit-test-file-p (path) (string-match "/test/unit/" path))
 (defun rails-spec-file-p (path) (string-match "/spec/" path))

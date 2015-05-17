@@ -25,41 +25,6 @@
 (add-hook 'markdown-mode-hook
           (lambda () (setq markdown-command "multimarkdown")))
 
-;;; ================ running RSpec tests ================
-
-(defun candi--seed-arg-string (seed)
-  "Returns \"--seed=SEED\". If SEED is 1, returns \"--seed=$RANDOM\"."
-  (concat "--seed="
-          (if (equal seed 1) "$RANDOM" (int-to-string seed))))
-
-(defun candi--rspec-command (seed fname)
-  (let ((rails-root (locate-dominating-file (file-name-directory (buffer-file-name)) "Rakefile"))
-        (rspec-cmd (if (file-exists-p (concat rails-root "bin/rspec")) "bin/rspec" "rspec")))
-    (concat "cd " rails-root " && "
-            "echo > log/test.log && "
-            "RAILS_ENV=test bundle exec " rspec-cmd " " (candi--seed-arg-string seed) " " fname)))
-
-(defun candi--rspec-at-point-command (seed fname)
-  (concat (candi--rspec-command seed fname)
-          ":" (int-to-string (line-number-at-pos))))
-
-(defun run-spec (seed fname)
-  "Run RSpec test FNAME from the $candi directory. If SEED is 1, $RANDOM will be used.
-FNAME may contain extra line number info (e.g., 'foo.rb::42')."
-  (interactive "p\nF") ; possibly nonexistent file name so we can append ":NNN"
-  (compile (candi--rspec-command seed fname)))
-
-(defun run-spec-at-point (seed)
-  "Run RSpec test at point from the $candi directory. If SEED is 1,
-$RANDOM will be used."
-  (interactive "p")
-  (compile (candi--rspec-at-point-command seed (buffer-file-name))))
-
-(defun run-spec-at-point-in-iterm (seed)
-  "Run RSpec test at point in iTerm. If SEED is 1, $RANDOM will be used."
-  (interactive "p")
-  (tell-iterm (candi--rspec-at-point-command seed (buffer-file-name))))
-
 ;;; ================ running RSpec tests using ctest ================
 
 ;; TODO: have ctest-cmd open the appropriate log file and turn on

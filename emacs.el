@@ -10,6 +10,16 @@
   "If VAR is not bound, sets it to VAL."
   `(unless (boundp (quote ,var)) (setq ,var ,val)))
 
+(defun not-blank-p (val)
+  "If VAL is `nil' or an empty string, return `nil', else return
+a non-`nil' value."
+  (and val (> (length val) 1)))
+
+(defun val-or-default (val default)
+  "If VAL is a non-`nil', non-empty string return it, else return DEFAULT."
+  (if (not-blank-p val) val default))
+
+
 (when (< emacs-major-version 24)
   ;; This was installed by package-install.el.
   ;; This provides support for the package system and
@@ -192,7 +202,7 @@ insert it at point. See `generate-random-password`."
 
 ;;
 ;; For flipping back and forth between files and headers, or Java/Ruby files
-;; and Java/Ruby test files.
+;; and Java/Ruby test files. See also rails-find-other-file.
 ;;
 (defun my-ff-find-other-file (&optional in-other-window ignore-include)
   "Find other Java or Ruby file or, if not a Java or Ruby file,
