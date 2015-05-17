@@ -33,9 +33,11 @@
           (if (equal seed 1) "$RANDOM" (int-to-string seed))))
 
 (defun candi--rspec-command (seed fname)
-  (concat "cd $candi && "
-          "echo > log/test.log && "
-          "RAILS_ENV=test bundle exec bin/rspec " (candi--seed-arg-string seed) " " fname))
+  (let ((rails-root (locate-dominating-file (file-name-directory (buffer-file-name)) "Rakefile"))
+        (rspec-cmd (if (file-exists-p (concat rails-root "bin/rspec")) "bin/rspec" "rspec")))
+    (concat "cd " rails-root " && "
+            "echo > log/test.log && "
+            "RAILS_ENV=test bundle exec " rspec-cmd " " (candi--seed-arg-string seed) " " fname)))
 
 (defun candi--rspec-at-point-command (seed fname)
   (concat (candi--rspec-command seed fname)
@@ -98,9 +100,6 @@ $RANDOM will be used."
 (defun ctest-f2 ()
   (interactive)
   (ctest-cmd "f2" "features_2"))
-(defun ctest-all ()
-  (interactive)
-  (ctest-cmd "all"))
 
 ;; ================================================================
 
