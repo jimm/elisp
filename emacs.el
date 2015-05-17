@@ -871,10 +871,9 @@ This may not do the correct thing in presence of links."
 ;;
 ;; Elixir-mode
 ;;
-;; ELPA package isn't good enough yet. Need to clone
-;; https://github.com/elixir-lang/emacs-elixir into ~/.emacs.d and use that
-;; instead.
-(load "my-elixir-mode")
+;; use MELPA version now
+(eval-after-load "elixir-mode"
+  (load "my-elixir-mode"))
 
 ;;
 ;; Lua-mode

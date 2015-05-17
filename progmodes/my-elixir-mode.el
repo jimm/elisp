@@ -1,9 +1,6 @@
 ;;
 ;; Elixir-mode
 ;;
-;; ELPA package isn't good enough yet. Need to clone
-;; https://github.com/elixir-lang/emacs-elixir into ~/.emacs.d and use that
-;; instead.
 
 (defvar iex-proc-name "IEX"
   "The name of the comint process for iex.")

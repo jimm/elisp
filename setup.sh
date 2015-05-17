@@ -55,9 +55,3 @@ $debug cd ~/.emacs.d
 # Link snippits dir
 backup_if_exists ~/.emacs.d/snippets
 $debug ln -s $HERE/snippets snippets
-
-# Check out elixir-lang mode
-if [ ! -d emacs-elixir ] ; then
-    which -s git && \
-        $debug git clone git@github.com:elixir-lang/emacs-elixir.git
-fi
