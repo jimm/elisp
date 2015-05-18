@@ -22,7 +22,6 @@
   (find-file *status-file*)
   (status-ensure-todays-date)
   (goto-char (point-min))
-  (forward-line)
-  (forward-line)
+  (forward-line 2)
   (insert "- " status-str "\n")
   (forward-line -1))
