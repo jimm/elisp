@@ -987,6 +987,21 @@ gzip.")))
             (define-key python-mode-map "\M-]" #'python-indent-shift-right)))
 
 ;;
+;; EMMS (Emacs Multi-Media System)
+;;
+(when (fboundp #'emms-all)
+  (defun emms-init ()
+    (interactive)
+    (emms-all)
+    (emms-default-players)
+    (setq emms-source-file-default-directory
+          (concat (getenv "dbox") "/Music/music"))
+    (global-set-key [f7] 'emms-previous)
+    (global-set-key [f8] 'emms-pause)   ; toggles between pause and resume
+    (global-set-key [f9] 'emms-next)))
+
+
+;;
 ;; SES-mode
 ;;
 (autoload #'ses-mode "ses" "Spreadsheet mode" t)
