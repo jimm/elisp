@@ -6,7 +6,6 @@
           (if (equal seed 1) "$RANDOM" (int-to-string seed))))
 
 (defun my-rails--rspec-command (seed fname)
-(interactve)                            ;DEBUG
   (let* ((rails-root (find-rails-root (file-name-directory fname)))
          (rspec-cmd (if (file-exists-p (concat rails-root "bin/rspec"))
                         "bin/rspec"

@@ -5,7 +5,7 @@
 involves looking for known Rails directories."
   (and path
        (file-directory-p path)
-       (file-directory-p (concat path "Rakefile"))
+       (file-exists-p (concat path "Rakefile"))
        (file-directory-p (concat path "app"))
        (file-directory-p (concat path "config"))
        (file-directory-p (concat path "lib"))
