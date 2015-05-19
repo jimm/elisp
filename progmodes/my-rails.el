@@ -16,7 +16,7 @@ involves looking for known Rails directories."
 (defun find-rails-root (path)
   "Returns Rails root dir at or above path. Returns nil if path is nil or no
 Rails root dir is found. Uses `rails-root-p'."
-  (locate-dominating-file rails-root-p))
+  (locate-dominating-file path #'rails-root-p))
 
 (defun rdb (&optional rails-root rails-env)
   "Given optional RAILS-ROOT (default: search for root from

@@ -10,14 +10,16 @@
   "If VAR is not bound, sets it to VAL."
   `(unless (boundp (quote ,var)) (setq ,var ,val)))
 
-(defun not-blank-p (val)
-  "If VAL is `nil' or an empty string, return `nil', else return
-a non-`nil' value."
-  (and val (> (length val) 1)))
+(defun blank-p (val)
+  "VAL is blank if it is `nil', the empty list, or an empty or
+whitespace-only string."
+  (or (not val)                         ; nil or empty list
+      (and (stringp val) (not (nil-blank-string val)))
+      nil))
 
 (defun val-or-default (val default)
-  "If VAL is a non-`nil', non-empty string return it, else return DEFAULT."
-  (if (not-blank-p val) val default))
+  "If VAL is not `blank-p' return it, else return DEFAULT."
+  (if (not (blank-p val)) val default))
 
 
 (when (< emacs-major-version 24)
@@ -374,7 +376,7 @@ you have a local copy, for example.")
 ;; must come before loading my eshell customize
 ;;
 (load "find-lisp")
-(defun ef (find-name-arg root-directory)
+(defun ef (find-name-arg root-directory &optional ignore)
   "Searches recursively in ROOT-DIRECTORY or current directory
 for FIND-NAME-ARG. If one file is found, that file is opened. If
 more than one id found, opens a dired buffer on the list of
@@ -390,7 +392,7 @@ optional argument."
 	 (files
 	  (cl-remove-if
 	   (lambda (f) (string-match
-                        "^\\(\\.(git\\|svn)\\)\\|\\(classes\\|build\\|target\\|CVS\\)$\\|^~"
+                        "^\\(\\.git\\|\\.svn\\|classes\\|build\\|target\\|CVS\\)$\\|^~"
                         f))
 	   (split-string (shell-command-to-string
 			  (concat "find " dirname " -name " find-name-arg)))))
