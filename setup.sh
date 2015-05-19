@@ -55,3 +55,7 @@ $debug cd ~/.emacs.d
 # Link snippits dir
 backup_if_exists ~/.emacs.d/snippets
 $debug ln -s $HERE/snippets snippets
+
+# Link newsrc
+backup_if_exists ~/.newsrc.eld
+$debug ln -s $dbox/Misc/newsrc.eld ~/.newsrc.eld
