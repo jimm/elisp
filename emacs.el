@@ -398,7 +398,7 @@ optional argument."
 			  (concat "find " dirname " -name " find-name-arg)))))
 	 (len (length files)))
     (cond ((zerop len)
-	   (cond ((file-system-root-dir-p dirname) (message "%s not found" find-name-arg))
+	   (cond ((equal "/" dirname) (message "%s not found" find-name-arg))
 		 (t (ef find-name-arg (file-name-directory dirname)))))
 	  ((= 1 len) (find-file (car files)))
 	  (t (find-dired dir (concat "-name " find-name-arg))))))
@@ -421,7 +421,7 @@ for FNAME-REGEXP."
 	 (len (length files)))
     (cond ((zerop len)
 	   ; (message "%s not found in %s" fname-regexp dir))
-	   (cond ((file-system-root-dir-p dirname) (message "%s not found" fname-regexp))
+	   (cond ((equal "/" dirname) (message "%s not found" fname-regexp))
 		 (t (find-up fname-regexp (file-name-directory dirname)))))
 	  ((= 1 len) (car files))
 	  (t files))))
@@ -1363,13 +1363,15 @@ values."
 (defun tell-iterm (str)
   "Send str to the front window/session in iTerm."
   (interactive "siTerm input: ")
-  (let ((str (replace-regexp-in-string "\"" "\\\"" str t t)))
+  (let ((lines (split-string
+                (replace-regexp-in-string "\"" "\\\"" str t t)
+                "\n")))
     (do-applescript (concat
                      "tell application \"iTerm\"\n"
                      "	tell the current terminal\n"
-                     "		tell the current session\n"
-                     "			write text \"" str "\"\n"
-                     "		end tell\n"
+                     "    tell the current session\n"
+                     (mapconcat (lambda (s) (concat "write text \"" s "\"\n")) lines "")
+                     "    end tell\n"
                      "	end tell\n"
                      "end tell\n"
                      ))))
@@ -1381,6 +1383,12 @@ values."
     (push-mark)
     (end-of-line)
     (tell-iterm (buffer-substring-no-properties (point) (mark)))))
+
+;; Doesn't work
+(defun send-region-to-iterm ()
+  "Send the region to iTerm using tell-iterm."
+  (interactive)
+  (tell-iterm (buffer-substring-no-properties (point) (mark))))
 
 ;;
 ;; Markdown mode
