@@ -34,7 +34,7 @@ $RANDOM will be used."
 (defun run-spec-at-point-in-iterm (seed)
   "Run RSpec test at point in iTerm. If SEED is 1, $RANDOM will be used."
   (interactive "p")
-  (tell-iterm (my-rails--rspec-at-point-command seed (buffer-file-name))))
+  (send-to-iterm (my-rails--rspec-at-point-command seed (buffer-file-name))))
 
 ;;; ================ older test runners ================
 

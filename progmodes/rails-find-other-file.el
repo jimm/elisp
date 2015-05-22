@@ -1,24 +1,10 @@
-(defun rails-root-dir-p (dir)
-  "Returns t if dir is a Rails root directory."
-  (interactive "D")
-  (and (file-exists-p dir)
-       (file-directory-p dir)
-       (file-exists-p (concat dir "Rakefile"))
-       (file-exists-p (concat dir "app"))
-       (file-exists-p (concat dir "config"))))
-
-(defun file-system-root-dir-p (dir)
-  "Returns t if dir is the root directory of the file system."
-  (interactive "D")
-  (and (file-exists-p dir)
-       (file-directory-p dir)
-       (equal dir "/")))
+;;; requires rails-root-p from my-rails.el
 
 (defun rails-root-dir (path)
   "Finds the Rails root directory that is at or above path."
   (interactive "G")
-  (cond ((rails-root-dir-p path) path)
-	((file-system-root-dir-p path) nil)
+  (cond ((rails-root-p path) path)
+	((equal "/" path) nil)
 	((file-directory-p path)
 	 (rails-root-dir (file-name-directory (directory-file-name path))))
 	(t (rails-root-dir (file-name-directory path)))))
@@ -117,10 +103,19 @@
 current buffer."
   (interactive)
   (let ((path (buffer-file-name)))
+    (message "path: %s" path)
     (find-file
      (cond ((or (rails-unit-test-file-p path) (rails-spec-file-p path)) (rails-model-file path))
 	   ((rails-fixture-p path) (rails-unit-test-file path))
-	   ((rails-model-file-p path) (rails-unit-test-file path))
+	   ((rails-model-file-p path)
+            (let ((test-path (rails-unit-test-file path))
+                  (spec-path (rails-spec-file path)))
+              ;; (message "test-path %s" test-path)
+              ;; (message "file exists test-path %p" (file-exists-p test-path))
+              ;; (message "spec-path %s" spec-path)
+              ;; (message "file exists spec-path %p" (file-exists-p spec-path))
+              (or (and (file-exists-p test-path) test-path)
+                  (and (file-exists-p spec-path) spec-path))))
 	   ((rails-api-test-file-p path) (rails-controller-file path))
 	   ((rails-functional-test-file-p path) (rails-controller-file path))
 	   ((rails-controller-file-p path) (rails-functional-test-file path))
@@ -149,10 +144,11 @@ current buffer."
 
 (defun rails-unit-test-file (path)
   (replace-regexp-in-string "/app/models/\\(.*\\)\\.rb"
-			    "/test/unit/\\1_test.rb" path)
-;;   (replace-regexp-in-string "/test/fixtures/\\(.*\\)s\\.rb"
-;; 			    "/test/unit/\\1_test.rb" path)
-)
+			    "/test/unit/\\1_test.rb" path))
+
+(defun rails-spec-file (path)
+  (replace-regexp-in-string "/app/models/\\(.*\\)\\.rb"
+			    "/spec/models/\\1_spec.rb" path))
 
 (defun rails-functional-test-file (path)
   (replace-regexp-in-string "/app/controllers/\\(.*\\)\\.rb"
