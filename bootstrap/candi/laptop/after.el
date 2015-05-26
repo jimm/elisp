@@ -92,6 +92,5 @@
     (interactive)
     (find-file (concat *my-pim-dir* "orgs/notes.org"))))
 
-(when-fboundp-global-set-key [\C-f3] magit-status) ; I use f3 for Mouse Locator
 (when-fboundp-global-set-key "\C-xo" switch-window)
 (when-fboundp-global-set-key [f11]   switch-window)

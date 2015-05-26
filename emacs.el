@@ -1697,6 +1697,7 @@ values."
 (global-set-key [f2] #'center-of-attention)
 (global-set-key [\C-f2] #'remember)
 (when-fboundp-global-set-key [f3] magit-status)
+(when-fboundp-global-set-key [\C-f3] magit-blame-mode)
 (set-org-file-key [f4] "todo.org")
 (global-set-key [f5]
                 (lambda () (interactive) (switch-to-buffer "*inferior-lisp*")))
