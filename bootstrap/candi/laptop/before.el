@@ -8,7 +8,6 @@
   (setenv "PATH" true-path))
 
 (defvar *my-pim-dir* "~/pim/")
-(defvar *my-work-orgs-dir* (concat *my-pim-dir* "orgs/work/candi/"))
 
 (setq ns-command-modifier 'meta)        ; define Command as Meta key
 (setq ns-option-modifier "none")        ; unbind option key

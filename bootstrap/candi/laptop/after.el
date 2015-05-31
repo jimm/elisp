@@ -11,7 +11,8 @@
       Man-switches "-M /usr/share/man:/usr/local/share/man"
       sql-sqlite-program "sqlite3"
       *my-sql-regex* "^--.*"
-      *my-sql-regex-replacement* "")
+      *my-sql-regex-replacement* ""
+      *status-file* (concat *my-pim-dir* "orgs/work/candi/status.org"))
 
 ;; Add to the list of directories and files to ignore from rgrep, grep-find,
 ;; and friends.
@@ -19,7 +20,7 @@
 (add-to-list 'grep-find-ignored-files "*[-.]min.js")
 
 (when (fboundp #'deft)
-  (setq deft-directory *my-work-orgs-dir*))
+  (setq deft-directory (concat *my-pim-dir* "orgs/work/candi/")))
 
 ;; Markdown
 (add-hook 'markdown-mode-hook
@@ -71,26 +72,12 @@
 ;; Start Emacs server
 (server-start)
 
-(global-set-key [f4]
-  (lambda ()
-    (interactive)
-    (find-file (concat *my-work-orgs-dir* "todo.org"))))
-(global-set-key [\C-f4]
-  (lambda ()
-    (interactive)
-    (find-file (concat *my-pim-dir* "orgs/todo.org"))))
-(global-set-key [f5]
-                (lambda () (interactive) (switch-to-buffer "*SQL*")))
-(global-set-key [\C-f5]
-                (lambda () (interactive) (switch-to-buffer "*inferior-lisp*")))
-(global-set-key [f6]
-  (lambda ()
-    (interactive)
-    (find-file (concat *my-work-orgs-dir* "notes.org"))))
-(global-set-key [\C-f6]
-  (lambda ()
-    (interactive)
-    (find-file (concat *my-pim-dir* "orgs/notes.org"))))
+(set-org-file-key [f4] "work/candi/todo.org")
+(set-org-file-key [\C-f4] "todo.org")
+(global-set-key [f5] #'status)
+(global-set-key [\C-f5] (lambda () (interactive) (switch-to-buffer "*SQL*")))
+(set-org-file-key [f6] "work/candi/notes.org")
+(set-org-file-key [\C-f6] "notes.org")
 
 (when-fboundp-global-set-key "\C-xo" switch-window)
 (when-fboundp-global-set-key [f11]   switch-window)
