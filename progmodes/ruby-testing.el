@@ -25,6 +25,11 @@ will be used. FNAME may contain extra line number info (e.g., 'foo.rb::42')."
   (interactive "p\nF") ; possibly nonexistent file name so we can append ":NNN"
   (compile (my-rails--rspec-command seed fname)))
 
+(defun run-spec-in-iterm (seed fname)
+  "Run RSpec test at point in iTerm. If SEED is 1, $RANDOM will be used."
+  (interactive "p\nF") ; possibly nonexistent file name so we can append ":NNN"
+  (send-to-iterm (my-rails--rspec-command seed fname)))
+
 (defun run-spec-at-point (seed)
   "Run RSpec test at point from the $my-rails directory. If SEED is 1,
 $RANDOM will be used."
