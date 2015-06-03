@@ -1223,12 +1223,13 @@ and wc -w"
 ;;
 ;; git
 ;;
-(unless (boundp '*git-emacs-support-dir*)
-  (defvar *git-emacs-support-dir* "/usr/local/src/git/contrib/emacs"))
-(when (file-exists-p *git-emacs-support-dir*)
-  (add-to-list 'load-path *git-emacs-support-dir* t)
-  (autoload #'git-status "git" "git" t))
 (setenv "GIT_PAGER" "cat")
+(setq magit-last-seen-setup-instructions "1.4.0")
+
+;;
+;; status
+;;
+(autoload #'status "status" nil t)
 
 ;;
 ;; Growl (Mac OS X only)
