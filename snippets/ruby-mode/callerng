@@ -1,0 +1,4 @@
+#name : caller =\n#{dump top of call stack ignoring gems}
+#condition: 'force-in-comment
+# --
+caller =\n#{caller.reject{|c| c =~ /ruby\/gems/}[0,20].join("\n")}
