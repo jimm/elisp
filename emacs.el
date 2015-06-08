@@ -718,17 +718,22 @@ This may not do the correct thing in presence of links."
 ;; Clojure-mode (lisp)
 ;;
 
+;; ClojureScript
+(add-to-list 'auto-mode-alist '("\\.\\(cljs\\|boot\\)$" . clojure-mode))
+
 (eval-after-load "clojure-mode"
   (load "my-clojure-mode"))
 
-;;
-;; Clojure
-;;
 (setq inferior-lisp-program "lein repl")
 (defun lein-repl ()
   (interactive)
   (setq inferior-lisp-program "lein repl")
   (inferior-lisp "lein repl"))
+
+(defun boot-repl ()
+  (interactive)
+  (setq inferior-lisp "boot repl")
+  (inferior-lisp "boot repl"))
 
 (add-hook 'lisp-mode-hook
           (lambda ()
