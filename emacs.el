@@ -1221,13 +1221,19 @@ and wc -w"
 (add-to-list 'auto-mode-alist '("\\.cs$" . csharp-mode))
 
 ;;
-;; git
+;; Git
 ;;
 (setenv "GIT_PAGER" "cat")
 (setq magit-last-seen-setup-instructions "1.4.0")
 
+(defun git-revert ()
+  "Checks out the current buffer's file in Git and reverts the current buffer."
+  (interactive "*")
+  (shell-command (concat "git checkout " (file-name-nondirectory (buffer-file-name))))
+  (revert-buffer t t))
+
 ;;
-;; status
+;; Status
 ;;
 (autoload #'status "status" nil t)
 

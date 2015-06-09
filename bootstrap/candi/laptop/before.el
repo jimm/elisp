@@ -21,7 +21,7 @@
 (setq mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control)))))
 
 (when window-system
-  (defvar *basic-frame-alist* '((background-color . "ghost white")
+  (defvar *basic-frame-alist* '((background-color . "white")
                                 (cursor-color . "orange")
 				(tool-bar-mode . nil)
                                 (font . "Menlo 13")))

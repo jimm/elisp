@@ -1,6 +1,3 @@
-;; ClojureScript
-(add-to-list 'auto-mode-alist '("\\.cljs$" . clojure-mode))
-
 (defun reload-clojure-file ()
   (interactive)
   (send-to-iterm (concat "(load-file \"" (buffer-file-name) "\")")))
