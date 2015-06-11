@@ -79,6 +79,7 @@
 (set-org-file-key [f6] "work/candi/notes.org")
 (set-org-file-key [\C-f6] "notes.org")
 
+(require 'my-ruby-mode)                 ; load mode map hook so we can override
 (add-hook 'ruby-mode-hook
           (lambda ()
             (define-key ruby-mode-map "\C-cs" #'run-spec)
