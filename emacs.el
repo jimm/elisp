@@ -121,6 +121,7 @@ whitespace-only string."
 (setq mode-require-final-newline nil)	; do not force newlines
 (setq ns-pop-up-frames nil)             ; do not create new frames on Mac
 (setq auto-revert-verbose nil)          ; no message on each auto-revert update
+(setq isearch-lax-whitespace nil)
 ; (setq recenter-positions '(top middle bottom)) ; change default cycle order
 
 (fset #'yes-or-no-p #'y-or-n-p)        ; accept simple 'y'/space, 'n'/delete
