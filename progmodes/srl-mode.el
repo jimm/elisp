@@ -1,6 +1,6 @@
 ;; A mode for FICO's SRL rules language
 
-(define-generic-mode 'srl-mode
+(define-generic-mode srl-mode
   '("//" ("/*" . "*/"))                 ;comment-list
   '("if" "then" "else" "apply" "is a" "is an" "as a" "as an" "is some fixed array of" "initially") ;keyword-list
 ; font-lock-variable-name-face

@@ -4,9 +4,9 @@
 ;;   '((t (:foreground "ForestGreen")))
 ;;   "keymaster mode option face")
 
-(define-generic-mode 'keymaster-mode
-  '("//" "/\\*.*\\*/")                ;comment-list
-  '(                                  ;keyword-list
+(define-generic-mode keymaster-mode
+  '("//" ("/*" . "*/"))                 ; comment-list
+  '(                                    ; keyword-list
     "input" "output"
     "trigger"
     "message"
@@ -22,10 +22,10 @@
     "pc" "programchange" "progchg" "programChange" "progChg"
     "zone"
     "filter")
-  '(					;font-lock-list
+  '(					; font-lock-list
     ("[a-gA-G][#sb]?-?[0-9]+" . 'font-lock-constant-face)
     )
-  '("\\.km$")                           ;auto-mode-list
+  '("\\.km$")                           ; auto-mode-list
   '(
 ;; (lambda () (auto-fill-mode t))
 )	;function-list

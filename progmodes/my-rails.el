@@ -9,12 +9,10 @@ involves looking for known Rails directories."
        (file-directory-p (concat path "app"))
        (file-directory-p (concat path "config"))
        (file-directory-p (concat path "lib"))
-       (file-directory-p (concat path "public"))
-       (or (file-directory-p (concat path "test"))
-           (file-directory-p (concat path "spec")))))
+       (file-directory-p (concat path "public"))))
 
 (defun find-rails-root (path)
-  "Returns Rails root dir at or above path. Returns nil if path is nil or no
+  "Returns Rails root dir at or above PATH. Returns nil if PATH is nil or no
 Rails root dir is found. Uses `rails-root-p'."
   (locate-dominating-file path #'rails-root-p))
 
@@ -26,7 +24,7 @@ variable values, and call `sql-mysql'. Uses my `rdb' script to
 output the config values, because it knows how to read the YAML
 file."
   (interactive "DRails root: \nsRails environment [development]: ")
-  (let* ((rails-root (val-or-default rails-root (find-rails-root)))
+  (let* ((rails-root (val-or-default rails-root (find-rails-root (buffer-file-name))))
          (rails-env (val-or-default rails-env "development"))
          (cmd (concat " rdb -p -e " rails-env " -r " rails-root))
          (vars (shell-command-to-string cmd))

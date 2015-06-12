@@ -37,7 +37,7 @@ whitespace-only string."
                '("melpa" . "http://melpa.org/packages/")
                t))
 
-(unless (boundp 'caddr)
+(unless (fboundp #'caddr)
   (defun caddr (list)
     "Take the caddr of LIST."
     (car (cdr (cdr list)))))
@@ -93,7 +93,6 @@ whitespace-only string."
 (setq skeleton-pair nil)
 (mouse-wheel-mode 1)
 
-;; Emacs 23-specific values
 (when (>= emacs-major-version 23)
   (transient-mark-mode -1)
   (setq confirm-nonexistent-file-or-buffer nil))
@@ -523,12 +522,9 @@ This may not do the correct thing in presence of links."
           (lambda ()
             (c-set-style "java")
             ;; (c-set-offset 'inclass 0)
-            (if window-system (font-lock-mode 1))
             ;; (define-key java-mode-map "{" #'skeleton-pair-insert-maybe)
             ;; (define-key java-mode-map "(" #'skeleton-pair-insert-maybe)
-            (define-key java-mode-map "\C-cp" #'my-insert-println)
-            (define-key java-mode-map "\C-ce" #'my-insert-err-println)
-            (define-key java-mode-map "\C-cd" #'my-insert-debug-println)))
+            (if window-system (font-lock-mode 1))))
 
 ;;;
 ;; Compilation mode
@@ -877,6 +873,12 @@ This may not do the correct thing in presence of links."
 ;; use MELPA version now
 (eval-after-load "elixir-mode"
   (load "my-elixir-mode"))
+(add-hook 'elixir-mode-hook
+          (lambda ()
+            (define-key elixir-mode-map "\C-cd" #'debug-comment)
+            (define-key elixir-mode-map "\r" #'newline-and-indent)
+            (define-key elixir-mode-map "\C-cr" #'executable-interpret)
+            (define-key elixir-mode-map "\C-c\C-z" #'iex-switch-to-inf))))
 
 ;;
 ;; Lua-mode
