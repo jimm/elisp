@@ -878,7 +878,7 @@ This may not do the correct thing in presence of links."
             (define-key elixir-mode-map "\C-cd" #'debug-comment)
             (define-key elixir-mode-map "\r" #'newline-and-indent)
             (define-key elixir-mode-map "\C-cr" #'executable-interpret)
-            (define-key elixir-mode-map "\C-c\C-z" #'iex-switch-to-inf))))
+            (define-key elixir-mode-map "\C-c\C-z" #'iex-switch-to-inf)))
 
 ;;
 ;; Lua-mode
