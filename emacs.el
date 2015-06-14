@@ -1311,10 +1311,12 @@ values."
                   (caddr entry)))
           org-structure-template-alist))
 
-;; recommended
-(setq org-agenda-include-diary t)
-(setq org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org")))
-(setq org-startup-folded 'nofold)
+;; The first three are recommended
+(setq
+ org-agenda-include-diary t
+ org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org"))
+ org-startup-folded 'nofold
+ org-src-fontify-natively t)
 
 (add-hook 'org-mode-hook
           (lambda ()
