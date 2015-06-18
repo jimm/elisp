@@ -530,12 +530,12 @@ This may not do the correct thing in presence of links."
 ;; Compilation mode
 ;;
 (require 'compile)
-                                        ; Maven 2 error messages are of the form file:[line,column]
+;; Maven 2 error messages are of the form file:[line,column]
 (setq compilation-error-regexp-alist
       (cons
        '("^\\(/[^:]+\\):\\[\\([0-9]+\\),\\([0-9]+\\)\\]" 1 2 3)
        compilation-error-regexp-alist))
-                                        ; Scala error messages
+;; Scala error messages
 (setq compilation-error-regexp-alist
       (cons
        '("\\(\\([a-zA-Z0-9]*/\\)*\\([a-zA-Z0-9]*\\.scala\\)\\):\\([0-9]*\\).*" 1 2)
@@ -564,7 +564,7 @@ This may not do the correct thing in presence of links."
 ;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 (setq js2-basic-offset 2)
-                                        ;(setq js2-use-font-lock-faces t)
+;;(setq js2-use-font-lock-faces t)
 
 ;;
 ;; CoffeeScript
@@ -1097,18 +1097,18 @@ gzip.")))
     (set-frame-position frame 0 0)
     (set-frame-height frame (zoom-frame-height-lines))))
 
-                                        ; Time and time zone information, for calendar's sunrise-sunset and related
-                                        ; funcs.
-(setq calendar-load-hook (cons 'american-calendar calendar-load-hook))
-(setq calendar-latitude 41.08)          ; + north, - south
-(setq calendar-longitude -73.14)        ; + east, - west
-(setq calendar-location-name "Fairfield, CT")
+;; Time and time zone information, for calendar's sunrise-sunset and related
+;; funcs.
+(calendar-set-date-style 'american)
+(setq
+ calendar-latitude 41.08                ; + north, - south
+ calendar-longitude -73.14              ; + east, - west
+ calendar-location-name "Fairfield, CT"
+ calendar-time-zone -300
+ calendar-standard-time-zone-name "EST"
+ calendar-daylight-time-zone-name "EDT")
 
-(setq calendar-time-zone -300)
-(setq calendar-standard-time-zone-name "EST")
-(setq calendar-daylight-time-zone-name "EDT")
-
-                                        ; http://blog.plover.com/prog/revert-all.html
+;; http://blog.plover.com/prog/revert-all.html
 (defun revert-all-buffers ()
   "Refreshes all open buffers from their respective files"
   (interactive)
@@ -1373,7 +1373,8 @@ values."
 ;; iTerm
 ;;
 (defun send-to-iterm (str)
-  "Send str to the front window/session in iTerm."
+  "Send STR to the front window/session in iTerm. STR may contain
+multiple lines separated by `\n'."
   (interactive "siTerm input: ")
   (let ((lines (split-string
                 (replace-regexp-in-string "\"" "\\\"" str t t)
@@ -1387,20 +1388,30 @@ values."
                      "	end tell\n"
                      "end tell\n"
                      ))))
+
+(defun send-region-to-iterm ()
+  "Send the region to iTerm using send-to-iterm."
+  (interactive)
+  (send-to-iterm (buffer-substring-no-properties (point) (mark))))
+
 (defun send-current-line-to-iterm ()
-  "Send the current line to iTerm using send-to-iterm."
+  "Send the current line to iTerm using `send-to-iterm'. See also
+`send-current-line-to-iterm-and-next-line' which I have bound to
+a key."
   (interactive)
   (save-excursion
     (beginning-of-line)
     (push-mark)
     (end-of-line)
-    (send-to-iterm (buffer-substring-no-properties (point) (mark)))))
+    (send-region-to-iterm)))
 
-;; Doesn't work
-(defun send-region-to-iterm ()
-  "Send the region to iTerm using send-to-iterm."
+;; This is a nice function to have bound to a key globally.
+(defun send-current-line-to-iterm-and-next-line ()
+  "Send the current line to iTerm and move to the next line. This
+is a nice function to have bound to a key globally."
   (interactive)
-  (send-to-iterm (buffer-substring-no-properties (point) (mark))))
+  (send-current-line-to-iterm)
+  (forward-line))
 
 ;;
 ;; Markdown mode
@@ -1720,7 +1731,8 @@ values."
                   (interactive)
                   (find-file *my-remember-data-file*)
                   (goto-char (point-max))))
-(global-set-key [f7] #'my-javadoc-open)
+(global-set-key [f7] #'send-current-line-to-iterm-and-next-line)
+(global-set-key [\C-f7] #'my-javadoc-open)
 (global-set-key [f8] #'ef)
 (global-set-key [\C-f8]
                 (lambda (fname-regexp) (interactive "sOrg file regex: ")

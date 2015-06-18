@@ -24,7 +24,7 @@ PATH is nil or no project root dir is found."
 (defun my-ruby-find-definition (word &optional start-dir)
   "Searches for \"def word_under_point\" from the root dir of the
 current project."
-  (interactive "s\nD")
+  (interactive "sFind definition of: \nDStarting directory: ")
   (let ((root-dir (or start-dir (find-ruby-project-root (buffer-file-name)))))
     (when root-dir
       (rgrep (concat "def " word "[^_a-zA-Z0-9?!]") "*.rb" root-dir))))
@@ -51,7 +51,7 @@ current project."
             (define-key ruby-mode-map "\C-ch" #'insert-ruby-hash-arrow)
             (define-key ruby-mode-map "\C-ct" #'run-ruby-test)
             (define-key ruby-mode-map "\C-cs" #'run-ruby-spec)
-            (define-key ruby-mode-map "\C-c." #'my-ruby-find-definition)
+            (define-key ruby-mode-map "\C-c." #'my-ruby-find-definition-at-point)
             (define-key ruby-mode-map "{" #'self-insert-command)
             (define-key ruby-mode-map "}" #'self-insert-command)
             (setq ruby-indent-level 2)
