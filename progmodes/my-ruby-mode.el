@@ -16,7 +16,7 @@ PATH is nil or no project root dir is found."
   (locate-dominating-file
    path
    (lambda (path)
-     (or (rails-root-p (path))
+     (or (rails-root-p path)
          (file-exists-p (concat path "Rakefile"))
          (file-directory-p (concat path ".git/"))
          (file-directory-p (concat path ".svn/"))))))
