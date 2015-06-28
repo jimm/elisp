@@ -1,10 +1,10 @@
 (defun zoom-frame-width-cols ()
- "I need to override this because when I'm hooked up to multiple monitors,
+  "I need to override this because when I'm hooked up to multiple monitors,
 `display-pixel-width' returns the wrong value."
- (interactive)
+  (interactive)
   176)
 
-(when-fboundp-call line-number-mode 1)  ; display 'em
+(line-number-mode 1)                    ; display 'em
 
 (setq dired-use-ls-dired nil
       browse-url-generic-program "open"
