@@ -1,4 +1,4 @@
 #name : caller =\n#{dump top of call stack}
 #condition: 'force-in-comment
 # --
-caller =\n#{caller[0,20].join("\n")}
+caller = "#{caller[0,20].join("\n")}"
