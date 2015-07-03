@@ -15,31 +15,55 @@
             "RAILS_ENV=test bundle exec " rspec-cmd " "
             (my-rails--seed-arg-string seed) " " fname)))
 
-(defun my-rails--rspec-at-point-command (seed fname)
+(defun my-rails--rspec-at-point-command (seed fname line-number)
   (concat (my-rails--rspec-command seed fname)
-          ":" (int-to-string (line-number-at-pos))))
+          ":" (int-to-string line-number)))
+
+
+(defun run-spec-using (run-func seed fname)
+  "Run RSpec test FNAME from the rails root directory above it.
+If SEED is 1, $RANDOM will be used. Calls
+`my-rails--rspec-command' to generated the command to run.
+RUN-FUNC must be a function such as `compile' that takes a string
+and executes it."
+  (funcall run-func (my-rails--rspec-command seed fname)))
 
 (defun run-spec (seed fname)
-  "Run RSpec test FNAME from the $my-rails directory. If SEED is 1, $RANDOM
-will be used. FNAME may contain extra line number info (e.g., 'foo.rb::42')."
+  "Run RSpec test FNAME from the Rails root directory above it.
+If SEED is 1, $RANDOM will be used. FNAME may contain extra line
+number info (e.g., 'foo.rb::42')."
   (interactive "p\nF") ; possibly nonexistent file name so we can append ":NNN"
-  (compile (my-rails--rspec-command seed fname)))
+  (run-spec-using #'compile seed fname))
 
 (defun run-spec-in-iterm (seed fname)
-  "Run RSpec test at point in iTerm. If SEED is 1, $RANDOM will be used."
+  "Run RSpec test at point in iTerm. If SEED is 1, $RANDOM will
+be used."
   (interactive "p\nF") ; possibly nonexistent file name so we can append ":NNN"
-  (send-to-iterm (my-rails--rspec-command seed fname)))
+  (run-spec-using #'send-to-iterm seed fname))
+
+
+(defun run-spec-at-point-using (func seed)
+  "Run RSpec test FNAME from the rails root directory above it.
+If SEED is 1, $RANDOM will be used. Calls
+`my-rails--rspec-at-point-command' to generated the command to run.
+RUN-FUNC must be a function such as `compile' that takes a string
+and executes it."
+  (funcall func (my-rails--rspec-at-point-command
+                 seed
+                 (buffer-file-name)
+                 (line-number-at-pos))))
 
 (defun run-spec-at-point (seed)
-  "Run RSpec test at point from the $my-rails directory. If SEED is 1,
+  "Run RSpec test at point from the Rails root directory. If SEED is 1,
 $RANDOM will be used."
   (interactive "p")
-  (compile (my-rails--rspec-at-point-command seed (buffer-file-name))))
+  (run-spec-at-point-using #'compile seed))
 
 (defun run-spec-at-point-in-iterm (seed)
-  "Run RSpec test at point in iTerm. If SEED is 1, $RANDOM will be used."
+  "Run RSpec test at point in iTerm. If SEED is 1, $RANDOM will
+be used."
   (interactive "p")
-  (send-to-iterm (my-rails--rspec-at-point-command seed (buffer-file-name))))
+  (run-spec-at-point-using #'send-to-iterm seed))
 
 ;;; ================ older test runners ================
 
