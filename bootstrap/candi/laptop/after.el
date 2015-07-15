@@ -68,6 +68,25 @@
   (ctest-cmd "f2" "features_2"))
 
 ;; ================================================================
+;; Status
+;; ================================================================
+
+(defun status-to-phone ()
+  "Moves most recent two days' entries from *status-file* into a
+Dropbox file that I can read from my phone. Useful for standup
+meetings."
+  (find-file *status-file*)
+  (goto-char (point-min))
+  (org-forward-heading-same-level 2)
+  (copy-region-as-kill (point-min) (point))
+  (find-file (concat (getenv "dbox") "/Misc/status.txt"))
+  (goto-char (point-max))
+  (outline-previous-visible-heading 1)
+  (delete-region (point-min) (point))
+  (yank)
+  (save-buffer))
+
+;; ================================================================
 
 ;; Start Emacs server
 (server-start)
