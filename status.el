@@ -17,11 +17,14 @@
       (insert date-header "\n\n\n"))))
 
 (defun status (status-str)
-  "Insert STATUS-STR into the Org mode file *status-file*."
+  "Insert STATUS-STR into the Org mode file *status-file*. If the
+user enters an empty status string, no new item is created but
+the status file is still opened and brought to the front."
   (interactive "sStatus: ")
   (find-file *status-file*)
-  (status-ensure-todays-date)
-  (goto-char (point-min))
-  (forward-line 2)
-  (insert "- " status-str "\n")
-  (forward-line -1))
+  (when (> (length status-str) 0)
+    (status-ensure-todays-date)
+    (goto-char (point-min))
+    (forward-line 2)
+    (insert "- " status-str "\n")
+    (forward-line -1)))
