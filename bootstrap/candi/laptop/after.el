@@ -75,6 +75,7 @@
   "Moves most recent two days' entries from *status-file* into a
 Dropbox file that I can read from my phone. Useful for standup
 meetings."
+  (interactive)
   (find-file *status-file*)
   (goto-char (point-min))
   (org-forward-heading-same-level 2)
