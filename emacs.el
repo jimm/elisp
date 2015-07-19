@@ -1715,6 +1715,11 @@ is a nice function to have bound to a key globally."
 (global-set-key "\M-\C-h" #'backward-kill-word)
 (global-set-key "\M- " #'just-one-space)
 
+(when-fboundp-global-set-key "\M-'" avy-goto-word-or-subword-1)
+(when-fboundp-global-set-key "\M-gg" avy-goto-line)
+(when-fboundp-global-set-key "\M-g\M-g" avy-goto-line)
+(when-fboundp-global-set-key "\C-xo" ace-window)
+
 (global-set-key [f1] my-shell)
 (global-set-key [\C-f1] my-alternate-shell)
 (global-set-key [f2] #'center-of-attention)
