@@ -1686,6 +1686,14 @@ is a nice function to have bound to a key globally."
   (reverse-region (point) (mark)))
 
 ;;
+;; ace-window
+;;
+(when (fboundp #'ace-select-window)
+  (custom-set-faces
+   '(aw-leading-char-face
+     ((((class color)) (:foreground "red" :bold t))))))
+
+;;
 ;; Global key bindings
 ;;
 
