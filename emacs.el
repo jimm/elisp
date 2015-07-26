@@ -1754,7 +1754,7 @@ is a nice function to have bound to a key globally."
 (global-set-key [\C-f10] #'max-frame-height)
 (global-set-key [f11] #'other-window)
 
-;; SMEX mode
+;; Smex mode
 (when (fboundp #'smex-initialize)
   (smex-initialize)
   (global-set-key (kbd "M-x") #'smex)
