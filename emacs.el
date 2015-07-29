@@ -94,7 +94,8 @@ whitespace-only string."
 (mouse-wheel-mode 1)
 
 (when (>= emacs-major-version 23)
-  (transient-mark-mode -1)
+  ;; Time to try transient mark mode for a while
+  ;; (transient-mark-mode -1)
   (setq confirm-nonexistent-file-or-buffer nil))
 
 (setq save-flag 1)		; see bootstrap-ini for loc of file
@@ -1720,7 +1721,6 @@ is a nice function to have bound to a key globally."
 (global-set-key "\C-x\C-m" #'open-email-client)
 (global-set-key "\C-c\C-k" #'compile)
 (global-set-key "\C-x\C-z" #'shrink-window)
-(global-set-key "\M-\C-h" #'backward-kill-word)
 (global-set-key "\M- " #'just-one-space)
 
 (when-fboundp-global-set-key "\M-'" avy-goto-subword-1)
