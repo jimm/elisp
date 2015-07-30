@@ -1225,10 +1225,11 @@ and wc -w"
 (add-to-list 'auto-mode-alist '("\\.cs$" . csharp-mode))
 
 ;;
-;; Git
+;; Git / Magit
 ;;
 (setenv "GIT_PAGER" "cat")
 (setq magit-last-seen-setup-instructions "1.4.0")
+(setq magit-push-always-verify nil)
 
 (defun git-revert ()
   "Checks out the current buffer's file in Git and reverts the current buffer."
