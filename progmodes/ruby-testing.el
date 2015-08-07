@@ -12,7 +12,7 @@
                       "rspec")))
     (concat "cd " rails-root " && "
             "echo > log/test.log && "
-            "RAILS_ENV=test bundle exec " rspec-cmd " "
+            "RAILS_ENV=test " rspec-cmd " "
             (my-rails--seed-arg-string seed) " " fname)))
 
 (defun my-rails--rspec-at-point-command (seed fname line-number)

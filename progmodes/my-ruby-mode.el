@@ -12,7 +12,10 @@
 
 (defun find-ruby-project-root (path)
   "Returns Ruby project root dir at or above PATH. Returns nil if
-PATH is nil or no project root dir is found."
+PATH is nil or no project root dir is found.
+
+Looks for a Rails root directory using `rails-root-p` or a
+Rakefile, .git directory, or .svn directory."
   (locate-dominating-file
    path
    (lambda (path)
@@ -31,16 +34,7 @@ current project."
 
 (defun my-ruby-find-definition-at-point ()
   (interactive)
-  (let* ((word-region (bounds-of-thing-at-point 'word))
-         (end-point (cdr word-region))
-         (next-char-str (buffer-substring-no-properties
-                         end-point (+ 1 end-point)))
-         (word (buffer-substring-no-properties
-                (car word-region)
-                (if (or (equal next-char-str "!") (equal next-char-str "?"))
-                    (+ end-point 1)
-                  end-point))))
-    (my-ruby-find-definition word)))
+  (my-ruby-find-definition (thing-at-point 'symbol)))
 
 (add-hook 'ruby-mode-hook
           (lambda ()
