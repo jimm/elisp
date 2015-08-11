@@ -26,7 +26,7 @@ file."
   (interactive "DRails root: \nsRails environment [development]: ")
   (let* ((rails-root (val-or-default rails-root (find-rails-root (buffer-file-name))))
          (rails-env (val-or-default rails-env "development"))
-         (cmd (concat " rdb -p -e " rails-env " -r " rails-root))
+         (cmd (concat " rdb -s -e " rails-env " -r " rails-root))
          (vars (shell-command-to-string cmd))
          (lines (split-string vars "\n" t))
          (db-settings (mapcar (lambda (line)
