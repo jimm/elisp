@@ -21,6 +21,9 @@ Rakefile, .git directory, or .svn directory."
    (lambda (path)
      (or (rails-root-p path)
          (file-exists-p (concat path "Rakefile"))
+         (file-exists-p (concat path "Gemfile"))
+         (file-exists-p (concat path "README.rdoc"))
+         (file-exists-p (concat path ".ruby-version"))
          (file-directory-p (concat path ".git/"))
          (file-directory-p (concat path ".svn/"))))))
 
@@ -30,7 +33,7 @@ current project."
   (interactive "sFind definition of: \nDStarting directory: ")
   (let ((root-dir (or start-dir (find-ruby-project-root (buffer-file-name)))))
     (when root-dir
-      (rgrep (concat "def " word "[^_a-zA-Z0-9?!]") "*.rb" root-dir))))
+      (rgrep (concat "def " word) "*.rb" root-dir))))
 
 (defun my-ruby-find-definition-at-point ()
   (interactive)
