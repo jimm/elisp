@@ -26,46 +26,14 @@
 (add-hook 'markdown-mode-hook
           (lambda () (setq markdown-command "multimarkdown")))
 
-;;; ================ running RSpec tests using ctest ================
 
-;; TODO: have ctest-cmd open the appropriate log file and turn on
-;; auto-revert-tail-mode.
-
-(defvar candi--ctest-cmd-prefix
-  (concat "cd $candi && ctest"))
-(defun ctest-cmd (cmd &optional fname)
-  "Compile using \"ctest CMD\" and open the FNAME output file using
-`auto-revert-tail-mode'."
-  (interactive "s")
-  (switch-to-buffer "*compilation*")
-  (compile (concat candi--ctest-cmd-prefix " " cmd))
-  (sleep-for 1)                         ; wait for file creation
-  (when fname
-    (find-file (concat (getenv "tc") "/test_" fname ".txt"))
-    (revert-buffer t t t)
-    (auto-revert-tail-mode)))
-(defun ctest-create-output-dir ()
-  (interactive)
-  (ctest-cmd "create-output-dir"))
-(defun ctest-db ()
-  (interactive)
-  (ctest-cmd "db"))
-(defun ctest-models ()
-  (interactive)
-  (ctest-cmd "models" "models"))
-(defun ctest-javascript ()
-  (interactive)
-  (ctest-cmd "javascript" "javascript"))
-(defun ctest-no-models ()
-  (interactive)
-  (ctest-cmd "no-models" "no_models"))
-(defalias #'ctest-other #'ctest-no-models)
-(defun ctest-f1 ()
-  (interactive)
-  (ctest-cmd "f1" "features_1"))
-(defun ctest-f2 ()
-  (interactive)
-  (ctest-cmd "f2" "features_2"))
+;; Set up Deft for searching source code. Unfortunately, this does not do
+;; well with a large number of files.
+(defun deft-setup (dir extension)
+  (interactive "DDirectory: \nsExtension: ")
+  (setq deft-directory dir
+        deft-recursive t)
+  (add-to-list 'deft-extensions extension))
 
 ;; ================================================================
 ;; Status

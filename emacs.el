@@ -1343,10 +1343,10 @@ values."
 ;; Deft
 ;;
 (when (fboundp #'deft)
-  (setq deft-extension "org")
-  (setq deft-directory (concat *my-pim-dir* "orgs/"))
-  (setq deft-text-mode #'org-mode)
-  (setq deft-use-filename-as-title t))
+  (setq deft-extensions '("org" "txt" "md" "markdown")
+        deft-directory (concat *my-pim-dir* "orgs/")
+        deft-recursive t
+        deft-use-filename-as-title t))
 
 ;;
 ;; HAML and SASS
