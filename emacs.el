@@ -2,6 +2,8 @@
 
 ;;; Note: this file should be loaded by bootstrap-init.el.
 
+(require 'cl)
+
 (defmacro when-fboundp-call (f &rest args)
   "If F is bound, calls it with ARGS."
   `(when (fboundp (function ,f)) (funcall (function ,f) ,@args)))
@@ -23,24 +25,12 @@ whitespace-only string."
 
 
 (when (< emacs-major-version 24)
-  ;; This was installed by package-install.el.
-  ;; This provides support for the package system and
-  ;; interfacing with ELPA, the package archive.
-  ;; Move this code earlier if you want to reference
-  ;; packages in your .emacs.
   (let ((f (expand-file-name "~/.emacs.d/elpa/package.el")))
-    (when (and (file-exists-p f)
-               (load f)))))
-(when-fboundp-call package-initialize)
-(when (boundp 'package-archives)
-  (add-to-list 'package-archives
-               '("melpa" . "http://melpa.org/packages/")
-               t))
-
-(unless (fboundp #'caddr)
-  (defun caddr (list)
-    "Take the caddr of LIST."
-    (car (cdr (cdr list)))))
+    (when (file-exists-p f)
+      (load f))))
+(when-fboundp-call package-initialize)  ; code below needs packages loaded
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("melpa" . "http://melpa.org/packages/")))
 
 (defun ensure-ends-with-slash (dir)
   "If DIR does not end with \"/\", return a new copy of DIR that
