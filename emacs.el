@@ -32,12 +32,6 @@ whitespace-only string."
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
                          ("melpa" . "http://melpa.org/packages/")))
 
-(defun ensure-ends-with-slash (dir)
-  "If DIR does not end with \"/\", return a new copy of DIR that
-  does."
-  (if (equal "/" (substring dir -1)) dir
-    (concat dir "/")))
-
 (defvar my-shell #'eshell
   "The shell to use inside Emacs; examples include 'shell or 'eshell.")
 (defvar my-alternate-shell #'shell
@@ -129,6 +123,18 @@ whitespace-only string."
        ".#*" "*.o" "*~" "*.so" "*.a" "*.elc"
        "*.class" "*.lib" "*.lo" "*.la" "*.toc" "*.aux"
        "*.pyc" "*.pyo"))
+
+(defun git-grep (regex)
+  "Run `git grep' with REGEX, outputting to a *grep* buffer.
+Assumes that `default-directory' is within a Git repo and starts
+the search at the repo top-level directory.
+
+This is faster than running rgrep or find-grep."
+  (interactive "sRegex: ")
+  (let ((case-arg (if (equal regex (downcase regex)) "" "-i "))
+        (default-directory (file-name-directory (locate-dominating-file default-directory ".git"))))
+    (message "%s" (concat "git grep -E -n --full-name " case-arg regex))
+    (grep-find (concat "git grep -E -n --full-name " case-arg regex))))
 
 (setq visible-bell t)
 (setq version-control 'never)           ; When to make backup files
@@ -1705,6 +1711,7 @@ is a nice function to have bound to a key globally."
 (global-set-key "\C-c1" #'find-grep-dired)
 (global-set-key "\C-c2" #'rgrep)
 (global-set-key "\C-c3" #'grep)
+(global-set-key "\C-c4" #'git-grep)
 (global-set-key "\C-c\C-c" #'comment-region)
 (global-set-key "\C-h" #'backward-delete-char)
 (global-set-key "\C-x?" #'help-for-help)
