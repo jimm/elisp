@@ -129,12 +129,20 @@ whitespace-only string."
 Assumes that `default-directory' is within a Git repo and starts
 the search at the repo top-level directory.
 
+With \\[universal-argument] prefix, you can edit the constructed shell command line
+before it is executed.
+
 This is faster than running rgrep or find-grep."
   (interactive "sRegex: ")
-  (let ((case-arg (if (equal regex (downcase regex)) "" "-i "))
-        (default-directory (file-name-directory (locate-dominating-file default-directory ".git"))))
-    (message "%s" (concat "git grep -E -n --full-name " case-arg regex))
-    (grep-find (concat "git grep -E -n --full-name " case-arg regex))))
+  (let* ((case-arg (if (equal regex (downcase regex)) "" "-i "))
+         (default-directory (file-name-directory (locate-dominating-file default-directory ".git")))
+         (cmd (concat "git grep -E -n --full-name " case-arg regex))
+         (confirm (equal current-prefix-arg '(4))))
+    (when confirm
+      (setq cmd
+            (read-from-minibuffer "Confirm: "
+                                  cmd nil nil 'grep-find-history)))
+    (grep-find cmd)))
 
 (setq visible-bell t)
 (setq version-control 'never)           ; When to make backup files
@@ -1728,8 +1736,8 @@ is a nice function to have bound to a key globally."
 
 (global-set-key [f1] my-shell)
 (global-set-key [\C-f1] my-alternate-shell)
-(global-set-key [f2] #'center-of-attention)
-(global-set-key [\C-f2] #'remember)
+(global-set-key [f2] #'git-grep)
+(global-set-key [\C-f2] #'center-of-attention)
 (when-fboundp-global-set-key [f3] magit-status)
 (when-fboundp-global-set-key [\C-f3] magit-blame-mode)
 (set-org-file-key [f4] "todo.org")
