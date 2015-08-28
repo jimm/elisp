@@ -124,6 +124,8 @@ whitespace-only string."
        "*.class" "*.lib" "*.lo" "*.la" "*.toc" "*.aux"
        "*.pyc" "*.pyo"))
 
+(setq grep-find-use-xargs 'gnu)
+
 (defun git-grep (regex)
   "Run `git grep' with REGEX, outputting to a *grep* buffer.
 Assumes that `default-directory' is within a Git repo and starts
@@ -136,12 +138,12 @@ This is faster than running rgrep or find-grep."
   (interactive "sRegex: ")
   (let* ((case-arg (if (equal regex (downcase regex)) "" "-i "))
          (default-directory (file-name-directory (locate-dominating-file default-directory ".git")))
+         (confirm (equal current-prefix-arg '(4)))
          (cmd (concat "git grep -E -n --full-name " case-arg regex))
-         (confirm (equal current-prefix-arg '(4))))
-    (when confirm
-      (setq cmd
-            (read-from-minibuffer "Confirm: "
-                                  cmd nil nil 'grep-find-history)))
+         (final-command (if confirm
+                          (read-from-minibuffer "Confirm: "
+                                                cmd nil nil 'grep-find-history)
+                          cmd)))
     (grep-find cmd)))
 
 (setq visible-bell t)
