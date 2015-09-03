@@ -71,10 +71,10 @@ whitespace-only string."
 
 ;; Ubuntu stuff
 ;(menu-bar-enable-clipboard)
-(setq x-select-enable-clipboard t)
-(setq mouse-drag-copy-region t)
+(setq x-select-enable-clipboard t
+      mouse-drag-copy-region t
+      skeleton-pair nil)
 (when-fboundp-call set-scroll-bar-mode 'right)
-(setq skeleton-pair nil)
 (mouse-wheel-mode 1)
 
 (when (>= emacs-major-version 23)
@@ -82,31 +82,38 @@ whitespace-only string."
   ;; (transient-mark-mode -1)
   (setq confirm-nonexistent-file-or-buffer nil))
 
-(setq save-flag 1)		; see bootstrap-ini for loc of file
-(setq sentence-end-double-space nil)
 (turn-on-auto-fill)
 (auto-fill-mode 1)
 (show-paren-mode 1)
-(setq column-number-mode nil)
+
+(setq save-flag 1                       ; see bootstrap-ini for loc of file
+      sentence-end-double-space nil
+      column-number-mode nil
+      make-backup-files nil             ; don't make backup files
+      delete-auto-save-files t          ; no "#" files after a save
+      auto-save-list-file-prefix nil    ; don't record sessions
+      inhibit-startup-screen t          ; kill the startup message
+      initial-scratch-message nil       ; used by Emacs 23 and above
+      inhibit-startup-echo-area-message "jimm"
+      compile-command "makeup "         ; script finds make/rake/pom/build
+      Man-notify 'aggressive            ; when man found, jump there *immed*
+      dabbrev-case-replace nil          ; preserve case when expanding
+      grep-command "grep -n "
+      mode-require-final-newline nil ; do not force newlines
+      ns-pop-up-frames nil           ; do not create new frames on Mac
+      auto-revert-verbose nil        ; no message on each auto-revert update
+      isearch-lax-whitespace nil
+      visible-bell t
+      version-control 'never            ; when to make backup files
+      vc-handled-backends '()           ; disable VC minor mode
+      frame-title-format '((:eval (if (buffer-file-name)
+                                      (abbreviate-file-name (buffer-file-name))
+                                    "%b"))))
 (setq-default fill-column 76)
-(setq make-backup-files nil)            ; don't make backup files
-(setq delete-auto-save-files t)         ; no "#" files after a save
-(setq auto-save-list-file-prefix nil)   ; don't record sessions
-(setq inhibit-startup-screen t)         ; kill the startup message
-(setq initial-scratch-message nil)      ; used by Emacs 23 and above
-(setq inhibit-startup-echo-area-message "jimm")
+
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
-(setq compile-command "makeup ")        ; script finds make/rake/pom/build
-(setq Man-notify 'aggressive)           ; when man found, jump there *immed*
-(setq dabbrev-case-replace nil)         ; preserve case when expanding
-(setq grep-command "grep -n ")
-(setq mode-require-final-newline nil)	; do not force newlines
-(setq ns-pop-up-frames nil)             ; do not create new frames on Mac
-(setq auto-revert-verbose nil)          ; no message on each auto-revert update
-(setq isearch-lax-whitespace nil)
-; (setq recenter-positions '(top middle bottom)) ; change default cycle order
 
 (fset #'yes-or-no-p #'y-or-n-p)        ; accept simple 'y'/space, 'n'/delete
 (unless (fboundp #'string-match-p) (defalias #'string-match-p #'string-match))
@@ -115,44 +122,29 @@ whitespace-only string."
 (load "grep")
 (setq grep-find-ignored-directories
       (append (list "tmp" "target" "ebin" "_build" "_site")
-              grep-find-ignored-directories))
-(setq grep-find-ignored-files
+              grep-find-ignored-directories)
+
+      grep-find-ignored-files
       (list
        "TAGS" "*.[wj]ar" "*.beam"
        "*.png" "*.gif" "*.jpg" "*.jpeg"
        ".#*" "*.o" "*~" "*.so" "*.a" "*.elc"
        "*.class" "*.lib" "*.lo" "*.la" "*.toc" "*.aux"
-       "*.pyc" "*.pyo"))
+       "*.pyc" "*.pyo")
 
-(setq grep-find-use-xargs 'gnu)
+      grep-find-use-xargs 'gnu)
 
-(defun git-grep (regex)
-  "Run `git grep' with REGEX, outputting to a *grep* buffer.
-Assumes that `default-directory' is within a Git repo and starts
-the search at the repo top-level directory.
+(defun git-grep ()
+  "Runs 'git grep' after reading the command from the minibuffer.
 
-With \\[universal-argument] prefix, you can edit the constructed shell command line
-before it is executed.
-
-This is faster than running rgrep or find-grep."
-  (interactive "sRegex: ")
-  (let* ((case-arg (if (equal regex (downcase regex)) "" "-i "))
-         (default-directory (file-name-directory (locate-dominating-file default-directory ".git")))
-         (confirm (equal current-prefix-arg '(4)))
-         (cmd (concat "git grep -E -n --full-name " case-arg regex))
-         (final-command (if confirm
-                          (read-from-minibuffer "Confirm: "
-                                                cmd nil nil 'grep-find-history)
-                          cmd)))
+Sets `default-directory` to the current directory's root git repo
+directory."
+  (interactive)
+  (let* ((default-directory (file-name-directory (locate-dominating-file default-directory ".git")))
+         (cmd (read-from-minibuffer "Run: "
+                                    '("git grep -E -n --full-name -i \"\"" . 32)
+                                    nil nil 'grep-find-history)))
     (grep-find cmd)))
-
-(setq visible-bell t)
-(setq version-control 'never)           ; When to make backup files
-(setq vc-handled-backends '())          ; disable VC minor mode
-(setq frame-title-format
-      '((:eval (if (buffer-file-name)
-                   (abbreviate-file-name (buffer-file-name))
-                 "%b"))))
 
 (when (functionp #'tool-bar-mode) (tool-bar-mode -1))
 (unless window-system (menu-bar-mode nil))
@@ -343,8 +335,8 @@ of STR anywhere."
 (setq *my-remember-data-file* (concat *my-pim-dir* "orgs/notes.org"))
 (add-hook 'remember-mode-hook
           (lambda ()
-            (setq remember-data-file *my-remember-data-file*)
-            (setq remember-diary-file diary-file)))
+            (setq remember-data-file *my-remember-data-file*
+                  remember-diary-file diary-file)))
 
 ;;
 ;; Browse away!
@@ -461,8 +453,8 @@ This may not do the correct thing in presence of links."
 ; (setq tramp-default-method "scp")
 (defun debug-tramp ()
   (interactive)
-  (setq tramp-debug-buffer t)
-  (setq tramp-verbose 10))
+  (setq tramp-debug-buffer t
+        tramp-verbose 10))
 
 ;;
 ;; ssh-ing
@@ -488,11 +480,9 @@ This may not do the correct thing in presence of links."
 ;;
 (add-hook 'c-mode-common-hook
           (lambda ()
-            (setq c-basic-offset 2)
-            (setq c-tab-always-indent nil)
-            ;; BAD! BAD! Screws up ^D
-            ;; (setq c-delete-function #'backward-delete-char)
-            (setq c-recognize-knr-p nil)
+            (setq c-basic-offset 2
+                  c-tab-always-indent nil
+                  c-recognize-knr-p nil)
 
             ;; (define-key c-mode-map "{" #'skeleton-pair-insert-maybe)
             ;; (define-key c-mode-map "(" #'skeleton-pair-insert-maybe)
@@ -565,8 +555,8 @@ This may not do the correct thing in presence of links."
 (add-to-list 'auto-mode-alist '("\\.jsx$" . javascript-mode))
 (add-hook 'js-mode-hook
           (lambda ()
-            (setq js-indent-level 2)   ; need both?????
-            (setq javascript-indent-level 2)))
+            (setq js-indent-level 2     ; need both?????
+                  javascript-indent-level 2)))
 ;; (autoload #'js2-mode "js2-mode" nil t)
 ;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
@@ -638,8 +628,8 @@ This may not do the correct thing in presence of links."
             (define-key perl-mode-map "\r" #'newline-and-indent)
             (define-key perl-mode-map "\M-\C-h" #'backward-kill-word)
             (define-key perl-mode-map "\C-cd" #'debug-comment)
-            (setq c-basic-offset 2)
-            (setq c-tab-always-indent nil)))
+            (setq c-basic-offset 2
+                  c-tab-always-indent nil)))
 
 ;;
 ;; Environment variables and path. Use "launchctl setenv var value" to set
@@ -687,9 +677,9 @@ This may not do the correct thing in presence of links."
 ;;
 (eval-after-load "latex-mode"
   (progn
-    (setq tex-dvi-view-command "latex-view '*'") ; in my ~/bin dir
-    ;; (setq tex-dvi-view-command "xdvi -expert -hush")
-    (setq tex-dvi-print-command "dvips -f * | lpr")
+    (setq tex-dvi-view-command "latex-view '*'"  ; in my ~/bin dir
+          ;; tex-dvi-view-command "xdvi -expert -hush"
+          tex-dvi-print-command "dvips -f * | lpr")
 
     (defun my-tex-to-text ()
       (interactive)
@@ -1126,18 +1116,18 @@ gzip.")))
                  (not (buffer-modified-p buffer)))
         (set-buffer buffer)
         (revert-buffer t t t))
-      (setq list (cdr list))
-      (setq buffer (car list))))
+      (setq list (cdr list)
+            buffer (car list))))
   (message "Refreshed open files"))
 
 (defun cbo4 ()
   (interactive)
-  (setq c-basic-offset 4)
-  (setq ruby-indent-level 4))
+  (setq c-basic-offset 4
+        ruby-indent-level 4))
 (defun cbo2 ()
   (interactive)
-  (setq c-basic-offset 2)
-  (setq ruby-indent-level 2))
+  (setq c-basic-offset 2
+        ruby-indent-level 2))
 
 (defun email (str)
   "Find first email of STR in my address book Org Mode file. For
@@ -1234,8 +1224,8 @@ and wc -w"
 ;; Git / Magit
 ;;
 (setenv "GIT_PAGER" "cat")
-(setq magit-last-seen-setup-instructions "1.4.0")
-(setq magit-push-always-verify nil)
+(setq magit-last-seen-setup-instructions "1.4.0"
+      magit-push-always-verify nil)
 
 (defun git-revert ()
   "Checks out the current buffer's file in Git and reverts the current buffer."
@@ -1320,21 +1310,19 @@ values."
           org-structure-template-alist))
 
 ;; The first three are recommended
-(setq
- org-agenda-include-diary t
- org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org"))
- org-startup-folded 'nofold
- org-src-fontify-natively t)
+(setq org-agenda-include-diary t
+      org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org"))
+      org-startup-folded 'nofold
+      org-src-fontify-natively t)
 
 (add-hook 'org-mode-hook
           (lambda ()
             (org-add-link-type "addr" #'address)
             (org-add-link-type "date" #'my-goto-calendar-date)
-            (setq org-export-with-sub-superscripts nil)
+            (setq org-export-with-sub-superscripts nil
+                  org-structure-template-alist (lower-case-org-mode-templates))
             (define-key org-mode-map "\C-cr" #'my-org-execute-src)
             (define-key org-mode-map "\C-ct" #'org-toggle-link-display)
-            (setq org-structure-template-alist
-                  (lower-case-org-mode-templates))
             ;; yasnippet mode
             (org-set-local 'yas-trigger-key "TAB")
             (add-to-list 'org-tab-first-hook
@@ -1536,10 +1524,10 @@ is a nice function to have bound to a key globally."
 ;; http://trey-jackson.blogspot.com/2008/01/emacs-tip-11-uniquify.html
 ;;
 (require 'uniquify)
-(setq uniquify-buffer-name-style 'reverse)
-(setq uniquify-separator "/")
-(setq uniquify-after-kill-buffer-p t)    ; rename after killing uniquified
-(setq uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
+(setq uniquify-buffer-name-style 'reverse
+      uniquify-separator "/"
+      uniquify-after-kill-buffer-p t     ; rename after killing uniquified
+      uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
 
 ;;
 ;; Encryption
