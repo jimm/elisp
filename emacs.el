@@ -1332,6 +1332,9 @@ values."
             (define-key yas-keymap "TAB" 'yas-next-field-or-maybe-expand)))
 
 (set-face-attribute 'org-level-1 nil :height 1.2 :bold t)
+(set-face-background 'org-block-begin-line "gray95")
+(set-face-background 'org-block-end-line   "gray95")
+(set-face-background 'org-block-background "gray95")
 
 ;;
 ;; Deft
