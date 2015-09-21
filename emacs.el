@@ -134,17 +134,26 @@ whitespace-only string."
 
       grep-find-use-xargs 'gnu)
 
+(defun git-root-dir ()
+  "Returns the current directory's root git repo directory."
+  (file-name-directory (locate-dominating-file default-directory ".git")))
+
+(defun git-root-dired ()
+  "Runs dired in the current dir's root git repo directory."
+  (interactive)
+  (dired (git-root-dir)))
+
 (defun git-grep ()
   "Runs 'git grep' after reading the command from the minibuffer.
 
 Sets `default-directory` to the current directory's root git repo
 directory."
   (interactive)
-  (let* ((default-directory (file-name-directory (locate-dominating-file default-directory ".git")))
-         (cmd (read-from-minibuffer "Run: "
+  (let ((default-directory (git-root-dir))
+        (cmd (read-from-minibuffer "Run: "
                                     '("git grep -E -n --full-name -i \"\"" . 32)
                                     nil nil 'grep-find-history)))
-    (grep-find cmd)))
+  (grep-find cmd)))
 
 (when (functionp #'tool-bar-mode) (tool-bar-mode -1))
 (unless window-system (menu-bar-mode nil))
@@ -1714,6 +1723,7 @@ is a nice function to have bound to a key globally."
 (global-set-key "\C-c3" #'grep)
 (global-set-key "\C-c4" #'git-grep)
 (global-set-key "\C-c\C-c" #'comment-region)
+(global-set-key "\C-c\C-d" #'git-root-dired)
 (global-set-key "\C-h" #'backward-delete-char)
 (global-set-key "\C-x?" #'help-for-help)
 (global-set-key "\C-x\C-k" #'compile)

@@ -19,8 +19,8 @@
 (add-to-list 'grep-find-ignored-directories "bundle")
 (add-to-list 'grep-find-ignored-files "*[-.]min.js")
 
-(when (fboundp #'deft)
-  (setq deft-directory (concat *my-pim-dir* "orgs/work/candi/")))
+;; (when (fboundp #'deft)
+;;   (setq deft-directory (concat *my-pim-dir* "orgs/work/candi/")))
 
 ;; Markdown
 (add-hook 'markdown-mode-hook
