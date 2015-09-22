@@ -1344,6 +1344,7 @@ values."
 (set-face-background 'org-block-begin-line "gray95")
 (set-face-background 'org-block-end-line   "gray95")
 (set-face-background 'org-block-background "gray95")
+(set-face-background 'org-block "gray95")
 
 ;;
 ;; Deft
@@ -1353,6 +1354,14 @@ values."
         deft-directory (concat *my-pim-dir* "orgs/")
         deft-recursive t
         deft-use-filename-as-title t))
+
+;;
+;; fzf
+;;
+(when (fboundp #'fzf)
+  (defun git-root-fzf ()
+    (interactive)
+    (fzf-directory (git-root-dir))))
 
 ;;
 ;; HAML and SASS
@@ -1755,10 +1764,11 @@ is a nice function to have bound to a key globally."
                   (goto-char (point-max))))
 (global-set-key [f7] #'send-current-line-to-iterm-and-next-line)
 (global-set-key [\C-f7] #'my-javadoc-open)
-(global-set-key [f8] #'ef)
-(global-set-key [\C-f8]
-                (lambda (fname-regexp) (interactive "sOrg file regex: ")
-                  (ef (shell-quote-argument fname-regexp) (concat *my-pim-dir* "orgs/"))))
+(if (fboundp #'fzf)
+    (progn
+      (global-set-key [f8] #'git-root-fzf)
+      (global-set-key [\C-f8] #'ef))
+  (global-set-key [f8] #'ef))
 (global-set-key [f10] #'zoom-frame)
 (global-set-key [\C-f10] #'max-frame-height)
 (global-set-key [f11] #'other-window)
