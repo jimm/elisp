@@ -387,7 +387,7 @@ you have a local copy, for example.")
 (defun ef (find-name-arg root-directory &optional ignore)
   "Searches recursively in ROOT-DIRECTORY or current directory
 for FIND-NAME-ARG. If one file is found, that file is opened. If
-more than one id found, opens a dired buffer on the list of
+more than one is found, opens a dired buffer on the list of
 files. If no files are found, continue searching up the directory
 tree.
 
