@@ -33,7 +33,7 @@ current project."
   (interactive "sFind definition of: \nDStarting directory: ")
   (let ((root-dir (or start-dir (find-ruby-project-root (buffer-file-name)))))
     (when root-dir
-      (rgrep (concat "def " word) "*.rb" root-dir))))
+      (rgrep (concat "def (self\.)?" word) "*.rb" root-dir))))
 
 (defun my-ruby-find-definition-at-point ()
   (interactive)
