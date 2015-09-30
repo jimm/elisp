@@ -143,16 +143,21 @@ whitespace-only string."
   (interactive)
   (dired (git-root-dir)))
 
-(defun git-grep ()
+(defun git-grep (arg)
   "Runs 'git grep' after reading the command from the minibuffer.
+
+With a prefix argument, initializes the search string with the
+current symbol at point.
 
 Sets `default-directory` to the current directory's root git repo
 directory."
-  (interactive)
-  (let ((default-directory (git-root-dir))
-        (cmd (read-from-minibuffer "Run: "
-                                    '("git grep -E -n --full-name -i \"\"" . 32)
-                                    nil nil 'grep-find-history)))
+  (interactive "P")
+  (let* ((initial-text (if (eq arg 1) "" (thing-at-point 'symbol)))
+         (default-directory (git-root-dir))
+         (cmd (read-from-minibuffer
+               "Run: "
+               (cons (concat "git grep -E -n --full-name -i \"" initial-text "\"") 32)
+               nil nil 'grep-find-history)))
   (grep-find cmd)))
 
 (when (functionp #'tool-bar-mode) (tool-bar-mode -1))
