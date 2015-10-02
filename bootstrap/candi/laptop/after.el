@@ -44,15 +44,36 @@
 Dropbox file that I can read from my phone. Useful for standup
 meetings."
   (interactive)
+
+  ;; Grab last two days' entries.
   (find-file *status-file*)
   (goto-char (point-min))
   (org-forward-heading-same-level 2)
   (copy-region-as-kill (point-min) (point))
+
+  ;; Replace everything above last section.
   (find-file (concat (getenv "dbox") "/Misc/status.txt"))
   (goto-char (point-max))
   (outline-previous-visible-heading 1)
   (delete-region (point-min) (point))
   (yank)
+
+  ;; Swap two days' entries and change headings to "Yesterday" and "Today".
+  (outline-previous-visible-heading 1)
+  (org-shiftmetaup)
+
+  (org-delete-backward-char 1)
+  (org-end-of-line)
+  (delete-region (+ 2 (point-min)) (point))
+  (insert "Yesterday")
+
+  (outline-next-visible-heading 1)
+  (org-open-line 1)
+  (forward-char 3)
+  (org-kill-line)
+  (insert "Today")
+
+  (goto-char (point-min))
   (save-buffer))
 
 ;; ================================================================
