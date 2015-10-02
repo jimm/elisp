@@ -152,7 +152,7 @@ current symbol at point.
 Sets `default-directory` to the current directory's root git repo
 directory."
   (interactive "P")
-  (let* ((initial-text (if (eq arg 1) "" (thing-at-point 'symbol)))
+  (let* ((initial-text (if arg (thing-at-point 'symbol) ""))
          (default-directory (git-root-dir))
          (cmd (read-from-minibuffer
                "Run: "
@@ -1082,6 +1082,8 @@ gzip.")))
 (defcustom *zoom-frame-height-diff* 4
   "Fudge factor for display column height calculations.")
 
+(defvar *zoom-frame-saved-width-cols* nil)
+
 (defun zoom-frame-width-cols ()
   (interactive)				; for testing
   (round (/ (float (display-pixel-width))
@@ -1096,11 +1098,13 @@ gzip.")))
 (defun zoom-frame ()
   (interactive)
   (let ((frame (selected-frame)))
-    (set-frame-position frame 0 0)
+    ;; (set-frame-position frame 0 0)
     (set-frame-width
      frame
-     (cond ((eq 80 (frame-width)) (zoom-frame-width-cols))
-           (t 80)))))
+     (cond ((eq 80 (frame-width)) (or *zoom-frame-saved-width-cols* (zoom-frame-width-cols)))
+           (t (progn
+                (setq *zoom-frame-saved-width-cols* (frame-width))
+                80))))))
 
 (defun max-frame-height ()
   (interactive)
