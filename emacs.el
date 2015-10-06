@@ -1114,7 +1114,7 @@ gzip.")))
 
 ;; Time and time zone information, for calendar's sunrise-sunset and related
 ;; funcs.
-(calendar-set-date-style 'american)
+(when-fboundp-call calendar-set-date-style 'american)
 (setq
  calendar-latitude 41.08                ; + north, - south
  calendar-longitude -73.14              ; + east, - west
@@ -1342,18 +1342,19 @@ values."
             (define-key org-mode-map "\C-cr" #'my-org-execute-src)
             (define-key org-mode-map "\C-ct" #'org-toggle-link-display)
             ;; yasnippet mode
-            (org-set-local 'yas-trigger-key "TAB")
+            (org-set-local 'yas-trigger-key "\t")
             (add-to-list 'org-tab-first-hook
                          (lambda ()
                            (let ((yas/fallback-behavior 'return-nil))
                              (yas/expand))))
-            (define-key yas-keymap "TAB" 'yas-next-field-or-maybe-expand)))
+            (define-key yas-keymap "\t" 'yas-next-field-or-maybe-expand)))
 
 (set-face-attribute 'org-level-1 nil :height 1.2 :bold t)
-(set-face-background 'org-block-begin-line "gray95")
-(set-face-background 'org-block-end-line   "gray95")
-(set-face-background 'org-block-background "gray95")
-(set-face-background 'org-block "gray95")
+(when window-system
+  (set-face-background 'org-block-begin-line "gray95")
+  (set-face-background 'org-block-end-line   "gray95")
+  (set-face-background 'org-block-background "gray95")
+  (set-face-background 'org-block "gray95"))
 
 ;;
 ;; Deft
