@@ -144,20 +144,21 @@ whitespace-only string."
   (dired (git-root-dir)))
 
 (defun git-grep (arg)
-  "Runs 'git grep' after reading the command from the minibuffer.
+  "Runs 'git grep' after reading the search regular expression
+from the minibuffer. Starts the search in the current directory's
+root git repo directory.
 
 With a prefix argument, initializes the search string with the
-current symbol at point.
-
-Sets `default-directory` to the current directory's root git repo
-directory."
+current symbol at point."
   (interactive "P")
-  (let* ((initial-text (if arg (thing-at-point 'symbol) ""))
+  (let* ((regexp (read-from-minibuffer
+                  "Search regexp: "
+                  (and arg (thing-at-point 'symbol))
+                  nil nil 'grep-find-history))
          (default-directory (git-root-dir))
-         (cmd (read-from-minibuffer
-               "Run: "
-               (cons (concat "git grep -E -n --full-name -i \"" initial-text "\"") 32)
-               nil nil 'grep-find-history)))
+         (case-ignore-flag (and (isearch-no-upper-case-p regexp t) "-i"))
+         (cmd (concat "git grep -E -n --full-name " case-ignore-flag
+                      " \"" regexp "\"")))
   (grep-find cmd)))
 
 (when (functionp #'tool-bar-mode) (tool-bar-mode -1))
@@ -1824,6 +1825,13 @@ is a nice function to have bound to a key globally."
                                        :base-directory "."
                                        :publishing-directory "../public_html"
                                        :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>"
+                                       :author "Jim Menard"
+                                       :email "jim@jimmenard.com"))
+           (org-publish-project-alist ("blog"
+                                       :base-directory "."
+                                       :publishing-directory "."
+                                       :style "<link rel=\"stylesheet\" href=\"/style.css\" type=\"text/css\"/>"
+                                       :html-head "<!--#include virtual=\"/header.html\"-->"
                                        :author "Jim Menard"
                                        :email "jim@jimmenard.com"))
            (Syntax . Common-Lisp)))))
