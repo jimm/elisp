@@ -26,6 +26,7 @@
 
 (setq clojure-mode-hook
       (lambda ()
+        (when-fboundp-call inf-clojure-minor-mode)
         (define-key clojure-mode-map "\r" 'newline-and-indent)
         (define-key clojure-mode-map "\C-cd" 'debug-comment)
         (define-key clojure-mode-map "\C-ci" 'in-ns-to-inferior-lisp)

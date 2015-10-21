@@ -733,6 +733,7 @@ This may not do the correct thing in presence of links."
 (eval-after-load "clojure-mode"
   (load "my-clojure-mode"))
 
+;; See also inf-clojure mode
 (setq inferior-lisp-program "lein repl")
 (defun lein-repl ()
   (interactive)
