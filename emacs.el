@@ -1775,7 +1775,7 @@ is a nice function to have bound to a key globally."
                   (find-file *my-remember-data-file*)
                   (goto-char (point-max))))
 (global-set-key [f7] #'send-current-line-to-iterm-and-next-line)
-(global-set-key [\C-f7] #'my-javadoc-open)
+(global-set-key [\C-f7] #'send-region-to-iterm)
 (if (fboundp #'fzf)
     (progn
       (global-set-key [f8] #'git-root-fzf)
