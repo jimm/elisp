@@ -1423,6 +1423,11 @@ multiple lines separated by `\n'."
   (interactive)
   (send-to-iterm (buffer-substring-no-properties (point) (mark))))
 
+(defun send-buffer-to-iterm ()
+  "Send the current buffer to iTerm using send-to-iterm."
+  (interactive)
+  (send-to-iterm (buffer-substring-no-properties (point-min) (point-max))))
+
 (defun send-current-line-to-iterm ()
   "Send the current line to iTerm using `send-to-iterm'. See also
 `send-current-line-to-iterm-and-next-line' which I have bound to
