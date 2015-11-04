@@ -36,6 +36,10 @@
         deft-recursive t)
   (add-to-list 'deft-extensions extension))
 
+(add-to-list 'org-link-abbrev-alist
+             '("issue" . "https://github.com/chloeandisabel/Candi/issues/")
+             '("pr"    . "https://github.com/chloeandisabel/Candi/pulls/"))
+
 ;; ================================================================
 ;; Status
 ;; ================================================================
@@ -75,7 +79,8 @@ meetings."
   (insert "Today")
 
   (goto-char (point-min))
-  (save-buffer))
+  (save-buffer)
+  (bury-buffer (current-buffer)))
 
 ;; ================================================================
 
