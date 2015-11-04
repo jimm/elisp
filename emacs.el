@@ -887,7 +887,7 @@ This may not do the correct thing in presence of links."
           (lambda ()
             (define-key elixir-mode-map "\C-cd" #'debug-comment)
             (define-key elixir-mode-map "\r" #'newline-and-indent)
-            (define-key elixir-mode-map "\C-cr" #'executable-interpret))
+            (define-key elixir-mode-map "\C-cr" #'executable-interpret)))
 
 ;;
 ;; Lua-mode
