@@ -2,6 +2,8 @@
 ;; Elixir-mode support. This is not elixir-mode itself, which is available
 ;; from ELPA/MELPA.
 ;;
+;; Overlaps with Alchemist, which I've started using. I don't automatically
+;; load this file any more.
 
 (defvar iex-proc-name "IEX"
   "The name of the comint process for iex.")
