@@ -14,6 +14,17 @@
 
 (setq sql-sqlite-program "sqlite3")
 
+(when (fboundp #'fzf)
+  (setq fzf/executable "~/.fzf/bin/fzf"))
+
+(setq visible-bell nil)
+(setq ring-bell-function
+      (lambda ()
+        (let ((bg (face-attribute 'default :background)))
+          (set-background-color "black")
+          (sleep-for 0 1)
+          (set-background-color bg))))
+
 ;; (setq sql-user "jimm")
 ;; (setq sql-server "localhost")
 ;; (setq sql-database "db")
