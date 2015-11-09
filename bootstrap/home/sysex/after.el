@@ -17,6 +17,7 @@
 (when (fboundp #'fzf)
   (setq fzf/executable "~/.fzf/bin/fzf"))
 
+;; Fix for Max OS X 10.11.1 El Capitan problem
 (setq visible-bell nil)
 (setq ring-bell-function
       (lambda ()

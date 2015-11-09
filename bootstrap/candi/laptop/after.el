@@ -4,6 +4,15 @@
   (interactive)
   176)
 
+;; Fix for Max OS X 10.11.1 El Capitan problem
+(setq visible-bell nil)
+(setq ring-bell-function
+      (lambda ()
+        (let ((bg (face-attribute 'default :background)))
+          (set-background-color "black")
+          (sleep-for 0 1)
+          (set-background-color bg))))
+
 (line-number-mode 1)                    ; display 'em
 
 (setq dired-use-ls-dired nil
