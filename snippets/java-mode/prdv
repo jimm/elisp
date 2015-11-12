@@ -1,3 +1,5 @@
-#name: System.err.println("explanation; VAR = " + VAR); // DEBUG
+# -*- mode: snippet -*-
+# name: System.err.println("explanation; VAR = " + VAR); // DEBUG
+# key: prdv
 # --
 System.err.println("${1:explanation}; ${2:var} = " + $2); // DEBUG

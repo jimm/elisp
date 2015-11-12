@@ -1,4 +1,6 @@
-#name: (defmacro NAME (ARGS) ...)
+# -*- mode: snippet -*-
+# name: (defmacro NAME (ARGS) ...)
+# key: dm
 # --
 (defmacro ${1:name} (${2:args})
   $0)

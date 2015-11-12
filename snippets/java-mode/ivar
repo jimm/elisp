@@ -1,4 +1,6 @@
-#name: ivar declaration and accessors
+# -*- mode: snippet -*-
+# name: ivar declaration and accessors
+# key: ivar
 # --
 protected ${1:Object} ${2:ivar};
 $0

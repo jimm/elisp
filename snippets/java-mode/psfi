@@ -1,3 +1,5 @@
-#name: public static final int
+# -*- mode: snippet -*-
+# name: public static final int
+# key: psfi
 # --
 public static final int ${1:VAR} = ${2:val};

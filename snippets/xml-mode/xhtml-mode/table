@@ -1,4 +1,6 @@
-#name: <table><tr><th>...</th></tr><tr><td>...</td></tr></table>
+# -*- mode: snippet -*-
+# name: <table><tr><th>...</th></tr><tr><td>...</td></tr></table>
+# key: table
 # --
 <table{$1}>
 <tr>

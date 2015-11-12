@@ -1,3 +1,5 @@
-#name: fmt.Println("") // DEBUG
+# -*- mode: snippet -*-
+# name: fmt.Println("") // DEBUG
+# key: prd
 # --
 fmt.Println("$0") // DEBUG

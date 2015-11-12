@@ -1,4 +1,6 @@
-#name: (defn func [args] ...)
+# -*- mode: snippet -*-
+# name: (defn func [args] ...)
+# key: defn
 # --
 (defn ${1:func}
   [$2]

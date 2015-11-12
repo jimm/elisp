@@ -1,3 +1,5 @@
-#name: printf(...);
+# -*- mode: snippet -*-
+# name: printf(...);
+# key: pr
 # --
 printf("$1", $2);

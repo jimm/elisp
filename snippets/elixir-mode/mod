@@ -1,4 +1,6 @@
-#name: mod
+# -*- mode: snippet -*-
+# name: defmodule
+# key: mod
 # --
 defmodule ${1:`(underscores-to-camel-case (substring (file-name-nondirectory (buffer-file-name)) 0 -3))`} do
 

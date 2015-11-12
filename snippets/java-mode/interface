@@ -1,4 +1,6 @@
-#name: public interface XXX { ... }
+# -*- mode: snippet -*-
+# name: public interface XXX { ... }
+# key: interface
 # --
 package `(path-to-java-package (buffer-file-name))`;
 

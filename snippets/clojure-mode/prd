@@ -1,3 +1,5 @@
-#name: (println ...); ; DEBUG
+# -*- mode: snippet -*-
+# name: (println ...); ; DEBUG
+# key: prd
 # --
 (println $0) ; DEBUG

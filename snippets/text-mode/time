@@ -1,3 +1,5 @@
-#name : (current time)
+# -*- mode: snippet -*-
+# name : (current time)
+# key: time
 # --
 `(current-time-string)`

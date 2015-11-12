@@ -1,3 +1,5 @@
-#name: <tag attr="xxx">...</tag>
+# -*- mode: snippet -*-
+# name: <tag attr="xxx">...</tag>
+# key: ta
 # --
 <${1:tag} ${2:attr}="${3:value}">$0</$1>

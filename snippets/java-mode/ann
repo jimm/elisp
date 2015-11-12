@@ -1,3 +1,5 @@
-#name: assertNotNull(expected);
+# -*- mode: snippet -*-
+# name: assertNotNull(expected);
+# key: ann
 # --
 assertNotNull(${1:expected});

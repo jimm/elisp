@@ -1,3 +1,5 @@
-#name: $this->assertEquals(..., ...);
+# -*- mode: snippet -*-
+# name: $this->assertEquals(..., ...);
+# key: ae
 # --
 \$this->assertEquals(${1:answer}, ${2:expression});

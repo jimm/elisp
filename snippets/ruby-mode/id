@@ -1,4 +1,6 @@
-#name : foo #{foo.id}
-#condition: 'force-in-comment
+# -*- mode: snippet -*-
+# name : foo #{foo.id}
+# key: id
+# condition: 'force-in-comment
 # --
 ${1:foo} #{$1.id}

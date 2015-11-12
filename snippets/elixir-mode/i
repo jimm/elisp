@@ -1,3 +1,5 @@
-#name: i
+# -*- mode: snippet -*-
+# name: inspect
+# key: i
 # --
 ${1:var} = #{inspect $1}$0

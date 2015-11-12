@@ -1,3 +1,5 @@
-#name: System.err.println(...); // DEBUG
+# -*- mode: snippet -*-
+# name: System.err.println(...); // DEBUG
+# key: prd
 # --
 System.err.println("$0"); // DEBUG

@@ -1,3 +1,5 @@
-#name: Set<type> set =
+# -*- mode: snippet -*-
+# name: Set<type> set =
+# key: setv
 # --
 Set<${1:String}> ${2:set} = $0;

@@ -1,3 +1,5 @@
-#name: Set<Object> set = (Set<Object>);
+# -*- mode: snippet -*-
+# name: Set<Object> set = (Set<Object>);
+# key: setc
 # --
 Set<${1:Object}> ${2:set} = (Set<$1>)$0;

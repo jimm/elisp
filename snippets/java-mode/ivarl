@@ -1,4 +1,6 @@
-#name: List ivar declaration and accessors
+# -*- mode: snippet -*-
+# name: List ivar declaration and accessors
+# key: ivarl
 # --
 protected List<${1:Object}> ${2:ivar} = new ArrayList<$1>();
 $0

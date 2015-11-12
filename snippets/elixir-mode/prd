@@ -1,3 +1,5 @@
-#name: prd
+# -*- mode: snippet -*-
+# name: IO.puts/DEBUG
+# key: prd
 # --
 IO.puts "$0" # DEBUG

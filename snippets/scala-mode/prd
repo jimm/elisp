@@ -1,4 +1,5 @@
-#Author : Jim Menard <jim@jimmenard.com>
-#name : System.err.println("obj = " + obj)
+# -*- mode: snippet -*-
+# name : System.err.println("obj = " + obj)
+# key: prd
 # --
 System.err.println("${1:obj} = " + $1) // DEBUG

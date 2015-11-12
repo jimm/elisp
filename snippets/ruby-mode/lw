@@ -1,3 +1,5 @@
-#name: logger.warn("")
+# -*- mode: snippet -*-
+# name: logger.warn("")
+# key: lw
 # --
 logger.warn("$0")

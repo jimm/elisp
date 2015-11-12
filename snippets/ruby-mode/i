@@ -1,4 +1,6 @@
-#name : foo = #{foo.inspect}
-#condition: 'force-in-comment
+# -*- mode: snippet -*-
+# name : foo = #{foo.inspect}
+# key: i
+# condition: 'force-in-comment
 # --
 ${1:foo} = #{$1.inspect}

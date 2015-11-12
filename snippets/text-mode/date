@@ -1,3 +1,5 @@
-#name : (current date YYYY-MM-DD)
+# -*- mode: snippet -*-
+# name : (current date YYYY-MM-DD)
+# key: date
 # --
 `(format-time-string "%Y-%m-%d")`

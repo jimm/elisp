@@ -1,3 +1,5 @@
-#name: public static final String
+# -*- mode: snippet -*-
+# name: public static final String
+# key: psfs
 # --
 public static final String ${1:VAR} = "${2:val}";

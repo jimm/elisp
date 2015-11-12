@@ -1,3 +1,5 @@
-#name: require_once('...');
+# -*- mode: snippet -*-
+# name: require_once('...');
+# key: req
 # --
 require_once('${1:something.php}');

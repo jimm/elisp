@@ -1,4 +1,6 @@
-#name: public class XXX { ... }
+# -*- mode: snippet -*-
+# name: public class XXX { ... }
+# key: class
 # --
 package `(path-to-java-package (buffer-file-name))`;
 

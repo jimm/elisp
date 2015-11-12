@@ -1,3 +1,5 @@
-#name: define($1, $2);
+# -*- mode: snippet -*-
+# name: define($1, $2);
+# key: def
 # --
 define(${1:CONSTANT}, '${2:value}');

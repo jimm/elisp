@@ -1,4 +1,6 @@
-#name: @implementation
+# -*- mode: snippet -*-
+# name: @implementation
+# key: impl
 # --
 #import <$1.h>
 

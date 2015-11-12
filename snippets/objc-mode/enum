@@ -1,4 +1,6 @@
-#name: enumerator
+# -*- mode: snippet -*-
+# name: enumerator
+# key: enum
 # --
 NSEnumerator *enumerator = [${1:list} objectEnumerator];
 ${2:id} *${3:thing};

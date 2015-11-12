@@ -1,4 +1,6 @@
-#name: echo "<pre>" . print_r(...) . "</pre>\n";
+# -*- mode: snippet -*-
+# name: echo "<pre>" . print_r(...) . "</pre>\n";
+# key: prd
 # same as debug
 # --
 echo "<pre>" . print_r(${1:\$something}, true) . "</pre>\n"; // DEBUG

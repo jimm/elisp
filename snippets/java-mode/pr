@@ -1,3 +1,5 @@
-#name: System.out.println(...);
+# -*- mode: snippet -*-
+# name: System.out.println(...);
+# key: pr
 # --
 System.out.println("$0");

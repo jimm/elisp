@@ -1,3 +1,5 @@
-#name: array(...);
+# -*- mode: snippet -*-
+# name: array(...);
+# key: a
 # --
 array($0);

@@ -1,4 +1,6 @@
-#name: int main(...) { ... }
+# -*- mode: snippet -*-
+# name: int main(...) { ... }
+# key: main
 # --
 #import <Foundation/NSAutoreleasePool.h>
 

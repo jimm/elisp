@@ -1,4 +1,5 @@
-#Author : Jim Menard <jim@jimmenard.com>
-#name: package ...
+# -*- mode: snippet -*-
+# name: package ...
+# key: package
 # --
 package `(path-to-scala-package (buffer-file-name))`

@@ -1,3 +1,5 @@
-#name: <? ?>
+# -*- mode: snippet -*-
+# name: <? ?>
+# key: p
 # --
 <? $0 ?>

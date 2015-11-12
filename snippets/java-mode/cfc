@@ -1,4 +1,6 @@
-#name: <code>false</code>
+# -*- mode: snippet -*-
+# name: <code>false</code>
+# key: cfc
 #condition: 'force-in-comment
 # --
 <code>false</code>

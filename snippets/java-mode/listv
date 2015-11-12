@@ -1,3 +1,5 @@
-#name: List<type> list =
+# -*- mode: snippet -*-
+# name: List<type> list =
+# key: listv
 # --
 List<${1:Object}> ${2:list} = $0;

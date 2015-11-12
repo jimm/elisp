@@ -1,4 +1,6 @@
-#name: @interface
+# -*- mode: snippet -*-
+# name: @interface
+# key: iface
 # --
 /* -*- objc -*- */
 

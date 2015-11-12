@@ -1,3 +1,5 @@
-#name: foreign key
+# -*- mode: snippet -*-
+# name: foreign key
+# key: fk
 # --
 constraint ${1:table_keycolumn_fk} foreign key (${1:xxxx_id}) references ${2:table} (${3:id})

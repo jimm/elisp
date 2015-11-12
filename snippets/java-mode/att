@@ -1,3 +1,5 @@
-#name: assertTrue(expected);
+# -*- mode: snippet -*-
+# name: assertTrue(expected);
+# key: att
 # --
 assertTrue(${1:expected});

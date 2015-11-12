@@ -1,3 +1,5 @@
-#name: (assoc #(...) ...)
+# -*- mode: snippet -*-
+# name: (assoc #(...) ...)
+# key: assoc
 # --
 (assoc ${1:map} ${2:key} #{3:new-value})$0

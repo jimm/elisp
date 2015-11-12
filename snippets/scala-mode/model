@@ -1,5 +1,6 @@
-#Author : Jim Menard <jim@jimmenard.com>
-#name : object name extends Controller
+# -*- mode: snippet -*-
+# name : object name extends Controller
+# key: model
 # --
 package models
 

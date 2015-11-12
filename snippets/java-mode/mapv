@@ -1,3 +1,5 @@
-#name: Map<type> map =
+# -*- mode: snippet -*-
+# name: Map<type> map =
+# key: mapv
 # --
 Map<${1:String}, ${2:String}> ${3:map} = $0;

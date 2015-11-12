@@ -1,4 +1,6 @@
-#name: import Set & HashSet
+# -*- mode: snippet -*-
+# name: import Set & HashSet
+# key: ias
 # --
 import java.util.Set;
 import java.util.HashSet;

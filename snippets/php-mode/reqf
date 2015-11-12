@@ -1,3 +1,5 @@
-#name: require_once(dirname(__FILE__) . '/...');
+# -*- mode: snippet -*-
+# name: require_once(dirname(__FILE__) . '/...');
+# key: reqf
 # --
 require_once(dirname(__FILE__) . '/${1:something.php}');

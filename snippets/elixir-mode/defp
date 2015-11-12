@@ -1,5 +1,0 @@
-#name: defp
-# --
-defp $1 do
-  $0
-end

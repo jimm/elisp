@@ -1,3 +1,5 @@
-#name: (format *error-output* ...); ; DEBUG
+# -*- mode: snippet -*-
+# name: (format *error-output* ...); ; DEBUG
+# key: prd
 # --
 (format *error-output* "$0") ; DEBUG

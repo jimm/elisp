@@ -1,3 +1,5 @@
-#name: org.apache.log4j.Logger.getLogger(ClassName.class).debug(...);
+# -*- mode: snippet -*-
+# name: org.apache.log4j.Logger.getLogger(ClassName.class).debug(...);
+# key: logdebug
 # --
 org.apache.log4j.Logger.getLogger(`(substring (file-name-nondirectory (buffer-file-name)) 0 -5)`.class).debug($0);

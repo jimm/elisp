@@ -1,3 +1,5 @@
-#name: $stderr.puts ""
+# -*- mode: snippet -*-
+# name: $stderr.puts ""
+# key: pre
 # --
 $stderr.puts "$0"

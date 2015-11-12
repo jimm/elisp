@@ -1,3 +1,5 @@
-#name: $this->assertTrue(...);
+# -*- mode: snippet -*-
+# name: $this->assertTrue(...);
+# key: at
 # --
 \$this->assertTrue(${1:expression});

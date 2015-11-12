@@ -1,3 +1,5 @@
-#name: fprintf(stderr, ...);
+# -*- mode: snippet -*-
+# name: fprintf(stderr, ...); /*DEBUG*/
+# key: prd
 # --
 fprintf(stderr, "$1", $2); /* DEBUG */

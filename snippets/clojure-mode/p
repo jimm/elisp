@@ -1,3 +1,5 @@
-#name: "print-me" print-me
+# -*- mode: snippet -*-
+# name: "print-me" print-me
+# key: p
 # --
 "$1" $1$0

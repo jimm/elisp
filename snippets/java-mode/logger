@@ -1,3 +1,5 @@
-#name: private static final Logger log = Logger.getLogger(MyClass.class);
+# -*- mode: snippet -*-
+# name: private static final Logger log = Logger.getLogger(MyClass.class);
+# key: logger
 # --
 private static final Logger log = Logger.getLogger(`(substring (file-name-nondirectory (buffer-file-name)) 0 -5)`.class);

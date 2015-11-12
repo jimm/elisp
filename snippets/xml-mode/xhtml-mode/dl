@@ -1,4 +1,6 @@
-#name: <dl><dt>TERM</dt><dd>DEFINITION</dd></dl>
+# -*- mode: snippet -*-
+# name: <dl><dt>TERM</dt><dd>DEFINITION</dd></dl>
+# key: dl
 # --
 <dl>
   <dt>${1:term}</dt>

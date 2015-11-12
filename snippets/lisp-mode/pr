@@ -1,3 +1,5 @@
-#name: (format t ...)
+# -*- mode: snippet -*-
+# name: (format t ...)
+# key: pr
 # --
 (format t "$0")

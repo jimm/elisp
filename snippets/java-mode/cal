@@ -1,3 +1,5 @@
-#name: Calendar cal = Calendar.getInstance();
+# -*- mode: snippet -*-
+# name: Calendar cal = Calendar.getInstance();
+# key: cal
 # --
 Calendar ${1:cal} = Calendar.getInstance();

@@ -1,3 +1,5 @@
-#name: <script src="FOO.JS" type="text/javascript"></script>
+# -*- mode: snippet -*-
+# name: <script src="FOO.JS" type="text/javascript"></script>
+# key: js
 # --
 <script src="${1:foo.js}" type="text/javascript"></script>$0

@@ -1,3 +1,5 @@
-#name: getter
+# -*- mode: snippet -*-
+# name: getter
+# key: getter
 # --
 public ${1:Object} get${2:$(capitalize-first-char-of-string text)}() { return ${2:ivar}; }$0

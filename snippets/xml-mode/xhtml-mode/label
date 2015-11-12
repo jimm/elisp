@@ -1,3 +1,5 @@
-#name: <label for="IDREF">...</label>
+# -*- mode: snippet -*-
+# name: <label for="IDREF">...</label>
+# key: label
 # --
 <label for="${1:idref}">$0</label>

@@ -1,3 +1,5 @@
-#name: assertEquals(expected, expression);
+# -*- mode: snippet -*-
+# name: assertEquals(expected, expression);
+# key: ae
 # --
 assertEquals(${1:expected}, ${2:expession});

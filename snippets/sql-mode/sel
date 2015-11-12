@@ -1,4 +1,6 @@
-#name: select ... from ... where ...
+# -*- mode: snippet -*-
+# name: select ... from ... where ...
+# key: sel
 # --
 select ${1:count(*)}
 from ${2:table}

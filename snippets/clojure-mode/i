@@ -1,3 +1,5 @@
-#name: "pretty-print-me" pretty-print-me
+# -*- mode: snippet -*-
+# name: "pretty-print-me" pretty-print-me
+# key: i
 # --
 "$1" (pprint $1)$0

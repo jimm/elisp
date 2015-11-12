@@ -1,3 +1,5 @@
-#name: (println "var =" var); ; DEBUG
+# -*- mode: snippet -*-
+# name: (println "var =" var); ; DEBUG
+# key: prdv
 # --
 (println "${1:var} =" $1$0) ; DEBUG

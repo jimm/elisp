@@ -1,4 +1,6 @@
-#name : foo { ... } ; foo:value { ... }
+# -*- mode: snippet -*-
+# name : foo { ... } ; foo:value { ... }
+# key: ivarn
 # --
 - (${1:id})${2:foo} {
     return $2;

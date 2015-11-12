@@ -1,4 +1,6 @@
-#name: public static void
+# -*- mode: snippet -*-
+# name: public static void
+# key: psv
 # --
 public static void ${1:method}() {
     $0

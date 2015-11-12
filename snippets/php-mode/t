@@ -1,3 +1,5 @@
-#name: $this->...;
+# -*- mode: snippet -*-
+# name: $this->...;
+# key: t
 # --
 \$this->$0;

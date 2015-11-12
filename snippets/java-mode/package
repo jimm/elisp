@@ -1,3 +1,5 @@
-#name: package ...
+# -*- mode: snippet -*-
+# name: package ...
+# key: package
 # --
 package `(path-to-java-package (buffer-file-name))`;

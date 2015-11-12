@@ -1,3 +1,5 @@
-#name: (lambda (...) ...)
+# -*- mode: snippet -*-
+# name: (lambda (...) ...)
+# key: l
 # --
 (lambda (${1:args}) $0)

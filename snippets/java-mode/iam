@@ -1,4 +1,6 @@
-#name: import Map & HashMap
+# -*- mode: snippet -*-
+# name: import Map & HashMap
+# key: iam
 # --
 import java.util.Map;
 import java.util.HashMap;

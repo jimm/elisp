@@ -1,3 +1,5 @@
-#name: <tag>...</tag>
+# -*- mode: snippet -*-
+# name: <tag>...</tag>
+# key: t
 # --
 <${1:tag}>$0</$1>

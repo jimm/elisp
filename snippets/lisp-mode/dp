@@ -1,3 +1,5 @@
-#name: (defparameter NAME VALUE)
+# -*- mode: snippet -*-
+# name: (defparameter NAME VALUE)
+# key: dp
 # --
 (defparameter ${1:name} ${2:value})

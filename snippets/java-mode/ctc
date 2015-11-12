@@ -1,4 +1,6 @@
-#name: <code>true</code>
+# -*- mode: snippet -*-
+# name: <code>true</code>
+# key: ctc
 #condition: 'force-in-comment
 # --
 <code>true</code>

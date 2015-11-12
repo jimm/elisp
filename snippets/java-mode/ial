@@ -1,4 +1,6 @@
-#name: import List & ArrayList
+# -*- mode: snippet -*-
+# name: import List & ArrayList
+# key: ial
 # --
 import java.util.List;
 import java.util.ArrayList;

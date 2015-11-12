@@ -1,4 +1,6 @@
-#name: def self.name ... end
+# -*- mode: snippet -*-
+# name: def self.name ... end
+# key: defs
 # --
 def self.${1:name}
   $0

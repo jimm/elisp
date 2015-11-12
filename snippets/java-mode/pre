@@ -1,3 +1,5 @@
-#name: System.err.println(...);
+# -*- mode: snippet -*-
+# name: System.err.println(...);
+# key: pre
 # --
 System.err.println("$0");

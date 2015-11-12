@@ -1,3 +1,5 @@
-#name: import org.apache.log4j.Logger;
+# -*- mode: snippet -*-
+# name: import org.apache.log4j.Logger;
+# key: ilogger
 # --
 import org.apache.log4j.Logger;

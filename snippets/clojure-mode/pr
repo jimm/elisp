@@ -1,3 +1,5 @@
-#name: (println ...)
+# -*- mode: snippet -*-
+# name: (println ...)
+# key: pr
 # --
 (println $0)

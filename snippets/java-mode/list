@@ -1,3 +1,5 @@
-#name: List<type> list = new ArrayList<type>();
+# -*- mode: snippet -*-
+# name: List<type> list = new ArrayList<type>();
+# key: list
 # --
 List<${1:String}> ${2:list} = new ArrayList<$1>();

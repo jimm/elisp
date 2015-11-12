@@ -1,4 +1,6 @@
-#name: try { ... } catch (Exception e) { ... } finally { ... }
+# -*- mode: snippet -*-
+# name: try { ... } catch (Exception e) { ... } finally { ... }
+# key: tryf
 # --
 try {
     $0

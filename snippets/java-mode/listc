@@ -1,3 +1,5 @@
-#name: List<Object> list = (List<Object>);
+# -*- mode: snippet -*-
+# name: List<Object> list = (List<Object>);
+# key: listc
 # --
 List<${1:Object}> ${2:list} = (List<$1>)$0;

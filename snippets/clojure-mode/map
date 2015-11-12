@@ -1,3 +1,5 @@
-#name: (map #(...) ...)
+# -*- mode: snippet -*-
+# name: (map #(...) ...)
+# key: map
 # --
 (map ${2:map-func} ${1:sequence})$0

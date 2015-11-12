@@ -1,4 +1,6 @@
-#name: <form action="..." method="..." enctype="...">...</form>
+# -*- mode: snippet -*-
+# name: <form action="..." method="..." enctype="...">...</form>
+# key: form
 # --
 <form action="${1:action}" method="${2:post}" enctype="${3:multipart/form-data}">
   $0

@@ -1,3 +1,5 @@
-#name: Set<type> set = new HashSet<type>();
+# -*- mode: snippet -*-
+# name: Set<type> set = new HashSet<type>();
+# key: set
 # --
 Set<${1:String}> ${2:set} = new HashSet<$1>();

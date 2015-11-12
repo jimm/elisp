@@ -1,3 +1,5 @@
-#name: Map<type> map = new HashMap<type>();
+# -*- mode: snippet -*-
+# name: Map<type> map = new HashMap<type>();
+# key: map
 # --
 Map<${1:String}, ${2:String}> ${3:map} = new HashMap<$1, $2>();

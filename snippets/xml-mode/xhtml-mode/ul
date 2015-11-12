@@ -1,4 +1,6 @@
-#name: <ul><li>...</li></ul>
+# -*- mode: snippet -*-
+# name: <ul><li>...</li></ul>
+# key: ul
 # --
 <ul>
   <li>$0</li>

@@ -1,3 +1,5 @@
-#name: <input id="ID" name="NAME" value="VALUE"/>
+# -*- mode: snippet -*-
+# name: <input id="ID" name="NAME" value="VALUE"/>
+# key: input
 # --
 <input type="${1:type}" id="${2:id}" name="${3:name}" value="${4:value}"/>

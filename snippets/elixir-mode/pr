@@ -1,3 +1,5 @@
-#name: pr
+# -*- mode: snippet -*-
+# name: IO.puts
+# key: pr
 # --
 IO.puts "$0"

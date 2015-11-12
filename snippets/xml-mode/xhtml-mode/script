@@ -1,4 +1,6 @@
-#name: <script language="text/javascript">...</script>
+# -*- mode: snippet -*-
+# name: <script language="text/javascript">...</script>
+# key: script
 # --
 <script language="text/javascript">
 $0

@@ -1,4 +1,6 @@
-#name: foreach ($array as $val) { ... }
+# -*- mode: snippet -*-
+# name: foreach ($array as $val) { ... }
+# key: for
 # --
 foreach (${1:array} as ${2:val}) {
   $0

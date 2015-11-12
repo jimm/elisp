@@ -1,3 +1,5 @@
-#name: <a href="XXX">YYY</a>
+# -*- mode: snippet -*-
+# name: <a href="XXX">YYY</a>
+# key: a
 # --
 <a href="${1:url}>${2:text}</a>

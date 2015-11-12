@@ -1,3 +1,5 @@
-#name: $this->assertNotNull(...);
+# -*- mode: snippet -*-
+# name: $this->assertNotNull(...);
+# key: an
 # --
 \$this->assertNotNull(${1:expression});

@@ -1,4 +1,6 @@
-#name: drop table / create table
+# -*- mode: snippet -*-
+# name: drop table / create table
+# key: ct
 # --
 drop table if exists ${1:table};
 create table $1 (

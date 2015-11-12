@@ -1,4 +1,6 @@
-#name: <code>null</code>
+# -*- mode: snippet -*-
+# name: <code>null</code>
+# key: cnc
 #condition: 'force-in-comment
 # --
 <code>null</code>

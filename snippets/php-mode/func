@@ -1,4 +1,6 @@
-#name: function name() { ... }
+# -*- mode: snippet -*-
+# name: function name() { ... }
+# key: func
 # --
 function ${1:funcname}() {
   $0

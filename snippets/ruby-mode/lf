@@ -1,3 +1,5 @@
-#name: logger.fatal("")
+# -*- mode: snippet -*-
+# name: logger.fatal("")
+# key: lf
 # --
 logger.fatal("$0")

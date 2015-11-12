@@ -1,3 +1,5 @@
-#name : __...__
+# -*- mode: snippet -*-
+# name : __...__
+# key: __
 # --
 __${init}__

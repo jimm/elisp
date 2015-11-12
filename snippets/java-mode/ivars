@@ -1,4 +1,6 @@
-#name: Set ivar declaration and accessors
+# -*- mode: snippet -*-
+# name: Set ivar declaration and accessors
+# key: ivars
 # --
 protected Set<${1:Object}> ${2:ivar} = new HashSet<$1>();
 $0
