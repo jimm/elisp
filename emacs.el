@@ -210,6 +210,15 @@ insert it at point. See `generate-random-password`."
   (interactive "P")
   (insert (generate-random-password arg)))
 
+;;; Avoid ringing the bell when caused by certain commands.
+(setq ring-bell-function
+      (lambda ()
+        (unless (memq this-command
+                      '(isearch-abort abort-recursive-edit exit-minibuffer
+                        mwheel-scroll down up next-line previous-line
+                        backward-char forward-char))
+          (ding))))
+
 ;;;
 ;;; YAML-mode
 ;;;

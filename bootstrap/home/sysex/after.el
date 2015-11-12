@@ -21,10 +21,14 @@
 (setq visible-bell nil)
 (setq ring-bell-function
       (lambda ()
-        (let ((bg (face-attribute 'default :background)))
-          (set-background-color "black")
-          (sleep-for 0 1)
-          (set-background-color bg))))
+        (unless (memq this-command
+                      '(isearch-abort abort-recursive-edit exit-minibuffer
+                        mwheel-scroll down up next-line previous-line
+                        backward-char forward-char))
+          (let ((bg (face-attribute 'default :background)))
+            (set-background-color "gray80")
+            (sleep-for 0 1)
+            (set-background-color bg)))))
 
 ;; (setq sql-user "jimm")
 ;; (setq sql-server "localhost")
