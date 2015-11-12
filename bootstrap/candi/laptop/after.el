@@ -12,10 +12,8 @@
                       '(isearch-abort abort-recursive-edit exit-minibuffer
                         mwheel-scroll down up next-line previous-line
                         backward-char forward-char))
-          (let ((bg (face-attribute 'default :background)))
-            (set-background-color "gray80")
-            (sleep-for 0 1)
-            (set-background-color bg)))))
+          (invert-face 'mode-line)
+          (run-with-timer 0.1 nil 'invert-face 'mode-line))))
 
 (line-number-mode 1)                    ; display 'em
 
