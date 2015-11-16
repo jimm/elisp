@@ -16,6 +16,20 @@ involves looking for known Rails directories."
 Rails root dir is found. Uses `rails-root-p'."
   (locate-dominating-file path #'rails-root-p))
 
+(defun rails-server ()
+  "Run a Rails server in a terminal window."
+  (interactive)
+  (shell (generate-new-buffer-name "*rails-server*"))
+  (insert "rails server")
+  (comint-send-input))
+
+(defun rails-console ()
+  "Run a Rails server in a terminal window."
+  (interactive)
+  (shell (generate-new-buffer-name "*rails-console*"))
+  (insert "rails console")
+  (comint-send-input))
+
 (defun rdb (&optional rails-root rails-env)
   "Given optional RAILS-ROOT (default: search for root from
 default-directory) and RAILS-ENV (\"development\" by default),
