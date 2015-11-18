@@ -500,7 +500,7 @@ and run the command."
   (interactive "sHeroku command: \nsHeroku instance: ")
   (shell (generate-new-buffer-name
           (concat "*" instance-name "-heroku-run-"
-                  (car (split-string instance-name " "))
+                  (car (split-string command " "))
                   "*")))
   (insert (concat "heroku run " command " -a " instance-name))
   (comint-send-input))

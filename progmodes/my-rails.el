@@ -28,12 +28,16 @@ Rails root dir is found. Uses `rails-root-p'."
     (comint-send-input)))
 
 (defun rails-server ()
-  "Run a Rails server in a terminal window."
+  "Run a Rails server in a terminal window. Finds the Rails root
+directory for the current buffer and starts the server from that
+directory."
   (interactive)
   (rails-shell-command "server"))
 
 (defun rails-console ()
-  "Run a Rails server in a terminal window."
+  "Run a Rails console in a terminal window. Finds the Rails root
+directory for the current buffer and starts the server from that
+directory."
   (interactive)
   (rails-shell-command "console"))
 
