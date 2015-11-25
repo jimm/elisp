@@ -31,6 +31,12 @@
 (add-to-list 'grep-find-ignored-directories "bundle")
 (add-to-list 'grep-find-ignored-files "*[-.]min.js")
 
+(require "inf-ruby")
+(add-to-list 'inf-ruby-implementations
+             '("heroku-prod" . "candi-heroku candiprod2"))
+(add-to-list 'inf-ruby-implementations
+             '("heroku-jim" . "candi-heroku jim-qa"))
+
 ;; (when (fboundp #'deft)
 ;;   (setq deft-directory (concat *my-pim-dir* "orgs/work/candi/")))
 

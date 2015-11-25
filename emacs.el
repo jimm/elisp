@@ -492,34 +492,6 @@ This may not do the correct thing in presence of links."
   (comint-send-input))
 
 ;;
-;; Heroku
-;;
-(defun heroku-run (command instance-name buffer-suffix)
-  "Open a shell on a buffer named *INSTANCE-NAME-heroku-run-COMMAND-FIRST-WORD*
-and run the command."
-  (interactive "sHeroku command: \nsHeroku instance: ")
-  (shell (generate-new-buffer-name
-          (concat "*" instance-name "-heroku-" buffer-suffix "*")))
-  (insert (concat "heroku run " command " -a " instance-name))
-  (comint-send-input))
-
-(defun heroku-console (instance-name)
-  (interactive "sHeroku instance: ")
-  (heroku-run "rails console" instance-name "console"))
-
-(defun heroku-bash (instance-name)
-  (interactive "sHeroku instance: ")
-  (heroku-run "bash" instance-name "bash"))
-
-(defun heroku-db-migrate (instance-name)
-  (interactive "sHeroku instance: ")
-  (heroku-run "rake db:migrate" instance-name "migrate"))
-
-(defun heroku-db-recreate (instance-name)
-  (interactive "sHeroku instance: ")
-  (heroku-run "rake db:drop db:setup" instance-name "setup"))
-
-;;
 ;; Text-mode
 ;;
 (add-hook 'text-mode-hook
