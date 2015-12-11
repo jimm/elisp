@@ -153,7 +153,7 @@ current symbol at point."
   (interactive "P")
   (let* ((regexp (read-from-minibuffer
                   "Search regexp: "
-                  (and arg (thing-at-point 'symbol))
+                  (and arg (regexp-quote (thing-at-point 'symbol)))
                   nil nil 'grep-find-history))
          (default-directory (git-root-dir))
          (case-ignore-flag (and (isearch-no-upper-case-p regexp t) "-i"))
@@ -873,7 +873,16 @@ This may not do the correct thing in presence of links."
 (eval-after-load "ruby-mode"
   (load "my-ruby-mode"))
 (eval-after-load "inf-ruby"
-  (load "my-ruby-mode"))
+  (progn
+    (load "my-ruby-mode")
+))
+    ;; (define-key inf-ruby-minor-mode-map ("\C-c\C-j")
+    ;;   (lambda ()
+    ;;     (save-excursion
+    ;;       (beginning-of-line)
+    ;;       (push-mark)
+    ;;       (end-of-line)
+    ;;       (ruby-send-region (mark) (point)))))))
 
 ;;
 ;; Erlang-mode
