@@ -54,7 +54,10 @@
   (add-to-list 'deft-extensions extension))
 
 (add-to-list 'org-link-abbrev-alist
-             '("issue" . "https://github.com/chloeandisabel/Candi/issues/")
+             '("issue" . "https://github.com/chloeandisabel/Candi/issues/"))
+(add-to-list 'org-link-abbrev-alist
+             '("order" . "https://www.chloeandisabel.com/admin/orders/"))
+(add-to-list 'org-link-abbrev-alist
              '("pr"    . "https://github.com/chloeandisabel/Candi/pulls/"))
 
 ;; ================================================================
