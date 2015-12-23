@@ -10,7 +10,7 @@
 (defvar *my-pim-dir* "~/pim/")
 
 (setq ns-command-modifier 'meta)        ; define Command as Meta key
-(setq ns-option-modifier "none")        ; unbind option key
+(setq ns-option-modifier 'super)        ; define Option as Super key
 
 ; http://debbugs.gnu.org/cgi/bugreport.cgi?bug=5683#19
 (when (fboundp 'ns-list-colors)
