@@ -31,7 +31,7 @@ and executes it."
 (defun run-spec (seed fname)
   "Run RSpec test FNAME from the Rails root directory above it.
 If SEED is 1, $RANDOM will be used. FNAME may contain extra line
-number info (e.g., 'foo.rb::42')."
+number info (e.g., 'foo.rb:42')."
   (interactive "p\nF") ; possibly nonexistent file name so we can append ":NNN"
   (run-spec-using #'compile seed fname))
 
