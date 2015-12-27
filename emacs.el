@@ -110,6 +110,7 @@ whitespace-only string."
                                       (abbreviate-file-name (buffer-file-name))
                                     "%b"))))
 (setq-default fill-column 76)
+(eval-after-load "startup" '(fset 'display-startup-echo-area-message 'ignore))
 
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
@@ -906,6 +907,14 @@ This may not do the correct thing in presence of links."
             (define-key elixir-mode-map "\C-cd" #'debug-comment)
             (define-key elixir-mode-map "\r" #'newline-and-indent)
             (define-key elixir-mode-map "\C-cr" #'executable-interpret)))
+(add-hook 'alchemist-mode-hook
+          (lambda ()
+            (let ((dir (file-name-as-directory (getenv "ELIXIR_HOME"))))
+              (when (file-exists-p dir)
+                (setq alchemist-goto-elixir-source-dir dir)))
+            (let ((dir (file-name-as-directory (getenv "ERLANG_HOME"))))
+              (when (file-exists-p dir)
+                (setq alchemist-goto-erlang-source-dir dir)))))
 
 ;;
 ;; Lua-mode
@@ -1769,9 +1778,7 @@ values."
   ;; already taken by my comment-region binding.
   (global-set-key (kbd "C-c C-x M-x") #'execute-extended-command))
 
-;; org mode
 (global-set-key "\C-cl" #'org-store-link)
-(global-set-key "\C-ca" #'org-agenda)
 
 (global-set-key "\C-cw" #'toggle-current-window-dedication)
 
@@ -1785,13 +1792,7 @@ values."
  '(woman-use-own-frame nil)
  '(sgml-xml-mode t)
  '(safe-local-variable-values
-   (quote ((org-publish-project-alist ("patchmaster"
-                                       :base-directory "."
-                                       :publishing-directory "../public_html"
-                                       :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>"
-                                       :author "Jim Menard"
-                                       :email "jim@jimmenard.com"))
-           (org-publish-project-alist ("keymaster"
+   (quote ((org-publish-project-alist ("keymaster"
                                        :base-directory "."
                                        :publishing-directory "../public_html"
                                        :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>"
@@ -1801,13 +1802,6 @@ values."
                                        :base-directory "."
                                        :publishing-directory "../public_html"
                                        :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>"
-                                       :author "Jim Menard"
-                                       :email "jim@jimmenard.com"))
-           (org-publish-project-alist ("blog"
-                                       :base-directory "."
-                                       :publishing-directory "."
-                                       :style "<link rel=\"stylesheet\" href=\"/style.css\" type=\"text/css\"/>"
-                                       :html-head "<!--#include virtual=\"/header.html\"-->"
                                        :author "Jim Menard"
                                        :email "jim@jimmenard.com"))
            (Syntax . Common-Lisp)))))
