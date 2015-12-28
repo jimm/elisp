@@ -110,7 +110,6 @@ whitespace-only string."
                                       (abbreviate-file-name (buffer-file-name))
                                     "%b"))))
 (setq-default fill-column 76)
-(eval-after-load "startup" '(fset 'display-startup-echo-area-message 'ignore))
 
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
@@ -118,6 +117,9 @@ whitespace-only string."
 
 (fset #'yes-or-no-p #'y-or-n-p)        ; accept simple 'y'/space, 'n'/delete
 (unless (fboundp #'string-match-p) (defalias #'string-match-p #'string-match))
+
+(defun display-startup-echo-area-message ()
+  (message ""))
 
 ;; For rgrep, grep-find, and friends
 (load "grep")
