@@ -109,7 +109,9 @@ whitespace-only string."
       frame-title-format '((:eval (if (buffer-file-name)
                                       (abbreviate-file-name (buffer-file-name))
                                     "%b"))))
-(setq-default fill-column 76)
+(setq-default fill-column 76
+              indent-tabs-mode nil)
+
 
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)

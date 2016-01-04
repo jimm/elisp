@@ -13,5 +13,3 @@
 	(append *basic-frame-alist* '((top . 0) (left . 0))))
   (setq default-frame-alist *basic-frame-alist*)
   (set-face-attribute 'mode-line nil :foreground "yellow" :background "black"))
-
-(setq-default indent-tabs-mode nil)

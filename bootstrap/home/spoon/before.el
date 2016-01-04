@@ -1,8 +1,4 @@
-(defvar *my-pim-dir* "/Users/jimm/pim/")
-(defvar *arc-dir* "/usr/local/src/Lisp/arc/")
-
-(setq ns-command-modifier 'meta)        ; define Command as Meta key
-(setq ns-option-modifier "none")        ; unbind option key
+(load-file (concat *my-emacs-lib-dir* "bootstrap/mac-common.el"))
 
 (defvar *my-erlang-emacs-tools-dir*
   (concat (car (file-expand-wildcards "/opt/local/lib/erlang/lib/tools*"))
@@ -24,5 +20,3 @@
                 (sort (file-expand-wildcards "/opt/local/lib/erlang/lib/tools*") 'string-lessp)
                ))
           "/emacs/"))
-
-(setq-default indent-tabs-mode nil)

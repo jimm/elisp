@@ -23,5 +23,3 @@
 (defvar *my-erlang-emacs-tools-dir*
   (concat (car (file-expand-wildcards "/opt/local/lib/erlang/lib/tools*"))
           "/emacs/"))
-
-(setq-default indent-tabs-mode nil)

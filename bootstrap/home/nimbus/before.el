@@ -1,13 +1,4 @@
-(defvar *my-pim-dir* "~/pim/")
-(defvar *arc-dir* "/usr/local/src/Lisp/arc/")
-
-
-(setq ns-command-modifier 'meta)        ; define Command as Meta key
-(setq ns-option-modifier "none")        ; unbind option key
-
-; Smoother mouse wheel scrolling
-; http://www.reddit.com/r/programming/comments/95uv7/emacs_231_has_been_released/c0bj6zp
-(setq mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control)))))
+(load-file (concat *my-emacs-lib-dir* "bootstrap/mac-common.el"))
 
 (when window-system
   (defvar *basic-frame-alist* '(; (background-color . "lavender")
@@ -22,5 +13,3 @@
 (defvar *my-erlang-emacs-tools-dir*
   (concat (car (file-expand-wildcards "/opt/local/lib/erlang/lib/tools*"))
           "/emacs/"))
-
-(setq-default indent-tabs-mode nil)
