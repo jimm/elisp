@@ -9,8 +9,8 @@
 
 (defvar *my-pim-dir* "~/pim/")
 
-(setq my-shell #'shell)
-(setq my-alternate-shell #'eshell)
+(setq my-shell #'eshell)
+(setq my-alternate-shell #'shell)
 
 (setq ns-command-modifier 'meta)        ; define Command as Meta key
 (setq ns-option-modifier 'super)        ; define Option as Super key
