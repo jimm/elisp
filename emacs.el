@@ -48,8 +48,6 @@ whitespace-only string."
         (add-to-list 'load-path (concat *my-emacs-lib-dir* dir "/") t))
       '("progmodes" "ses"))
 
-(setq abbrev-file-name (concat *my-emacs-lib-dir* "abbrev_defs.el"))
-(read-abbrev-file abbrev-file-name t)
 (load "my-skeletons")
 
 ;;
