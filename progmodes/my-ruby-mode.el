@@ -51,7 +51,7 @@ current project."
             (define-key ruby-mode-map "\C-c." #'my-ruby-find-definition-at-point)
             (define-key ruby-mode-map "{" #'self-insert-command)
             (define-key ruby-mode-map "}" #'self-insert-command)
-            (setq ruby-encoding-magic-comment nil)
+            (setq ruby-insert-encoding-magic-comment nil)
             (setq ruby-indent-level 2)
             (font-lock-mode 1)))
 
