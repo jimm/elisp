@@ -17,13 +17,7 @@
 
 (line-number-mode 1)                    ; display 'em
 
-(setq dired-use-ls-dired nil
-      browse-url-generic-program "open"
-      Man-switches "-M /usr/share/man:/usr/local/share/man"
-      sql-sqlite-program "sqlite3"
-      *my-sql-regex* "^--.*"
-      *my-sql-regex-replacement* ""
-      *status-file* (concat *my-pim-dir* "orgs/work/candi/status.org")
+(setq *status-file* (concat *my-pim-dir* "orgs/work/candi/status.org")
       emms-source-file-default-directory "~/Documents/Dropbox/Music/music/")
 
 ;; Add to the list of directories and files to ignore from rgrep, grep-find,

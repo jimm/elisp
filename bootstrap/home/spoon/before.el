@@ -13,8 +13,6 @@
   (setq default-frame-alist *basic-frame-alist*)
   (set-face-attribute 'mode-line nil :foreground "yellow" :background "black"))
 
-(add-to-list 'load-path "/usr/share/emacs/21.2/lisp" t)
-(add-to-list 'load-path "/usr/share/emacs/21.2/site-lisp" t)
 (defvar *my-erlang-emacs-tools-dir*
   (concat (car (reverse
                 (sort (file-expand-wildcards "/opt/local/lib/erlang/lib/tools*") 'string-lessp)

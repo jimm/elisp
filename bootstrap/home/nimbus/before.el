@@ -8,8 +8,6 @@
 	(append *basic-frame-alist* '((height . 76) (top . 0) (left . 0))))
   (setq default-frame-alist *basic-frame-alist*))
 
-(add-to-list 'load-path "/usr/share/emacs/22.1/lisp" t)
-(add-to-list 'load-path "/usr/share/emacs/22.1/site-lisp" t)
 (defvar *my-erlang-emacs-tools-dir*
   (concat (car (file-expand-wildcards "/opt/local/lib/erlang/lib/tools*"))
           "/emacs/"))
