@@ -1377,11 +1377,27 @@ values."
             (define-key yas-keymap "\t" 'yas-next-field-or-maybe-expand)))
 
 (set-face-attribute 'org-level-1 nil :height 1.2 :bold t)
-(when window-system
-  (set-face-background 'org-block-begin-line "gray95")
-  (set-face-background 'org-block-end-line   "gray95")
-  (set-face-background 'org-block-background "gray95")
-  (set-face-background 'org-block "gray95"))
+(setq org-fontify-whole-heading-line t) ; bg color covers whole line
+(set-face-background 'org-block-begin-line "gray95")
+(set-face-background 'org-block-end-line   "gray95")
+(set-face-foreground 'org-block-begin-line "black")
+(set-face-foreground 'org-block-end-line   "black")
+(set-face-background 'org-block-background "lightyellow")
+(set-face-background 'org-block "lightyellow")
+
+;;
+;; Org Present Mode
+;;
+;; https://github.com/rlister/org-present
+(autoload #'org-present "org-present" nil t)
+(add-hook 'org-present-mode-hook
+          (lambda ()
+            (org-present-big)
+            (org-display-inline-images)))
+(add-hook 'org-present-mode-quit-hook
+          (lambda ()
+            (org-present-small)
+            (org-remove-inline-images)))
 
 ;;
 ;; Deft
@@ -1408,20 +1424,6 @@ values."
 (autoload #'sass-mode "sass-mode" "sass mode")
 (add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
 (add-to-list 'auto-mode-alist '("\\.s\\(a\\|c\\)?ss$" . sass-mode))
-
-;;
-;; Org Present Mode
-;;
-;; https://github.com/rlister/org-present
-(autoload #'org-present "org-present" nil t)
-(add-hook 'org-present-mode-hook
-          (lambda ()
-            (org-present-big)
-            (org-display-inline-images)))
-(add-hook 'org-present-mode-quit-hook
-          (lambda ()
-            (org-present-small)
-            (org-remove-inline-images)))
 
 ;;
 ;; Sending text to iTerm
