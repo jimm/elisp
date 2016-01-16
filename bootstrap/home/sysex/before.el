@@ -1,7 +1,7 @@
 (load-file (concat *my-emacs-lib-dir* "bootstrap/mac-common.el"))
 
 (when window-system
-  (defvar *basic-frame-alist* '((background-color . "ghost white")
+  (defvar *basic-frame-alist* '((background-color . "white")
                                 (cursor-color . "orange")
 				(tool-bar-mode . nil)
                                 (font . "Menlo 13")))
