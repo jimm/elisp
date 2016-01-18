@@ -30,6 +30,8 @@
              '("heroku-prod" . "candi-heroku candiprod2"))
 (add-to-list 'inf-ruby-implementations
              '("heroku-jim" . "candi-heroku jim-qa"))
+(add-to-list 'inf-ruby-implementations
+             '("rails-console" . "rails console"))
 
 ;; (when (fboundp #'deft)
 ;;   (setq deft-directory (concat *my-pim-dir* "orgs/work/candi/")))
