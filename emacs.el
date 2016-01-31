@@ -1426,9 +1426,37 @@ values."
 (add-to-list 'auto-mode-alist '("\\.s\\(a\\|c\\)?ss$" . sass-mode))
 
 ;;
-;; Sending text to iTerm
+;; Sending text to iTerm and similar functions
 ;;
 (load "iterm")
+
+(defun line-to-other-window ()
+  (interactive)
+  (save-excursion
+    (beginning-of-line)
+    (push-mark)
+    (end-of-line)
+    (kill-ring-save (point) (mark))
+
+    (other-window 1)
+    (end-of-buffer)
+    (yank)
+    (comint-send-input)
+
+    (other-window -1))
+
+  (end-of-line)
+  (forward-char))
+
+(defun region-to-other-window ()
+  (interactive)
+  (save-excursion
+    (let ((str (buffer-substring-no-properties (point) (mark))))
+      (other-window 1)
+      (end-of-buffer)
+      (insert str)
+      (comint-send-input)
+      (other-window -1))))
 
 ;;
 ;; Markdown mode
@@ -1763,7 +1791,7 @@ values."
                   (find-file *my-remember-data-file*)
                   (goto-char (point-max))))
 (global-set-key [f7] #'send-current-line-to-iterm-and-next-line)
-(global-set-key [\C-f7] #'send-region-to-iterm)
+(global-set-key [\C-f7] #'line-to-other-window)
 (if (fboundp #'fzf)
     (progn
       (global-set-key [f9] #'git-root-fzf)

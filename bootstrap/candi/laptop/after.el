@@ -40,7 +40,6 @@
 (add-hook 'markdown-mode-hook
           (lambda () (setq markdown-command "multimarkdown")))
 
-
 ;; Set up Deft for searching source code. Unfortunately, this does not do
 ;; well with a large number of files.
 (defun deft-setup (dir extension)
@@ -55,6 +54,21 @@
              '("order" . "https://www.chloeandisabel.com/admin/orders/"))
 (add-to-list 'org-link-abbrev-alist
              '("pr"    . "https://github.com/chloeandisabel/Candi/pulls/"))
+
+(defun irbrc-to-other-buffer ()
+  (interactive)
+  (save-excursion
+    (find-file "~/.irbrc")
+    (mark-whole-buffer)
+    (kill-ring-save (point) (mark))
+
+    (other-window 1)
+    (end-of-buffer)
+    (yank)
+    (comint-send-input)
+
+    (other-window -1)
+    (kill-buffer nil)))
 
 ;; ================================================================
 ;; Status
