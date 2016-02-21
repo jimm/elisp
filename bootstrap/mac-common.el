@@ -17,7 +17,7 @@
       mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control))))
       dired-use-ls-dired nil
       browse-url-generic-program "open"
-      Man-switches "-M /usr/share/man:/usr/local/share/man"
+      Man-switches "-M /usr/share/man:/usr/local/share/man:/opt/local/share/man"
       sql-sqlite-program "sqlite3"
       *my-sql-regex* "^--.*"
       *my-sql-regex-replacement* "")
