@@ -70,6 +70,13 @@
     (other-window -1)
     (kill-buffer nil)))
 
+;; This should be a YASnippet, but It's work specific, which means I should
+;; isolate it somewhere first.
+(defun dcdsi ()
+  (interactive)
+  (insert-string "Dotcom::Fulfillment::ShipmentInfo.all_from_dcd_order_number('')")
+  (backward-char 2))
+
 ;; ================================================================
 ;; Status
 ;; ================================================================
