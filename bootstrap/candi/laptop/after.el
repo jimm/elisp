@@ -117,7 +117,7 @@ meetings."
 
   (goto-char (point-min))
   (save-buffer)
-  (bury-buffer (current-buffer)))
+  (bury-buffer))
 
 ;; ================================================================
 
