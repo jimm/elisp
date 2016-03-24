@@ -48,12 +48,14 @@
         deft-recursive t)
   (add-to-list 'deft-extensions extension))
 
-(add-to-list 'org-link-abbrev-alist
-             '("issue" . "https://github.com/chloeandisabel/Candi/issues/"))
-(add-to-list 'org-link-abbrev-alist
-             '("order" . "https://www.chloeandisabel.com/admin/orders/"))
-(add-to-list 'org-link-abbrev-alist
-             '("pr"    . "https://github.com/chloeandisabel/Candi/pulls/"))
+(mapc (lambda (pair)
+        (add-to-list 'org-link-abbrev-alist
+         (cons (car pair)
+               (concat "https://github.com/chloeandisabel/Candi/" (cdr pair) "/"))))
+      '(("issue" . "issues")
+        ("order" . "orders")
+        ("pr"    . "pull")
+        ("pull"  . "pull")))
 
 (defun irbrc-to-other-buffer ()
   (interactive)

@@ -564,6 +564,7 @@ This may not do the correct thing in presence of links."
       (cons
        '("\\(\\([a-zA-Z0-9]*/\\)*\\([a-zA-Z0-9]*\\.scala\\)\\):\\([0-9]*\\).*" 1 2)
        compilation-error-regexp-alist))
+
 ;;
 ;; YASnippet
 ;;
@@ -1138,6 +1139,12 @@ gzip.")))
   (let ((frame (selected-frame)))
     (set-frame-position frame 0 0)
     (set-frame-height frame (zoom-frame-height-lines))))
+
+;;
+;; wttrin
+;;
+(when (fboundp #'wttrin)
+  (setq wttrin-default-cities '("Fairfield, CT" "New York, NY" "Boston, MA")))
 
 ;; Time and time zone information, for calendar's sunrise-sunset and related
 ;; funcs.
