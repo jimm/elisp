@@ -1371,7 +1371,6 @@ values."
           (lambda ()
             (org-add-link-type "addr" #'address)
             (org-add-link-type "date" #'my-goto-calendar-date)
-            (set-face-background 'org-block-background "lightyellow")
             (setq org-export-with-sub-superscripts nil
                   org-structure-template-alist (lower-case-org-mode-templates))
             (define-key org-mode-map "\C-cr" #'my-org-execute-src)
@@ -1390,7 +1389,6 @@ values."
 (set-face-background 'org-block-end-line   "gray95")
 (set-face-foreground 'org-block-begin-line "black")
 (set-face-foreground 'org-block-end-line   "black")
-(set-face-background 'org-block "lightyellow")
 
 ;;
 ;; Org Present Mode
