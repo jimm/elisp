@@ -1385,8 +1385,8 @@ values."
 
 (set-face-attribute 'org-level-1 nil :height 1.2 :bold t)
 (setq org-fontify-whole-heading-line t) ; bg color covers whole line
-(set-face-background 'org-block-begin-line "gray95")
-(set-face-background 'org-block-end-line   "gray95")
+(set-face-background 'org-block-begin-line "gray85")
+(set-face-background 'org-block-end-line   "gray97")
 (set-face-foreground 'org-block-begin-line "black")
 (set-face-foreground 'org-block-end-line   "black")
 
