@@ -104,7 +104,7 @@ meetings."
 
   ;; Swap two days' entries and change headings to "Yesterday" and "Today".
   (outline-previous-visible-heading 1)
-  (org-shiftmetaup)
+  (org-move-subtree-up)
 
   (org-delete-backward-char 1)
   (org-end-of-line)
