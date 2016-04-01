@@ -1375,6 +1375,9 @@ values."
                   org-structure-template-alist (lower-case-org-mode-templates))
             (define-key org-mode-map "\C-cr" #'my-org-execute-src)
             (define-key org-mode-map "\C-ct" #'org-toggle-link-display)
+            (define-key org-mode-map "\C-ct" #'org-toggle-link-display)
+            (define-key org-mode-map (kbd "M-S-<up>") #'org-move-subtree-up)
+            (define-key org-mode-map (kbd "M-S-<down>") #'org-move-subtree-down)
             ;; yasnippet mode
             (org-set-local 'yas-trigger-key "\t")
             (add-to-list 'org-tab-first-hook
