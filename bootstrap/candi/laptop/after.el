@@ -60,7 +60,7 @@
 (defun irbrc-to-other-buffer ()
   (interactive)
   (save-excursion
-    (find-file "~/.irbrc-heroku")
+    (find-file "~/.irbrc")
     (mark-whole-buffer)
     (kill-ring-save (point) (mark))
 
