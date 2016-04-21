@@ -1376,8 +1376,6 @@ values."
             (define-key org-mode-map "\C-cr" #'my-org-execute-src)
             (define-key org-mode-map "\C-ct" #'org-toggle-link-display)
             (define-key org-mode-map "\C-ct" #'org-toggle-link-display)
-            (define-key org-mode-map (kbd "M-S-<up>") #'org-move-subtree-up)
-            (define-key org-mode-map (kbd "M-S-<down>") #'org-move-subtree-down)
             ;; yasnippet mode
             (org-set-local 'yas-trigger-key "\t")
             (add-to-list 'org-tab-first-hook
@@ -1388,10 +1386,11 @@ values."
 
 (set-face-attribute 'org-level-1 nil :height 1.2 :bold t)
 (setq org-fontify-whole-heading-line t) ; bg color covers whole line
-(set-face-background 'org-block-begin-line "gray85")
-(set-face-background 'org-block-end-line   "gray97")
-(set-face-foreground 'org-block-begin-line "black")
-(set-face-foreground 'org-block-end-line   "black")
+(ignore-errors
+  (set-face-background 'org-block-begin-line "gray85")
+  (set-face-background 'org-block-end-line   "gray97")
+  (set-face-foreground 'org-block-begin-line "black")
+  (set-face-foreground 'org-block-end-line   "black"))
 
 ;;
 ;; Org Present Mode
