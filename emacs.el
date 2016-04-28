@@ -1042,8 +1042,10 @@ gzip.")))
           (concat (getenv "dbox") "/Music/music"))
     (global-set-key [f7] 'emms-previous)
     (global-set-key [f8] 'emms-pause)   ; toggles between pause and resume
-    (global-set-key [f9] 'emms-next)))
-
+    (global-set-key [f9] 'emms-next)
+    (if (fboundp #'fzf)
+        (global-set-key [\C-f9] #'git-root-fzf)
+      (global-set-key [f9] #'ef))))
 
 ;;
 ;; SES-mode
