@@ -1853,3 +1853,25 @@ values."
    ((((class color) (background light)) (:foreground "Blue"))
     (((class color) (background dark)) (:foreground "SteelBlue"))
     (t (:bold t)))))
+
+(defun hello-darkness-my-old-friend ()
+  (interactive)
+  (ignore-errors
+    (set-foreground-color "white")
+    (set-background-color "black")
+    (set-face-background 'org-block-begin-line "gray25")
+    (set-face-background 'org-block-end-line   "gray15")
+    (set-face-foreground 'org-block-begin-line "white")
+    (set-face-foreground 'org-block-end-line   "white"))
+  )
+
+(defun lighten-up ()
+  (interactive)
+  (ignore-errors
+    (set-foreground-color "black")
+    (set-background-color "white")
+    (set-face-background 'org-block-begin-line "gray85")
+    (set-face-background 'org-block-end-line   "gray97")
+    (set-face-foreground 'org-block-begin-line "black")
+    (set-face-foreground 'org-block-end-line   "black"))
+  )
