@@ -943,7 +943,8 @@ This may not do the correct thing in presence of links."
           (lambda ()
             (define-key elixir-mode-map "\C-cd" #'debug-comment)
             (define-key elixir-mode-map "\r" #'newline-and-indent)
-            (define-key elixir-mode-map "\C-cr" #'executable-interpret)))
+            (define-key elixir-mode-map "\C-cr" #'executable-interpret)
+            (when-fboundp-call alchemist-mode)))
 (add-hook 'alchemist-mode-hook
           (lambda ()
             (let ((dir (file-name-as-directory (getenv "ELIXIR_HOME"))))
@@ -951,7 +952,9 @@ This may not do the correct thing in presence of links."
                 (setq alchemist-goto-elixir-source-dir dir)))
             (let ((dir (file-name-as-directory (getenv "ERLANG_HOME"))))
               (when (file-exists-p dir)
-                (setq alchemist-goto-erlang-source-dir dir)))))
+                (setq alchemist-goto-erlang-source-dir dir)))
+            (define-key alchemist-mode-map "\C-c\C-z"
+              #'alchemist-iex-project-run)))
 
 ;;
 ;; Lua-mode
@@ -1424,6 +1427,20 @@ values."
 (setq org-fontify-whole-heading-line t) ; bg color covers whole line
 
 ;;
+;; Cursor manipulation
+;;
+
+(defun show-cursor ()
+  (interactive)
+  (internal-show-cursor nil t)
+  (blink-cursor-mode 10))
+
+(defun hide-cursor ()
+  (interactive)
+  (internal-show-cursor nil nil)
+  (blink-cursor-mode -1))
+
+;;
 ;; Org Present Mode
 ;;
 ;; https://github.com/rlister/org-present
@@ -1431,14 +1448,12 @@ values."
 (add-hook 'org-present-mode-hook
           (lambda ()
             (org-present-big)
-            (blink-cursor-mode -1)
-            (internal-show-cursor nil nil)
+            (hide-cursor)
             (org-display-inline-images)))
 (add-hook 'org-present-mode-quit-hook
           (lambda ()
             (org-present-small)
-            (internal-show-cursor nil t)
-            (blink-cursor-mode 10)
+            (show-cursor)
             (org-remove-inline-images)))
 
 ;;
