@@ -1,3 +1,5 @@
+(lighten-up)
+
 (defun zoom-frame-width-cols ()
   (interactive)				; for testing
   268)                                  ; 268 for really full screen, 260 with dock exposed
@@ -48,11 +50,3 @@
   (lambda ()
     (interactive)
     (find-file (concat *my-pim-dir* "orgs/kaplan/notes.org"))))
-
-;; For Kaplan, until my work laptop gets fixed
-(defvar sa-db
-  "/Users/jimm/src/kaplan/spine_align/db/development.sqlite3")
-(defvar st-db
-  "/Users/jimm/src/kaplan/sandbox/taxonomy/SpineTagger/spineTagger.db")
-(set-register ?d sa-db)
-(set-register ?e st-db)
