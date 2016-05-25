@@ -238,11 +238,11 @@ insert it at point. See `generate-random-password`."
   (ignore-errors
     (set-foreground-color "white")
     (set-background-color "black")
-    (set-face-background 'org-block-begin-line "gray25")
-    (set-face-background 'org-block-end-line   "gray15")
-    (set-face-foreground 'org-block-begin-line "white")
-    (set-face-foreground 'org-block-end-line   "white")
-    (set-face-foreground 'org-block            "gray20")
+    ;; (set-face-background 'org-block-begin-line "gray25")
+    ;; (set-face-background 'org-block-end-line   "gray15")
+    ;; (set-face-foreground 'org-block-begin-line "white")
+    ;; (set-face-foreground 'org-block-end-line   "white")
+    ;; (set-face-foreground 'org-block            "gray20")
     (set-face-attribute 'mode-line nil :foreground "black" :background "grey75")))
 
 (defun lighten-up ()
@@ -250,10 +250,10 @@ insert it at point. See `generate-random-password`."
   (ignore-errors
     (set-foreground-color "black")
     (set-background-color "white")
-    (set-face-background 'org-block-begin-line "gray85")
-    (set-face-background 'org-block-end-line   "gray97")
-    (set-face-foreground 'org-block-begin-line "black")
-    (set-face-foreground 'org-block-end-line   "black")
+    ;; (set-face-background 'org-block-begin-line "gray85")
+    ;; (set-face-background 'org-block-end-line   "gray97")
+    ;; (set-face-foreground 'org-block-begin-line "black")
+    ;; (set-face-foreground 'org-block-end-line   "black")
     (set-face-attribute 'mode-line nil :foreground "yellow" :background "black")))
 
 ;;;
