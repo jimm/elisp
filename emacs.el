@@ -93,12 +93,10 @@ whitespace-only string."
       inhibit-startup-screen t          ; kill the startup message
       initial-scratch-message nil       ; used by Emacs 23 and above
       inhibit-startup-echo-area-message "jimm"
-      compile-command "makeup "         ; script finds make/rake/pom/build
       Man-notify 'aggressive            ; when man found, jump there *immed*
       dabbrev-case-replace nil          ; preserve case when expanding
-      grep-command "grep -n "
-      mode-require-final-newline nil ; do not force newlines
-      ns-pop-up-frames nil           ; do not create new frames on Mac
+      mode-require-final-newline nil    ; do not force newlines
+      ns-pop-up-frames nil              ; do not create new frames on Mac
       auto-revert-verbose nil        ; no message on each auto-revert update
       isearch-lax-whitespace nil
       visible-bell t
@@ -120,49 +118,6 @@ whitespace-only string."
 
 (defun display-startup-echo-area-message ()
   (message ""))
-
-;; For rgrep, grep-find, and friends
-(load "grep")
-(setq grep-find-ignored-directories
-      (append (list "tmp" "target" "ebin" "_build" "_site")
-              grep-find-ignored-directories)
-
-      grep-find-ignored-files
-      (list
-       "TAGS" "*.[wj]ar" "*.beam"
-       "*.png" "*.gif" "*.jpg" "*.jpeg"
-       ".#*" "*.o" "*~" "*.so" "*.a" "*.elc"
-       "*.class" "*.lib" "*.lo" "*.la" "*.toc" "*.aux"
-       "*.pyc" "*.pyo")
-
-      grep-find-use-xargs 'gnu)
-
-(defun git-root-dir ()
-  "Returns the current directory's root git repo directory."
-  (file-name-directory (locate-dominating-file default-directory ".git")))
-
-(defun git-root-dired ()
-  "Runs dired in the current dir's root git repo directory."
-  (interactive)
-  (dired (git-root-dir)))
-
-(defun git-grep (arg)
-  "Runs 'git grep' after reading the search regular expression
-from the minibuffer. Starts the search in the current directory's
-root git repo directory.
-
-With a prefix argument, initializes the search string with the
-current symbol at point."
-  (interactive "P")
-  (let* ((regexp (read-from-minibuffer
-                  "Search regexp: "
-                  (and arg (regexp-quote (thing-at-point 'symbol)))
-                  nil nil 'grep-find-history))
-         (default-directory (git-root-dir))
-         (case-ignore-flag (and (isearch-no-upper-case-p regexp t) "-i"))
-         (cmd (concat "git grep -E -n --full-name " case-ignore-flag
-                      " \"" regexp "\"")))
-  (grep-find cmd)))
 
 (when (functionp #'tool-bar-mode) (tool-bar-mode -1))
 (unless window-system (menu-bar-mode nil))
@@ -255,6 +210,11 @@ insert it at point. See `generate-random-password`."
     ;; (set-face-foreground 'org-block-begin-line "black")
     ;; (set-face-foreground 'org-block-end-line   "black")
     (set-face-attribute 'mode-line nil :foreground "yellow" :background "black")))
+
+;;;
+;;; Project-level navigation and search.
+;;;
+(load "proj")
 
 ;;;
 ;;; YAML-mode
@@ -427,80 +387,6 @@ you have a local copy, for example.")
          (url (concat *my-javadoc-url* klass-path ".html")))
     (browse-url-generic url)))
 
-;;; ================================================================
-;;; Finding files
-;;; ================================================================
-
-;;
-;; ef (find)
-;; must come before loading my eshell customize
-;;
-(load "find-lisp")
-(defun ef (find-name-arg root-directory &optional ignore)
-  "Searches recursively in ROOT-DIRECTORY or current directory
-for FIND-NAME-ARG. If one file is found, that file is opened. If
-more than one is found, opens a dired buffer on the list of
-files. If no files are found, continue searching up the directory
-tree.
-
-Ignores certain directories such as .git, .svn, and target. This
-list is hard-coded, though it would be easy to make it an
-optional argument."
-  (interactive "sFilename regex: \nDSearch root directory: ")
-  (let* ((dir (file-name-as-directory root-directory))
-	 (dirname (directory-file-name dir))
-	 (files
-	  (cl-remove-if
-	   (lambda (f) (string-match
-                        "^\\(\\.git\\|\\.svn\\|classes\\|build\\|target\\|CVS\\)$\\|^~"
-                        f))
-	   (split-string (shell-command-to-string
-			  (concat "find " dirname " -name " find-name-arg)))))
-	 (len (length files)))
-    (cond ((zerop len)
-	   (cond ((equal "/" dirname) (message "%s not found" find-name-arg))
-		 (t (ef find-name-arg (file-name-directory dirname)))))
-	  ((= 1 len) (find-file (car files)))
-	  (t (find-dired dir (concat "-name " find-name-arg))))))
-
-;; Returns file(s) starting at default directory. See also
-;; get-closest-pathname defined below (which does the same thing but assumes
-;; root-directory is default-directory).
-(defun find-up (fname-regexp root-directory)
-  "Searches starting at ROOT-DIRECTORY for FNAME-REGEXP. If not
-found, goes up until it hits the system root directory, looking
-for FNAME-REGEXP."
-  (interactive "sFilename regex: \nDSearch root directory: ")
-  (let* ((dir (file-name-as-directory (expand-file-name root-directory)))
-	 (dirname (directory-file-name dir))
-	 (filter-regexp "\\.git\\|\\.svn\\|classes\\|build\\|target\\|TAGS\\|CVS\\|~")
-	 (files
-	  (remove-if
-	   (lambda (f) (string-match filter-regexp f))
-           (directory-files dirname t fname-regexp)))
-	 (len (length files)))
-    (cond ((zerop len)
-	   ; (message "%s not found in %s" fname-regexp dir))
-	   (cond ((equal "/" dirname) (message "%s not found" fname-regexp))
-		 (t (find-up fname-regexp (file-name-directory dirname)))))
-	  ((= 1 len) (car files))
-	  (t files))))
-
-;; See also find-up and the built-in function locate-dominating-file.
-(defun get-closest-pathname (file)
-  "Find the first instance of FILE at or above the current directory.
-If it does not find FILE, then it returns the name of FILE in the
-current directory, suitable for creation.
-
-This may not do the correct thing in presence of links."
-  (let* ((path (expand-file-name file))
-         (f (file-name-nondirectory path))
-         (d (locate-dominating-file path f)))
-    (if d (concat d f)
-      (expand-file-name f default-directory))))
-
-;;; ================================================================
-
 ;;
 ;; Shell script
 ;;
@@ -537,6 +423,18 @@ This may not do the correct thing in presence of links."
             (four-tab-stops)))
 
 ;;
+;; flx-ido
+;;
+(when (boundp flx-ido-mode)
+  (require 'flx-ido)
+  (ido-mode 1)
+  (ido-everywhere 1)
+  (flx-ido-mode 1)
+  ;; disable ido faces to see flx highlights.
+  (setq ido-enable-flex-matching t)
+  (setq ido-use-faces nil))
+
+;;
 ;; For both C and C++ mode
 ;;
 (add-hook 'c-mode-common-hook
@@ -555,6 +453,15 @@ This may not do the correct thing in presence of links."
               "Locate header file and load it into other window" t)
             (autoload #'fh-open-header-file-other-frame "find-header"
               "Locate header file and load it into other frame" t)))
+
+(defun cbo4 ()
+  (interactive)
+  (setq c-basic-offset 4
+        ruby-indent-level 4))
+(defun cbo2 ()
+  (interactive)
+  (setq c-basic-offset 2
+        ruby-indent-level 2))
 
 ;;
 ;; C++-mode
@@ -1211,15 +1118,6 @@ gzip.")))
             buffer (car list))))
   (message "Refreshed open files"))
 
-(defun cbo4 ()
-  (interactive)
-  (setq c-basic-offset 4
-        ruby-indent-level 4))
-(defun cbo2 ()
-  (interactive)
-  (setq c-basic-offset 2
-        ruby-indent-level 2))
-
 (defun email (str)
   "Find first email of STR in my address book Org Mode file. For
 some reason, the file's buffer remains in the front, even though
@@ -1312,36 +1210,9 @@ and wc -w"
 (add-to-list 'auto-mode-alist '("\\.cs$" . csharp-mode))
 
 ;;
-;; Git / Magit
-;;
-(setenv "GIT_PAGER" "cat")
-(setq magit-last-seen-setup-instructions "1.4.0"
-      magit-push-always-verify nil)
-
-(defun git-revert ()
-  "Checks out the current buffer's file in Git and reverts the current buffer."
-  (interactive "*")
-  (shell-command (concat "git checkout " (file-name-nondirectory (buffer-file-name))))
-  (revert-buffer t t))
-
-;;
 ;; Status
 ;;
 (autoload #'status "status" nil t)
-
-;;
-;; Growl (Mac OS X only)
-;;
-(defun growl-notify (message &optional title)
-  "Display a Growl MESSAGE. The optional TITLE's default value is \"Emacs\"."
-  (interactive "sMessage: ")
-  (let ((g-title (if (and title (not (eq title ""))) title "Emacs")))
-    (shell-command
-     (concat
-      "growlnotify"
-      " --image /Applications/Emacs.app/Contents/Resources/Emacs.icns"
-      " --title " (shell-quote-argument g-title)
-      " --message " (shell-quote-argument message)))))
 
 ;;
 ;; rcirc
@@ -1427,20 +1298,6 @@ values."
 (setq org-fontify-whole-heading-line t) ; bg color covers whole line
 
 ;;
-;; Cursor manipulation
-;;
-
-(defun show-cursor ()
-  (interactive)
-  (internal-show-cursor nil t)
-  (blink-cursor-mode 10))
-
-(defun hide-cursor ()
-  (interactive)
-  (internal-show-cursor nil nil)
-  (blink-cursor-mode -1))
-
-;;
 ;; Org Present Mode
 ;;
 ;; https://github.com/rlister/org-present
@@ -1457,6 +1314,20 @@ values."
             (org-remove-inline-images)))
 
 ;;
+;; Cursor manipulation
+;;
+
+(defun show-cursor ()
+  (interactive)
+  (internal-show-cursor nil t)
+  (blink-cursor-mode 10))
+
+(defun hide-cursor ()
+  (interactive)
+  (internal-show-cursor nil nil)
+  (blink-cursor-mode -1))
+
+;;
 ;; Deft
 ;;
 (when (fboundp #'deft)
@@ -1464,14 +1335,6 @@ values."
         deft-directory (concat *my-pim-dir* "orgs/")
         deft-recursive t
         deft-use-filename-as-title t))
-
-;;
-;; fzf
-;;
-(when (fboundp #'fzf)
-  (defun git-root-fzf ()
-    (interactive)
-    (fzf-directory (git-root-dir))))
 
 ;;
 ;; HAML and SASS
@@ -1528,20 +1391,6 @@ values."
             (set-face-attribute 'markdown-header-face-4 nil :foreground "black")
             (set-face-attribute 'markdown-header-face-5 nil :foreground "black")
             (set-face-attribute 'markdown-header-face-6 nil :foreground "black")))
-
-
-;;
-;; GMail plugin
-;; gmail-message-mode and edit-server
-;;
-(when (require 'edit-server nil t)
-  (setq edit-server-new-frame nil)
-  (edit-server-start))
-
-(add-hook 'ham-mode-hook
-          (lambda ()
-            (setq ham-mode-markdown-command '("~/.rbenv/shims/kramdown" file))))
-
 
 ;;
 ;; Textile mode
@@ -1638,8 +1487,8 @@ values."
 ;;
 ;; Encryption
 ;;
-;; This is last because it modifies write-file-hooks. See the comment at the
-;; beginning of crypt++.el.
+;; This is near the end because it modifies write-file-hooks. See the
+;; comment at the beginning of crypt++.el.
 ;;
 
 ;; This used to be required, but not any more with the Mac OS X build of Emacs.
