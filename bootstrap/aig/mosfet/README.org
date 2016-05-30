@@ -1,7 +1,0 @@
-* Windows Laptop Setup
-
-On Windows, =.emacs= belongs in your =HOME= directory. For some odd reason,
-sometimes on app startup the concept of "home directory" is screwy and
-=.emacs= is read from other directories such as =$HOME/AppData/Roaming= or
-=h:/=. To handle those times, I've put =.emacs= files in those directories
-that call =(load-file "c:/Users/jamenard/.emacs")=.

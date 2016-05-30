@@ -28,9 +28,9 @@ Inside that are up to four files: dot_emacs, before.el, after.el, and the
 bookmark file emacs.bmk (which is not checked in to source control).
 
 On each box I create a soft link from the appropriate =dot_emacs= file in
-that machine's bootstrap/DOMAIN/MACHINE directory to ~/.emacs. Here's the
-.emacs file on the machine I'm using right now, which is really a link to
-~/Library/elisp/home/nimbus/dot_emacs:
+that machine's bootstrap/DOMAIN/MACHINE directory to =~/.emacs.d/init.el=.
+Here's the =init.el= file on the machine I'm using right now, which is really a
+link to =~/Library/elisp/home/nimbus/dot_emacs=:
 
 #+begin_src emacs-lisp
   ;; -*- emacs-lisp -*-
@@ -49,6 +49,12 @@ Note that the variable =*my-emacs-lib-dir*= must be defined before calling
 =bootstrap-init=. Yes, we could pass its value into that function, but since
 it is used and assumed to exist elsewhere, that function might as well
 assume it exists.
+
+** Key Bindings
+
+=emacs.el= loads =keys.el= which does pretty much the same thing that the
+bootstrap process does: it defines my normal key bindings then loads the
+=keys.el= file in the bootstrap directory specified earlier.
 
 * See Also
 

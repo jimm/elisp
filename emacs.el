@@ -1645,80 +1645,14 @@ values."
      ((((class color)) (:foreground "red" :bold t))))))
 
 ;;
-;; Global key bindings
-;;
-
-(defmacro when-fboundp-global-set-key (k f)
-  `(when (fboundp (function ,f))
-     (global-set-key ,k (function ,f))))
-
-(defmacro set-org-file-key (key file)
-  "Map a KEY globally to one of my Org FILEs."
-  `(global-set-key ,key
-     (lambda ()
-       (interactive)
-       (find-file (concat *my-pim-dir* "orgs/" ,file)))))
-
-(global-set-key "\M-z" #'zap-upto-char)
-(global-set-key "\M-`" #'my-ff-find-other-file)
-(global-set-key "\C-c1" #'find-grep-dired)
-(global-set-key "\C-c2" #'rgrep)
-(global-set-key "\C-c3" #'grep)
-(global-set-key "\C-c4" #'git-grep)
-(global-set-key "\C-c\C-c" #'comment-region)
-(global-set-key "\C-c\C-d" #'git-root-dired)
-(global-set-key "\C-h" #'backward-delete-char)
-(global-set-key "\C-x?" #'help-for-help)
-(global-set-key "\C-x\C-k" #'compile)
-(global-set-key "\C-x\C-m" #'open-email-client)
-(global-set-key "\C-c\C-k" #'compile)
-(global-set-key "\C-x\C-z" #'shrink-window)
-(global-set-key "\M- " #'just-one-space)
-
-(when-fboundp-global-set-key "\M-'" avy-goto-subword-1)
-(when-fboundp-global-set-key "\M-gg" avy-goto-line)
-(when-fboundp-global-set-key "\M-g\M-g" avy-goto-line)
-(when-fboundp-global-set-key "\C-xo" ace-window)
-
-(global-set-key [f1] my-shell)
-(global-set-key [\C-f1] my-alternate-shell)
-(global-set-key [f2] #'git-grep)
-(global-set-key [\C-f2] #'center-of-attention)
-(when-fboundp-global-set-key [f3] magit-status)
-(when-fboundp-global-set-key [\C-f3] magit-blame-mode)
-(set-org-file-key [f4] "todo.org")
-(global-set-key [f5]
-                (lambda () (interactive) (switch-to-buffer "*inferior-lisp*")))
-(global-set-key [\C-f5]
-                (lambda () (interactive) (switch-to-buffer "*SQL*")))
-(global-set-key [f6]
-                (lambda ()
-                  (interactive)
-                  (find-file *my-remember-data-file*)
-                  (goto-char (point-max))))
-(global-set-key [f7] #'send-current-line-to-iterm-and-next-line)
-(global-set-key [\C-f7] #'line-to-other-window)
-(if (fboundp #'fzf)
-    (progn
-      (global-set-key [f9] #'git-root-fzf)
-      (global-set-key [\C-f9] #'ef))
-  (global-set-key [f9] #'ef))
-(global-set-key [f10] #'zoom-frame)
-(global-set-key [\C-f10] #'max-frame-height)
-(global-set-key [f11] #'other-window)
-
 ;; Smex mode
+;;
 (when (fboundp #'smex-initialize)
-  (smex-initialize)
-  (global-set-key (kbd "M-x") #'smex)
-  (global-set-key (kbd "M-X") #'smex-major-mode-commands)
-  ;; This is your old M-x. (Was "C-c C-c M-x" in smex sample, but "C-c C-c" is
-  ;; already taken by my comment-region binding.
-  (global-set-key (kbd "C-c C-x M-x") #'execute-extended-command))
+  (smex-initialize))
 
-(global-set-key "\C-cl" #'org-store-link)
-
-(global-set-key "\C-cw" #'toggle-current-window-dedication)
+;;; Key bindings, both common and local to the current machine.
+;;; See README.org.
+(load "keys")
 
 ;; Custom variable settings
 (custom-set-variables
