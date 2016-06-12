@@ -425,7 +425,7 @@ you have a local copy, for example.")
 ;;
 ;; flx-ido
 ;;
-(when (boundp flx-ido-mode)
+(when (boundp #'flx-ido-mode)
   (require 'flx-ido)
   (ido-mode 1)
   (ido-everywhere 1)
