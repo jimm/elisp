@@ -1497,8 +1497,6 @@ values."
 ;;             crypt-encryption-file-extension "\\(Secure\\)$\\|\\(secure\\.org\\)$\\|\\(\\.enc\\)$")
 ;; (crypt-rebuild-tables)
 
-(setq epa-file-cache-passphrase-for-symmetric-encryption t) ; remember passphrase for save
-
 ;;
 ;; Read RSS feeds via Gnus using Gwene (gwene.org)
 ;;
