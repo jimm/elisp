@@ -217,6 +217,11 @@ insert it at point. See `generate-random-password`."
 (load "proj")
 
 ;;;
+;;; Dumb jump mode
+;;;
+(when-fboundp-call dumb-jump-mode)
+
+;;;
 ;;; YAML-mode
 ;;;
 (autoload #'yaml-mode "yaml-mode" nil t)

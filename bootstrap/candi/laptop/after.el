@@ -44,14 +44,6 @@
 (add-hook 'markdown-mode-hook
           (lambda () (setq markdown-command "multimarkdown")))
 
-;; Set up Deft for searching source code. Unfortunately, this does not do
-;; well with a large number of files.
-(defun deft-setup (dir extension)
-  (interactive "DDirectory: \nsExtension: ")
-  (setq deft-directory dir
-        deft-recursive t)
-  (add-to-list 'deft-extensions extension))
-
 (mapc (lambda (pair)
         (add-to-list 'org-link-abbrev-alist
          (cons (car pair)
@@ -125,11 +117,11 @@ meetings."
   (save-buffer)
   (bury-buffer))
 
-;; ================================================================
+;;; ================================================================
 
-;;
-;; fzf
-;;
+;;;
+;;; fzf
+;;;
 (when (fboundp 'fzf)
   (setq fzf/executable "/Users/jim.menard/.fzf/bin/fzf"))
 
