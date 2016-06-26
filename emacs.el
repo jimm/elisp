@@ -149,23 +149,22 @@ Goes backward if ARG is negative; error if CHAR not found."
   (insert-char char)
   (backward-char))
 
-(defun generate-random-password (arg)
-  "Generate a random password ARG characters long (16 by default).
+(defun generate-random-password (password-length)
+  "Generate a random password PASSWORD-LENGTH characters long.
 Characters are selected from upper- and lower-case letters,
 numbers, and punctuation."
-  (interactive "NPassword length: ")
   (let* ((chars "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!?@#$%^&*-_=+/.,")
          (chars-len (length chars)))
     (mapconcat (lambda (dummy)
                  (let ((idx (random chars-len)))
                    (substring chars idx (+ idx 1))))
-               (number-sequence 0 (- arg 1))
+               (number-sequence 0 (- password-length 1))
                "")))
 
 (defun insert-random-password (arg)
   "Generate a random password ARG characters long (16 by default) and
 insert it at point. See `generate-random-password`."
-  (interactive "P")
+  (interactive "p")
   (insert (generate-random-password arg)))
 
 ;;; Avoid ringing the bell when caused by certain commands.
