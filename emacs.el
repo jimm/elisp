@@ -120,6 +120,7 @@ whitespace-only string."
   (message ""))
 
 (when (functionp #'tool-bar-mode) (tool-bar-mode -1))
+(when (functionp #'tooltip-mode) (tooltip-mode -1))
 (unless window-system (menu-bar-mode nil))
 
 (global-font-lock-mode t)               ; always turn on, where available
