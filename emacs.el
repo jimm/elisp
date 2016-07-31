@@ -854,7 +854,6 @@ you have a local copy, for example.")
 (add-hook 'elixir-mode-hook
           (lambda ()
             (define-key elixir-mode-map "\C-cd" #'debug-comment)
-            (define-key elixir-mode-map "\r" #'newline-and-indent)
             (define-key elixir-mode-map "\C-cr" #'executable-interpret)
             (when-fboundp-call alchemist-mode)))
 (add-hook 'alchemist-mode-hook
