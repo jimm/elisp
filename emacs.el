@@ -819,6 +819,7 @@ you have a local copy, for example.")
 (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.gem\\(spec\\)?$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.duby$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.cr$" . ruby-mode)) ; Crystal
 
 (eval-after-load "ruby-mode"
   (load "my-ruby-mode"))
@@ -1301,6 +1302,20 @@ values."
 (setq org-fontify-whole-heading-line t) ; bg color covers whole line
 
 ;;
+;; Cursor manipulation
+;;
+
+(defun show-cursor ()
+  (interactive)
+  (internal-show-cursor nil t)
+  (blink-cursor-mode 10))
+
+(defun hide-cursor ()
+  (interactive)
+  (blink-cursor-mode -1)
+  (internal-show-cursor nil nil))
+
+;;
 ;; Org Present Mode
 ;;
 ;; https://github.com/rlister/org-present
@@ -1315,20 +1330,6 @@ values."
             (org-present-small)
             (show-cursor)
             (org-remove-inline-images)))
-
-;;
-;; Cursor manipulation
-;;
-
-(defun show-cursor ()
-  (interactive)
-  (internal-show-cursor nil t)
-  (blink-cursor-mode 10))
-
-(defun hide-cursor ()
-  (interactive)
-  (internal-show-cursor nil nil)
-  (blink-cursor-mode -1))
 
 ;;
 ;; Deft
