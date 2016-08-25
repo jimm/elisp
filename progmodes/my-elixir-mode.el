@@ -26,7 +26,7 @@
   "Adds \"-e File.cd('MIXDIR') -S mix\" flags to iex when
   starting the iex comint buffer."
   (interactive)
-  (let* ((mixfile (get-closest-pathname "mix.exs"))
+  (let* ((mixfile (locate-dominating-file default-directory "mix.exs"))
          (dir (file-name-directory mixfile))
          (abs-dir (if (equal "~" (substring dir 0 1))
                       (concat (getenv "HOME") (substring dir 1))

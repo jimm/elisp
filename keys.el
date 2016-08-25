@@ -49,8 +49,8 @@
                   (interactive)
                   (find-file *my-remember-data-file*)
                   (goto-char (point-max))))
-(global-set-key [f7] #'send-current-line-to-iterm-and-next-line)
-(global-set-key [\C-f7] #'line-to-other-window)
+(global-set-key [f7] #'line-to-other-window)
+(global-set-key [\C-f7] #'send-current-line-to-iterm-and-next-line)
 (if (fboundp #'fzf)
     (progn
       (global-set-key [f9] #'git-root-fzf)

@@ -214,6 +214,8 @@ insert it at point. See `generate-random-password`."
 ;;;
 ;;; Project-level navigation and search.
 ;;;
+;;; Must be loaded after things like fzf are loaded.
+;;;
 (load "proj")
 
 ;;;
@@ -989,9 +991,9 @@ gzip.")))
     (emms-default-players)
     (setq emms-source-file-default-directory
           (concat (getenv "dbox") "/Music/music"))
-    (global-set-key [f7] 'emms-previous)
-    (global-set-key [f8] 'emms-pause)   ; toggles between pause and resume
-    (global-set-key [f9] 'emms-next)
+    (global-set-key [\C-f7] 'emms-previous)
+    (global-set-key [\C-f8] 'emms-pause) ; toggles between pause and resume
+    (global-set-key [\C-f9] 'emms-next)
     (if (fboundp #'fzf)
         (global-set-key [\C-f9] #'git-root-fzf)
       (global-set-key [f9] #'ef))))
