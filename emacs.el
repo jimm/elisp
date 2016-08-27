@@ -29,8 +29,8 @@ whitespace-only string."
     (when (file-exists-p f)
       (load f))))
 (when-fboundp-call package-initialize)  ; code below needs packages loaded
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa" . "http://melpa.org/packages/")))
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
 
 (defvar my-shell #'eshell
   "The shell to use inside Emacs; examples include 'shell or 'eshell.")
