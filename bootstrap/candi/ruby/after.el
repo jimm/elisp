@@ -92,7 +92,7 @@ meetings."
   (copy-region-as-kill (point-min) (point))
 
   ;; Replace everything above last section.
-  (find-file (concat (getenv "dbox") "/Misc/status.txt"))
+  (find-file (concat (getenv "dbox") "/Miscellaneous/status.txt"))
   (goto-char (point-max))
   (outline-previous-visible-heading 1)
   (delete-region (point-min) (point))

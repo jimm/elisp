@@ -11,6 +11,7 @@
 cd $(dirname $0)
 HERE=$(pwd)
 bd=$HERE/bootstrap
+newsrc_dir=$dbox/Miscellaneous/newsrc.eld
 
 backup_if_exists() {
     if [ -h $1 ] ; then         # link
@@ -56,7 +57,7 @@ backup_if_exists ~/.emacs.d/snippets
 $debug ln -s $HERE/snippets ~/.emacs.d/snippets
 
 # Link newsrc
-if [ -f $dbox/Misc/newsrc.eld ] ; then
+if [ -f $newsrc_dir ] ; then
     backup_if_exists ~/.newsrc.eld
-    $debug ln -s $dbox/Misc/newsrc.eld ~/.newsrc.eld
+    $debug ln -s $newsrc_dir ~/.newsrc.eld
 fi
