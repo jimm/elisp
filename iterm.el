@@ -7,8 +7,9 @@ multiple lines separated by `\n'."
                 "\n")))
     (do-applescript (concat
                      "tell application \"iTerm\"\n"
-                     "	tell the current terminal\n"
+                     "	tell the current window\n"
                      "    tell the current session\n"
+                     ;; could also use "write contents of file <foo>"
                      (mapconcat (lambda (s) (concat "write text \"" s "\"\n")) lines "")
                      "    end tell\n"
                      "	end tell\n"
@@ -36,7 +37,6 @@ a key."
     (end-of-line)
     (send-region-to-iterm)))
 
-;; This is a nice function to have bound to a key globally.
 (defun send-current-line-to-iterm-and-next-line ()
   "Send the current line to iTerm and move to the next line. This
 is a nice function to have bound to a key globally."
