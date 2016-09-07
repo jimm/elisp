@@ -1257,13 +1257,14 @@ me about the channels listed in my-rcirc-notifiy-channels."
 
 (defun my-org-execute-src ()
   "Saves current Org mode src block to a temp file and executes
-  it by using the source language name (e.g., \"sh\", \"ruby\")
-  as a command. Obviously doesn't work for all langauges."
+it in a compilation buffer by using the source language
+name (e.g., \"sh\", \"ruby\") as a command. Obviously doesn't
+work for all langauges."
   (interactive)
-  (let* ((info (org-edit-src-find-region-and-lang))
-         (p-beg (car info))
-         (p-end (cadr info))
-         (lang (substring-no-properties (caddr info) 0))
+  (let* ((props (cadr (org-element-context)))
+         (p-beg (plist-get props :begin))
+         (p-end (plist-get props :end))
+         (lang (plist-get props :language))
          (tmpfile (make-temp-file "org-src-")))
     (write-region p-beg p-end tmpfile)
     (compile (concat lang " " tmpfile))))
