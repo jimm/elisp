@@ -1262,8 +1262,10 @@ name (e.g., \"sh\", \"ruby\") as a command. Obviously doesn't
 work for all langauges."
   (interactive)
   (let* ((props (cadr (org-element-context)))
-         (p-beg (plist-get props :begin))
-         (p-end (plist-get props :end))
+         ;; account for narrowed windows
+         (page-start (save-excursion (beginning-of-buffer) (point)))
+         (p-beg (- (plist-get props :begin) page-start))
+         (p-end (- (plist-get props :end) page-start))
          (lang (plist-get props :language))
          (tmpfile (make-temp-file "org-src-")))
     (write-region p-beg p-end tmpfile)
