@@ -1262,10 +1262,8 @@ name (e.g., \"sh\", \"ruby\") as a command. Obviously doesn't
 work for all langauges."
   (interactive)
   (let* ((props (cadr (org-element-context)))
-         ;; account for narrowed windows
-         (page-start (save-excursion (beginning-of-buffer) (point)))
-         (p-beg (- (plist-get props :begin) page-start))
-         (p-end (- (plist-get props :end) page-start))
+         (p-beg (- (plist-get props :begin) 1))
+         (p-end (- (plist-get props :end) 1))
          (lang (plist-get props :language))
          (tmpfile (make-temp-file "org-src-")))
     (write-region p-beg p-end tmpfile)
@@ -1304,6 +1302,7 @@ values."
             (define-key yas-keymap "\t" 'yas-next-field-or-maybe-expand)))
 
 (set-face-attribute 'org-level-1 nil :height 1.2 :bold t)
+(set-face-attribute 'org-level-2 nil :foreground "darkbrown" :bold t)
 (setq org-fontify-whole-heading-line t) ; bg color covers whole line
 
 ;;

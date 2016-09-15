@@ -119,6 +119,18 @@ meetings."
 
 ;;; ================================================================
 
+;;
+;; Org Present Mode
+;;
+;; https://github.com/rlister/org-present
+(add-hook 'org-present-mode-hook
+          (lambda ()
+            (set-background-color "White")))
+(add-hook 'org-present-mode-quit-hook
+          (lambda ()
+            (set-background-color "GhostWhite")))
+
+
 ;;;
 ;;; fzf
 ;;;
