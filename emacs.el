@@ -104,7 +104,9 @@ whitespace-only string."
       vc-handled-backends '()           ; disable VC minor mode
       frame-title-format '((:eval (if (buffer-file-name)
                                       (abbreviate-file-name (buffer-file-name))
-                                    "%b"))))
+                                    "%b")))
+      eww-search-prefix "https://www.google.com.com/?q=")
+
 (setq-default fill-column 76
               indent-tabs-mode nil)
 
@@ -1491,20 +1493,6 @@ values."
       uniquify-separator "/"
       uniquify-after-kill-buffer-p t     ; rename after killing uniquified
       uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
-
-;;
-;; Encryption
-;;
-;; This is near the end because it modifies write-file-hooks. See the
-;; comment at the beginning of crypt++.el.
-;;
-
-;; This used to be required, but not any more with the Mac OS X build of Emacs.
-;; (require 'crypt++)
-
-;; (setq crypt-encryption-type 'gpg
-;;             crypt-encryption-file-extension "\\(Secure\\)$\\|\\(secure\\.org\\)$\\|\\(\\.enc\\)$")
-;; (crypt-rebuild-tables)
 
 ;;
 ;; Read RSS feeds via Gnus using Gwene (gwene.org)
