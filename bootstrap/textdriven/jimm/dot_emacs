@@ -2,3 +2,6 @@
 (defvar *my-emacs-lib-dir* "~/lib/elisp/")
 (load-file (concat *my-emacs-lib-dir* "bootstrap-init.el"))
 (bootstrap-init "textdriven" "jimm")
+(when (fboundp #'package-initialize)
+  (package-initialize))
+(bootstrap-load)

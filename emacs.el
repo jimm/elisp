@@ -28,7 +28,6 @@ whitespace-only string."
   (let ((f (expand-file-name "~/.emacs.d/elpa/package.el")))
     (when (file-exists-p f)
       (load f))))
-(when-fboundp-call package-initialize)  ; code below needs packages loaded
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")))
 
@@ -648,6 +647,7 @@ you have a local copy, for example.")
 (add-hook 'shell-mode-hook
           (lambda ()
             (auto-fill-mode -1)
+            (define-key sh-mode-map "\C-c\C-c" #'comment-region)
             (setq comint-scroll-show-maximum-output nil)))
 
 ;;
@@ -1631,14 +1631,6 @@ values."
   (reverse-region (point) (mark)))
 
 ;;
-;; ace-window
-;;
-(when (fboundp #'ace-select-window)
-  (custom-set-faces
-   '(aw-leading-char-face
-     ((((class color)) (:foreground "red" :bold t))))))
-
-;;
 ;; Smex mode
 ;;
 (when (fboundp #'smex-initialize)
@@ -1647,27 +1639,3 @@ values."
 ;;; Key bindings, both common and local to the current machine.
 ;;; See README.org.
 (load "keys")
-
-;; Custom variable settings
-(custom-set-variables
- '(abbrev-mode nil)                     ; this is the default default, anyway
- '(android-mode-sdk-dir "/usr/local/android-sdk-mac")
- '(css-indent-offset 2)
- '(eshell-save-history-on-exit t)
- '(sgml-xml-mode t)
- '(woman-use-own-frame nil)
- '(sgml-xml-mode t)
- '(safe-local-variable-values
-   (quote ((org-publish-project-alist ("keymaster"
-                                       :base-directory "."
-                                       :publishing-directory "../public_html"
-                                       :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>"
-                                       :author "Jim Menard"
-                                       :email "jim@jimmenard.com"))
-           (org-publish-project-alist ("trackmaster"
-                                       :base-directory "."
-                                       :publishing-directory "../public_html"
-                                       :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>"
-                                       :author "Jim Menard"
-                                       :email "jim@jimmenard.com"))
-           (Syntax . Common-Lisp)))))

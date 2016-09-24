@@ -21,6 +21,7 @@
       my-shell #'eshell
       ns-command-modifier 'meta         ; define Command as Meta key
       ns-option-modifier 'super         ; define Option as Super key
+      ns-right-command-modifier 'super  ; let's see if I use Right-Cmd Super
       sql-sqlite-program "sqlite3")
 
 ;;; http://debbugs.gnu.org/cgi/bugreport.cgi?bug=5683#19

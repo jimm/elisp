@@ -27,23 +27,30 @@ subdirectory and each machine gets its own subdirectory within the domain.
 Inside that are up to four files: dot_emacs, before.el, after.el, and the
 bookmark file emacs.bmk (which is not checked in to source control).
 
-On each box I create a soft link from the appropriate =dot_emacs= file in
+On each box I create a soft link from the appropriate =init.el= file in
 that machine's bootstrap/DOMAIN/MACHINE directory to =~/.emacs.d/init.el=.
 Here's the =init.el= file on the machine I'm using right now, which is really a
-link to =~/Library/elisp/home/nimbus/dot_emacs=:
+link to =~/.emacs.d/elisp/home/sysex/init.el=:
 
 #+begin_src emacs-lisp
   ;; -*- emacs-lisp -*-
   (defvar *my-emacs-lib-dir* "~/Library/elisp/")
   (load-file (concat *my-emacs-lib-dir* "bootstrap-init.el"))
   (bootstrap-init "home" "sysex")
+  (when (fboundp #'package-initialize)
+    (package-initialize))
+  (bootstrap-load)
 #+end_src
 
-See bootstrap-init.el for the definition of =bootstrap-init=. That function
-finds the directory corresponding containing the customization files
-corresponding to its args. It then runs the "before.el" file in that
-directory, then my main customization file "emacs.el", then the "after.el"
-file.
+See =bootstrap-init.el=. =bootstrap-ini= sets some global variables,
+defines the value of =custom-file=, and loads it. Since =package-initialize=
+now /insists/ that it be put in =init.el=, I load it here explicitly before
+calling =bootstrap-load= instead of having it loaded elsewhere.
+
+=bootstrap-load= finds the directory containing the customization files for
+the machine defined by =bootstrap-init=. It then runs the "before.el" file
+in that directory, then my main customization file "emacs.el", then the
+"after.el" file.
 
 Note that the variable =*my-emacs-lib-dir*= must be defined before calling
 =bootstrap-init=. Yes, we could pass its value into that function, but since
