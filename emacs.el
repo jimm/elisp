@@ -120,8 +120,8 @@ whitespace-only string."
 (defun display-startup-echo-area-message ()
   (message ""))
 
-(when (functionp #'tool-bar-mode) (tool-bar-mode -1))
-(when (functionp #'tooltip-mode) (tooltip-mode -1))
+(when-fboundp-call tool-bar-mode -1)
+(when-fboundp-call tooltip-mode -1)
 (unless window-system (menu-bar-mode nil))
 
 (global-font-lock-mode t)               ; always turn on, where available
@@ -193,23 +193,14 @@ insert it at point. See `generate-random-password`."
   (interactive)
   (ignore-errors
     (set-foreground-color "white")
-    (set-background-color "black")
-    ;; (set-face-background 'org-block-begin-line "gray25")
-    ;; (set-face-background 'org-block-end-line   "gray15")
-    ;; (set-face-foreground 'org-block-begin-line "white")
-    ;; (set-face-foreground 'org-block-end-line   "white")
-    ;; (set-face-foreground 'org-block            "gray20")
+    (set-background-color "grey20")
     (set-face-attribute 'mode-line nil :foreground "black" :background "grey75")))
 
 (defun lighten-up ()
   (interactive)
   (ignore-errors
     (set-foreground-color "black")
-    (set-background-color "white")
-    ;; (set-face-background 'org-block-begin-line "gray85")
-    ;; (set-face-background 'org-block-end-line   "gray97")
-    ;; (set-face-foreground 'org-block-begin-line "black")
-    ;; (set-face-foreground 'org-block-end-line   "black")
+    (set-background-color "GhostWhite")
     (set-face-attribute 'mode-line nil :foreground "yellow" :background "black")))
 
 ;;;
@@ -227,7 +218,20 @@ insert it at point. See `generate-random-password`."
 ;;;
 ;;; Projectile-mode
 ;;;
-(when-fboundp-call projectile-global-mode)
+(when (fboundp #'projectile-global-mode)
+  (projectile-global-mode)
+  (setq projectile-enable-caching t
+        projectile-mode-line            ; "Projectile[%s]" is too long
+        '(:eval (if (file-remote-p default-directory)
+                    " prj"
+                  (format " prj[%s]" (projectile-project-name))))))
+
+
+;;;
+;;; Ag-mode
+;;;
+(when (fboundp #'ag)
+  (setq ag-arguments (list "--smart-case" "--nocolor" "--nogroup")))
 
 ;;;
 ;;; YAML-mode
