@@ -225,6 +225,11 @@ insert it at point. See `generate-random-password`."
 (when-fboundp-call dumb-jump-mode)
 
 ;;;
+;;; Projectile-mode
+;;;
+(when-fboundp-call projectile-global-mode)
+
+;;;
 ;;; YAML-mode
 ;;;
 (autoload #'yaml-mode "yaml-mode" nil t)
