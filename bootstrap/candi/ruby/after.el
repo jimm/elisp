@@ -44,6 +44,7 @@
 (add-hook 'markdown-mode-hook
           (lambda () (setq markdown-command "multimarkdown")))
 
+(add-to-list 'org-link-abbrev-alist '("jira" . "https://chloeandisabel.atlassian.net/browse/CAN-"))
 (mapc (lambda (pair)
         (add-to-list 'org-link-abbrev-alist
          (cons (car pair)

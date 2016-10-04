@@ -9,7 +9,7 @@
  '(eshell-save-history-on-exit t)
  '(package-selected-packages
    (quote
-    (ag projectile projectile-rails yasnippet yaml-mode wttrin smex sicp sass-mode rspec-mode org-present markdown-mode magit less-css-mode inf-ruby inf-clojure http-twiddle haskell-mode hamlet-mode go-mode fzf flx-ido emms dumb-jump diminish deft coffee-mode bind-key alchemist ace-window 2048-game)))
+    (ponylang-mode textile-mode lua-mode ag projectile projectile-rails yasnippet yaml-mode smex sicp sass-mode rspec-mode org-present markdown-mode magit less-css-mode inf-ruby inf-clojure http-twiddle haskell-mode hamlet-mode go-mode fzf flx-ido emms dumb-jump diminish deft coffee-mode bind-key alchemist ace-window 2048-game)))
  '(safe-local-variable-values
    (quote
     ((org-publish-project-alist
