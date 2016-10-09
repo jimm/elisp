@@ -28,8 +28,11 @@ whitespace-only string."
   (let ((f (expand-file-name "~/.emacs.d/elpa/package.el")))
     (when (file-exists-p f)
       (load f))))
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")))
+(when (fboundp #'package-initialize)
+  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                           ("melpa" . "https://melpa.org/packages/"))
+        package--init-file-ensured t)   ; avoid check for being in init.el
+  (package-initialize))
 
 (defvar my-shell #'eshell
   "The shell to use inside Emacs; examples include 'shell or 'eshell.")
