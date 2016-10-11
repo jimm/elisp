@@ -1497,6 +1497,12 @@ values."
             (define-key 2048-mode-map "l" '2048-right)))
 
 ;;
+;; Shenzhen I/O
+;;
+(autoload #'shenzhen-io-mode "shenzhen-io-mode")
+(add-to-list 'auto-mode-alist '("\\.szio" . shenzhen-io-mode))
+
+;;
 ;; Uniquify
 ;; http://trey-jackson.blogspot.com/2008/01/emacs-tip-11-uniquify.html
 ;;
