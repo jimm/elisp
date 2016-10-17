@@ -35,6 +35,8 @@
 (add-to-list 'inf-ruby-implementations
              '("heroku-jim" . "candi-heroku jim-qa"))
 (add-to-list 'inf-ruby-implementations
+             '("heroku-sean" . "candi-heroku sean-qa"))
+(add-to-list 'inf-ruby-implementations
              '("rails-console" . "candi-console"))
 
 ;; (when (fboundp #'deft)

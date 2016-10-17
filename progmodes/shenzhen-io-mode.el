@@ -17,9 +17,9 @@
     ("[0-9]+" . 'font-lock-constant-face)
     )
   '("\\.szio$")                         ; auto-mode-list
-  '(                                    ; function-list
-    (lambda () (setq comment-column 0))
-    )
+  '((lambda ()                          ; function-list
+      (setq comment-column 0)
+      (linum-mode)))
   "Major mode for editing Shenzhen I/O files.")
 
 (provide 'shenzhen-io-mode)
