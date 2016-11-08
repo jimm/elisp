@@ -1004,7 +1004,7 @@ gzip.")))
     (emms-all)
     (emms-default-players)
     (setq emms-source-file-default-directory
-          (concat (getenv "dbox") "/Music/music"))
+          (concat (file-name-directory (getenv "dbox")) "Music/music/"))
     (global-set-key [\C-f7] 'emms-previous)
     (global-set-key [\C-f8] 'emms-pause) ; toggles between pause and resume
     (global-set-key [\C-f9] 'emms-next)
