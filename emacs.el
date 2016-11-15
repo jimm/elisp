@@ -125,7 +125,7 @@ whitespace-only string."
 
 (when-fboundp-call tool-bar-mode -1)
 (when-fboundp-call tooltip-mode -1)
-(unless window-system (menu-bar-mode nil))
+(when-fboundp-call menu-bar-mode nil)
 
 (global-font-lock-mode t)               ; always turn on, where available
 
