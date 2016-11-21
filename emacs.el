@@ -835,7 +835,6 @@ you have a local copy, for example.")
 (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.gem\\(spec\\)?$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.duby$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.cr$" . ruby-mode)) ; Crystal
 
 (eval-after-load "ruby-mode"
   (load "my-ruby-mode"))
@@ -850,6 +849,17 @@ you have a local copy, for example.")
     ;;       (push-mark)
     ;;       (end-of-line)
     ;;       (ruby-send-region (mark) (point)))))))
+
+;;
+;; Crystal-mode
+;;
+(add-to-list 'load-path (concat user-emacs-directory "emacs-crystal-mode/") t)
+
+(autoload #'crystal-mode "crystal-mode" "Crystal mode" t nil)
+(add-to-list 'auto-mode-alist '("\\.cr$" . crystal-mode)) ; Crystal
+(add-hook 'crystal-mode-hook
+          (lambda ()
+            (define-key crystal-mode-map "\C-cr" #'executable-interpret)))
 
 ;;
 ;; Erlang-mode
