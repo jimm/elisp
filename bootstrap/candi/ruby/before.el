@@ -2,7 +2,6 @@
 
 (when window-system
   (defvar *basic-frame-alist* '((background-color . "GhostWhite")
-                                (cursor-color . "orange")
 				(tool-bar-mode . nil)
                                 (font . "Menlo 13")))
   (setq initial-frame-alist

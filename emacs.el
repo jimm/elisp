@@ -67,7 +67,6 @@ whitespace-only string."
 ;; Global variable settings and options
 ;;
 (when-fboundp-call appt-activate 1)	; appointment notification
-(when-fboundp-call line-number-mode -1) ; don't display 'em
 
 ;; Ubuntu stuff
 ;(menu-bar-enable-clipboard)

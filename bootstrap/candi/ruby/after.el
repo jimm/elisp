@@ -17,8 +17,6 @@
           (invert-face 'mode-line)
           (run-with-timer 0.1 nil 'invert-face 'mode-line))))
 
-(line-number-mode 1)                    ; display 'em
-
 (setq *status-file* (concat *my-pim-dir* "orgs/work/candi/status.org")
       emms-source-file-default-directory "~/Documents/Dropbox/Music/music/")
 
