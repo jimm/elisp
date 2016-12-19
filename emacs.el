@@ -185,13 +185,6 @@ insert it at point. See `generate-random-password`."
 ;; Colorization
 ;;
 
-;; Custom faces
-(custom-set-faces
- '(eshell-prompt
-   ((((class color) (background light)) (:foreground "Blue"))
-    (((class color) (background dark)) (:foreground "SteelBlue"))
-    (t (:bold t)))))
-
 (defun hello-darkness-my-old-friend ()
   (interactive)
   (ignore-errors
