@@ -23,15 +23,18 @@ whitespace-only string."
   "If VAL is not `blank-p' return it, else return DEFAULT."
   (if (not (blank-p val)) val default))
 
-
-(when (< emacs-major-version 24)
+(if (< emacs-major-version 24)
   (let ((f (expand-file-name "~/.emacs.d/elpa/package.el")))
     (when (file-exists-p f)
-      (load f))))
+      (load f)))
+  ;; else
+  (require 'package))
 (when (fboundp #'package-initialize)
-  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                           ("melpa" . "https://melpa.org/packages/"))
-        package--init-file-ensured t)   ; avoid check for being in init.el
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+  (when (< emacs-major-version 24)
+    ;; For important compatibility libraries like cl-lib
+    (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+  (setq package--init-file-ensured t)   ; avoid check for being in init.el
   (package-initialize))
 
 (defvar my-shell #'eshell
@@ -1310,7 +1313,9 @@ values."
             (define-key org-mode-map "\C-cr" #'my-org-execute-src)
             (define-key org-mode-map "\C-ct" #'org-toggle-link-display)
             ;; yasnippet mode
-            (org-set-local 'yas-trigger-key "\t")
+            ;; TODO org-set-local has gone away. Delete this call when all
+            ;; of my Emacs instances are updated
+            (when-fboundp-call org-set-local 'yas-trigger-key "\t")
             (add-to-list 'org-tab-first-hook
                          (lambda ()
                            (let ((yas/fallback-behavior 'return-nil))
