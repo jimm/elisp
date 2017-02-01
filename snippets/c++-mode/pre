@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: fprintf(stderr, ...);
+# key: pre
+# --
+fprintf(stderr, "$1", $2);

@@ -14,7 +14,7 @@ involves looking for known Rails directories."
 (defun find-rails-root (path)
   "Returns Rails root dir at or above PATH. Returns nil if PATH is nil or no
 Rails root dir is found. Uses `rails-root-p'."
-  (locate-dominating-file path #'rails-root-p))
+  (and path (locate-dominating-file path #'rails-root-p)))
 
 (defun rails-shell-command (command &optional buffer-name-part)
   "Run a Rails command in a terminal window."
@@ -55,9 +55,9 @@ file."
          (vars (shell-command-to-string cmd))
          (lines (split-string vars "\n" t))
          (db-settings (mapcar (lambda (line)
-                                ;; Turn "foo=bar" into ("foo" . "bar")
+                                ;; Turn "foo=\"bar\"" into ("foo" . "bar")
                                 (let ((keyval (split-string line "=")))
-                                  (cons (car keyval) (cadr keyval))))
+                                  (cons (car keyval) (substring (cadr keyval) 1 -1))))
                               lines)))
     (setq sql-server   (cdr (assoc "host" db-settings))
           sql-port     (string-to-int (cdr (assoc "port" db-settings)))
