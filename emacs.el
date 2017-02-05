@@ -40,7 +40,7 @@ whitespace-only string."
 (defvar my-shell #'eshell
   "The shell to use inside Emacs; examples include 'shell or 'eshell.")
 (defvar my-alternate-shell #'shell
-  "Bound to alternate key.")
+  "Alternate shell. Bound to alternate key.")
 
 (if (equal default-directory "/") (setq default-directory "~/"))
 
@@ -403,13 +403,6 @@ you have a local copy, for example.")
     (browse-url-generic url)))
 
 ;;
-;; Shell script
-;;
-(add-hook 'sh-mode-hook
-          (lambda ()
-            (define-key sh-mode-map "\C-cr" #'executable-interpret)))
-
-;;
 ;; Tramp
 ;;
 ; (setq tramp-default-method "scp")
@@ -633,13 +626,15 @@ you have a local copy, for example.")
 ;;
 (add-hook 'sh-mode-hook
           (lambda ()
-            (define-key sh-mode-map "\C-c\C-k" #'compile)))
+            (define-key sh-mode-map "\C-c\C-k" #'compile)
+            (define-key shell-mode-map "\C-c\C-c" #'comment-region)))
 
 ;;
 ;; Eshell-mode
 ;; must come after defining ef
 ;;
-(when (eq my-shell #'eshell)
+(when (or (eq my-shell #'eshell)
+          (eq my-alternate-shell #'eshell))
   (load "eshell")
   (load "eshell-customize"))
 
@@ -654,7 +649,6 @@ you have a local copy, for example.")
 (add-hook 'shell-mode-hook
           (lambda ()
             (auto-fill-mode -1)
-            (define-key sh-mode-map "\C-c\C-c" #'comment-region)
             (setq comint-scroll-show-maximum-output nil)))
 
 ;;

@@ -17,8 +17,6 @@
       dumb-jump-default-project "~/src"
       ;; Smoother mouse wheel scrolling
       mouse-wheel-scroll-amount (quote (1 ((shift) . 5) ((control))))
-      my-alternate-shell #'shell
-      my-shell #'eshell
       ns-command-modifier 'meta         ; define Command as Meta key
       ns-option-modifier 'super         ; define Option as Super key
       ns-right-command-modifier 'super  ; let's see if I use Right-Cmd Super
