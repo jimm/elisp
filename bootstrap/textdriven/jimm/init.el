@@ -1,3 +1,11 @@
+;; -*- emacs-lisp -*-
+(defvar *my-emacs-lib-dir* "~/lib/elisp/")
+(load-file (concat *my-emacs-lib-dir* "bootstrap-init.el"))
+(bootstrap-init "textdriven" "jimm")
+(when (fboundp #'package-initialize)
+  (package-initialize))
+(bootstrap-load)
+
 (custom-set-variables
  '(abbrev-mode nil)                     ; this is the default default, anyway
  '(android-mode-sdk-dir "/usr/local/android-sdk-mac")
@@ -25,5 +33,5 @@
            (Syntax . Common-Lisp)))))
 
 (custom-set-faces
- '(aw-leading-char-face
-   ((((class color)) (:foreground "red" :bold t)))))
+ '(aw-leading-char-face ((((class color)) (:foreground "red" :bold t))))
+ '(eshell-prompt ((((class color) (background light)) (:foreground "Blue")) (((class color) (background dark)) (:foreground "SteelBlue")) (t (:bold t)))))
