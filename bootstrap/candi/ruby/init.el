@@ -15,13 +15,6 @@
  '(package-selected-packages
    (quote
     (toml-mode rust-mode elm-mode elm-yasnippets yaml-mode textile-mode smex sicp sass-mode rspec-mode projectile-rails ponylang-mode org-present markdown-mode lua-mode less-css-mode inf-clojure http-twiddle haskell-mode hamlet-mode go-mode fzf flx-ido emms dumb-jump diminish deft coffee-mode bind-key alchemist ag ace-window 2048-game)))
- '(safe-local-variable-values
-   (quote
-    ((org-publish-project-alist
-      ("keymaster" :base-directory "." :publishing-directory "../public_html" :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>" :author "Jim Menard" :email "jim@jimmenard.com"))
-     (org-publish-project-alist
-      ("trackmaster" :base-directory "." :publishing-directory "../public_html" :style "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>" :author "Jim Menard" :email "jim@jimmenard.com"))
-     (Syntax . Common-Lisp))))
  '(sgml-xml-mode t)
  '(woman-use-own-frame nil))
 (custom-set-faces
