@@ -1318,7 +1318,8 @@ values."
 
 (set-face-attribute 'org-level-1 nil :height 1.2 :bold t)
 (set-face-attribute 'org-level-2 nil :foreground "black" :bold t)
-(set-face-attribute 'org-block nil :foreground "black")
+(when (>= emacs-major-version 24)
+  (set-face-attribute 'org-block nil :foreground "black"))
 (setq org-fontify-whole-heading-line t) ; bg color covers whole line
 
 ;;
