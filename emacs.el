@@ -42,7 +42,8 @@ whitespace-only string."
 (defvar my-alternate-shell #'shell
   "Alternate shell. Bound to alternate key.")
 
-(if (equal default-directory "/") (setq default-directory "~/"))
+(when (equal default-directory "/")
+  (setq default-directory "~/"))
 
 ;; Add *my-emacs-lib-dir* subdirs to the end of load-path, so if it's
 ;; pre-installed that version is used first.
@@ -53,14 +54,164 @@ whitespace-only string."
         (add-to-list 'load-path (concat *my-emacs-lib-dir* dir "/") t))
       '("progmodes" "ses"))
 
-(load "my-skeletons")
+;; See https://github.com/jwiegley/use-package
+(use-package 2048-game)
+(use-package ace-window
+  :ensure t)
+(use-package ag
+  :ensure t
+  :config
+  (setq ag-arguments (list "--smart-case" "--nocolor" "--nogroup")))
+(use-package bind-key
+  :ensure t)
+(use-package clojure
+  :mode "\\.\\(cljs\\|boot\\)$"
+  :init
+  (add-hook 'lisp-mode-hook
+            (lambda ()
+              (define-key lisp-mode-map "\r" #'newline-and-indent)
+              (define-key lisp-mode-map "\C-cd" #'debug-comment)))
+  :config
+  (load "my-clojure-mode")
+  (setq inferior-lisp-program "lein repl")
+  (defun lein-repl ()
+    (interactive)
+    (setq inferior-lisp-program "lein repl")
+    (inferior-lisp "lein repl"))
 
-;;
-;; IDO mode
-;;
-(when (fboundp #'ido-mode)
-  (ido-mode t)
+  (defun boot-repl ()
+    (interactive)
+    (setq inferior-lisp "boot repl")
+    (inferior-lisp "boot repl")))
+(use-package ido
+  :ensure t
+  :config
   (setq ido-enable-flex-matching t))
+(use-package inf-clojure)
+(use-package inf-ruby)
+(use-package coffee-mode)
+(use-package dash
+  :ensure t
+  :config
+  (dash-enable-font-lock))
+(use-package deft
+  :config
+  (setq deft-extensions '("org" "txt" "md" "markdown")
+        deft-directory (concat *my-pim-dir* "orgs/")
+        deft-recursive t
+        deft-use-filename-as-title t))
+(use-package diminish
+  :ensure t)
+(use-package dumb-jump
+  :ensure t)
+(use-package elixir-mode
+  :ensure t
+  :init
+  (add-hook 'elixir-mode-hook
+            (lambda ()
+              (define-key elixir-mode-map "\C-cd" #'debug-comment)
+              (define-key elixir-mode-map "\C-cr" #'executable-interpret)
+              (when-fboundp-call alchemist-mode))))
+(use-package alchemist
+  :init
+  (add-hook 'alchemist-mode-hook
+            (lambda ()
+              (let ((dir (file-name-as-directory (getenv "ELIXIR_HOME"))))
+                (when (file-exists-p dir)
+                  (setq alchemist-goto-elixir-source-dir dir)))
+              (let ((dir (file-name-as-directory (getenv "ERLANG_HOME"))))
+                (when (file-exists-p dir)
+                  (setq alchemist-goto-erlang-source-dir dir)))
+              (define-key alchemist-mode-map "\C-c\C-z"
+                #'alchemist-iex-project-run))))
+(use-package elm-mode)
+(use-package elm-yasnippets)
+(use-package emms
+  :config
+  (defun emms-init ()
+    (interactive)
+    (emms-all)
+    (emms-default-players)
+    (setq emms-source-file-default-directory
+          (concat (file-name-directory (getenv "dbox")) "Music/music/"))
+    ;; Don't do this in :init because we only want it when emms-init is called
+    (global-set-key [\C-f7] 'emms-previous)
+    (global-set-key [\C-f8] 'emms-pause) ; toggles between pause and resume
+    (global-set-key [\C-f9] 'emms-next)))
+(use-package flx-ido
+  :config
+  (ido-mode 1)
+  (ido-everywhere 1)
+  (flx-ido-mode 1)
+  ;; disable ido faces to see flx highlights.
+  (setq ido-enable-flex-matching t)
+  (setq ido-use-faces nil))
+(use-package fzf)
+(use-package gnupg)
+(use-package go-mode
+  :init
+  (add-hook 'go-mode-hook
+            (lambda ()
+              (tab-four)
+              (setq indent-tabs-mode t))))
+(use-package haml-mode
+  :ensure t)
+(use-package hamlet-mode)
+(use-package haskell-mode
+  :mode "\\.hs$")
+(use-package http-twiddle)
+(use-package less-css-mode)
+(use-package lua-mode)
+(use-package magit
+  :ensure t)
+(use-package markdown-mode
+  :ensure t)
+(use-package org
+  :ensure t
+  :config
+  (unless (boundp 'org-ans1)
+    (defvar org-ans1)
+    (defvar org-ans2)))
+(use-package org-present
+  :init
+  (add-hook 'org-present-mode-hook
+            (lambda ()
+              (org-present-big)
+              (hide-cursor)
+              (org-display-inline-images)))
+  (add-hook 'org-present-mode-quit-hook
+            (lambda ()
+              (org-present-small)
+              (show-cursor)
+              (org-remove-inline-images))))
+(use-package ponylang-mode)
+(use-package projectile
+  :ensure t
+  :config
+  (setq projectile-enable-caching t
+        projectile-mode-line            ; "Projectile[%s]" is too long
+        '(:eval (if (file-remote-p default-directory)
+                    " prj"
+                  (format " prj[%s]" (projectile-project-name))))))
+(use-package projectile-rails)
+(use-package rspec-mode)
+(use-package rust-mode)
+(use-package sass-mode
+  :mode "\\.s\\(a\\|c\\)?ss$")
+(use-package sicp)
+(use-package smex
+  :ensure t)
+(use-package textile-mode
+  :ensure t)
+(use-package toml-mode)
+(use-package yasnippet
+  :ensure t
+  :config
+  (yas-global-mode 1))
+(use-package yaml-mode
+  :mode "\\.ya?ml$")
+
+(load "my-skeletons")
 
 (require 'generic-x); DOS batch, ini files and much more
 (add-to-list 'auto-mode-alist
@@ -207,35 +358,6 @@ insert it at point. See `generate-random-password`."
 ;;; Must be loaded after things like fzf are loaded.
 ;;;
 (load "proj")
-
-;;;
-;;; Dumb jump mode
-;;;
-(when-fboundp-call dumb-jump-mode)
-
-;;;
-;;; Projectile-mode
-;;;
-(when (fboundp #'projectile-global-mode)
-  (projectile-global-mode)
-  (setq projectile-enable-caching t
-        projectile-mode-line            ; "Projectile[%s]" is too long
-        '(:eval (if (file-remote-p default-directory)
-                    " prj"
-                  (format " prj[%s]" (projectile-project-name))))))
-
-
-;;;
-;;; Ag-mode
-;;;
-(when (fboundp #'ag)
-  (setq ag-arguments (list "--smart-case" "--nocolor" "--nogroup")))
-
-;;;
-;;; YAML-mode
-;;;
-(autoload #'yaml-mode "yaml-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
 
 ;;
 ;; For flipping back and forth between files and headers, or Java/Ruby files
@@ -431,18 +553,6 @@ you have a local copy, for example.")
             (four-tab-stops)))
 
 ;;
-;; flx-ido
-;;
-(when (boundp #'flx-ido-mode)
-  (require 'flx-ido)
-  (ido-mode 1)
-  (ido-everywhere 1)
-  (flx-ido-mode 1)
-  ;; disable ido faces to see flx highlights.
-  (setq ido-enable-flex-matching t)
-  (setq ido-use-faces nil))
-
-;;
 ;; For both C and C++ mode
 ;;
 (add-hook 'c-mode-common-hook
@@ -483,6 +593,20 @@ you have a local copy, for example.")
             (setq c-basic-offset 2)))
 
 ;;
+;; Erlang-mode
+;;
+(when (and (boundp '*my-erlang-emacs-tools-dir*)
+	   (file-exists-p *my-erlang-emacs-tools-dir*))
+  (add-to-list 'load-path *my-erlang-emacs-tools-dir* t))
+(autoload #'erlang-mode "erlang" "Erlang mode" t nil)
+(add-to-list 'auto-mode-alist '("\\.[he]rl$" . erlang-mode))
+(add-to-list 'auto-mode-alist '("\\.yaws$" . erlang-mode))
+(add-hook 'erlang-mode-hook
+          (lambda ()
+            (setq indent-tabs-mode nil)
+            (comment-set-column 32)))
+
+;;
 ;; Java-mode
 ;;
 (eval-after-load "java"
@@ -513,16 +637,6 @@ you have a local copy, for example.")
       (cons
        '("\\(\\([a-zA-Z0-9]*/\\)*\\([a-zA-Z0-9]*\\.scala\\)\\):\\([0-9]*\\).*" 1 2)
        compilation-error-regexp-alist))
-
-;;
-;; YASnippet
-;;
-
-(when-fboundp-call yas-global-mode 1)
-
-;; Don't do the following; link ~/.emacs.d/snippets to snippets instead
-;; (add-to-list 'yas-snippet-dirs (concat *my-emacs-lib-dir* "snippets"))
-;; (yas-reload-all)
 
 ;;
 ;; JavaScript
@@ -688,33 +802,6 @@ you have a local copy, for example.")
   (load "my-sql-mode"))
 
 ;;
-;; Clojure-mode (lisp)
-;;
-
-;; ClojureScript
-(add-to-list 'auto-mode-alist '("\\.\\(cljs\\|boot\\)$" . clojure-mode))
-
-(eval-after-load "clojure-mode"
-  (load "my-clojure-mode"))
-
-;; See also inf-clojure mode
-(setq inferior-lisp-program "lein repl")
-(defun lein-repl ()
-  (interactive)
-  (setq inferior-lisp-program "lein repl")
-  (inferior-lisp "lein repl"))
-
-(defun boot-repl ()
-  (interactive)
-  (setq inferior-lisp "boot repl")
-  (inferior-lisp "boot repl"))
-
-(add-hook 'lisp-mode-hook
-          (lambda ()
-            (define-key lisp-mode-map "\r" #'newline-and-indent)
-            (define-key lisp-mode-map "\C-cd" #'debug-comment)))
-
-;;
 ;; Clisp and SBCL
 ;;
 
@@ -831,13 +918,13 @@ you have a local copy, for example.")
   (progn
     (load "my-ruby-mode")
 ))
-    ;; (define-key inf-ruby-minor-mode-map ("\C-c\C-j")
-    ;;   (lambda ()
-    ;;     (save-excursion
-    ;;       (beginning-of-line)
-    ;;       (push-mark)
-    ;;       (end-of-line)
-    ;;       (ruby-send-region (mark) (point)))))))
+;; (define-key inf-ruby-minor-mode-map ("\C-c\C-j")
+;;   (lambda ()
+;;     (save-excursion
+;;       (beginning-of-line)
+;;       (push-mark)
+;;       (end-of-line)
+;;       (ruby-send-region (mark) (point)))))))
 
 ;;
 ;; Crystal-mode
@@ -849,45 +936,6 @@ you have a local copy, for example.")
 (add-hook 'crystal-mode-hook
           (lambda ()
             (define-key crystal-mode-map "\C-cr" #'executable-interpret)))
-
-;;
-;; Erlang-mode
-;;
-(when (and (boundp '*my-erlang-emacs-tools-dir*)
-	   (file-exists-p *my-erlang-emacs-tools-dir*))
-  (add-to-list 'load-path *my-erlang-emacs-tools-dir* t))
-(autoload #'erlang-mode "erlang" "Erlang mode" t nil)
-(add-to-list 'auto-mode-alist '("\\.[he]rl$" . erlang-mode))
-(add-to-list 'auto-mode-alist '("\\.yaws$" . erlang-mode))
-(add-hook 'erlang-mode-hook
-          (lambda ()
-            (setq indent-tabs-mode nil)
-            (comment-set-column 32)))
-
-;;
-;; Elixir-mode
-;;
-(add-hook 'elixir-mode-hook
-          (lambda ()
-            (define-key elixir-mode-map "\C-cd" #'debug-comment)
-            (define-key elixir-mode-map "\C-cr" #'executable-interpret)
-            (when-fboundp-call alchemist-mode)))
-(add-hook 'alchemist-mode-hook
-          (lambda ()
-            (let ((dir (file-name-as-directory (getenv "ELIXIR_HOME"))))
-              (when (file-exists-p dir)
-                (setq alchemist-goto-elixir-source-dir dir)))
-            (let ((dir (file-name-as-directory (getenv "ERLANG_HOME"))))
-              (when (file-exists-p dir)
-                (setq alchemist-goto-erlang-source-dir dir)))
-            (define-key alchemist-mode-map "\C-c\C-z"
-              #'alchemist-iex-project-run)))
-
-;;
-;; Lua-mode
-;;
-(autoload #'lua-mode "lua-mode" "Lua mode" t nil)
-(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
 
 ;;
 ;; ChucK-mode
@@ -995,23 +1043,6 @@ gzip.")))
             (define-key python-mode-map "\M-]" #'python-indent-shift-right)))
 
 ;;
-;; EMMS (Emacs Multi-Media System)
-;;
-(when (fboundp #'emms-all)
-  (defun emms-init ()
-    (interactive)
-    (emms-all)
-    (emms-default-players)
-    (setq emms-source-file-default-directory
-          (concat (file-name-directory (getenv "dbox")) "Music/music/"))
-    (global-set-key [\C-f7] 'emms-previous)
-    (global-set-key [\C-f8] 'emms-pause) ; toggles between pause and resume
-    (global-set-key [\C-f9] 'emms-next)
-    (if (fboundp #'fzf)
-        (global-set-key [\C-f9] #'git-root-fzf)
-      (global-set-key [f9] #'ef))))
-
-;;
 ;; SES-mode
 ;;
 (autoload #'ses-mode "ses" "Spreadsheet mode" t)
@@ -1054,10 +1085,6 @@ gzip.")))
 (defun tab-two () (interactive) (setq tab-width 2))
 (defun tab-four () (interactive) (setq tab-width 4))
 (defun tab-eight () (interactive) (setq tab-width 8))
-
-(defun do-not-use ()
-  (interactive)
-  (error "Please don't use this"))
 
 ;;
 ;; aliases
@@ -1197,22 +1224,6 @@ and wc -w"
 (add-to-list 'auto-mode-alist '("\\.cf$" . cfengine-mode))
 
 ;;
-;; Go mode
-;;
-(autoload #'go-mode "go-mode" t nil)
-(add-to-list 'auto-mode-alist '("\\.go$" . go-mode))
-(add-hook 'go-mode-hook
-          (lambda ()
-            (tab-four)
-            (setq indent-tabs-mode t)))
-
-;;
-;; Haskell mode
-;;
-(autoload #'haskell-mode "haskell-mode" "Haskell mode" t nil)
-(add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
-
-;;
 ;; Hexl mode
 ;;
 (defvar hexl-program (concat *my-emacs-lib-dir* "hexlify.rb"))
@@ -1260,13 +1271,8 @@ me about the channels listed in my-rcirc-notifiy-channels."
 
 
 ;;
-;; Org Mode
+;; Org Mode extras
 ;;
-(require 'org)
-(unless (boundp 'org-ans1)
-  (defvar org-ans1)
-  (defvar org-ans2))
-(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 
 (defun my-org-execute-src ()
   "Saves current Org mode src block to a temp file and executes
@@ -1335,40 +1341,6 @@ values."
   (interactive)
   (blink-cursor-mode -1)
   (internal-show-cursor nil nil))
-
-;;
-;; Org Present Mode
-;;
-;; https://github.com/rlister/org-present
-(autoload #'org-present "org-present" nil t)
-(add-hook 'org-present-mode-hook
-          (lambda ()
-            (org-present-big)
-            (hide-cursor)
-            (org-display-inline-images)))
-(add-hook 'org-present-mode-quit-hook
-          (lambda ()
-            (org-present-small)
-            (show-cursor)
-            (org-remove-inline-images)))
-
-;;
-;; Deft
-;;
-(when (fboundp #'deft)
-  (setq deft-extensions '("org" "txt" "md" "markdown")
-        deft-directory (concat *my-pim-dir* "orgs/")
-        deft-recursive t
-        deft-use-filename-as-title t))
-
-;;
-;; HAML and SASS
-;; Found {haml,sass}-mode.el files in the directory path-to-haml-gem/extra/.
-;;
-(autoload #'haml-mode "haml-mode" "haml mode")
-(autoload #'sass-mode "sass-mode" "sass mode")
-(add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
-(add-to-list 'auto-mode-alist '("\\.s\\(a\\|c\\)?ss$" . sass-mode))
 
 ;;
 ;; Sending text to iTerm and similar functions
@@ -1525,11 +1497,6 @@ values."
           starttls-extra-arguments nil))
 
 ;;
-;; Syntax highlighting of dash functions
-;;
-(eval-after-load "dash" '(dash-enable-font-lock))
-
-;;
 ;; WebJump
 ;;
 (setq webjump-sites
@@ -1650,12 +1617,6 @@ values."
 
   (mark-whole-buffer)
   (reverse-region (point) (mark)))
-
-;;
-;; Smex mode
-;;
-(when (fboundp #'smex-initialize)
-  (smex-initialize))
 
 ;;; Key bindings, both common and local to the current machine.
 ;;; See README.org.
