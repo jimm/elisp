@@ -147,7 +147,6 @@ whitespace-only string."
   (setq ido-enable-flex-matching t)
   (setq ido-use-faces nil))
 (use-package fzf)
-(use-package gnupg)
 (use-package go-mode
   :init
   (add-hook 'go-mode-hook
@@ -188,8 +187,10 @@ whitespace-only string."
 (use-package projectile
   :ensure t
   :config
+  (projectile-mode)
   (setq projectile-enable-caching t
-        projectile-mode-line            ; "Projectile[%s]" is too long
+        ;; "Projectile[%s]" is too long but `diminish' makes it disappear
+        projectile-mode-line
         '(:eval (if (file-remote-p default-directory)
                     " prj"
                   (format " prj[%s]" (projectile-project-name))))))
