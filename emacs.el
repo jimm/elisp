@@ -218,6 +218,14 @@ whitespace-only string."
 
 (use-package fzf)
 
+(use-package gnus
+  :init
+  (setq gnus-site-init-file (concat *my-emacs-lib-dir* "gnus-init.el"))
+  (if (zerop (shell-command "which gnutls-cli >/dev/null 2>&1"))
+      (setq starttls-use-gnutls t
+            starttls-gnutls-program "gnutls-cli"
+            starttls-extra-arguments nil)))
+
 (use-package go-mode
   :init
   (add-hook 'go-mode-hook
@@ -253,6 +261,9 @@ whitespace-only string."
         javascript-indent-level 2
         js2-basic-offset 2))
 
+(use-package keymaster-mode
+  :mode "\\.km$")
+
 (use-package less-css-mode)
 
 (use-package lua-mode)
@@ -261,7 +272,18 @@ whitespace-only string."
   :ensure t)
 
 (use-package markdown-mode
-  :ensure t)
+  :ensure t
+  :mode "\\.\\(md\\|markdown\\|mdown\\)$"
+  :init
+  (add-hook 'markdown-mode-hook
+            (lambda ()
+              (set-face-attribute 'markdown-header-delimiter-face nil :foreground "black")
+              (set-face-attribute 'markdown-header-face-1 nil :foreground "blue" :height 1.2 :bold t)
+              (set-face-attribute 'markdown-header-face-2 nil :foreground "brown")
+              (set-face-attribute 'markdown-header-face-3 nil :foreground "darkgreen")
+              (set-face-attribute 'markdown-header-face-4 nil :foreground "black")
+              (set-face-attribute 'markdown-header-face-5 nil :foreground "black")
+              (set-face-attribute 'markdown-header-face-6 nil :foreground "black"))))
 
 (use-package objc-mode
   :init
@@ -397,6 +419,9 @@ for now."
 
 (use-package ses-mode)
 
+(use-package shenzhen-io-mode
+  :mode "\\.szio$")
+
 (use-package sicp)
 
 (use-package smalltalk-mode)
@@ -413,9 +438,27 @@ for now."
 (use-package status)
 
 (use-package textile-mode
-  :ensure t)
+  :ensure t
+  :init
+  (add-hook 'textile-mode-hook
+            (lambda ()
+              (auto-fill-mode 0)
+              (visual-line-mode 1)
+              (set-face-attribute 'textile-h1-face nil :foreground "blue" :height 1.2 :bold t)
+              (set-face-attribute 'textile-h2-face nil :foreground "brown" :height 1.0)
+              (set-face-attribute 'textile-h3-face nil :foreground "darkgreen" :height 1.0)
+              (set-face-attribute 'textile-h4-face nil :foreground "black" :height 1.0)
+              (set-face-attribute 'textile-h5-face nil :foreground "black" :height 1.0)
+              (set-face-attribute 'textile-h6-face nil :foreground "black" :height 1.0))))
 
 (use-package toml-mode)
+
+(use-package uniquify
+  :init
+  (setq uniquify-buffer-name-style 'reverse
+        uniquify-separator "/"
+        uniquify-after-kill-buffer-p t  ; rename after killing uniquified
+        uniquify-ignore-buffers-re "^\\*")) ; don't muck with special buffers
 
 (use-package yasnippet
   :ensure t
@@ -1325,36 +1368,6 @@ values."
       (other-window -1))))
 
 ;;
-;; Markdown mode
-;;
-(add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\|mdown\\)$" . markdown-mode))
-(add-hook 'markdown-mode-hook
-          (lambda ()
-            (set-face-attribute 'markdown-header-delimiter-face nil :foreground "black")
-            (set-face-attribute 'markdown-header-face-1 nil  :foreground "blue" :height 1.2 :bold t)
-            (set-face-attribute 'markdown-header-face-2 nil :foreground "brown")
-            (set-face-attribute 'markdown-header-face-3 nil :foreground "darkgreen")
-            (set-face-attribute 'markdown-header-face-4 nil :foreground "black")
-            (set-face-attribute 'markdown-header-face-5 nil :foreground "black")
-            (set-face-attribute 'markdown-header-face-6 nil :foreground "black")))
-
-;;
-;; Textile mode
-;;
-(autoload #'textile-mode "textile-mode" "textile mode")
-(add-to-list 'auto-mode-alist '("\\.textile$" . textile-mode))
-(add-hook 'textile-mode-hook
-          (lambda ()
-            (auto-fill-mode 0)
-            (visual-line-mode 1)
-            (set-face-attribute 'textile-h1-face nil :foreground "blue" :height 1.2 :bold t)
-            (set-face-attribute 'textile-h2-face nil :foreground "brown" :height 1.0)
-            (set-face-attribute 'textile-h3-face nil :foreground "darkgreen" :height 1.0)
-            (set-face-attribute 'textile-h4-face nil :foreground "black" :height 1.0)
-            (set-face-attribute 'textile-h5-face nil :foreground "black" :height 1.0)
-            (set-face-attribute 'textile-h6-face nil :foreground "black" :height 1.0)))
-
-;;
 ;; LilyPond mode
 ;;
 (defcustom LilyPond-ps-command "open"
@@ -1376,71 +1389,11 @@ values."
   "Command used to play MIDI files."
   :group 'LilyPond
   :type 'string)
-(autoload #'LilyPond-mode "lilypond-init" "lilypond mode")
+(autoload #'LilyPond-mode "lilypond-init" "lilyPond mode")
 (add-to-list 'auto-mode-alist '("\\.ly$" . LilyPond-mode))
 (add-hook 'LilyPond-mode-hook
           (lambda ()
             (define-key LilyPond-mode-map "\C-c\C-k" #'compile)))
-
-;;
-;; KeyMaster
-;;
-(autoload #'keymaster-mode "keymaster-mode")
-(add-to-list 'auto-mode-alist '("\\.km$" . keymaster-mode))
-
-;;
-;; Shenzhen I/O
-;;
-(autoload #'shenzhen-io-mode "shenzhen-io-mode")
-(add-to-list 'auto-mode-alist '("\\.szio" . shenzhen-io-mode))
-
-;;
-;; Uniquify
-;; http://trey-jackson.blogspot.com/2008/01/emacs-tip-11-uniquify.html
-;;
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'reverse
-      uniquify-separator "/"
-      uniquify-after-kill-buffer-p t     ; rename after killing uniquified
-      uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
-
-;;
-;; Read RSS feeds via Gnus using Gwene (gwene.org)
-;;
-(setq gnus-site-init-file (concat *my-emacs-lib-dir* "gnus-init.el"))
-(if (zerop (shell-command "which gnutls-cli >/dev/null 2>&1"))
-    (setq starttls-use-gnutls t
-          starttls-gnutls-program "gnutls-cli"
-          starttls-extra-arguments nil))
-
-;;
-;; WebJump
-;;
-(setq webjump-sites
-      '(
-        ("gm (Google Mail)" .
-         [simple-query "https://mail.google.com/mail/"
-                       "https://mail.google.com/mail/#" ""])
-        ("gg (Google)" .
-         [simple-query "http://www.google.com/"
-                       "http://www.google.com/search?q=" ""])
-        ("reddit" . "http://www.reddit.com/")
-        ("preddit" . "http://www.reddit.com/r/programming/")
-        ("hn" . "http://news.ycombinator.com/")
-        ("map (Google Maps)" .
-         [simple-query "http://maps.google.com/"
-                       "http://maps.google.com/?q=" ""])
-        ("gotapi" . "http://www.gotapi.com/html")
-        ("wikip (Wikipedia)"
-         [simple-query "http://wikipedia.org/"
-                       "http://wikipedia.org/wiki/" ""])
-        ("subreddit" .
-         [simple-query "http://www.reddit.com/"
-                       "http://www.reddit.com/r/" "/"])
-        ("phpfunc (PHP function lookup)" .
-         [simple-query "http://www.php.net/manual/en/"
-                       "http://www.php.net/manual/en/function." ".php"])
-        ))
 
 ;;
 ;; Dedicated window toggle
