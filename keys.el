@@ -74,6 +74,4 @@
 
 ;;; Load local machine's keys.el if it exists.
 
-(load-init-if-exists *my-emacs-bootstrap-domain*
-                     *my-emacs-bootstrap-machine*
-                     "keys")
+(load-init-if-exists "keys")

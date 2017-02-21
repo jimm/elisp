@@ -1,17 +1,20 @@
-;;;; *my-emacs-lib-dir* must be defined. See "Bootstrap Process" in
-;;;; README.org.
+;;;; See "Bootstrap Process" in README.org.
 
-(defun bootstrap-file (domain machine file-name)
-  "Returns the path to FILE-NAME for MACHINE in DOMAIN. The
-variable *my-emacs-lib-dir* must be defined."
-  (concat *my-emacs-lib-dir* "bootstrap/" domain "/" machine "/" file-name))
+(defvar *my-emacs-lib-dir* (file-name-directory load-file-name))
 
-(defun load-init-if-exists (domain machine file)
-  "Loads FILE for MACHINE in DOMAIN, if it exists.
+(defun bootstrap-file (file-name)
+  "Returns the path to FILE-NAME in `*my-emacs-lib-dir*' for
+`*my-emacs-bootstrap-machine*' in `*my-emacs-bootstrap-domain*'."
+  (concat *my-emacs-lib-dir* "bootstrap/" *my-emacs-bootstrap-domain* "/"
+          *my-emacs-bootstrap-machine* "/" file-name))
+
+(defun load-init-if-exists (file)
+  "Loads FILE for `*my-emacs-bootstrap-machine*' in
+`*my-emacs-bootstrap-domain*', if it exists.
 
 Makes sure that an .elc file is loaded, but only if it exists and
 is newer than the .el file."
-  (let* ((f (bootstrap-file domain machine (concat file ".el")))
+  (let* ((f (bootstrap-file (concat file ".el")))
 	 (f-elc (concat f "c")))
     (cond ((and (file-exists-p f-elc) (file-newer-than-file-p f-elc f))
 	   (load-file f-elc))
@@ -26,9 +29,13 @@ the location of the bookmark save file to that directory.
 
 The variable `*my-emacs-lib-dir*' must be defined before calling
 this function."
-  (setq *my-emacs-bootstrap-domain* domain)
-  (setq *my-emacs-bootstrap-machine* machine)
+  (setq
+   *my-emacs-bootstrap-domain* domain
+   *my-emacs-bootstrap-machine* machine
+   custom-file (bootstrap-file "custom.el")
+   package--init-file-ensured t)    ; avoid check for being in init.el
   (add-to-list 'load-path *my-emacs-lib-dir* t) ; add to end of load path
-  (load-init-if-exists domain machine "before")
+  (load-file custom-file)
+  (load-init-if-exists "before")
   (load-library "emacs")
-  (load-init-if-exists domain machine "after"))
+  (load-init-if-exists "after"))
