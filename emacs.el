@@ -55,15 +55,27 @@ whitespace-only string."
       '("progmodes" "ses"))
 
 ;; See https://github.com/jwiegley/use-package
-(use-package 2048-game)
+
+(use-package 2048-game
+  :init
+  (add-hook '2048-mode-hook
+            (lambda ()
+              (define-key 2048-mode-map "j" '2048-down)
+              (define-key 2048-mode-map "k" '2048-up)
+              (define-key 2048-mode-map "h" '2048-left)
+              (define-key 2048-mode-map "l" '2048-right))))
+
 (use-package ace-window
   :ensure t)
+
 (use-package ag
   :ensure t
   :config
   (setq ag-arguments (list "--smart-case" "--nocolor" "--nogroup")))
+
 (use-package bind-key
   :ensure t)
+
 (use-package clojure
   :mode "\\.\\(cljs\\|boot\\)$"
   :init
@@ -83,35 +95,88 @@ whitespace-only string."
     (interactive)
     (setq inferior-lisp "boot repl")
     (inferior-lisp "boot repl")))
+
+(use-package compile
+  :init
+  (setq compilation-error-regexp-alist
+        (cons
+         ;; Maven 2 error messages are of the form file:[line,column]
+         '("^\\(/[^:]+\\):\\[\\([0-9]+\\),\\([0-9]+\\)\\]" 1 2 3)
+         (cons
+          ;; Scala error messages
+          '("\\(\\([a-zA-Z0-9]*/\\)*\\([a-zA-Z0-9]*\\.scala\\)\\):\\([0-9]*\\).*" 1 2)
+          compilation-error-regexp-alist))))
+
+(use-package csharp-mode)
+
+(use-package groovy-mode
+  :init
+  (add-hook 'groovy-mode-hook
+            (lambda ()
+              (setq groovy-basic-offset 4)
+              (define-key groovy-mode-map "\r" #'newline-and-indent)
+              (define-key groovy-mode-map "\C-cr" 'executable-interpret)
+              (font-lock-mode 1))))
+
+(use-package inf-groovy)
+
+(use-package inf-groovy-keys
+  :init
+  (add-hook 'groovy-mode-hook
+            (lambda ()
+              (inf-groovy-keys))))
+
 (use-package ido
   :ensure t
   :config
   (setq ido-enable-flex-matching t))
+
 (use-package inf-clojure)
-(use-package inf-ruby)
-(use-package coffee-mode)
+
+(use-package inf-sbt)
+
+(use-package coffee-mode
+  :mode "\\.cjsx$" "\\.coffee$" "Cakefile"
+  :init
+  (defun compile-coffee-buffer ()
+    (interactive)
+    (shell-command (concat "coffee"
+                           " -o " (shell-quote-argument (file-name-directory (buffer-file-name)))
+                           " -c " (shell-quote-argument (buffer-file-name)))))
+  (add-hook 'coffee-mode-hook
+            (lambda ()
+              (setq coffee-js-mode #'javascript-mode)
+              (define-key coffee-mode-map "\C-cr" 'executable-interpret)
+              (define-key coffee-mode-map "\C-ck" #'compile-coffee-buffer)
+              (set (make-local-variable 'tab-width) 2))))
+
 (use-package dash
   :ensure t
   :config
   (dash-enable-font-lock))
+
 (use-package deft
   :config
   (setq deft-extensions '("org" "txt" "md" "markdown")
         deft-directory (concat *my-pim-dir* "orgs/")
         deft-recursive t
         deft-use-filename-as-title t))
+
 (use-package diminish
   :ensure t)
+
 (use-package dumb-jump
   :ensure t)
+
 (use-package elixir-mode
   :ensure t
   :init
   (add-hook 'elixir-mode-hook
             (lambda ()
               (define-key elixir-mode-map "\C-cd" #'debug-comment)
-              (define-key elixir-mode-map "\C-cr" #'executable-interpret)
+              (define-key elixir-mode-map "\C-cr" 'executable-interpret)
               (when-fboundp-call alchemist-mode))))
+
 (use-package alchemist
   :init
   (add-hook 'alchemist-mode-hook
@@ -124,20 +189,24 @@ whitespace-only string."
                   (setq alchemist-goto-erlang-source-dir dir)))
               (define-key alchemist-mode-map "\C-c\C-z"
                 #'alchemist-iex-project-run))))
+
 (use-package elm-mode)
+
 (use-package elm-yasnippets)
+
 (use-package emms
+  :bind (([C-f7] . emms-previous)
+         ([C-f8] . emms-pause)	    ; toggles between pause and resume
+         ([C-f9] . emms-next))
+  :init
+  (setq emms-source-file-default-directory
+        (concat (file-name-directory (getenv "dbox")) "Music/music/"))
   :config
   (defun emms-init ()
     (interactive)
     (emms-all)
-    (emms-default-players)
-    (setq emms-source-file-default-directory
-          (concat (file-name-directory (getenv "dbox")) "Music/music/"))
-    ;; Don't do this in :init because we only want it when emms-init is called
-    (global-set-key [\C-f7] 'emms-previous)
-    (global-set-key [\C-f8] 'emms-pause) ; toggles between pause and resume
-    (global-set-key [\C-f9] 'emms-next)))
+    (emms-default-players)))
+
 (use-package flx-ido
   :config
   (ido-mode 1)
@@ -146,31 +215,68 @@ whitespace-only string."
   ;; disable ido faces to see flx highlights.
   (setq ido-enable-flex-matching t)
   (setq ido-use-faces nil))
+
 (use-package fzf)
+
 (use-package go-mode
   :init
   (add-hook 'go-mode-hook
             (lambda ()
               (tab-four)
               (setq indent-tabs-mode t))))
+
 (use-package haml-mode
   :ensure t)
+
 (use-package hamlet-mode)
+
 (use-package haskell-mode
   :mode "\\.hs$")
-(use-package http-twiddle)
+
+(use-package http-twiddle
+  :mode "\\.http-twiddle$")
+
+(use-package java-mode
+  :mode "\\.aj$" "\\.jsp$" "\\\.w[as]r$"
+  :init
+  (add-hook 'java-mode-hook
+            (lambda ()
+              (c-set-style "java")
+              (if window-system (font-lock-mode 1))))
+  :config
+  (load "my-java-mode"))
+
+(use-package js-mode
+  :mode "\\.[agj]s$" "\\.jsx$"
+  :init
+  (setq js-indent-level 2               ; need both?????
+        javascript-indent-level 2
+        js2-basic-offset 2))
+
 (use-package less-css-mode)
+
 (use-package lua-mode)
+
 (use-package magit
   :ensure t)
+
 (use-package markdown-mode
   :ensure t)
+
+(use-package objc-mode
+  :init
+  (add-hook 'objc-mode-hook
+            (lambda ()
+              (if window-system (font-lock-mode 1))
+              (setq c-basic-offset 4))))
+
 (use-package org
   :ensure t
   :config
   (unless (boundp 'org-ans1)
     (defvar org-ans1)
     (defvar org-ans2)))
+
 (use-package org-present
   :init
   (add-hook 'org-present-mode-hook
@@ -183,7 +289,19 @@ whitespace-only string."
               (org-present-small)
               (show-cursor)
               (org-remove-inline-images))))
+
+(use-package perl-mode
+  :init
+  :bind (:map perl-mode-map
+         ("\r" . #'newline-and-indent)
+         ("\M-\C-h" . #'backward-kill-word)
+         ("\C-cd" . #'debug-comment))
+  (add-hook 'perl-mode-hook
+            (lambda ()
+              (setq c-basic-offset 2
+                    c-tab-always-indent nil))))
 (use-package ponylang-mode)
+
 (use-package projectile
   :ensure t
   :config
@@ -194,21 +312,116 @@ whitespace-only string."
         '(:eval (if (file-remote-p default-directory)
                     " prj"
                   (format " prj[%s]" (projectile-project-name))))))
+
 (use-package projectile-rails)
+
+(use-package python-mode
+  :init
+  (lambda () (turn-on-font-lock))
+  :config
+  ;; Can't use :bind because the functions aren't defined yet
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (define-key python-mode-map "\C-cr" #'executable-interpret)
+              ;; these two are in addition to the \C-< and \C-> bindings
+              ;; that already exist in Python mode
+              (define-key python-mode-map "\M-[" #'python-indent-shift-left)
+              (define-key python-mode-map "\M-]" #'python-indent-shift-right))))
+
+(use-package remember
+  :init
+  (setq *my-remember-data-file* (concat *my-pim-dir* "orgs/notes.org"))
+  (add-hook 'remember-mode-hook
+            (lambda ()
+              (setq remember-data-file *my-remember-data-file*
+                    remember-diary-file diary-file))))
+
 (use-package rspec-mode)
+
+(use-package ruby-mode
+  :ensure t
+  :mode 
+  "\\.r\\(b\\(w\\|x\\)?\\|html?\\|js\\)$"
+  "\\([Rr]ake\\|[Cc]ap\\|[Gg]em\\)file$"
+  "\\.rake$"
+  "\\.gem\\(spec\\)?$"
+  "\\.duby$"
+  :config
+  (load "my-ruby-mode"))
+
+(use-package inf-ruby
+  :config
+  (load "my-ruby-mode"))
+
 (use-package rust-mode)
+
 (use-package sass-mode
   :mode "\\.s\\(a\\|c\\)?ss$")
+
+(use-package scala-mode
+  :init
+  (add-hook 'scala-mode-hook
+            (lambda ()
+              (define-key scala-mode-map [f1] my-shell) ; I don't use Speedbar
+              (define-key scala-mode-map "\r" #'newline-and-indent)
+              (define-key scala-mode-map "\C-cr" 'executable-interpret)))
+  :config
+  ;; That bright red face for vars is too annoying
+  (set-face-attribute 'scala-font-lock:var-face nil :bold nil :foreground "red3")
+  ;; Derived from path-to-java-package in progmodes/my-java-mode.el
+  (defun path-to-scala-package (path)
+    "Returns a Scala package name for PATH, which is a file path.
+Looks for 'src' or 'src/scala/{main,test}' in PATH and uses everything after
+that, turning slashes into dots. For example, the path
+/home/foo/project/src/main/scala/com/yoyodyne/project/Foo.scala becomes
+'com.yoyodyne.project'. If PATH is a directory, the last part of
+the path is ignored. That is a bug, but it's one I can live with
+for now."
+    (interactive)
+    (let ((reverse-path-list (cdr (reverse (split-string path "/")))))
+      (mapconcat
+       #'identity
+       (reverse (upto reverse-path-list
+                      (if (or (member "main" reverse-path-list)
+                              (member "test" reverse-path-list))
+                          "scala" "src")))
+       "."))))
+  
+
+(use-package scheme-mode
+  :init
+  (add-hook 'scheme-mode-hook
+            (lambda ()
+              (define-key scheme-mode-map "\r" #'newline-and-indent)
+              (define-key scheme-mode-map "\C-cd" #'debug-comment))))
+
+(use-package ses-mode)
+
 (use-package sicp)
+
+(use-package smalltalk-mode)
+
 (use-package smex
   :ensure t)
+
+(use-package sql-mode
+  :mode "\\.mysql$"
+  :config
+  (load "my-sql-mode"))
+
+;; My own tools for keeping a daily status file up to date.
+(use-package status)
+
 (use-package textile-mode
   :ensure t)
+
 (use-package toml-mode)
+
 (use-package yasnippet
   :ensure t
   :config
   (yas-global-mode 1))
+
 (use-package yaml-mode
   :mode "\\.ya?ml$")
 
@@ -488,16 +701,6 @@ of STR anywhere."
      (error (concat "\"" search-str "\" not found")))))
 
 ;;
-;; Remember mode
-;;
-(autoload #'remember "remember" nil t)
-(setq *my-remember-data-file* (concat *my-pim-dir* "orgs/notes.org"))
-(add-hook 'remember-mode-hook
-          (lambda ()
-            (setq remember-data-file *my-remember-data-file*
-                  remember-diary-file diary-file)))
-
-;;
 ;; Browse away!
 ;;
 
@@ -608,122 +811,6 @@ you have a local copy, for example.")
             (comment-set-column 32)))
 
 ;;
-;; Java-mode
-;;
-(eval-after-load "java"
-  (load "my-java-mode"))
-
-(add-to-list 'auto-mode-alist '("\\.aj$" . java-mode)) ; Roo aspect files
-(add-to-list 'auto-mode-alist '("\\.jsp$" . html-mode))
-(add-to-list 'auto-mode-alist '("\\.w[as]r$" . archive-mode))
-(add-hook 'java-mode-hook
-          (lambda ()
-            (c-set-style "java")
-            ;; (c-set-offset 'inclass 0)
-            ;; (define-key java-mode-map "{" #'skeleton-pair-insert-maybe)
-            ;; (define-key java-mode-map "(" #'skeleton-pair-insert-maybe)
-            (if window-system (font-lock-mode 1))))
-
-;;;
-;; Compilation mode
-;;
-(require 'compile)
-;; Maven 2 error messages are of the form file:[line,column]
-(setq compilation-error-regexp-alist
-      (cons
-       '("^\\(/[^:]+\\):\\[\\([0-9]+\\),\\([0-9]+\\)\\]" 1 2 3)
-       compilation-error-regexp-alist))
-;; Scala error messages
-(setq compilation-error-regexp-alist
-      (cons
-       '("\\(\\([a-zA-Z0-9]*/\\)*\\([a-zA-Z0-9]*\\.scala\\)\\):\\([0-9]*\\).*" 1 2)
-       compilation-error-regexp-alist))
-
-;;
-;; JavaScript
-;;;
-(autoload #'javascript-mode "javascript" nil t)
-(add-to-list 'auto-mode-alist '("\\.[agj]s$" . javascript-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx$" . javascript-mode))
-(add-hook 'js-mode-hook
-          (lambda ()
-            (setq js-indent-level 2     ; need both?????
-                  javascript-indent-level 2)))
-;; (autoload #'js2-mode "js2-mode" nil t)
-;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-
-(setq js2-basic-offset 2)
-;;(setq js2-use-font-lock-faces t)
-
-;;
-;; CoffeeScript
-;;
-(add-to-list 'auto-mode-alist '("\\.cjsx$" . coffee-mode))
-(defun compile-coffee-buffer ()
-  (interactive)
-  (shell-command (concat "coffee"
-                         " -o " (shell-quote-argument (file-name-directory (buffer-file-name)))
-                         " -c " (shell-quote-argument (buffer-file-name)))))
-
-(autoload #'coffee-mode "coffee-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
-(add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
-(add-hook 'coffee-mode-hook
-          (lambda ()
-            (setq coffee-js-mode #'javascript-mode)
-            (define-key coffee-mode-map "\C-cr" #'executable-interpret)
-            (define-key coffee-mode-map "\C-ck" #'compile-coffee-buffer)
-            (set (make-local-variable 'tab-width) 2)))
-
-;;
-;; Objective-C mode
-;;
-(add-hook 'objc-mode-hook
-          (lambda ()
-            (if window-system (font-lock-mode 1))
-            (setq c-basic-offset 4)))
-
-;;
-;; Groovy mode
-;;
-(autoload #'groovy-mode "groovy-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.groovy$" . groovy-mode))
-(add-hook 'groovy-mode-hook
-          (lambda ()
-            (setq groovy-basic-offset 4)
-            (define-key groovy-mode-map "\r" #'newline-and-indent)
-            (define-key groovy-mode-map "\C-cr" #'executable-interpret)
-            (font-lock-mode 1)))
-
-;; Groovy shell mode
-(autoload #'run-groovy "inf-groovy" "Run an inferior Groovy shell process")
-(autoload #'inf-groovy-keys "inf-groovy"
-  "Set local key defs for inf-groovy in groovy-mode")
-(add-hook 'groovy-mode-hook
-          (lambda ()
-            (inf-groovy-keys)))
-
-;;
-;; Scheme mode
-;;
-(add-hook 'scheme-mode-hook
-          (lambda ()
-            (define-key scheme-mode-map "\r" #'newline-and-indent)
-            (define-key scheme-mode-map "\C-cd" #'debug-comment)))
-
-;;
-;; Perl-mode
-;;
-(autoload #'perl-mode "perl-mode" "Perl mode" t nil)
-(add-hook 'perl-mode-hook
-          (lambda ()
-            (define-key perl-mode-map "\r" #'newline-and-indent)
-            (define-key perl-mode-map "\M-\C-h" #'backward-kill-word)
-            (define-key perl-mode-map "\C-cd" #'debug-comment)
-            (setq c-basic-offset 2
-                  c-tab-always-indent nil)))
-
-;;
 ;; Environment variables and path. Use "launchctl setenv var value" to set
 ;; environment vars on OS X so that they get passed to GUI apps like
 ;; Emacs.app when they are launched. Since Mac OS X is pretty much all I use
@@ -796,13 +883,6 @@ you have a local copy, for example.")
                 (define-key latex-mode-map "\C-c\C-s" #'my-tex-slide-dvi-view)))))
 
 ;;
-;; Sql-mode
-;;
-(add-to-list 'auto-mode-alist '("\\.mysql$" . sql-mode))
-(eval-after-load "sql-mode"
-  (load "my-sql-mode"))
-
-;;
 ;; Clisp and SBCL
 ;;
 
@@ -828,22 +908,6 @@ you have a local copy, for example.")
           (lambda ()
             (define-key emacs-lisp-mode-map "\C-cd" #'debug-comment)
             (define-key emacs-lisp-mode-map "\r" #'newline-and-indent)))
-
-;;
-;; PHP-mode
-;;
-(autoload #'php-mode "php-mode" "PHP mode" t nil)
-(add-to-list 'auto-mode-alist '("\\.\\(php\\|inc\\)$" . php-mode))
-(eval-after-load "php-mode"
-  (progn
-    (add-hook 'php-mode-hook
-              (lambda ()
-                (auto-fill-mode 1)
-                (setq c-basic-offset 4)
-                (define-key php-mode-map "\C-d" #'delete-char)
-                (define-key php-mode-map "\C-ct" #'html-mode)
-                (define-key php-mode-map "\C-ch" #'insert-ruby-hash-arrow)
-                (define-key php-mode-map "\C-cr" #'executable-interpret)))))
 
 ;;
 ;; HTML-mode and SGML-mode
@@ -901,33 +965,6 @@ you have a local copy, for example.")
 (add-to-list 'auto-mode-alist '("\\.less$" . css-mode))
 
 ;;
-;; Ruby-mode
-;;
-;; Use "M-x run-ruby" to start inf-ruby.
-(autoload #'ruby-mode "ruby-mode" "Ruby mode" t nil)
-
-(add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.r\\(b\\(w\\|x\\)?\\|html?\\|js\\)$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\([Rr]ake\\|[Cc]ap\\|[Gg]em\\)file$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.gem\\(spec\\)?$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.duby$" . ruby-mode))
-
-(eval-after-load "ruby-mode"
-  (load "my-ruby-mode"))
-(eval-after-load "inf-ruby"
-  (progn
-    (load "my-ruby-mode")
-))
-;; (define-key inf-ruby-minor-mode-map ("\C-c\C-j")
-;;   (lambda ()
-;;     (save-excursion
-;;       (beginning-of-line)
-;;       (push-mark)
-;;       (end-of-line)
-;;       (ruby-send-region (mark) (point)))))))
-
-;;
 ;; Crystal-mode
 ;;
 (add-to-list 'load-path (concat user-emacs-directory "emacs-crystal-mode/") t)
@@ -937,51 +974,6 @@ you have a local copy, for example.")
 (add-hook 'crystal-mode-hook
           (lambda ()
             (define-key crystal-mode-map "\C-cr" #'executable-interpret)))
-
-;;
-;; ChucK-mode
-;;
-(autoload #'chuck-mode "chuck-mode" "ChucK mode" t nil)
-(add-to-list 'auto-mode-alist '("\\.ck$" . chuck-mode))
-
-;;
-;; Scala-mode
-;;
-;; You might need to "sbaz install scala-tool-support" which puts emacs support
-;; into /usr/local/scala/misc/scala-tool-support/emacs"
-
-(condition-case ex
-    (progn
-      (autoload #'scala-mode "scala-mode2" "Scala mode" t nil)
-      (add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
-      (load "inf-sbt")
-      (add-hook 'scala-mode-hook
-                (lambda ()
-                  (define-key scala-mode-map [f1] my-shell) ; I don't use Speedbar
-                  (define-key scala-mode-map "\r" #'newline-and-indent)
-                  (define-key scala-mode-map "\C-cr" #'executable-interpret)))
-      ;; That bright red face for vars is too annoying
-      (set-face-attribute 'scala-font-lock:var-face nil :bold nil :foreground "red3"))
-  (error nil))
-
-;;; Derived from path-to-java-package in progmodes/my-java-mode.el
-(defun path-to-scala-package (path)
-  "Returns a Scala package name for PATH, which is a file path.
-Looks for 'src' or 'src/scala/{main,test}' in PATH and uses everything after
-that, turning slashes into dots. For example, the path
-/home/foo/project/src/main/scala/com/yoyodyne/project/Foo.scala becomes
-'com.yoyodyne.project'. If PATH is a directory, the last part of
-the path is ignored. That is a bug, but it's one I can live with
-for now."
-  (interactive)
-  (let ((reverse-path-list (cdr (reverse (split-string path "/")))))
-    (mapconcat
-     #'identity
-     (reverse (upto reverse-path-list
-		    (if (or (member "main" reverse-path-list)
-                            (member "test" reverse-path-list))
-                        "scala" "src")))
-     ".")))
 
 ;;
 ;; Dired-mode
@@ -1029,24 +1021,6 @@ If PROGRAM is non-nil, the rule is an uncompression rule,
 and uncompression is done by running PROGRAM.
 Otherwise, the rule is a compression rule, and compression is done with
 gzip.")))
-
-;;
-;; Python-mode
-;;
-(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
-(add-hook 'python-mode-hook
-          (lambda ()
-            (turn-on-font-lock)
-            (define-key python-mode-map "\C-cr" #'executable-interpret)
-            ;; these two are in addition to the \C-< and \C-> bindings
-            ;; that already exist in Python mode
-            (define-key python-mode-map "\M-[" #'python-indent-shift-left)
-            (define-key python-mode-map "\M-]" #'python-indent-shift-right)))
-
-;;
-;; SES-mode
-;;
-(autoload #'ses-mode "ses" "Spreadsheet mode" t)
 
 ;;
 ;; Dealing with ANSII color codes
@@ -1134,12 +1108,6 @@ gzip.")))
     (set-frame-position frame 0 0)
     (set-frame-height frame (zoom-frame-height-lines))))
 
-;;
-;; wttrin
-;;
-(when (fboundp #'wttrin)
-  (setq wttrin-default-cities '("Fairfield, CT" "New York, NY" "Boston, MA")))
-
 ;; Time and time zone information, for calendar's sunrise-sunset and related
 ;; funcs.
 (when-fboundp-call calendar-set-date-style 'american)
@@ -1221,30 +1189,10 @@ and wc -w"
         (forward-char 1))
       (message "%d chars, %d words" char-count (/ char-count 5)))))
 
-;;; cfengine mode
-(add-to-list 'auto-mode-alist '("\\.cf$" . cfengine-mode))
-
 ;;
 ;; Hexl mode
 ;;
 (defvar hexl-program (concat *my-emacs-lib-dir* "hexlify.rb"))
-
-;;
-;; http-twiddle
-;;
-(autoload #'http-twiddle-mode "http-twiddle" "HTTP twiddle mode" t nil)
-(add-to-list 'auto-mode-alist '("\\.http-twiddle$" . http-twiddle-mode))
-
-;;
-;; C#
-;;
-(autoload #'csharp-mode "csharp-mode" "C# Mode" t nil)
-(add-to-list 'auto-mode-alist '("\\.cs$" . csharp-mode))
-
-;;
-;; Status
-;;
-(autoload #'status "status" nil t)
 
 ;;
 ;; rcirc
@@ -1439,38 +1387,6 @@ values."
 ;;
 (autoload #'keymaster-mode "keymaster-mode")
 (add-to-list 'auto-mode-alist '("\\.km$" . keymaster-mode))
-
-;;
-;; Android
-;;
-(autoload #'android-mode "android-mode")
-
-;;
-;; Drools
-;;
-(autoload #'drools-mode "drools-mode" "Drools mode")
-(add-to-list 'auto-mode-alist '("\\.drl$" . drools-mode))
-
-;;
-;; Smalltalk
-;;
-(add-to-list 'auto-mode-alist '("\\.st$" . smalltalk-mode))
-
-;;
-;; Roo command files
-;;
-(autoload #'roo-mode "roo-mode")
-(add-to-list 'auto-mode-alist '("\\.roo$" . roo-mode))
-
-;;
-;; 2048 game
-;;
-(add-hook '2048-mode-hook
-          (lambda ()
-            (define-key 2048-mode-map "j" '2048-down)
-            (define-key 2048-mode-map "k" '2048-up)
-            (define-key 2048-mode-map "h" '2048-left)
-            (define-key 2048-mode-map "l" '2048-right)))
 
 ;;
 ;; Shenzhen I/O

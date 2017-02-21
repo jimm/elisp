@@ -16,6 +16,7 @@
     (unless (looking-at (concat "* " date-header))
       (insert date-header "\n\n\n"))))
 
+;;;###autoload
 (defun status (status-str)
   "Insert STATUS-STR into the Org mode file *status-file*. If the
 user enters an empty status string, no new item is created but
@@ -28,3 +29,5 @@ the status file is still opened and brought to the front."
     (forward-line 2)
     (insert "- " status-str "\n")
     (forward-line -1)))
+
+(provide 'status)

@@ -22,14 +22,6 @@
 ;; Git / Magit
 ;;
 (setenv "GIT_PAGER" "cat")
-(setq magit-last-seen-setup-instructions "1.4.0"
-      magit-push-always-verify nil)
-
-(defun git-revert ()
-  "Checks out the current buffer's file in Git and reverts the current buffer."
-  (interactive "*")
-  (shell-command (concat "git checkout " (file-name-nondirectory (buffer-file-name))))
-  (revert-buffer t t))
 
 (defun git-root-dir ()
   "Returns the current directory's root Git repo directory, or
