@@ -1457,10 +1457,15 @@ values."
 ;;
 (defun center-of-attention ()
   (interactive)
-  (delete-other-windows)
-  (split-window-right)
-  (other-window 1)
-  (dired "."))
+  (let ((fname (file-name-nondirectory (buffer-file-name))))
+    (delete-other-windows)
+    (split-window-right)
+    (other-window 1)
+    (dired ".")
+    (goto-char (point-min))
+    (search-forward (concat " " fname "\n"))
+    (search-backward " ")
+    (forward-char 1)))
 
 ;;
 ;; Reformat my bank's transactions CSV file
