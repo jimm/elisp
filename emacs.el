@@ -166,7 +166,11 @@ whitespace-only string."
   :ensure t)
 
 (use-package dumb-jump
-  :ensure t)
+  :ensure t
+  :bind (("M-g o" . dumb-jump-go-other-window)
+         ("M-g j" . dumb-jump-go)
+         ("M-g b" . dumb-jump-back)
+         ("M-g q" . dumb-jump-quick-look)))
 
 (use-package elixir-mode
   :ensure t
