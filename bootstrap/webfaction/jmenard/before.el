@@ -1,3 +1,16 @@
 (defvar *my-pim-dir* "~/pim/")
-(add-to-list 'load-path "~/.emacs.d/org/lisp" t)
-(add-to-list 'load-path "~/.emacs.d/org/contrib/lisp" t)
+
+;;; A really, really dumb version of use-package. Ensure isn't working yet.
+(defmacro use-package (sym &rest args) 
+   (let ((init (cadr (member :init args)))
+	 (config (cadr (member :config args)))
+         (ensure (cadr (member :ensure args))))
+     `(ignore-errors
+       (when ,ensure
+         (package-install (symbol-name ,sym)))
+       (require (quote ,sym))
+       (progn ,init)
+       (progn ,config))))
+
+(load-file (concat user-emacs-directory "package.el"))
+(package-initialize)

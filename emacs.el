@@ -173,7 +173,6 @@ whitespace-only string."
          ("M-g q" . dumb-jump-quick-look)))
 
 (use-package elixir-mode
-  :ensure t
   :init
   (add-hook 'elixir-mode-hook
             (lambda ()
@@ -212,6 +211,7 @@ whitespace-only string."
     (emms-default-players)))
 
 (use-package flx-ido
+  :ensure t
   :config
   (ido-mode 1)
   (ido-everywhere 1)
@@ -237,8 +237,7 @@ whitespace-only string."
               (tab-four)
               (setq indent-tabs-mode t))))
 
-(use-package haml-mode
-  :ensure t)
+(use-package haml-mode)
 
 (use-package hamlet-mode)
 
@@ -1324,9 +1323,9 @@ values."
                              (yas/expand))))
             (define-key yas-keymap "\t" 'yas-next-field-or-maybe-expand)))
 
-(set-face-attribute 'org-level-1 nil :height 1.2 :bold t)
-(set-face-attribute 'org-level-2 nil :foreground "black" :bold t)
 (when (>= emacs-major-version 24)
+  (set-face-attribute 'org-level-1 nil :height 1.2 :bold t)
+  (set-face-attribute 'org-level-2 nil :foreground "black" :bold t)
   (set-face-attribute 'org-block nil :foreground "black"))
 (setq org-fontify-whole-heading-line t) ; bg color covers whole line
 
