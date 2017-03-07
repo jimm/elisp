@@ -316,15 +316,16 @@ whitespace-only string."
               (org-remove-inline-images))))
 
 (use-package perl-mode
-  :init
   :bind (:map perl-mode-map
-         ("\r" . #'newline-and-indent)
-         ("\M-\C-h" . #'backward-kill-word)
-         ("\C-cd" . #'debug-comment))
+         ("\r" . newline-and-indent)
+         ("\M-\C-h" . backward-kill-word)
+         ("\C-cd" . debug-comment))
+  :init
   (add-hook 'perl-mode-hook
             (lambda ()
               (setq c-basic-offset 2
                     c-tab-always-indent nil))))
+
 (use-package ponylang-mode)
 
 (use-package projectile
