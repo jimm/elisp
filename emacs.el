@@ -457,12 +457,6 @@ for now."
 
 (use-package toml-mode)
 
-(use-package twittering-mode
-  :init
-  (setq twittering-use-master-password t
-        twittering-icon-mode t
-        twittering-use-icon-storage t))
-
 (use-package uniquify
   :init
   (setq uniquify-buffer-name-style 'reverse
