@@ -31,14 +31,14 @@ fi
 
 domain=$1
 if [ -z "$domain" ] ; then
-    echo usage: setup-home domain machine
+    echo usage: setup.sh domain machine
     echo domains: $(ls $bd)
     exit 1
 fi
 
 machine=$2
 if [ -z "$machine" ] ; then
-    echo usage: setup-home domain machine
+    echo usage: setup.sh domain machine
     echo machines in domain $domain: $(ls $bd/$domain)
     exit 1
 fi
