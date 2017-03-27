@@ -96,9 +96,7 @@ meetings."
 
   ;; Replace everything above last section.
   (find-file (concat (getenv "dbox") "/Miscellaneous/status.txt"))
-  (goto-char (point-max))
-  (outline-previous-visible-heading 1)
-  (delete-region (point-min) (point))
+  (delete-region (point-min) (point-max))
   (yank)
 
   ;; Swap two days' entries and change headings to "Yesterday" and "Today".
@@ -115,6 +113,10 @@ meetings."
   (forward-char 3)
   (org-kill-line)
   (insert "Today")
+
+  (goto-char (point-max))
+  (delete-blank-lines)
+  (insert "\n* Local Variables\n\nThese are for Emacs.\n\n# Local Variables:\n#   mode: org\n# End:\n")
 
   (goto-char (point-min))
   (save-buffer)
