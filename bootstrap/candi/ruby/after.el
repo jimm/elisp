@@ -93,6 +93,7 @@ meetings."
   (goto-char (point-min))
   (org-forward-heading-same-level 2)
   (copy-region-as-kill (point-min) (point))
+  (goto-char (point-min))
 
   ;; Replace everything above last section.
   (find-file (concat (getenv "dbox") "/Miscellaneous/status.txt"))
