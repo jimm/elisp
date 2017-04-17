@@ -185,9 +185,7 @@ whitespace-only string."
   :bind (("M-g o" . dumb-jump-go-other-window)
          ("M-g j" . dumb-jump-go)
          ("M-g k" . dumb-jump-back)
-         ("M-g q" . dumb-jump-quick-look))
-  :config
-  (setq dumb-jump-functions-only t))
+         ("M-g q" . dumb-jump-quick-look)))
 
 (use-package elixir-mode
   :init
