@@ -18,7 +18,8 @@
           (run-with-timer 0.1 nil 'invert-face 'mode-line))))
 
 (setq *status-file* (concat *my-pim-dir* "orgs/work/candi/status.org")
-      emms-source-file-default-directory "~/Documents/Dropbox/Music/music/")
+      emms-source-file-default-directory "~/Documents/Dropbox/Music/music/"
+      Buffer-menu-name-width 32)
 
 ;; Add to the list of directories and files to ignore from rgrep, grep-find,
 ;; and friends.
