@@ -93,11 +93,7 @@
 (global-set-key "\M-5" (lambda () (interactive) (nth-other-window 4)))
 (global-set-key "\M-6" (lambda () (interactive) (nth-other-window 5)))
 (global-set-key "\M-7" (lambda () (interactive) (nth-other-window 6)))
-(global-set-key "\M-8" (lambda () (interactive) (nth-other-window 7))))
-
-(dotimes (i 8)
-  (global-set-key (concat "\\M-" (number-to-string (1+ i)))
-                  (lambda () (interactive) (nth-other-window (+1 i)))))
+(global-set-key "\M-8" (lambda () (interactive) (nth-other-window 7)))
 
 ;;; Load local machine's keys.el if it exists.
 
