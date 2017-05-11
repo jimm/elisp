@@ -72,6 +72,33 @@
   ;; already taken by my comment-region binding.
   (global-set-key (kbd "C-c C-x M-x") #'execute-extended-command))
 
+;;; Switching windows
+(defun nth-other-window (n)
+  (interactive)
+  (let ((wnd-list (aw-window-list)))
+    (cond
+     ((<= (length wnd-list) 2)
+      (other-window 1))
+     (t
+      (select-window
+       (cdr (nth n
+                 (mapcar (lambda (wnd) (cons (aw-offset wnd) wnd))
+                         wnd-list))))))))
+
+;;; Tried writing a loop to do this, but the final number wasn't being captured
+(global-set-key "\M-1" (lambda () (interactive) (nth-other-window 0)))
+(global-set-key "\M-2" (lambda () (interactive) (nth-other-window 1)))
+(global-set-key "\M-3" (lambda () (interactive) (nth-other-window 2)))
+(global-set-key "\M-4" (lambda () (interactive) (nth-other-window 3)))
+(global-set-key "\M-5" (lambda () (interactive) (nth-other-window 4)))
+(global-set-key "\M-6" (lambda () (interactive) (nth-other-window 5)))
+(global-set-key "\M-7" (lambda () (interactive) (nth-other-window 6)))
+(global-set-key "\M-8" (lambda () (interactive) (nth-other-window 7))))
+
+(dotimes (i 8)
+  (global-set-key (concat "\\M-" (number-to-string (1+ i)))
+                  (lambda () (interactive) (nth-other-window (+1 i)))))
+
 ;;; Load local machine's keys.el if it exists.
 
 (load-init-if-exists "keys")
