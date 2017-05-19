@@ -611,6 +611,23 @@ insert it at point. See `generate-random-password`."
           (ding))))
 
 ;;
+;; Window movement
+;;
+
+;; Uses ace-window
+(defun nth-other-window (n)
+  (interactive)
+  (let ((wnd-list (aw-window-list)))
+    (cond
+     ((<= (length wnd-list) 2)
+      (other-window 1))
+     (t
+      (select-window
+       (cdr (nth n
+                 (mapcar (lambda (wnd) (cons (aw-offset wnd) wnd))
+                         wnd-list))))))))
+
+;;
 ;; Colorization
 ;;
 

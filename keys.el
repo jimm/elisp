@@ -72,19 +72,6 @@
   ;; already taken by my comment-region binding.
   (global-set-key (kbd "C-c C-x M-x") #'execute-extended-command))
 
-;;; Switching windows
-(defun nth-other-window (n)
-  (interactive)
-  (let ((wnd-list (aw-window-list)))
-    (cond
-     ((<= (length wnd-list) 2)
-      (other-window 1))
-     (t
-      (select-window
-       (cdr (nth n
-                 (mapcar (lambda (wnd) (cons (aw-offset wnd) wnd))
-                         wnd-list))))))))
-
 ;;; Tried writing a loop to do this, but the final number wasn't being captured
 (global-set-key "\M-1" (lambda () (interactive) (nth-other-window 0)))
 (global-set-key "\M-2" (lambda () (interactive) (nth-other-window 1)))
