@@ -6,18 +6,22 @@
   (interactive)
   176)
 
-;; Fix for Max OS X 10.11.1 El Capitan problem
-(setq visible-bell nil)
-(setq ring-bell-function
-      (lambda ()
-        (unless (memq this-command
-                      '(isearch-abort abort-recursive-edit exit-minibuffer
-                        mwheel-scroll down up next-line previous-line
-                        backward-char forward-char))
-          (invert-face 'mode-line)
-          (run-with-timer 0.1 nil 'invert-face 'mode-line))))
-
-(setq *status-file* (concat *my-pim-dir* "orgs/work/candi/status.org")
+(setq visible-bell nil
+      ring-bell-function (lambda ()
+                           (unless (memq this-command
+                                         '(isearch-abort
+                                           abort-recursive-edit
+                                           exit-minibuffer
+                                           mwheel-scroll
+                                           down up
+                                           next-line previous-line
+                                           backward-char forward-char))
+                             (invert-face 'mode-line)
+                             (run-with-timer 0.1 nil 'invert-face 'mode-line)))
+      org-agenda-files (list
+                        (concat *my-pim-dir* "orgs/work/andi/todo.org")
+                        (concat *my-pim-dir* "orgs/todo.org"))
+      *status-file* (concat *my-pim-dir* "orgs/work/candi/status.org")
       emms-source-file-default-directory "~/Documents/Dropbox/Music/music/"
       Buffer-menu-name-width 32)
 
@@ -27,18 +31,11 @@
 (add-to-list 'grep-find-ignored-files "*[-.]min.js")
 
 (require 'inf-ruby)
-(add-to-list 'inf-ruby-implementations
-             '("heroku-prod" . "candi-heroku candiprod2"))
-(add-to-list 'inf-ruby-implementations
-             '("heroku-staging" . "candi-heroku candistaging"))
-(add-to-list 'inf-ruby-implementations
-             '("heroku-jim" . "candi-heroku jim-qa"))
-(add-to-list 'inf-ruby-implementations
-             '("heroku-sean" . "candi-heroku sean-qa"))
-(add-to-list 'inf-ruby-implementations
-             '("heroku-charlie" . "candi-heroku charlie-qa"))
-(add-to-list 'inf-ruby-implementations
-             '("rails-console" . "candi-console"))
+(mapc (lambda (impl) (push impl inf-ruby-implementations))
+      (list '("heroku-prod"    . "candi-heroku candiprod2")
+            '("heroku-staging" . "candi-heroku candistaging")
+            '("heroku-jim"     . "candi-heroku jim-qa")
+            '("rails-console"  . "candi-console")))
 
 ;; (when (fboundp #'deft)
 ;;   (setq deft-directory (concat *my-pim-dir* "orgs/work/candi/")))
