@@ -22,6 +22,18 @@
       ns-right-command-modifier 'super  ; let's see if I use Right-Cmd Super
       sql-sqlite-program "sqlite3")
 
+(defun mode-line-visible-bell ()
+  (unless (memq this-command
+                '(isearch-abort
+                  abort-recursive-edit
+                  exit-minibuffer
+                  mwheel-scroll
+                  down up
+                  next-line previous-line
+                  backward-char forward-char))
+    (invert-face 'mode-line)
+    (run-with-timer 0.1 nil 'invert-face 'mode-line)))
+
 ;;; http://debbugs.gnu.org/cgi/bugreport.cgi?bug=5683#19
 (when (fboundp 'ns-list-colors)
   (setq x-colors (ns-list-colors)))     ; fix build bug in 23.4, also in 24.1

@@ -7,17 +7,7 @@
   176)
 
 (setq visible-bell nil
-      ring-bell-function (lambda ()
-                           (unless (memq this-command
-                                         '(isearch-abort
-                                           abort-recursive-edit
-                                           exit-minibuffer
-                                           mwheel-scroll
-                                           down up
-                                           next-line previous-line
-                                           backward-char forward-char))
-                             (invert-face 'mode-line)
-                             (run-with-timer 0.1 nil 'invert-face 'mode-line)))
+      ring-bell-function #'mode-line-visible-bell
       org-agenda-files (list
                         (concat *my-pim-dir* "orgs/work/candi/todo.org")
                         (concat *my-pim-dir* "orgs/todo.org"))
