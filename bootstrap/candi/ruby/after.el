@@ -19,7 +19,7 @@
                              (invert-face 'mode-line)
                              (run-with-timer 0.1 nil 'invert-face 'mode-line)))
       org-agenda-files (list
-                        (concat *my-pim-dir* "orgs/work/andi/todo.org")
+                        (concat *my-pim-dir* "orgs/work/candi/todo.org")
                         (concat *my-pim-dir* "orgs/todo.org"))
       *status-file* (concat *my-pim-dir* "orgs/work/candi/status.org")
       emms-source-file-default-directory "~/Documents/Dropbox/Music/music/"
