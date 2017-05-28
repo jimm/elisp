@@ -34,7 +34,8 @@ whitespace-only string."
   (when (< emacs-major-version 24)
     ;; For important compatibility libraries like cl-lib
     (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-  (setq package--init-file-ensured t)   ; avoid check for being in init.el
+  (setq package-enable-at-startup nil   ; prevent initializing twice
+        package--init-file-ensured t)   ; avoid check for being in init.el
   (package-initialize))
 
 (defvar my-shell #'eshell
@@ -54,180 +55,126 @@ whitespace-only string."
         (add-to-list 'load-path (concat *my-emacs-lib-dir* dir "/") t))
       '("progmodes" "ses"))
 
-;; See https://github.com/jwiegley/use-package
+;;; 2048-game
+(add-hook '2048-mode-hook
+          (lambda ()
+            (define-key 2048-mode-map "j" '2048-down)
+            (define-key 2048-mode-map "k" '2048-up)
+            (define-key 2048-mode-map "h" '2048-left)
+            (define-key 2048-mode-map "l" '2048-right)))
 
-(use-package 2048-game
-  :init
-  (add-hook '2048-mode-hook
-            (lambda ()
-              (define-key 2048-mode-map "j" '2048-down)
-              (define-key 2048-mode-map "k" '2048-up)
-              (define-key 2048-mode-map "h" '2048-left)
-              (define-key 2048-mode-map "l" '2048-right))))
-
-(use-package ace-window
-  :ensure t)
-
-(use-package ag
-  :ensure t
-  :config
+;;; ag
+(when (fboundp #'ag)
   (setq ag-arguments (list "--smart-case" "--nocolor" "--nogroup")))
 
-(use-package bind-key
-  :ensure t)
+;;; Clojure
 
-(use-package clojure
-  :mode "\\.\\(cljs\\|boot\\)$"
-  :init
-  (load "my-clojure-mode")
-  (add-hook 'lisp-mode-hook
-            (lambda ()
-              (define-key lisp-mode-map "\r" #'newline-and-indent)
-              (define-key lisp-mode-map "\C-cd" #'debug-comment)))
-  (add-hook 'clojure-mode-hook
-            (lambda ()
-              (when-fboundp-call inf-clojure-minor-mode)
-              (define-key clojure-mode-map "\r" 'newline-and-indent)
-              (define-key clojure-mode-map "\C-c\C-c" #'comment-region)
-              (define-key clojure-mode-map "\C-cd" 'debug-comment)
-              (define-key clojure-mode-map "\C-ci" 'in-ns-to-inferior-lisp)
-              (define-key clojure-mode-map "\C-cn" 'ns-to-inferior-lisp)))
-  (add-hook 'nrepl-connected-hook
-            (lambda ()
-              ;; nREPL mode has two key bindings that do the same thing:
-              ;; \C-c\C-c and C-M-x both run nrepl-eval-expression-at-point.
-              ;; Normally \C-c\C-c is bound to comment-region, so let's
-              ;; reinstate that.
-              (define-key nrepl-interaction-mode-map "\C-c\C-c" 'comment-region)))
+;; ClojureScript
+(add-to-list 'auto-mode-alist '("\\.\\(cljs\\|boot\\)$" . clojure-mode))
+
+(eval-after-load "clojure-mode"
+  (load "my-clojure-mode"))
+
+;; See also inf-clojure mode
+(setq inferior-lisp-program "lein repl")
+
+(defun lein-repl ()
+  (interactive)
   (setq inferior-lisp-program "lein repl")
-  :config
-  (defun lein-repl ()
-    (interactive)
-    (setq inferior-lisp-program "lein repl")
-    (inferior-lisp "lein repl"))
+  (inferior-lisp "lein repl"))
 
-  (defun boot-repl ()
-    (interactive)
-    (setq inferior-lisp "boot repl")
-    (inferior-lisp "boot repl")))
+(defun boot-repl ()
+  (interactive)
+  (setq inferior-lisp "boot repl")
+  (inferior-lisp "boot repl"))
 
-(use-package compile
-  :init
-  (setq compilation-error-regexp-alist
-        (cons
-         ;; Maven 2 error messages are of the form file:[line,column]
-         '("^\\(/[^:]+\\):\\[\\([0-9]+\\),\\([0-9]+\\)\\]" 1 2 3)
-         (cons
-          ;; Scala error messages
-          '("\\(\\([a-zA-Z0-9]*/\\)*\\([a-zA-Z0-9]*\\.scala\\)\\):\\([0-9]*\\).*" 1 2)
-          compilation-error-regexp-alist))))
+(add-hook 'lisp-mode-hook
+          (lambda ()
+            (define-key lisp-mode-map "\r" #'newline-and-indent)
+            (define-key lisp-mode-map "\C-cd" #'debug-comment)))
 
-(use-package csharp-mode)
+(add-hook 'clojure-mode-hook
+          (lambda ()
+            (when-fboundp-call inf-clojure-minor-mode)
+            (define-key clojure-mode-map "\r" 'newline-and-indent)
+            (define-key clojure-mode-map "\C-c\C-c" #'comment-region)
+            (define-key clojure-mode-map "\C-cd" 'debug-comment)
+            (define-key clojure-mode-map "\C-ci" 'in-ns-to-inferior-lisp)
+            (define-key clojure-mode-map "\C-cn" 'ns-to-inferior-lisp)))
 
-(use-package groovy-mode
-  :init
-  (add-hook 'groovy-mode-hook
-            (lambda ()
-              (setq groovy-basic-offset 4)
-              (define-key groovy-mode-map "\r" #'newline-and-indent)
-              (define-key groovy-mode-map "\C-cr" 'executable-interpret)
-              (font-lock-mode 1))))
+(add-hook 'nrepl-connected-hook
+          (lambda ()
+            ;; nREPL mode has two key bindings that do the same thing:
+            ;; \C-c\C-c and C-M-x both run nrepl-eval-expression-at-point.
+            ;; Normally \C-c\C-c is bound to comment-region, so let's
+            ;; reinstate that.
+            (define-key nrepl-interaction-mode-map "\C-c\C-c" 'comment-region)))
 
-(use-package inf-groovy)
+;;; Common Lisp
 
-(use-package inf-groovy-keys
-  :init
-  (add-hook 'groovy-mode-hook
-            (lambda ()
-              (inf-groovy-keys))))
+;; (require 'slime)
+;; (slime-setup)
 
-(use-package ido
-  :ensure t
-  :config
+(defun clisp ()
+  (interactive)
+  (setq inferior-lisp-program "clisp")
+  (inferior-lisp "clisp"))
+
+;;; SBCL
+(defun sbcl ()
+  (interactive)
+  (setq inferior-lisp-program "sbcl")
+  (inferior-lisp "sbcl"))
+  
+;;; Scheme
+(add-hook 'scheme-mode-hook
+          (lambda ()
+            (define-key scheme-mode-map "\r" #'newline-and-indent)
+            (define-key scheme-mode-map "\C-cd" #'debug-comment)))
+
+;;; Emacs Lisp
+(add-hook 'emacs-lisp-mode-hook
+          (lambda ()
+            (define-key emacs-lisp-mode-map "\C-cd" #'debug-comment)
+            (define-key emacs-lisp-mode-map "\r" #'newline-and-indent)))
+
+;;; Compilation
+(require 'compile)
+(setq compilation-error-regexp-alist
+      (cons
+       ;; Maven 2 error messages are of the form file:[line,column]
+       '("^\\(/[^:]+\\):\\[\\([0-9]+\\),\\([0-9]+\\)\\]" 1 2 3)
+       (cons
+        ;; Scala error messages
+        '("\\(\\([a-zA-Z0-9]*/\\)*\\([a-zA-Z0-9]*\\.scala\\)\\):\\([0-9]*\\).*" 1 2)
+        compilation-error-regexp-alist)))
+
+;;; Groovy
+(autoload #'groovy-mode "groovy-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.groovy$" . groovy-mode))
+(add-hook 'groovy-mode-hook
+          (lambda ()
+            (setq groovy-basic-offset 4)
+            (define-key groovy-mode-map "\r" #'newline-and-indent)
+            (define-key groovy-mode-map "\C-cr" #'executable-interpret)
+            (font-lock-mode 1)))
+
+;; Groovy shell mode
+(autoload #'run-groovy "inf-groovy" "Run an inferior Groovy shell process")
+(autoload #'inf-groovy-keys "inf-groovy"
+  "Set local key defs for inf-groovy in groovy-mode")
+(add-hook 'groovy-mode-hook
+          (lambda ()
+            (inf-groovy-keys)))
+
+;;; ido
+(when (fboundp #'ido-mode)
+  (ido-mode t)
   (setq ido-enable-flex-matching t))
 
-(use-package inf-clojure)
-
-(use-package inf-sbt)
-
-(use-package coffee-mode
-  :mode "\\.cjsx$" "\\.coffee$" "Cakefile"
-  :init
-  (defun compile-coffee-buffer ()
-    (interactive)
-    (shell-command (concat "coffee"
-                           " -o " (shell-quote-argument (file-name-directory (buffer-file-name)))
-                           " -c " (shell-quote-argument (buffer-file-name)))))
-  (add-hook 'coffee-mode-hook
-            (lambda ()
-              (setq coffee-js-mode #'javascript-mode)
-              (define-key coffee-mode-map "\C-cr" 'executable-interpret)
-              (define-key coffee-mode-map "\C-ck" #'compile-coffee-buffer)
-              (set (make-local-variable 'tab-width) 2))))
-
-(use-package dash
-  :ensure t
-  :config
-  (dash-enable-font-lock))
-
-(use-package deft
-  :config
-  (setq deft-extensions '("org" "txt" "md" "markdown")
-        deft-directory (concat *my-pim-dir* "orgs/")
-        deft-recursive t
-        deft-use-filename-as-title t))
-
-(use-package diminish
-  :ensure t)
-
-(use-package dumb-jump
-  :ensure t
-  :bind (("M-g o" . dumb-jump-go-other-window)
-         ("M-g j" . dumb-jump-go)
-         ("M-g k" . dumb-jump-back)
-         ("M-g q" . dumb-jump-quick-look)))
-
-(use-package elixir-mode
-  :init
-  (add-hook 'elixir-mode-hook
-            (lambda ()
-              (define-key elixir-mode-map "\C-cd" #'debug-comment)
-              (define-key elixir-mode-map "\C-cr" 'executable-interpret)
-              (when-fboundp-call alchemist-mode))))
-
-(use-package alchemist
-  :init
-  (add-hook 'alchemist-mode-hook
-            (lambda ()
-              (let ((dir (file-name-as-directory (getenv "ELIXIR_HOME"))))
-                (when (file-exists-p dir)
-                  (setq alchemist-goto-elixir-source-dir dir)))
-              (let ((dir (file-name-as-directory (getenv "ERLANG_HOME"))))
-                (when (file-exists-p dir)
-                  (setq alchemist-goto-erlang-source-dir dir)))
-              (define-key alchemist-mode-map "\C-c\C-z"
-                #'alchemist-iex-project-run))))
-
-(use-package elm-mode)
-
-(use-package elm-yasnippets)
-
-(use-package emms
-  :bind (([C-f7] . emms-previous)
-         ([C-f8] . emms-pause)	    ; toggles between pause and resume
-         ([C-f9] . emms-next))
-  :init
-  (setq emms-source-file-default-directory
-        (concat (file-name-directory (getenv "dbox")) "Music/music/"))
-  :config
-  (defun emms-init ()
-    (interactive)
-    (emms-all)
-    (emms-default-players)))
-
-(use-package flx-ido
-  :ensure t
-  :config
+;;; fix-ido
+(when (boundp #'flx-ido-mode)
+  (require 'flx-ido)
   (ido-mode 1)
   (ido-everywhere 1)
   (flx-ido-mode 1)
@@ -235,261 +182,299 @@ whitespace-only string."
   (setq ido-enable-flex-matching t)
   (setq ido-use-faces nil))
 
-(use-package fzf)
+;;; CoffeeScript
+(autoload #'coffee-mode "coffee-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.cjsx$" . coffee-mode))
+(add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
+(add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
+(defun compile-coffee-buffer ()
+  (interactive)
+  (shell-command (concat "coffee"
+                         " -o " (shell-quote-argument (file-name-directory (buffer-file-name)))
+                         " -c " (shell-quote-argument (buffer-file-name)))))
 
-(use-package gnus
-  :init
-  (setq gnus-site-init-file (concat *my-emacs-lib-dir* "gnus-init.el"))
-  (if (zerop (shell-command "which gnutls-cli >/dev/null 2>&1"))
-      (setq starttls-use-gnutls t
-            starttls-gnutls-program "gnutls-cli"
-            starttls-extra-arguments nil)))
+(add-hook 'coffee-mode-hook
+          (lambda ()
+            (setq coffee-js-mode #'javascript-mode)
+            (define-key coffee-mode-map "\C-cr" #'executable-interpret)
+            (define-key coffee-mode-map "\C-ck" #'compile-coffee-buffer)
+            (set (make-local-variable 'tab-width) 2)))
 
-(use-package go-mode
-  :init
-  (add-hook 'go-mode-hook
-            (lambda ()
-              (tab-four)
-              (setq indent-tabs-mode t))))
+;;; dash
+(eval-after-load "dash" '(dash-enable-font-lock))
 
-(use-package haml-mode)
+;;; deft
+(when (fboundp #'deft)
+  (setq deft-extensions '("org" "txt" "md" "markdown")
+        deft-directory (concat *my-pim-dir* "orgs/")
+        deft-recursive t
+        deft-use-filename-as-title t))
 
-(use-package hamlet-mode)
+;;; dumb-jump
+(when-fboundp-call dumb-jump-mode)
 
-(use-package haskell-mode
-  :mode "\\.hs$")
+;;; Elixir
+(add-hook 'elixir-mode-hook
+          (lambda ()
+            (define-key elixir-mode-map "\C-cd" #'debug-comment)
+            (define-key elixir-mode-map "\C-cr" 'executable-interpret)
+            (when-fboundp-call alchemist-mode)))
 
-(use-package http-twiddle
-  :mode "\\.http-twiddle$")
+;;; Alchemist
+(add-hook 'alchemist-mode-hook
+          (lambda ()
+            (let ((dir (file-name-as-directory (getenv "ELIXIR_HOME"))))
+              (when (file-exists-p dir)
+                (setq alchemist-goto-elixir-source-dir dir)))
+            (let ((dir (file-name-as-directory (getenv "ERLANG_HOME"))))
+              (when (file-exists-p dir)
+                (setq alchemist-goto-erlang-source-dir dir)))
+            (define-key alchemist-mode-map "\C-c\C-z"
+              #'alchemist-iex-project-run)))
 
-(use-package java-mode
-  :mode "\\.aj$" "\\.jsp$" "\\\.w[as]r$"
-  :init
-  (add-hook 'java-mode-hook
-            (lambda ()
-              (c-set-style "java")
-              (if window-system (font-lock-mode 1))))
-  :config
+;;; EMMS
+(when (fboundp #'emms-all)
+  (defun emms-init ()
+    (interactive)
+    (emms-all)
+    (emms-default-players)
+    (setq emms-source-file-default-directory
+          (concat (file-name-directory (getenv "dbox")) "Music/music/"))
+    (global-set-key [\C-f7] 'emms-previous)
+    (global-set-key [\C-f8] 'emms-pause) ; toggles between pause and resume
+    (global-set-key [\C-f9] 'emms-next)
+    (if (fboundp #'fzf)
+        (global-set-key [\C-f9] #'git-root-fzf)
+      (global-set-key [f9] #'ef))))
+
+;;; Gnus
+(setq gnus-site-init-file (concat *my-emacs-lib-dir* "gnus-init.el"))
+(if (zerop (shell-command "which gnutls-cli >/dev/null 2>&1"))
+    (setq starttls-use-gnutls t
+          starttls-gnutls-program "gnutls-cli"
+          starttls-extra-arguments nil))
+
+;;; Go
+(autoload #'go-mode "go-mode" t nil)
+(add-to-list 'auto-mode-alist '("\\.go$" . go-mode))
+(add-hook 'go-mode-hook
+          (lambda ()
+            (tab-four)
+            (setq indent-tabs-mode t)))
+
+;;; Haskell
+(autoload #'haskell-mode "haskell-mode" "Haskell mode" t nil)
+(add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
+
+;; Hexl mode
+(defvar hexl-program (concat *my-emacs-lib-dir* "hexlify.rb"))
+
+;;; http-twiddle
+(autoload #'http-twiddle-mode "http-twiddle" "HTTP twiddle mode" t nil)
+(add-to-list 'auto-mode-alist '("\\.http-twiddle$" . http-twiddle-mode))
+
+;;; Java
+(eval-after-load "java"
   (load "my-java-mode"))
 
-(use-package js-mode
-  :mode "\\.[agj]s$" "\\.jsx$"
-  :init
-  (setq js-indent-level 2               ; need both?????
-        javascript-indent-level 2
-        js2-basic-offset 2))
+(add-to-list 'auto-mode-alist '("\\.aj$" . java-mode)) ; Roo aspect files
+(add-to-list 'auto-mode-alist '("\\.jsp$" . html-mode))
+(add-to-list 'auto-mode-alist '("\\.w[as]r$" . archive-mode))
+(add-hook 'java-mode-hook
+          (lambda ()
+            (c-set-style "java")
+            ;; (c-set-offset 'inclass 0)
+            ;; (define-key java-mode-map "{" #'skeleton-pair-insert-maybe)
+            ;; (define-key java-mode-map "(" #'skeleton-pair-insert-maybe)
+            (if window-system (font-lock-mode 1))))
 
-(use-package keymaster-mode
-  :mode "\\.km$")
+;;; JavaScript
+(autoload #'javascript-mode "javascript" nil t)
+(add-to-list 'auto-mode-alist '("\\.[agj]s$" . javascript-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx$" . javascript-mode))
+(add-hook 'js-mode-hook
+          (lambda ()
+            (setq js-indent-level 2     ; need both?????
+                  javascript-indent-level 2)))
+;; (autoload #'js2-mode "js2-mode" nil t)
+;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
-(use-package less-css-mode)
+(setq js2-basic-offset 2)
+;;(setq js2-use-font-lock-faces t)
 
-(use-package lua-mode)
+;;; KeyMaster
+(autoload #'keymaster-mode "keymaster-mode")
+(add-to-list 'auto-mode-alist '("\\.km$" . keymaster-mode))
 
-(use-package magit
-  :ensure t)
+;;; Markdown
+(add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\|mdown\\)$" . markdown-mode))
+(add-hook 'markdown-mode-hook
+          (lambda ()
+            (set-face-attribute 'markdown-header-delimiter-face nil :foreground "black")
+            (set-face-attribute 'markdown-header-face-1 nil  :foreground "blue" :height 1.2 :bold t)
+            (set-face-attribute 'markdown-header-face-2 nil :foreground "brown")
+            (set-face-attribute 'markdown-header-face-3 nil :foreground "darkgreen")
+            (set-face-attribute 'markdown-header-face-4 nil :foreground "black")
+            (set-face-attribute 'markdown-header-face-5 nil :foreground "black")
+            (set-face-attribute 'markdown-header-face-6 nil :foreground "black")))
 
-(use-package markdown-mode
-  :ensure t
-  :mode "\\.\\(md\\|markdown\\|mdown\\)$"
-  :init
-  (add-hook 'markdown-mode-hook
-            (lambda ()
-              (set-face-attribute 'markdown-header-delimiter-face nil :foreground "black")
-              (set-face-attribute 'markdown-header-face-1 nil :foreground "blue" :height 1.2 :bold t)
-              (set-face-attribute 'markdown-header-face-2 nil :foreground "brown")
-              (set-face-attribute 'markdown-header-face-3 nil :foreground "darkgreen")
-              (set-face-attribute 'markdown-header-face-4 nil :foreground "black")
-              (set-face-attribute 'markdown-header-face-5 nil :foreground "black")
-              (set-face-attribute 'markdown-header-face-6 nil :foreground "black"))))
+;;; Objective C
+(add-hook 'objc-mode-hook
+          (lambda ()
+            (if window-system (font-lock-mode 1))
+            (setq c-basic-offset 4)))
 
-(use-package objc-mode
-  :init
-  (add-hook 'objc-mode-hook
-            (lambda ()
-              (if window-system (font-lock-mode 1))
-              (setq c-basic-offset 4))))
+;;; Org Mode
+(load "my-org-mode")
 
-(use-package org
-  :ensure t
-  :config
-  (unless (boundp 'org-ans1)
-    (defvar org-ans1)
-    (defvar org-ans2)))
+;;; perl-mode
+(autoload #'perl-mode "perl-mode" "Perl mode" t nil)
+(add-hook 'perl-mode-hook
+          (lambda ()
+            (define-key perl-mode-map "\r" #'newline-and-indent)
+            (define-key perl-mode-map "\M-\C-h" #'backward-kill-word)
+            (define-key perl-mode-map "\C-cd" #'debug-comment)
+            (setq c-basic-offset 2
+                  c-tab-always-indent nil)))
 
-(use-package org-present
-  :init
-  (add-hook 'org-present-mode-hook
-            (lambda ()
-              (org-present-big)
-              (hide-cursor)
-              (org-display-inline-images)))
-  (add-hook 'org-present-mode-quit-hook
-            (lambda ()
-              (org-present-small)
-              (show-cursor)
-              (org-remove-inline-images))))
-
-(use-package perl-mode
-  :bind (:map perl-mode-map
-         ("\r" . newline-and-indent)
-         ("\M-\C-h" . backward-kill-word)
-         ("\C-cd" . debug-comment))
-  :init
-  (add-hook 'perl-mode-hook
-            (lambda ()
-              (setq c-basic-offset 2
-                    c-tab-always-indent nil))))
-
-(use-package ponylang-mode)
-
-(use-package projectile
-  :ensure t
-  :config
-  (projectile-mode)
+;;; projectile
+(when (fboundp #'projectile-global-mode)
+  (projectile-global-mode)
   (setq projectile-enable-caching t
-        ;; "Projectile[%s]" is too long but `diminish' makes it disappear
-        projectile-mode-line
+        projectile-mode-line            ; "Projectile[%s]" is too long
         '(:eval (if (file-remote-p default-directory)
                     " prj"
                   (format " prj[%s]" (projectile-project-name))))))
 
-(use-package projectile-rails)
+;;; python-mode
+(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
+(add-hook 'python-mode-hook
+          (lambda ()
+            (turn-on-font-lock)
+            (define-key python-mode-map "\C-cr" #'executable-interpret)
+            ;; these two are in addition to the \C-< and \C-> bindings
+            ;; that already exist in Python mode
+            (define-key python-mode-map "\M-[" #'python-indent-shift-left)
+            (define-key python-mode-map "\M-]" #'python-indent-shift-right)))
 
-(use-package python-mode
-  :init
-  (lambda () (turn-on-font-lock))
-  :config
-  ;; Can't use :bind because the functions aren't defined yet
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (define-key python-mode-map "\C-cr" #'executable-interpret)
-              ;; these two are in addition to the \C-< and \C-> bindings
-              ;; that already exist in Python mode
-              (define-key python-mode-map "\M-[" #'python-indent-shift-left)
-              (define-key python-mode-map "\M-]" #'python-indent-shift-right))))
+;;; remember
+(autoload #'remember "remember" nil t)
+(setq *my-remember-data-file* (concat *my-pim-dir* "orgs/notes.org"))
+(add-hook 'remember-mode-hook
+          (lambda ()
+            (setq remember-data-file *my-remember-data-file*
+                  remember-diary-file diary-file)))
 
-(use-package remember
-  :init
-  (setq *my-remember-data-file* (concat *my-pim-dir* "orgs/notes.org"))
-  (add-hook 'remember-mode-hook
-            (lambda ()
-              (setq remember-data-file *my-remember-data-file*
-                    remember-diary-file diary-file))))
+;;; ruby-mode
+;; Use "M-x run-ruby" to start inf-ruby.
+(autoload #'ruby-mode "ruby-mode" "Ruby mode" t nil)
 
-(use-package rspec-mode)
+(add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.r\\(b\\(w\\|x\\)?\\|html?\\|js\\)$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\([Rr]ake\\|[Cc]ap\\|[Gg]em\\)file$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.gem\\(spec\\)?$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.duby$" . ruby-mode))
 
-(use-package ruby-mode
-  :ensure t
-  :mode 
-  "\\.r\\(b\\(w\\|x\\)?\\|html?\\|js\\)$"
-  "\\([Rr]ake\\|[Cc]ap\\|[Gg]em\\)file$"
-  "\\.rake$"
-  "\\.gem\\(spec\\)?$"
-  "\\.duby$"
-  :config
+(eval-after-load "ruby-mode"
+  (load "my-ruby-mode"))
+(eval-after-load "inf-ruby"
   (load "my-ruby-mode"))
 
-(use-package inf-ruby
-  :config
-  (load "my-ruby-mode"))
+;;; HAML and SASS
+;; Found {haml,sass}-mode.el files in the directory path-to-haml-gem/extra/.
+(autoload #'haml-mode "haml-mode" "haml mode")
+(autoload #'sass-mode "sass-mode" "sass mode")
+(add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
+(add-to-list 'auto-mode-alist '("\\.s\\(a\\|c\\)?ss$" . sass-mode))
 
-(use-package rust-mode)
+;;; Scala
+;; You might need to "sbaz install scala-tool-support" which puts emacs support
+;; into /usr/local/scala/misc/scala-tool-support/emacs"
 
-(use-package sass-mode
-  :mode "\\.s\\(a\\|c\\)?ss$")
+(condition-case ex
+    (progn
+      (autoload #'scala-mode "scala-mode2" "Scala mode" t nil)
+      (add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
+      (load "inf-sbt")
+      (add-hook 'scala-mode-hook
+                (lambda ()
+                  (define-key scala-mode-map [f1] my-shell) ; I don't use Speedbar
+                  (define-key scala-mode-map "\r" #'newline-and-indent)
+                  (define-key scala-mode-map "\C-cr" #'executable-interpret)))
+      ;; That bright red face for vars is too annoying
+      (set-face-attribute 'scala-font-lock:var-face nil :bold nil :foreground "red3"))
+  (error nil))
 
-(use-package scala-mode
-  :init
-  (add-hook 'scala-mode-hook
-            (lambda ()
-              (define-key scala-mode-map [f1] my-shell) ; I don't use Speedbar
-              (define-key scala-mode-map "\r" #'newline-and-indent)
-              (define-key scala-mode-map "\C-cr" 'executable-interpret)))
-  :config
-  ;; That bright red face for vars is too annoying
-  (set-face-attribute 'scala-font-lock:var-face nil :bold nil :foreground "red3")
-  ;; Derived from path-to-java-package in progmodes/my-java-mode.el
-  (defun path-to-scala-package (path)
-    "Returns a Scala package name for PATH, which is a file path.
+;; Derived from path-to-java-package in progmodes/my-java-mode.el
+(defun path-to-scala-package (path)
+  "Returns a Scala package name for PATH, which is a file path.
 Looks for 'src' or 'src/scala/{main,test}' in PATH and uses everything after
 that, turning slashes into dots. For example, the path
 /home/foo/project/src/main/scala/com/yoyodyne/project/Foo.scala becomes
 'com.yoyodyne.project'. If PATH is a directory, the last part of
 the path is ignored. That is a bug, but it's one I can live with
 for now."
-    (interactive)
-    (let ((reverse-path-list (cdr (reverse (split-string path "/")))))
-      (mapconcat
-       #'identity
-       (reverse (upto reverse-path-list
-                      (if (or (member "main" reverse-path-list)
-                              (member "test" reverse-path-list))
-                          "scala" "src")))
-       "."))))
-  
+  (interactive)
+  (let ((reverse-path-list (cdr (reverse (split-string path "/")))))
+    (mapconcat
+     #'identity
+     (reverse (upto reverse-path-list
+		    (if (or (member "main" reverse-path-list)
+                            (member "test" reverse-path-list))
+                        "scala" "src")))
+     ".")))
 
-(use-package scheme-mode
-  :init
-  (add-hook 'scheme-mode-hook
-            (lambda ()
-              (define-key scheme-mode-map "\r" #'newline-and-indent)
-              (define-key scheme-mode-map "\C-cd" #'debug-comment))))
+;;; shenzhen-io-mode
+(autoload #'shenzhen-io-mode "shenzhen-io-mode")
+(add-to-list 'auto-mode-alist '("\\.szio" . shenzhen-io-mode))
 
-(use-package ses-mode)
+;;; Smex
+(when (fboundp #'smex-initialize)
+  (smex-initialize))
 
-(use-package shenzhen-io-mode
-  :mode "\\.szio$")
-
-(use-package sicp)
-
-(use-package smalltalk-mode)
-
-(use-package smex
-  :ensure t)
-
-(use-package sql-mode
-  :mode "\\.mysql$"
-  :config
+;;; SQL
+(add-to-list 'auto-mode-alist '("\\.mysql$" . sql-mode))
+(eval-after-load "sql-mode"
   (load "my-sql-mode"))
 
 ;; My own tools for keeping a daily status file up to date.
-(use-package status)
+(autoload #'status "status" nil t)
 
-(use-package textile-mode
-  :ensure t
-  :init
-  (add-hook 'textile-mode-hook
-            (lambda ()
-              (auto-fill-mode 0)
-              (visual-line-mode 1)
-              (set-face-attribute 'textile-h1-face nil :foreground "blue" :height 1.2 :bold t)
-              (set-face-attribute 'textile-h2-face nil :foreground "brown" :height 1.0)
-              (set-face-attribute 'textile-h3-face nil :foreground "darkgreen" :height 1.0)
-              (set-face-attribute 'textile-h4-face nil :foreground "black" :height 1.0)
-              (set-face-attribute 'textile-h5-face nil :foreground "black" :height 1.0)
-              (set-face-attribute 'textile-h6-face nil :foreground "black" :height 1.0))))
+;;; Textile
+(autoload #'textile-mode "textile-mode" "textile mode")
+(add-to-list 'auto-mode-alist '("\\.textile$" . textile-mode))
+(add-hook 'textile-mode-hook
+          (lambda ()
+            (auto-fill-mode 0)
+            (visual-line-mode 1)
+            (set-face-attribute 'textile-h1-face nil :foreground "blue" :height 1.2 :bold t)
+            (set-face-attribute 'textile-h2-face nil :foreground "brown" :height 1.0)
+            (set-face-attribute 'textile-h3-face nil :foreground "darkgreen" :height 1.0)
+            (set-face-attribute 'textile-h4-face nil :foreground "black" :height 1.0)
+            (set-face-attribute 'textile-h5-face nil :foreground "black" :height 1.0)
+            (set-face-attribute 'textile-h6-face nil :foreground "black" :height 1.0)))
 
-(use-package toml-mode)
+;;; Uniquify
+;; http://trey-jackson.blogspot.com/2008/01/emacs-tip-11-uniquify.html
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'reverse
+      uniquify-separator "/"
+      uniquify-after-kill-buffer-p t     ; rename after killing uniquified
+      uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
 
-(use-package uniquify
-  :init
-  (setq uniquify-buffer-name-style 'reverse
-        uniquify-separator "/"
-        uniquify-after-kill-buffer-p t  ; rename after killing uniquified
-        uniquify-ignore-buffers-re "^\\*")) ; don't muck with special buffers
+;;; YASnippet
+(when-fboundp-call yas-global-mode 1)
 
-(use-package yasnippet
-  :ensure t
-  :config
-  (yas-global-mode 1))
+;;; YAML
+(autoload #'yaml-mode "yaml-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
 
-(use-package yaml-mode
-  :mode "\\.ya?ml$")
-
+;;; Skeletons
 (load "my-skeletons")
 
-(require 'generic-x); DOS batch, ini files and much more
+;;; DOS batch, ini files and much more
+(require 'generic-x)
 (add-to-list 'auto-mode-alist
              '("\\.properties$" . java-properties-generic-mode))
 
@@ -962,33 +947,6 @@ you have a local copy, for example.")
                 (define-key latex-mode-map "\C-c\C-s" #'my-tex-slide-dvi-view)))))
 
 ;;
-;; Clisp and SBCL
-;;
-
-;; (require 'slime)
-;; (slime-setup)
-
-;; Clisp
-(defun clisp ()
-  (interactive)
-  (setq inferior-lisp-program "clisp")
-  (inferior-lisp "clisp"))
-
-;; SBCL
-(defun sbcl ()
-  (interactive)
-  (setq inferior-lisp-program "sbcl")
-  (inferior-lisp "sbcl"))
-
-;;
-;; Emacs-Lisp-mode
-;;
-(add-hook 'emacs-lisp-mode-hook
-          (lambda ()
-            (define-key emacs-lisp-mode-map "\C-cd" #'debug-comment)
-            (define-key emacs-lisp-mode-map "\r" #'newline-and-indent)))
-
-;;
 ;; HTML-mode and SGML-mode
 ;;
 (eval-after-load "html-mode"
@@ -1269,11 +1227,6 @@ and wc -w"
       (message "%d chars, %d words" char-count (/ char-count 5)))))
 
 ;;
-;; Hexl mode
-;;
-(defvar hexl-program (concat *my-emacs-lib-dir* "hexlify.rb"))
-
-;;
 ;; rcirc
 ;;
 (setq
@@ -1296,65 +1249,6 @@ me about the channels listed in my-rcirc-notifiy-channels."
                   target)))
 
 (add-hook 'rcirc-print-hooks #'my-rcirc-print-hook)
-
-
-;;
-;; Org Mode extras
-;;
-
-(defun my-org-execute-src ()
-  "Saves current Org mode src block to a temp file and executes
-it in a compilation buffer by using the source language
-name (e.g., \"sh\", \"ruby\") as a command. Obviously doesn't
-work for all langauges."
-  (interactive)
-  (let* ((props (cadr (org-element-context)))
-         (p-beg (- (plist-get props :begin) 1))
-         (p-end (- (plist-get props :end) 1))
-         (lang (plist-get props :language))
-         (tmpfile (make-temp-file "org-src-")))
-    (write-region p-beg p-end tmpfile)
-    (compile (concat lang " " tmpfile))))
-
-(defun lower-case-org-mode-templates ()
-  "I like lower-case Org Mode templates. This function returns a
-copy of org-structure-template-alist with lower-case template
-values."
-  (mapcar (lambda (entry)
-            (list (car entry)
-                  (downcase (cadr entry))
-                  (caddr entry)))
-          org-structure-template-alist))
-
-;; The first three are recommended
-(setq org-agenda-include-diary t
-      org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org"))
-      org-startup-folded 'nofold
-      org-src-fontify-natively t)
-
-(add-hook 'org-mode-hook
-          (lambda ()
-            (org-add-link-type "addr" #'address)
-            (org-add-link-type "date" #'my-goto-calendar-date)
-            (setq org-export-with-sub-superscripts nil
-                  org-structure-template-alist (lower-case-org-mode-templates))
-            (define-key org-mode-map "\C-cr" #'my-org-execute-src)
-            (define-key org-mode-map "\C-ct" #'org-toggle-link-display)
-            ;; yasnippet mode
-            ;; TODO org-set-local has gone away. Delete this call when all
-            ;; of my Emacs instances are updated
-            (when-fboundp-call org-set-local 'yas-trigger-key "\t")
-            (add-to-list 'org-tab-first-hook
-                         (lambda ()
-                           (let ((yas/fallback-behavior 'return-nil))
-                             (yas/expand))))
-            (define-key yas-keymap "\t" 'yas-next-field-or-maybe-expand)))
-
-(when (>= emacs-major-version 24)
-  (set-face-attribute 'org-level-1 nil :height 1.2 :bold t)
-  (set-face-attribute 'org-level-2 nil :foreground "black" :bold t)
-  (set-face-attribute 'org-block nil :foreground "black"))
-(setq org-fontify-whole-heading-line t) ; bg color covers whole line
 
 ;;
 ;; Cursor manipulation

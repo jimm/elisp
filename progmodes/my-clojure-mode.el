@@ -21,5 +21,3 @@
     (goto-char (point-min))
     (when (search-forward-regexp "(ns \\([a-z][-.a-z0-9_]*\\)" nil t)
       (lisp-eval-defun))))
-
-(unless-boundp-setq package-activated-list ())
