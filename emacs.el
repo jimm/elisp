@@ -100,7 +100,8 @@ whitespace-only string."
             (define-key clojure-mode-map "\C-c\C-c" #'comment-region)
             (define-key clojure-mode-map "\C-cd" 'debug-comment)
             (define-key clojure-mode-map "\C-ci" 'in-ns-to-inferior-lisp)
-            (define-key clojure-mode-map "\C-cn" 'ns-to-inferior-lisp)))
+            (define-key clojure-mode-map "\C-cn" 'ns-to-inferior-lisp)
+            (define-key inf-clojure-minor-mode-map "\C-c\C-c" #'comment-region)))
 
 (add-hook 'nrepl-connected-hook
           (lambda ()
