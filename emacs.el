@@ -509,7 +509,7 @@ for now."
       auto-save-list-file-prefix nil    ; don't record sessions
       inhibit-startup-screen t          ; kill the startup message
       initial-scratch-message nil       ; used by Emacs 23 and above
-      inhibit-startup-echo-area-message "jimm"
+      inhibit-startup-echo-area-message (getenv "USER")
       Man-notify 'aggressive            ; when man found, jump there *immed*
       dabbrev-case-replace nil          ; preserve case when expanding
       mode-require-final-newline nil    ; do not force newlines
