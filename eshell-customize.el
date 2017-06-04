@@ -1,5 +1,4 @@
 (setq eshell-history-size 512)
-(setq eshell-prompt-regexp "^.*> ")
 
 ;;; Select a random sig as the eshell banner.
 (let ((sigfile (concat *my-pim-dir* "signatures")))
@@ -46,6 +45,9 @@ PWD is not in a git repo (or the git command is not found)."
               "] "))))
 
 (defun curr-dir-svn-string (pwd)
+  "Returns current subversion branch as a string, or the empty
+string if PWD is not in a subversion repo (or the subversion
+command is not found)."
   (interactive)
   (when (and (eshell-search-path "svn")
              (locate-dominating-file pwd ".svn"))
@@ -58,27 +60,26 @@ PWD is not in a git repo (or the git command is not found)."
                    "(no branch)"))
             "] ")))
 
+(defun chop-path (path-list n)
+  "Joins elements of PATH-LIST with \"/\". All but the last N
+elements are abbreviated to their first letters."
+  (flet ((shorten (elm) (if (zerop (length elm)) ""
+                          (substring elm 0 1))))
+    (if (> (length path-list) n)
+        (concat
+         (mapconcat shorten (butlast path-list n) "/")
+         "/"
+         (mapconcat #'identity (last path-list n) "/"))
+      (mapconcat #'identity (last path-list 3) "/"))
+    (mapconcat #'identity path-list "/")))
+
 (setq eshell-prompt-function
       (lambda ()
         (concat
          (or (curr-dir-git-branch-string (eshell/pwd))
              (curr-dir-svn-string (eshell/pwd)))
-         ((lambda (p-lst)
-            (if (> (length p-lst) 3)
-                (concat
-                 (mapconcat (lambda (elm) (if (zerop (length elm)) ""
-                                            (substring elm 0 1)))
-                            (butlast p-lst 3)
-                            "/")
-                 "/"
-                 (mapconcat (lambda (elm) elm)
-                            (last p-lst 3)
-                            "/"))
-              (mapconcat (lambda (elm) elm)
-                         p-lst
-                         "/")))
-          (split-string (pwd-repl-home (eshell/pwd)) "/"))
-         "> ")))
+         (chop-path (split-string (pwd-repl-home (eshell/pwd)) "/") 3)
+         "$ ")))
 
 ;; ; From http://www.emacswiki.org/cgi-bin/wiki.pl/EshellWThirtyTwo
 ;; ; Return nil, otherwise you'll see the return from w32-shell-execute
