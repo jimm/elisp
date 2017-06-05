@@ -79,7 +79,9 @@ elements are abbreviated to their first letters."
          (or (curr-dir-git-branch-string (eshell/pwd))
              (curr-dir-svn-string (eshell/pwd)))
          (chop-path (split-string (pwd-repl-home (eshell/pwd)) "/") 3)
-         "$ ")))
+         " "
+         (if (= (user-uid) 0) "#" "$")
+         " ")))
 
 ;; ; From http://www.emacswiki.org/cgi-bin/wiki.pl/EshellWThirtyTwo
 ;; ; Return nil, otherwise you'll see the return from w32-shell-execute
