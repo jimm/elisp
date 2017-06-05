@@ -67,7 +67,7 @@ elements are abbreviated to their first letters."
                           (substring elm 0 1))))
     (if (> (length path-list) n)
         (concat
-         (mapconcat shorten (butlast path-list n) "/")
+         (mapconcat #'shorten (butlast path-list n) "/")
          "/"
          (mapconcat #'identity (last path-list n) "/"))
       (mapconcat #'identity (last path-list 3) "/"))
