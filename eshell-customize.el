@@ -76,6 +76,8 @@ elements are abbreviated to their first letters."
 (setq eshell-prompt-function
       (lambda ()
         (concat
+         (format-time-string "%H:%M:%S")
+         " "
          (or (curr-dir-git-branch-string (eshell/pwd))
              (curr-dir-svn-string (eshell/pwd)))
          (chop-path (split-string (pwd-repl-home (eshell/pwd)) "/") 3)
