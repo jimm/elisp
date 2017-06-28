@@ -76,7 +76,7 @@ elements are abbreviated to their first letters."
 (setq eshell-prompt-function
       (lambda ()
         (concat
-         (format-time-string "%a %H:%M:%S")
+         (format-time-string "%H:%M:%S")
          " "
          (or (curr-dir-git-branch-string (eshell/pwd))
              (curr-dir-svn-string (eshell/pwd)))
