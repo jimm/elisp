@@ -73,7 +73,8 @@ elements are abbreviated to their first letters."
       (mapconcat #'identity (last path-list 3) "/"))
     (mapconcat #'identity path-list "/")))
 
-(setq eshell-prompt-function
+(setq eshell-prompt-regexp shell-prompt-pattern
+      eshell-prompt-function
       (lambda ()
         (concat
          (format-time-string "%H:%M:%S")
@@ -81,7 +82,7 @@ elements are abbreviated to their first letters."
          (or (curr-dir-git-branch-string (eshell/pwd))
              (curr-dir-svn-string (eshell/pwd)))
          (chop-path (split-string (pwd-repl-home (eshell/pwd)) "/") 3)
-         " "
+         "\n"
          (if (= (user-uid) 0) "#" "$")
          " ")))
 
