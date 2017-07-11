@@ -73,7 +73,7 @@ elements are abbreviated to their first letters."
       (mapconcat #'identity (last path-list 3) "/"))
     (mapconcat #'identity path-list "/")))
 
-(setq eshell-prompt-regexp shell-prompt-pattern
+(setq eshell-prompt-regexp (or shell-prompt-pattern "^[^#$%>\n]*[#$%>] *")
       eshell-prompt-function
       (lambda ()
         (concat
