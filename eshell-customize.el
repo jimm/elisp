@@ -78,15 +78,16 @@ elements are abbreviated to their first letters."
                              "^[^#$%>\n]*[#$%>] *")
       eshell-prompt-function
       (lambda ()
-        (concat
-         (format-time-string "%H:%M:%S")
-         " "
-         (or (curr-dir-git-branch-string (eshell/pwd))
-             (curr-dir-svn-string (eshell/pwd)))
-         (chop-path (split-string (pwd-repl-home (eshell/pwd)) "/") 3)
-         "\n"
-         (if (= (user-uid) 0) "#" "$")
-         " ")))
+        (let ((vc-str (or (curr-dir-git-branch-string (eshell/pwd))
+                          (curr-dir-svn-string (eshell/pwd)))))
+          (concat
+           vc-str
+           (when vc-str "\n")
+           (format-time-string "%H:%M:%S")
+           " "
+           (chop-path (split-string (pwd-repl-home (eshell/pwd)) "/") 3)
+           (if (= (user-uid) 0) " #" " $")
+           " "))))
 
 ;; ; From http://www.emacswiki.org/cgi-bin/wiki.pl/EshellWThirtyTwo
 ;; ; Return nil, otherwise you'll see the return from w32-shell-execute
