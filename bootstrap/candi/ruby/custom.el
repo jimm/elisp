@@ -8,7 +8,7 @@
  '(eshell-save-history-on-exit t)
  '(package-selected-packages
    (quote
-    (magit toml-mode rust-mode elm-mode elm-yasnippets yaml-mode textile-mode smex sicp sass-mode rspec-mode projectile-rails ponylang-mode org-present markdown-mode lua-mode less-css-mode inf-clojure http-twiddle haskell-mode hamlet-mode go-mode fzf flx-ido emms dumb-jump diminish deft coffee-mode bind-key alchemist ag ace-window 2048-game)))
+    (rjsx-mode magit toml-mode rust-mode elm-mode elm-yasnippets yaml-mode textile-mode smex sicp sass-mode rspec-mode projectile-rails ponylang-mode org-present markdown-mode lua-mode less-css-mode inf-clojure http-twiddle haskell-mode hamlet-mode go-mode fzf flx-ido emms dumb-jump diminish deft coffee-mode bind-key alchemist ag ace-window 2048-game)))
  '(sgml-xml-mode t)
  '(woman-use-own-frame nil))
 (custom-set-faces
