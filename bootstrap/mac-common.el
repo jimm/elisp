@@ -1,8 +1,8 @@
 ;;; On Mac OS, GUI applications don't get your login environment variables.
 ;;; Read them from a shell and set them, except for a few, and set
-;;; `exex-path' from the contents of PATH.
+;;; `exec-path' from the contents of PATH.
 
-(defcustom ignore-env-var-list
+(defcustom *mac-ignore-env-var-list*
   '("_" "PS1" "PWD" "OLDPWD" "SHELL" "SHLVL" "RBENV_VERSION" "RBENV_DIR")
   "Environment variables to ignore.")
 
@@ -15,20 +15,20 @@
   (let* ((idx (string-match "=" setting))
          (env (substring setting 0 idx))
          (val (substring setting (1+ idx))))
-    (cond ((equal env "PATH")
-           (setenv env val)
-           (mac-append-to-exec-path val))
-          ((member env ignore-env-var-list)
-           nil)                   ; skip
-          (t
-           (setenv env val)))))
+    (unless (member env *mac-ignore-env-var-list*)
+      (setenv env val)
+      (when (equal env "PATH")
+        (mac-append-to-exec-path val)))))
 
 (defun mac-load-environment-and-path ()
+  "Read env from shell and set our environment and `exec-path'."
   (mapc #'mac-process-env-string
         (let ((envs (shell-command-to-string "/bin/bash -l -c env")))
           (cdr (reverse (split-string envs "\n"))))))
 
 (mac-load-environment-and-path)
+
+;;; ================================================================
 
 (defvar *my-pim-dir* "~/pim/")
 
