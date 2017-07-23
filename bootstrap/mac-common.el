@@ -1,11 +1,34 @@
-;;; For each PATH element returned by launchctl, add it to exec-path if it's
-;;; not already there. Also make sure it's set as an env var properly within
-;;; Emacs.
-(let ((true-path (shell-command-to-string "launchctl getenv \"PATH\"")))
-  (mapc (lambda (path)
-          (add-to-list 'exec-path path))
-        (split-string true-path ":"))
-  (setenv "PATH" true-path))
+;;; On Mac OS, GUI applications don't get your login environment variables.
+;;; Read them from a shell and set them, except for a few, and set
+;;; `exex-path' from the contents of PATH.
+
+(defcustom ignore-env-var-list
+  '("_" "PS1" "PWD" "OLDPWD" "SHELL" "SHLVL" "RBENV_VERSION" "RBENV_DIR")
+  "Environment variables to ignore.")
+
+(defun mac-append-to-exec-path (path)
+  (mapc (lambda (path-element)
+          (add-to-list 'exec-path path-element))
+        (split-string val ":")))
+
+(defun mac-process-env-string (setting)
+  (let* ((idx (string-match "=" setting))
+         (env (substring setting 0 idx))
+         (val (substring setting (1+ idx))))
+    (cond ((equal env "PATH")
+           (setenv env val)
+           (mac-append-to-exec-path val))
+          ((member env ignore-env-var-list)
+           nil)                   ; skip
+          (t
+           (setenv env val)))))
+
+(defun mac-load-environment-and-path ()
+  (mapc #'mac-process-env-string
+        (let ((envs (shell-command-to-string "/bin/bash -l -c env")))
+          (cdr (reverse (split-string envs "\n"))))))
+
+(mac-load-environment-and-path)
 
 (defvar *my-pim-dir* "~/pim/")
 

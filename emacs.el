@@ -876,19 +876,6 @@ you have a local copy, for example.")
             (comment-set-column 32)))
 
 ;;
-;; Environment variables and path. Use "launchctl setenv var value" to set
-;; environment vars on OS X so that they get passed to GUI apps like
-;; Emacs.app when they are launched. Since Mac OS X is pretty much all I use
-;; these days, I've put this code here. Shouldn't do any harm if run on
-;; another flavor of Unix.
-;;
-
-;; For each PATH element, prepend it to exec-path if it's not already there.
-(mapc (lambda (path)
-        (add-to-list 'exec-path path))
-      (split-string (getenv "PATH") ":"))
-
-;;
 ;; sh-mode
 ;;
 (add-hook 'sh-mode-hook
