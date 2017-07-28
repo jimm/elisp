@@ -211,6 +211,11 @@ whitespace-only string."
         deft-recursive t
         deft-use-filename-as-title t))
 
+;;; Magit gitflow
+(ignore-errors
+  (require 'magit-gitflow)
+  (add-hook #'magit-mode-hook #'turn-on-magit-gitflow))
+
 ;;; dumb-jump
 (when-fboundp-call dumb-jump-mode)
 
