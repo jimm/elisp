@@ -316,13 +316,7 @@ whitespace-only string."
 (add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\|mdown\\)$" . markdown-mode))
 (add-hook 'markdown-mode-hook
           (lambda ()
-            (set-face-attribute 'markdown-header-delimiter-face nil :foreground "black")
-            (set-face-attribute 'markdown-header-face-1 nil  :foreground "blue" :height 1.2 :bold t)
-            (set-face-attribute 'markdown-header-face-2 nil :foreground "brown")
-            (set-face-attribute 'markdown-header-face-3 nil :foreground "darkgreen")
-            (set-face-attribute 'markdown-header-face-4 nil :foreground "black")
-            (set-face-attribute 'markdown-header-face-5 nil :foreground "black")
-            (set-face-attribute 'markdown-header-face-6 nil :foreground "black")))
+            (set-face-attribute 'markdown-header-face-1 nil :height 1.2 :bold t)))
 
 ;;; Objective C
 (add-hook 'objc-mode-hook
