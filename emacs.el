@@ -213,6 +213,7 @@ whitespace-only string."
 
 ;;; Magit gitflow
 (ignore-errors
+  (defvar magit-gitflow-popup-key "C-c f")
   (require 'magit-gitflow)
   (add-hook #'magit-mode-hook #'turn-on-magit-gitflow))
 
