@@ -76,44 +76,68 @@ Dropbox file that I can read from my phone. Useful for standup
 meetings."
   (interactive)
 
-  (save-excursion
-    ;; Grab last two days' entries.
-    (find-file *status-file*)
-    (goto-char (point-min))
-    (org-forward-heading-same-level 2)
-    (copy-region-as-kill (point-min) (point))
-    (goto-char (point-min))
+  ;; Grab last two days' entries.
+  (find-file *status-file*)
+  (goto-char (point-min))
+  (org-forward-heading-same-level 2)
+  (copy-region-as-kill (point-min) (point))
+  (goto-char (point-min))
 
-    ;; Replace everything above last section.
-    (find-file (concat (getenv "dbox") "/Miscellaneous/status.txt"))
-    (goto-char (point-min))
-    (yank)
-    (delete-region (point) (point-max))
+  ;; Open file, copy yanked text
+  (find-file (concat (getenv "dbox") "/Miscellaneous/status.txt"))
+  (delete-region (point-min) (point-max))
+  (goto-char (point-min))
+  (yank)
 
-    ;; Swap two days' entries and change headings to "Yesterday" and
-    ;; "Today".
-    (goto-char (point-min))
-    (org-forward-heading-same-level 2)
-    (org-move-subtree-up)
+  ;; Swap two days' entries and change headings to "Yesterday" and
+  ;; "Today".
+  (goto-char (point-min))
+  (org-move-subtree-down)
+  (org-open-line 1)
 
-    (org-delete-backward-char 1)
-    (org-end-of-line)
-    (delete-region (+ 2 (point-min)) (point))
-    (insert "Yesterday")
+  (goto-char (point-min))
+  (org-delete-char 1)
+  (forward-char 2)
+  (org-kill-line)
+  (insert "Yesterday")
 
-    (org-forward-heading-same-level 1)
-    (org-open-line 1)
-    (forward-char 3)
-    (org-kill-line)
-    (insert "Today")
+  (org-forward-heading-same-level 1)
+  (forward-char 2)
+  (org-kill-line)
+  (insert "Today")
 
-    (goto-char (point-max))
-    (delete-blank-lines)
-    (insert "\n* Local Variables\n\nThese are for Emacs.\n\n# Local Variables:\n#   mode: org\n# End:\n")
+  (goto-char (point-max))
+  (delete-blank-lines)
+  (insert "\n* Local Variables\n\nThese are for Emacs.\n\n# Local Variables:\n#   mode: org\n# End:\n")
 
-    (goto-char (point-min))
+  (save-buffer)
+  (kill-buffer))
+
+(defun status-to-slack ()
+  "Calls `status-to-phone' then copies two days' entries to Slack."
+  (interactive)
+
+  (status-to-phone)
+
+  ;; Open file, copy entries
+  (find-file (concat (getenv "dbox") "/Miscellaneous/status.txt"))
+  (goto-char (point-min))
+  (org-forward-heading-same-level 2)
+  (copy-region-as-kill (point-min) (point))
+  (kill-buffer)
+
+  (let ((tempfile (make-temp-file "status-to-slack")))
+    (find-file tempfile)
+    (insert "```\n")
+    (yank 1)
+    (insert "```\n")
     (save-buffer)
-    (kill-buffer)))
+    (kill-buffer)
+
+    (shell-command (concat "slacker.rb -u jim -c random < " tempfile " > /tmp/slack_post.json"))
+    (shell-command (concat "curl -X POST --silent --data @/tmp/slack_post.json " (getenv "SLACK_WEBHOOK_URL")))
+    (delete-file tempfile)
+    (delete-file "/tmp/slack_post.json")))
 
 ;;; ================================================================
 
