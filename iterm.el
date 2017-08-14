@@ -43,3 +43,11 @@ is a nice function to have bound to a key globally."
   (interactive)
   (send-current-line-to-iterm)
   (forward-line))
+
+(defun switch-to-iterm ()
+  "Make iTerm the front application."
+  (interactive)
+  (do-applescript (concat
+                   "tell application \"iTerm\"\n"
+                   "  activate\n"
+                   "end tell\n")))
