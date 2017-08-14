@@ -45,6 +45,7 @@ values."
 
 ;; The first three are recommended
 (setq org-agenda-include-diary t
+      org-directory (concat *my-pim-dir* "orgs/")
       org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org"))
       org-startup-folded 'nofold
       org-src-fontify-natively t)
