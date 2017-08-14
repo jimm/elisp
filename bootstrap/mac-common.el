@@ -23,7 +23,7 @@
 (defun mac-load-environment-and-path ()
   "Read env from shell and set our environment and `exec-path'."
   (mapc #'mac-process-env-string
-        (let ((envs (shell-command-to-string "/bin/bash -l -c env")))
+        (let ((envs (shell-command-to-string "INSIDE_EMACS=1 /bin/bash -l -c env")))
           (cdr (reverse (split-string envs "\n"))))))
 
 (mac-load-environment-and-path)
