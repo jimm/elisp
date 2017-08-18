@@ -204,13 +204,6 @@ whitespace-only string."
 ;;; dash
 (eval-after-load "dash" '(dash-enable-font-lock))
 
-;;; deft
-(when (fboundp #'deft)
-  (setq deft-extensions '("org" "txt" "md" "markdown")
-        deft-directory (concat *my-pim-dir* "orgs/")
-        deft-recursive t
-        deft-use-filename-as-title t))
-
 ;;; Magit gitflow
 (ignore-errors
   (defvar magit-gitflow-popup-key "C-c f")

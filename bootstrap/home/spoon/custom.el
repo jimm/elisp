@@ -5,7 +5,7 @@
  '(eshell-save-history-on-exit t)
  '(package-selected-packages
    (quote
-    (yasnippet yaml-mode smex sicp sass-mode rspec-mode org-present markdown-mode magit less-css-mode inf-ruby inf-clojure http-twiddle haskell-mode hamlet-mode go-mode fzf flx-ido emms dumb-jump diminish deft coffee-mode bind-key alchemist ace-window 2048-game)))
+    (yasnippet yaml-mode smex sicp sass-mode rspec-mode org-present markdown-mode magit less-css-mode inf-ruby inf-clojure http-twiddle haskell-mode hamlet-mode go-mode fzf flx-ido emms dumb-jump diminish coffee-mode bind-key alchemist ace-window 2048-game)))
  '(sgml-xml-mode t)
  '(woman-use-own-frame nil)
  '(sgml-xml-mode t))
