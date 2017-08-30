@@ -64,7 +64,7 @@ current symbol at point."
 If the current buffer is not in a Git repo, runs fzf from the
 current directory."
     (interactive)
-    (fzf-directory (or (git-root-dir) default-directory))))
+    (fzf/start (or (git-root-dir) default-directory))))
 
 ;;; ================================================================
 ;;; Finding files
