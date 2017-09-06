@@ -13,7 +13,7 @@
                         (concat *my-pim-dir* "orgs/todo.org"))
       *status-file* (concat *my-pim-dir* "orgs/work/candi/status.org")
       emms-source-file-default-directory "~/Documents/Dropbox/Music/music/"
-      Buffer-menu-name-width 32)
+      Buffer-menu-name-width 24)
 
 ;; Add to the list of directories and files to ignore from rgrep, grep-find,
 ;; and friends.

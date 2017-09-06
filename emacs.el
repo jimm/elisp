@@ -244,7 +244,7 @@ whitespace-only string."
     (global-set-key [\C-f8] 'emms-pause) ; toggles between pause and resume
     (global-set-key [\C-f9] 'emms-next)
     (if (fboundp #'fzf)
-        (global-set-key [\C-f9] #'git-root-fzf)
+        (global-set-key [\C-f9] #'fzf)
       (global-set-key [f9] #'ef))))
 
 ;;; Gnus

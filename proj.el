@@ -55,17 +55,6 @@ current symbol at point."
   (grep-find cmd)))
 
 
-;;
-;; fzf
-;;
-(when (fboundp #'fzf)
-  (defun git-root-fzf ()
-    "Runs fzf from the Git root directory of the current buffer.
-If the current buffer is not in a Git repo, runs fzf from the
-current directory."
-    (interactive)
-    (fzf/start (or (git-root-dir) default-directory))))
-
 ;;; ================================================================
 ;;; Finding files
 ;;; ================================================================

@@ -58,7 +58,7 @@
 (global-set-key [\C-f7] #'send-current-line-to-iterm-and-next-line)
 (if (fboundp #'fzf)
     (progn
-      (global-set-key [f9] #'git-root-fzf)
+      (global-set-key [f9] #'fzf)
       (global-set-key [\C-f9] #'ef))
   (global-set-key [f9] #'ef))
 (global-set-key [f10] #'zoom-frame)
