@@ -204,6 +204,12 @@ whitespace-only string."
 ;;; dash
 (eval-after-load "dash" '(dash-enable-font-lock))
 
+;;; Magit
+(defun magit-status-here ()
+  (interactive)
+  (magit-status (or (locate-dominating-file default-directory ".git")
+                    default-directory)))
+
 ;;; Magit gitflow
 (ignore-errors
   (defvar magit-gitflow-popup-key "C-c f")
