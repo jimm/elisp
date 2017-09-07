@@ -8,7 +8,7 @@
  '(eshell-save-history-on-exit t)
  '(package-selected-packages
    (quote
-    (inf-ruby dockerfile-mode magit-gitflow rjsx-mode magit toml-mode rust-mode elm-mode elm-yasnippets yaml-mode textile-mode smex sicp sass-mode rspec-mode projectile-rails ponylang-mode org-present markdown-mode lua-mode less-css-mode inf-clojure http-twiddle haskell-mode hamlet-mode go-mode fzf flx-ido emms dumb-jump diminish coffee-mode bind-key alchemist ag ace-window 2048-game)))
+    (yasnippet yasnippet-snippets inf-ruby dockerfile-mode magit-gitflow rjsx-mode magit toml-mode rust-mode elm-mode elm-yasnippets yaml-mode textile-mode smex sicp sass-mode rspec-mode projectile-rails ponylang-mode org-present markdown-mode lua-mode less-css-mode inf-clojure http-twiddle haskell-mode hamlet-mode go-mode fzf flx-ido emms dumb-jump diminish coffee-mode bind-key alchemist ag ace-window 2048-game)))
  '(sgml-xml-mode t)
  '(woman-use-own-frame nil))
 (custom-set-faces
@@ -17,4 +17,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(aw-leading-char-face ((((class color)) (:foreground "red" :bold t))))
- '(eshell-prompt ((((class color) (background light)) (:foreground "Blue")) (((class color) (background dark)) (:foreground "SteelBlue")) (t (:bold t)))))
+ '(eshell-prompt ((t (:bold t)))))

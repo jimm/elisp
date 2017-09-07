@@ -21,7 +21,7 @@
 
 ;;; ---- path manipulation
 
-(defun pwd-repl-home (pwd)
+(defun tildify-pwd (pwd)
   (interactive)
   (let* ((home (expand-file-name (getenv "HOME")))
 	 (home-len (length home)))
@@ -37,10 +37,10 @@ PWD is not in a git repo (or the git command is not found)."
   (interactive)
   (when (and (eshell-search-path "git")
              (locate-dominating-file pwd ".git"))
-    (let ((git-output (shell-command-to-string (concat "git branch | grep '\\*' | sed -e 's/^\\* //'"))))
+    (let ((git-output (shell-command-to-string "git symbolic-ref HEAD | sed -e 's,refs/heads/,,'")))
       (concat "["
               (if (> (length git-output) 0)
-                  (substring git-output 0 -1)
+                  (substring git-output 0 -1) ; strip off newline
                 "(no branch)")
               "] "))))
 
@@ -82,10 +82,7 @@ elements are abbreviated to their first letters."
                           (curr-dir-svn-string (eshell/pwd)))))
           (concat
            vc-str
-           (when vc-str "\n")
-           (format-time-string "%H:%M:%S")
-           " "
-           (chop-path (split-string (pwd-repl-home (eshell/pwd)) "/") 3)
+           (chop-path (split-string (tildify-pwd (eshell/pwd)) "/") 3)
            (if (= (user-uid) 0) " #" " $")
            " "))))
 
