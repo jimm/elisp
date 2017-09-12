@@ -12,6 +12,7 @@
                         (concat *my-pim-dir* "orgs/work/candi/todo.org")
                         (concat *my-pim-dir* "orgs/todo.org"))
       *status-file* (concat *my-pim-dir* "orgs/work/candi/status.org")
+      *my-eshell-vcs-maxlen* 32
       emms-source-file-default-directory "~/Documents/Dropbox/Music/music/"
       Buffer-menu-name-width 24)
 

@@ -1,5 +1,8 @@
 (setq eshell-history-size 512)
 
+(defvar *my-eshell-vcs-maxlen* nil
+  "If defined, VCS branch names will be truncated to this width.")
+
 ;;; Select a random sig as the eshell banner.
 (let ((sigfile (concat *my-pim-dir* "signatures")))
   (when (file-exists-p sigfile)
@@ -37,28 +40,33 @@ PWD is not in a git repo (or the git command is not found)."
   (interactive)
   (when (and (eshell-search-path "git")
              (locate-dominating-file pwd ".git"))
-    (let ((git-output (shell-command-to-string "git symbolic-ref HEAD | sed -e 's,refs/heads/,,'")))
-      (concat "["
-              (if (> (length git-output) 0)
-                  (substring git-output 0 -1) ; strip off newline
-                "(no branch)")
-              "] "))))
+    (let* ((git-output (shell-command-to-string "git symbolic-ref HEAD | sed -e 's,refs/heads/,,'"))
+           (branch (if (> (length git-output) 0)
+                       (substring git-output 0 -1) ; strip off newline
+                     "(no branch)"))
+           (truncated-branch (if *my-eshell-vcs-maxlen*
+                                 (truncate-string-to-width branch *my-eshell-vcs-maxlen* nil nil t)
+                               branch)))
+      (concat "[" truncated-branch "] "))))
 
 (defun curr-dir-svn-string (pwd)
   "Returns current subversion branch as a string, or the empty
 string if PWD is not in a subversion repo (or the subversion
 command is not found)."
   (interactive)
-  (when (and (eshell-search-path "svn")
-             (locate-dominating-file pwd ".svn"))
-    (concat "[s:"
-            (cond ((string-match-p "/trunk\\(/.*\\)?" pwd)
-                   "trunk")
-                  ((string-match "/branches/\\([^/]+\\)\\(/.*\\)?" pwd)
-                   (match-string 1 pwd))
-                  (t
-                   "(no branch)"))
-            "] ")))
+  (let* ((branch
+          (cond ((string-match-p "/trunk\\(/.*\\)?" pwd)
+                 "trunk")
+                ((string-match "/branches/\\([^/]+\\)\\(/.*\\)?" pwd)
+                 (match-string 1 pwd))
+                (t
+                 "(no branch)")))
+         (truncated-branch (if *my-eshell-vcs-maxlen*
+                               (truncate-string-to-width branch *my-eshell-vcs-maxlen* nil nil t)
+                             branch)))
+    (when (and (eshell-search-path "svn")
+               (locate-dominating-file pwd ".svn"))
+      (concat "[s:" truncated-branch "] "))))
 
 (defun chop-path (path-list n)
   "Joins elements of PATH-LIST with \"/\". All but the last N
@@ -78,10 +86,10 @@ elements are abbreviated to their first letters."
                              "^[^#$%>\n]*[#$%>] *")
       eshell-prompt-function
       (lambda ()
-        (let ((vc-str (or (curr-dir-git-branch-string (eshell/pwd))
+        (let ((vcs-str (or (curr-dir-git-branch-string (eshell/pwd))
                           (curr-dir-svn-string (eshell/pwd)))))
           (concat
-           vc-str
+           vcs-str
            (chop-path (split-string (tildify-pwd (eshell/pwd)) "/") 3)
            (if (= (user-uid) 0) " #" " $")
            " "))))
