@@ -65,17 +65,23 @@ whitespace-only string."
         (add-to-list 'load-path (concat *my-emacs-lib-dir* dir "/") t))
       '("progmodes" "ses"))
 
-;;; Silent bell: flash mode line istenad
+;;; Silent bell: flash mode line instead. Do nothing when caused by certain
+;;; functions.
+
+(defvar *do-not-ring-bell-funcs*
+  '(isearch-abort
+    abort-recursive-edit
+    exit-minibuffer
+    mwheel-scroll
+    down up
+    next-line previous-line
+    backward-char forward-char)
 
 (defun mode-line-visible-bell ()
-  (unless (memq this-command
-                '(isearch-abort
-                  abort-recursive-edit
-                  exit-minibuffer
-                  mwheel-scroll
-                  down up
-                  next-line previous-line
-                  backward-char forward-char))
+  "This function temporarily inverts the mode line. It does not
+do so when `this-command' is one of the commands in
+`*do-not-ring-bell-funcs*'."
+  (unless (memq this-command *do-not-ring-bell-funcs*)
     (invert-face 'mode-line)
     (run-with-timer 0.1 nil 'invert-face 'mode-line)))
 
@@ -542,7 +548,6 @@ for now."
       ns-pop-up-frames nil              ; do not create new frames on Mac
       auto-revert-verbose nil        ; no message on each auto-revert update
       isearch-lax-whitespace nil
-      visible-bell t
       version-control 'never            ; when to make backup files
       vc-handled-backends '()           ; disable VC minor mode
       frame-title-format '((:eval (if (buffer-file-name)
@@ -612,15 +617,6 @@ numbers, and punctuation."
 insert it at point. See `generate-random-password`."
   (interactive "p")
   (insert (generate-random-password arg)))
-
-;;; Avoid ringing the bell when caused by certain commands.
-(setq ring-bell-function
-      (lambda ()
-        (unless (memq this-command
-                      '(isearch-abort abort-recursive-edit exit-minibuffer
-                        mwheel-scroll down up next-line previous-line
-                        backward-char forward-char))
-          (ding))))
 
 ;;
 ;; Window movement
