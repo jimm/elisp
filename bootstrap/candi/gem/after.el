@@ -6,9 +6,7 @@
   (interactive)
   176)
 
-(setq visible-bell nil
-      ring-bell-function #'mode-line-visible-bell
-      org-agenda-files (list
+(setq org-agenda-files (list
                         (concat *my-pim-dir* "orgs/work/candi/todo.org")
                         (concat *my-pim-dir* "orgs/todo.org"))
       *status-file* (concat *my-pim-dir* "orgs/work/candi/status.org")

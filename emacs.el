@@ -65,6 +65,23 @@ whitespace-only string."
         (add-to-list 'load-path (concat *my-emacs-lib-dir* dir "/") t))
       '("progmodes" "ses"))
 
+;;; Silent bell: flash mode line istenad
+
+(defun mode-line-visible-bell ()
+  (unless (memq this-command
+                '(isearch-abort
+                  abort-recursive-edit
+                  exit-minibuffer
+                  mwheel-scroll
+                  down up
+                  next-line previous-line
+                  backward-char forward-char))
+    (invert-face 'mode-line)
+    (run-with-timer 0.1 nil 'invert-face 'mode-line)))
+
+(setq visible-bell nil
+      ring-bell-function #'mode-line-visible-bell)
+
 ;;; 2048-game
 (add-hook '2048-mode-hook
           (lambda ()
