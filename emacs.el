@@ -75,7 +75,7 @@ whitespace-only string."
     mwheel-scroll
     down up
     next-line previous-line
-    backward-char forward-char)
+    backward-char forward-char))
 
 (defun mode-line-visible-bell ()
   "This function temporarily inverts the mode line. It does not
@@ -718,6 +718,10 @@ given `foo.rb'. Default file-name is current buffer's name."
         ("\\.cxx$" .  ((".hh" ".h" ".hxx")))
       ))
 
+;;;
+;;; Misc.
+;;;
+
 ;; When saving files, set execute permission if #! is in first line.
 (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p)
 
@@ -774,8 +778,10 @@ a simple algorithm that may grow over time if needed."
 
 (defun address (str)
   "Find STR in my address book file. Looks first for STR as the
-beginning of a name. If not found, looks for the first occurrence
-of STR anywhere."
+beginning of a name, then at the beginning of any line. If not
+found, looks for the first occurrence of STR anywhere.
+
+This function is also used by an Org Mode custom link."
   (interactive "sSearch string: ")
   (let ((search-str (replace-regexp-in-string "+" " " str))
         (current-buf (current-buffer)))
