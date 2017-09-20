@@ -33,8 +33,7 @@ whitespace-only string."
 
   ;; Close a security vulnerability
   ;; https://lists.gnu.org/archive/html/emacs-devel/2017-09/msg00211.html
-  (when (and (version<= "19.29" emacs-version)
-             (version< emacs-version "25.3"))
+  (when (version< emacs-version "25.3")
     (eval-after-load "enriched"
       '(defun enriched-decode-display-prop (start end &optional param)
          (list start end)))))
