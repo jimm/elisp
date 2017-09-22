@@ -2,7 +2,6 @@
 
 (when window-system
   (let ((basic-frame-alist '((background-color . "white")
-                             (cursor-color . "orange")
                              (tool-bar-mode . nil)
                              (font . "Menlo 14"))))
     (setq initial-frame-alist
@@ -10,5 +9,5 @@
           default-frame-alist basic-frame-alist)))
 
 (defvar *my-erlang-emacs-tools-dir*
-  (concat (car (file-expand-wildcards "/opt/local/lib/erlang/lib/tools*"))
+  (concat (car (file-expand-wildcards "/opt/local/lib/erlang/lib/tools-*"))
           "/emacs/"))
