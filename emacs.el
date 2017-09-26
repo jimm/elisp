@@ -496,7 +496,9 @@ for now."
       uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
 
 ;;; YASnippet
-(when-fboundp-call yas-global-mode 1)
+(when (fboundp #'yas-global-mode)
+  (yas-global-mode 1)
+  (add-to-list 'yas-snippet-dirs (concat *my-emacs-lib-dir* "snippets")))
 
 ;;; YAML
 (autoload #'yaml-mode "yaml-mode" nil t)

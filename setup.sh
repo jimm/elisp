@@ -52,10 +52,6 @@ $debug ln -s $bd/$domain/$machine/dot_emacs ~/.emacs
 # Create ~/.emacs.d
 $debug mkdir -p ~/.emacs.d
 
-# Link snippits dir
-backup_if_exists ~/.emacs.d/snippets
-$debug ln -s $HERE/snippets ~/.emacs.d/snippets
-
 # Link newsrc
 if [ -f $newsrc_dir ] ; then
     backup_if_exists ~/.newsrc.eld
