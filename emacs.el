@@ -102,7 +102,7 @@ do so when `this-command' is one of the commands in
 ;;; Clojure
 
 ;; ClojureScript
-(add-to-list 'auto-mode-alist '("\\.\\(cljs\\|boot\\)$" . clojure-mode))
+(add-to-list 'auto-mode-alist '("\\.boot$" . clojure-mode))
 
 (eval-after-load "clojure-mode"
   (load "my-clojure-mode"))
