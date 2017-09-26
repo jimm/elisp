@@ -21,6 +21,7 @@
 (global-set-key "\C-c\C-c" #'comment-region)
 (global-set-key "\C-c\C-d" #'git-root-dired)
 (global-set-key "\C-h" #'backward-delete-char)
+(global-set-key "\C-cr" #'executable-interpret)
 (global-set-key "\C-x?" #'help-for-help)
 (global-set-key "\C-x\C-k" #'compile)
 (global-set-key "\C-x\C-m" #'open-email-client)
