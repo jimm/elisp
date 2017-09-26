@@ -21,7 +21,6 @@ for now."
 		    (if (member "java" reverse-path-list) "java" "src")))
      ".")))
 
-; See also java-package-skeleton in my-skeleton.el.
 (defun my-java-insert-package ()
   (interactive "*")
   (save-excursion

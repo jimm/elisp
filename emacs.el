@@ -321,9 +321,6 @@ do so when `this-command' is one of the commands in
 (add-hook 'java-mode-hook
           (lambda ()
             (c-set-style "java")
-            ;; (c-set-offset 'inclass 0)
-            ;; (define-key java-mode-map "{" #'skeleton-pair-insert-maybe)
-            ;; (define-key java-mode-map "(" #'skeleton-pair-insert-maybe)
             (if window-system (font-lock-mode 1))))
 
 ;;; JavaScript
@@ -334,8 +331,6 @@ do so when `this-command' is one of the commands in
           (lambda ()
             (setq js-indent-level 2     ; need both?????
                   javascript-indent-level 2)))
-;; (autoload #'js2-mode "js2-mode" nil t)
-;; (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 (setq js2-basic-offset 2)
 ;;(setq js2-use-font-lock-faces t)
@@ -504,9 +499,6 @@ for now."
 (autoload #'yaml-mode "yaml-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.ya?ml$" . yaml-mode))
 
-;;; Skeletons
-(load "my-skeletons")
-
 ;;; DOS batch, ini files and much more
 (require 'generic-x)
 (add-to-list 'auto-mode-alist
@@ -520,8 +512,7 @@ for now."
 ;; Ubuntu stuff
 ;(menu-bar-enable-clipboard)
 (setq x-select-enable-clipboard t
-      mouse-drag-copy-region t
-      skeleton-pair nil)
+      mouse-drag-copy-region t)
 (when-fboundp-call set-scroll-bar-mode 'right)
 (mouse-wheel-mode 1)
 
@@ -858,12 +849,6 @@ you have a local copy, for example.")
             (setq c-basic-offset 2
                   c-tab-always-indent nil
                   c-recognize-knr-p nil)
-
-            ;; (define-key c-mode-map "{" #'skeleton-pair-insert-maybe)
-            ;; (define-key c-mode-map "(" #'skeleton-pair-insert-maybe)
-
-            ;; (local-set-key "\M-o" #'fh-open-header-file-other-window)
-            ;; (local-set-key "\M-O" #'fh-open-header-file-other-frame)
             (local-set-key "\r" #'newline-and-indent)
             (autoload #'fh-open-header-file-other-window "find-header"
               "Locate header file and load it into other window" t)
@@ -1003,13 +988,7 @@ you have a local copy, for example.")
               (lambda ()
                 (auto-fill-mode 1)
                 (define-key html-mode-map "\C-c;" #'my-html-insert-comment)
-                (define-key html-mode-map "\C-cp" #'php-mode)
-                ;; The remaining functions are defined in my-ruby-mode.el
-                (define-key html-mode-map "\C-ce" #'erb-eval-skeleton)
-                (define-key html-mode-map "\C-cp" #'erb-print-skeleton)
-                (define-key html-mode-map "\C-ch" #'insert-ruby-hash-arrow)
-                (define-key html-mode-map "\C-cl" #'rails-link-to-skeleton)
-                (define-key html-mode-map "\C-cr" #'rails-render-partial-skeleton)))))
+                (define-key html-mode-map "\C-cp" #'php-mode)))))
 
 ;;
 ;; CSS-mode
