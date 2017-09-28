@@ -493,7 +493,9 @@ for now."
 ;;; YASnippet
 (when (fboundp #'yas-global-mode)
   (yas-global-mode 1)
-  (add-to-list 'yas-snippet-dirs (concat *my-emacs-lib-dir* "snippets")))
+  (let ((snip-dir (concat *my-emacs-lib-dir* "snippets")))
+    (add-to-list 'yas-snippet-dirs snip-dir)
+    (yas-load-directory snip-dir t)))
 
 ;;; YAML
 (autoload #'yaml-mode "yaml-mode" nil t)
