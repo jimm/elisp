@@ -24,19 +24,17 @@ whitespace-only string."
   (if (not (blank-p val)) val default))
 
 ;;; Version-specific configuration
-(let ((emacs-version-list (version-to-list emacs-version)))
-  (if (version< emacs-version "24")
-      (let ((f (expand-file-name "~/.emacs.d/elpa/package.el")))
-        (when (file-exists-p f)
-          (load f)))
-    (require 'package))
-
-  ;; Close a security vulnerability
-  ;; https://lists.gnu.org/archive/html/emacs-devel/2017-09/msg00211.html
-  (when (version< emacs-version "25.3")
-    (eval-after-load "enriched"
-      '(defun enriched-decode-display-prop (start end &optional param)
-         (list start end)))))
+(if (version< emacs-version "24")
+    (let ((f (expand-file-name "~/.emacs.d/elpa/package.el")))
+      (when (file-exists-p f)
+        (load f)))
+  (require 'package))
+;; Close a security vulnerability
+;; https://lists.gnu.org/archive/html/emacs-devel/2017-09/msg00211.html
+(when (version< emacs-version "25.3")
+  (eval-after-load "enriched"
+    '(defun enriched-decode-display-prop (start end &optional param)
+       (list start end))))
 
 (when (fboundp #'package-initialize)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
