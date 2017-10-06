@@ -376,14 +376,6 @@ do so when `this-command' is one of the commands in
             (define-key python-mode-map "\M-[" #'python-indent-shift-left)
             (define-key python-mode-map "\M-]" #'python-indent-shift-right)))
 
-;;; remember
-(autoload #'remember "remember" nil t)
-(setq *my-remember-data-file* (concat *my-pim-dir* "orgs/notes.org"))
-(add-hook 'remember-mode-hook
-          (lambda ()
-            (setq remember-data-file *my-remember-data-file*
-                  remember-diary-file diary-file)))
-
 ;;; ruby-mode
 ;; Use "M-x run-ruby" to start inf-ruby.
 (autoload #'ruby-mode "ruby-mode" "Ruby mode" t nil)
@@ -760,7 +752,7 @@ a simple algorithm that may grow over time if needed."
 ;;
 ;; PIM
 ;;
-(setq diary-file (concat *my-pim-dir* "diary")) ; must be before remember mode hook def
+(setq diary-file (concat *my-pim-dir* "diary"))
 
 (defun address (str)
   "Find STR in my address book file. Looks first for STR as the

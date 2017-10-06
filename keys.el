@@ -50,11 +50,6 @@
                 (lambda () (interactive) (switch-to-buffer "*inferior-lisp*")))
 (global-set-key [\C-f5]
                 (lambda () (interactive) (switch-to-buffer "*SQL*")))
-(global-set-key [f6]
-                (lambda ()
-                  (interactive)
-                  (find-file *my-remember-data-file*)
-                  (goto-char (point-max))))
 (global-set-key [f7] #'line-to-other-window)
 (global-set-key [\C-f7] #'send-current-line-to-iterm-and-next-line)
 (if (fboundp #'fzf)
