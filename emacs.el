@@ -53,14 +53,8 @@ whitespace-only string."
 (when (equal default-directory "/")
   (setq default-directory "~/"))
 
-;; Add *my-emacs-lib-dir* subdirs to the end of load-path, so if it's
-;; pre-installed that version is used first.
-;;
-;; Note that *my-emacs-lib-dir* should already be on the load path. It gets
-;; added by bootstrap-init.el.
-(mapc (lambda (dir)
-        (add-to-list 'load-path (concat *my-emacs-lib-dir* dir "/") t))
-      '("progmodes" "ses"))
+;; Add progmodes subdir to the end of load-path.
+(add-to-list 'load-path (concat *my-emacs-lib-dir* "progmodes/") t)
 
 ;;; Silent bell: flash mode line instead. Do nothing when caused by certain
 ;;; functions.
