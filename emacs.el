@@ -105,15 +105,18 @@ do so when `this-command' is one of the commands in
 ;; See also inf-clojure mode
 (setq inferior-lisp-program "lein repl")
 
+(defun clojure-repl (exe)
+  (let ((cmd (concat exe " repl")))
+    (setq inferior-lisp-program cmd)
+    (inf-clojure cmd)))
+
 (defun lein-repl ()
   (interactive)
-  (setq inferior-lisp-program "lein repl")
-  (inferior-lisp "lein repl"))
+  (clojure-repl "lein"))
 
 (defun boot-repl ()
   (interactive)
-  (setq inferior-lisp "boot repl")
-  (inferior-lisp "boot repl"))
+  (clojure-repl "boot"))
 
 (add-hook 'lisp-mode-hook
           (lambda ()
