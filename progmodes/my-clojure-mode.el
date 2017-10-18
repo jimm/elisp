@@ -1,3 +1,7 @@
+(add-hook 'clojure-mode-hook
+          (lambda ()
+            (setq comment-start "; ")))
+
 (defun reload-clojure-file ()
   (interactive)
   (send-to-iterm (concat "(load-file \"" (buffer-file-name) "\")")))
