@@ -1247,11 +1247,6 @@ me about the channels listed in my-rcirc-notifiy-channels."
   (internal-show-cursor nil t)
   (blink-cursor-mode 10))
 
-(defun hide-cursor ()
-  (interactive)
-  (blink-cursor-mode -1)
-  (internal-show-cursor nil nil))
-
 ;;
 ;; Sending text to iTerm and similar functions
 ;;

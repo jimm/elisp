@@ -9,13 +9,15 @@
 (add-hook 'org-present-mode-hook
           (lambda ()
             (org-present-big)
-            (hide-cursor)
-            (org-display-inline-images)))
+            (org-present-hide-cursor)
+            (org-display-inline-images)
+            (org-present-read-only)))
 (add-hook 'org-present-mode-quit-hook
           (lambda ()
             (org-present-small)
-            (show-cursor)
-            (org-remove-inline-images)))
+            (org-present-show-cursor)
+            (org-remove-inline-images)
+            (org-present-read-write)))
 
 ;; Org Mode extras
 
