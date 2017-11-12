@@ -77,9 +77,8 @@ elements are abbreviated to their first letters."
         (concat
          (mapconcat #'shorten (butlast path-list n) "/")
          "/"
-         (mapconcat #'identity (last path-list n) "/"))
-      (mapconcat #'identity (last path-list 3) "/"))
-    (mapconcat #'identity path-list "/")))
+         (string-join (last path-list n) "/"))
+      (string-join path-list "/"))))
 
 (setq eshell-prompt-regexp (if (boundp 'shell-prompt-pattern)
                                shell-prompt-pattern
