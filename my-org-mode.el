@@ -50,7 +50,8 @@ values."
       org-directory (concat *my-pim-dir* "orgs/")
       org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org"))
       org-startup-folded 'nofold
-      org-src-fontify-natively t)
+      org-src-fontify-natively t
+      org-fontify-whole-heading-line t) ; bg color covers whole line
 
 (add-hook 'org-mode-hook
           (lambda ()
@@ -73,5 +74,6 @@ values."
 (when (>= emacs-major-version 24)
   (set-face-attribute 'org-level-1 nil :height 1.15 :bold t)
   (set-face-attribute 'org-level-2 nil :foreground "black" :bold t)
-  (set-face-attribute 'org-block nil :foreground "black"))
+  (set-face-attribute 'org-block nil :foreground "black" :background "ivory")
+  (set-face-attribute 'org-block-begin-line nil :background "Gray90"))
 (setq org-fontify-whole-heading-line t) ; bg color covers whole line
