@@ -146,16 +146,17 @@ do so when `this-command' is one of the commands in
 ;; (require 'slime)
 ;; (slime-setup)
 
-(defun clisp ()
-  (interactive)
-  (setq inferior-lisp-program "clisp")
-  (inferior-lisp "clisp"))
+(defun -set-lisp-and-run (command)
+  (setq inferior-lisp-program command)
+  (if (fboundp #'slime) (slime) (inferior-lisp command)))
 
-;;; SBCL
 (defun sbcl ()
   (interactive)
-  (setq inferior-lisp-program "sbcl")
-  (inferior-lisp "sbcl"))
+  (-set-lisp-and-run "sbcl")))
+
+(defun clisp ()
+  (interactive)
+  (-set-lisp-and-run "clisp")))
   
 ;;; Scheme
 (add-hook 'scheme-mode-hook
