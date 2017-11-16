@@ -76,4 +76,3 @@ values."
   (set-face-attribute 'org-level-2 nil :foreground "black" :bold t)
   (set-face-attribute 'org-block nil :foreground "black" :background "ivory")
   (set-face-attribute 'org-block-begin-line nil :background "Gray90"))
-(setq org-fontify-whole-heading-line t) ; bg color covers whole line

@@ -152,11 +152,11 @@ do so when `this-command' is one of the commands in
 
 (defun sbcl ()
   (interactive)
-  (-set-lisp-and-run "sbcl")))
+  (-set-lisp-and-run "sbcl"))
 
 (defun clisp ()
   (interactive)
-  (-set-lisp-and-run "clisp")))
+  (-set-lisp-and-run "clisp"))
   
 ;;; Scheme
 (add-hook 'scheme-mode-hook
