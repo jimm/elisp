@@ -1,8 +1,7 @@
 (load-file (concat *my-emacs-lib-dir* "bootstrap/mac-common.el"))
 
 (when window-system
-  (let ((basic-frame-alist '((background-color . "WhiteSmoke")
-                             (tool-bar-mode . nil)
+  (let ((basic-frame-alist '((tool-bar-mode . nil)
                              (font . "Menlo 13"))))
     (setq initial-frame-alist
           (append basic-frame-alist '((width . 176) (height . 56)
