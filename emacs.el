@@ -624,19 +624,32 @@ insert it at point. See `generate-random-password`."
 ;; Colorization
 ;;
 
+(defvar *light-foreground* "black")
+(defvar *light-background* "white")
+(defvar *light-mode-foreground* "yellow")
+(defvar *light-mode-background* "black")
+(defvar *dark-foreground* "white")
+(defvar *dark-background* "grey20")
+(defvar *dark-mode-foreground* "black")
+(defvar *dark-mode-background* "grey75")
+
 (defun hello-darkness-my-old-friend ()
   (interactive)
   (ignore-errors
-    (set-foreground-color "white")
-    (set-background-color "grey20")
-    (set-face-attribute 'mode-line nil :foreground "black" :background "grey75")))
+    (set-foreground-color *dark-foreground*)
+    (set-background-color *dark-background*)
+    (set-face-attribute 'mode-line nil
+                        :foreground *dark-mode-foreground*
+                        :background *dark-mode-background*)))
 
 (defun lighten-up ()
   (interactive)
   (ignore-errors
-    (set-foreground-color "black")
-    (set-background-color "GhostWhite")
-    (set-face-attribute 'mode-line nil :foreground "yellow" :background "black")))
+    (set-foreground-color *light-foreground*)
+    (set-background-color *light-background*)
+    (set-face-attribute 'mode-line nil
+                        :foreground *light-mode-foreground*
+                        :background *light-mode-background*)))
 
 ;;;
 ;;; Project-level navigation and search.

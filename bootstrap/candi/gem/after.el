@@ -147,7 +147,7 @@ meetings."
             (set-background-color "White")))
 (add-hook 'org-present-mode-quit-hook
           (lambda ()
-            (set-background-color "GhostWhite")))
+            (set-background-color *light-background*)))
 
 
 ;;;
