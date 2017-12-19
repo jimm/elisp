@@ -82,6 +82,48 @@ do so when `this-command' is one of the commands in
 (setq visible-bell nil
       ring-bell-function #'mode-line-visible-bell)
 
+;;
+;; Colorization
+;;
+
+(defvar *light-foreground* "black")
+(defvar *light-background* "white")
+(defvar *light-mode-foreground* "yellow")
+(defvar *light-mode-background* "black")
+(defvar *dark-foreground* "white")
+(defvar *dark-background* "grey20")
+(defvar *dark-mode-foreground* "black")
+(defvar *dark-mode-background* "grey75")
+(defvar *org-l2-foreground* "black")
+(defvar *org-block-foreground* "black")
+(defvar *org-block-border-background* "gray80")
+(defvar *org-block-background* "ivory")
+(defvar *org-presentation-background* "white")
+(defvar *current-foreground* nil)
+(defvar *current-background* nil)
+
+(defun hello-darkness-my-old-friend ()
+  (interactive)
+  (ignore-errors
+    (set-foreground-color *dark-foreground*)
+    (set-background-color *dark-background*)
+    (setq *current-foreground* *dark-foreground*
+          *current-background* *dark-background*)
+    (set-face-attribute 'mode-line nil
+                        :foreground *dark-mode-foreground*
+                        :background *dark-mode-background*)))
+
+(defun lighten-up ()
+  (interactive)
+  (ignore-errors
+    (set-foreground-color *light-foreground*)
+    (set-background-color *light-background*)
+    (setq *current-foreground* *light-foreground*
+          *current-background* *light-background*)
+    (set-face-attribute 'mode-line nil
+                        :foreground *light-mode-foreground*
+                        :background *light-mode-background*)))
+
 ;;; 2048-game
 (add-hook '2048-mode-hook
           (lambda ()
@@ -619,37 +661,6 @@ insert it at point. See `generate-random-password`."
        (cdr (nth n
                  (mapcar (lambda (wnd) (cons (aw-offset wnd) wnd))
                          wnd-list))))))))
-
-;;
-;; Colorization
-;;
-
-(defvar *light-foreground* "black")
-(defvar *light-background* "white")
-(defvar *light-mode-foreground* "yellow")
-(defvar *light-mode-background* "black")
-(defvar *dark-foreground* "white")
-(defvar *dark-background* "grey20")
-(defvar *dark-mode-foreground* "black")
-(defvar *dark-mode-background* "grey75")
-
-(defun hello-darkness-my-old-friend ()
-  (interactive)
-  (ignore-errors
-    (set-foreground-color *dark-foreground*)
-    (set-background-color *dark-background*)
-    (set-face-attribute 'mode-line nil
-                        :foreground *dark-mode-foreground*
-                        :background *dark-mode-background*)))
-
-(defun lighten-up ()
-  (interactive)
-  (ignore-errors
-    (set-foreground-color *light-foreground*)
-    (set-background-color *light-background*)
-    (set-face-attribute 'mode-line nil
-                        :foreground *light-mode-foreground*
-                        :background *light-mode-background*)))
 
 ;;;
 ;;; Project-level navigation and search.

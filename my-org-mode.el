@@ -72,7 +72,14 @@ values."
             (define-key yas-keymap "\t" 'yas-next-field-or-maybe-expand)))
 
 (when (>= emacs-major-version 24)
-  (set-face-attribute 'org-level-1 nil :height 1.15 :bold t)
-  (set-face-attribute 'org-level-2 nil :foreground "black" :bold t)
-  (set-face-attribute 'org-block nil :foreground "black" :background "ivory")
-  (set-face-attribute 'org-block-begin-line nil :background "Gray90"))
+  (set-face-attribute 'org-level-1 nil
+                      :height 1.15
+                      :bold t)
+  (set-face-attribute 'org-level-2 nil
+                      :foreground *org-l2-foreground*
+                      :bold t)
+  (set-face-attribute 'org-block nil
+                      :foreground *org-block-foreground*
+                      :background *org-block-background*)
+  (set-face-attribute 'org-block-begin-line nil
+                      :background *org-block-border-background*))

@@ -142,12 +142,13 @@ meetings."
 ;; Org Present Mode
 ;;
 ;; https://github.com/rlister/org-present
+(defvar *org-present-orig-background* nil)
 (add-hook 'org-present-mode-hook
           (lambda ()
-            (set-background-color "White")))
+            (set-background-color *org-presentation-background*)))
 (add-hook 'org-present-mode-quit-hook
           (lambda ()
-            (set-background-color *light-background*)))
+            (set-background-color *current-background*)))
 
 
 ;;;
