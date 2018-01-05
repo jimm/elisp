@@ -774,11 +774,15 @@ a simple algorithm that may grow over time if needed."
           (t str))))
 
 (defun debug-comment ()
-  "Add a DEBUG comment to the current line"
+  "Add a DEBUG comment to the current line."
   (interactive "*")
   (save-excursion
     (comment-dwim nil)
-    (insert " DEBUG")))
+    (backward-char)
+    (let ((is-space (looking-at " ")))
+      (forward-char)
+      (unless is-space (insert " ")))
+    (insert "DEBUG")))
 
 ;;
 ;; PIM

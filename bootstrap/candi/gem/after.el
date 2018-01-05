@@ -24,6 +24,7 @@
       (list '("heroku-prod"    . "candi-heroku candiprod2")
             '("heroku-staging" . "candi-heroku candistaging")
             '("heroku-jim"     . "candi-heroku jim-qa")
+            '("heroku-kajal"   . "candi-heroku kajal-qa")
             '("rails-console"  . "candi-console")
             '("spring-rails-console"  . "candi-console --spring")))
 
