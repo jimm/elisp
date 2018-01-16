@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: (format *error-output* "var = ~o" var) ; DEBUG
+# name: (format *error-output* "var = ~a~%" var) ; DEBUG
 # key: prdv
 # --
-(format *error-output* "${1:var} = ~0" $1$0) ; DEBUG
+(format *error-output* "${1:var} = ~a~%" $1) ; DEBUG$0

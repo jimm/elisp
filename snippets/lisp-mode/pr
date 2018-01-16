@@ -2,4 +2,4 @@
 # name: (format t ...)
 # key: pr
 # --
-(format t "$0")
+(format t "$1~%" $0)
