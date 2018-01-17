@@ -93,7 +93,7 @@ do so when `this-command' is one of the commands in
 (defvar *dark-foreground* "white")
 (defvar *dark-background* "grey20")
 (defvar *dark-mode-foreground* "black")
-(defvar *dark-mode-background* "grey75")
+(defvar *dark-mode-background* "orange")
 (defvar *org-l2-foreground* "black")
 (defvar *org-block-foreground* "black")
 (defvar *org-block-border-background* "gray80")
