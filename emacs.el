@@ -96,7 +96,7 @@ do so when `this-command' is one of the commands in
 (defvar *dark-mode-background* "orange")
 (defvar *org-l2-foreground* "black")
 (defvar *org-block-foreground* "black")
-(defvar *org-block-border-background* "gray80")
+(defvar *org-block-border-background* "gray95")
 (defvar *org-block-background* "ivory")
 (defvar *org-presentation-background* "white")
 (defvar *current-foreground* nil)
