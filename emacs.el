@@ -568,6 +568,7 @@ for now."
       auto-save-list-file-prefix nil    ; don't record sessions
       inhibit-startup-screen t          ; kill the startup message
       initial-scratch-message nil       ; used by Emacs 23 and above
+      initial-major-mode 'org-mode
       inhibit-startup-echo-area-message (getenv "USER")
       Man-notify 'aggressive            ; when man found, jump there *immed*
       dabbrev-case-replace nil          ; preserve case when expanding
