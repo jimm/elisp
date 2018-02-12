@@ -98,15 +98,17 @@ meetings."
   (forward-char 2)
   (org-kill-line)
   (insert "Yesterday")
+  (delete-char 1)
 
   (org-forward-heading-same-level 1)
   (forward-char 2)
   (org-kill-line)
   (insert "Today")
+  (delete-char 1)
 
   (goto-char (point-max))
   (delete-blank-lines)
-  (insert "\n* Local Variables\n\nThese are for Emacs.\n\n# Local Variables:\n#   mode: org\n# End:\n")
+  (insert "\n* Local Variables\n# Local Variables:\n#   mode: org\n# End:\n")
 
   (save-buffer)
   (kill-buffer))
