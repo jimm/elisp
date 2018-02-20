@@ -67,10 +67,12 @@ file."
     (sql-mysql)
     (sql-set-sqli-buffer-generally)))
 
-(defun spring-run-rspec-in-terminal ()
+(defun spring-run-rspec-in-terminal (arg)
   "Run \"spring rspec FILE\" in an external terminal."
-  (interactive)
+  (interactive "p")
   (let ((path (buffer-file-name)))
+    (if (> arg 1)
+        (setq path (concat path ":" (int-to-string (line-number-at-pos)))))
     (send-to-iterm (concat "cd " (find-rails-root path)))
     (send-to-iterm (concat "spring rspec " path))))
 
