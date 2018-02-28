@@ -1204,33 +1204,6 @@ I'm using save-excursion."
   (interactive)
   (shell-command "open mailto:"))
 
-(defun word-count ()
-  "Count words in buffer, reporting both (buffer size / 5) and wc -w"
-  (interactive)
-  (word-count-of-range (point-min) (point-max)))
-
-(defun word-count-region ()
-  "Count words in region, reporting both (buffer size / 5) and wc -w"
-  (interactive)
-  (word-count-of-range (region-beginning) (region-end)))
-
-(defun word-count-of-range (beginning end)
-  "Count words from beginning to end, reporting both (buffer size / 5)
-and wc -w"
-  (let* ((five-char-word-count (/ (- (point-max) (point-min)) 5))
-	 (buffer-no-spaces
-	  (replace-regexp-in-string
-	   "[ \t\n\r]" ""
-	   (buffer-substring-no-properties (point-min) (point-max))))
-	 (five-char-no-whitespace-word-count
-	  (/ (length buffer-no-spaces) 5)))
-    (message (concat "five-char: "
-		     (int-to-string five-char-word-count)
-		     " / five-char-no-whitespace: "
-		     (int-to-string five-char-no-whitespace-word-count)
-		     " / words: "
-		     (int-to-string (how-many "\\w+" beginning end))))))
-
 ;; From http://steve-yegge.blogspot.com/2007/02/my-save-excursion.html
 (defun article-length ()
   "Print character and word stats on current buffer."
