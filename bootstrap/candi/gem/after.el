@@ -23,6 +23,7 @@
 (mapc (lambda (impl) (push impl inf-ruby-implementations))
       (list '("heroku-prod"    . "candi-heroku candiprod2")
             '("heroku-staging" . "candi-heroku candistaging")
+            '("heroku-uat"     . "candi-heroku candiuat")
             '("heroku-jim"     . "candi-heroku jim-qa")
             '("heroku-kajal"   . "candi-heroku kajal-qa")
             '("rails-console"  . "candi-console")
@@ -57,12 +58,17 @@
     (other-window -1)
     (kill-buffer nil)))
 
-;; This should be a YASnippet, but It's work specific, which means I should
-;; isolate it somewhere first.
-(defun dcdsi ()
+(defun same-file-other-dir ()
+  "When run from a buffer visiting a file or directory in $candi or $candi2,
+opens the same thing from the other directory using
+`find-file-other-window'."
   (interactive)
-  (insert-string "Dotcom::Fulfillment::ShipmentInfo.all_from_dcd_order_number('')")
-  (backward-char 2))
+  (let* ((path (or (buffer-file-name) default-directory)))
+    (string-match "\\(/candi2?/\\)" path)
+    (find-file-other-window
+     (if (string= "/candi2/" (match-string 0 path))
+         (replace-regexp-in-string "/candi2/" "/candi/" path)
+       (replace-regexp-in-string "/candi/" "/candi2/" path)))))
 
 ;; ================================================================
 ;; Status

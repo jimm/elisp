@@ -24,7 +24,7 @@ Since I use Emacs on multiple machines, I came up with a customization
 scheme that lets me run "before" and "after" code for each machine around my
 main initialization code. Each domain (work, home, etc.) gets its own
 subdirectory and each machine gets its own subdirectory within the domain.
-Inside there are a number of files, all but the first optinoal: =init.el=,
+Inside there are a number of files, all but the first optional: =init.el=,
 =before.el=, =after.el=, =keys.el=, =custom.el=, and the bookmark file
 =emacs.bmk= which is not checked in to source control.
 
