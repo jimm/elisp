@@ -116,6 +116,14 @@ meetings."
   (delete-blank-lines)
   (insert "\n* Local Variables\n# Local Variables:\n#   mode: org\n# End:\n")
 
+  ;; Clean up links
+  (goto-char (point-min))
+  (while (re-search-forward "\\[\\[\\([:word:]+:[:digit:]+\\)]]" nil t)
+    (replace-match "\\1"))
+  (goto-char (point-min))
+  (while (re-search-forward "\\[\\[[[:word:]]+:[[:digit:]]+]\\[\\([^]]+\\)]]" nil t)
+    (replace-match "\\1"))
+
   (save-buffer)
   (kill-buffer))
 
