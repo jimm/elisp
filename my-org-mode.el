@@ -1,4 +1,8 @@
 ;;; Org Mode
+;;;
+;;; Colorization is handled in my-colorization.el, which should be loaded
+;;; after this file.
+
 (require 'org)
 (unless (boundp 'org-ans1)
   (defvar org-ans1)
@@ -76,10 +80,4 @@ values."
                       :height 1.15
                       :bold t)
   (set-face-attribute 'org-level-2 nil
-                      :foreground *org-l2-foreground*
-                      :bold t)
-  (set-face-attribute 'org-block nil
-                      :foreground *org-block-foreground*
-                      :background *org-block-background*)
-  (set-face-attribute 'org-block-begin-line nil
-                      :background *org-block-border-background*))
+                      :bold t))
