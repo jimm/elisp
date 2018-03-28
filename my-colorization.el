@@ -16,7 +16,7 @@
 (defvar *org-dark-l2-foreground* "white")
 (defvar *org-dark-block-foreground* "white")
 (defvar *org-dark-block-border-background* "gray40")
-(defvar *org-dark-block-background* "ivory4")
+(defvar *org-dark-block-background* "gray30")
 
 (defvar *org-presentation-background* "white")
 (defvar *current-foreground* nil)
