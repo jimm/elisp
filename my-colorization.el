@@ -4,7 +4,7 @@
 (defvar *light-mode-background* "black")
 
 (defvar *dark-foreground* "white")
-(defvar *dark-background* "grey20")
+(defvar *dark-background* "grey10")
 (defvar *dark-mode-foreground* "black")
 (defvar *dark-mode-background* "orange")
 
@@ -15,8 +15,8 @@
 
 (defvar *org-dark-l2-foreground* "white")
 (defvar *org-dark-block-foreground* "white")
-(defvar *org-dark-block-border-background* "gray40")
-(defvar *org-dark-block-background* "gray30")
+(defvar *org-dark-block-border-background* "gray30")
+(defvar *org-dark-block-background* "gray20")
 
 (defvar *org-presentation-background* "white")
 (defvar *current-foreground* nil)
