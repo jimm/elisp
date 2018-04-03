@@ -33,7 +33,8 @@
 (add-hook 'markdown-mode-hook
           (lambda () (setq markdown-command "multimarkdown")))
 
-(add-to-list 'org-link-abbrev-alist '("jira" . "https://chloeandisabel.atlassian.net/browse/CAN-"))
+;; Org mode links
+(add-to-list 'org-link-abbrev-alist '("jira" . "https://chloeandisabel.atlassian.net/browse/"))
 (mapc (lambda (pair)
         (add-to-list 'org-link-abbrev-alist
          (cons (car pair)
@@ -96,33 +97,36 @@ meetings."
   ;; Swap two days' entries and change headings to "Yesterday" and
   ;; "Today".
   (goto-char (point-min))
-  (org-move-subtree-down)
-  (org-open-line 1)
-
-  (goto-char (point-min))
-  (org-delete-char 1)
-  (forward-char 2)
-  (org-kill-line)
-  (insert "Yesterday")
-  (delete-char 1)
-
-  (org-forward-heading-same-level 1)
-  (forward-char 2)
-  (org-kill-line)
-  (insert "Today")
-  (delete-char 1)
-
-  (goto-char (point-max))
+  (kill-line)
+  (insert "* Today")
+  (search-forward "\n*")
+  (beginning-of-line)
+  (kill-line)
+  (insert "* Yesterday")
+  (beginning-of-line)
+  (kill-region (point) (point-max))
+  (beginning-of-buffer)
+  (yank)
+  (end-of-buffer)
   (delete-blank-lines)
-  (insert "\n* Local Variables\n# Local Variables:\n#   mode: org\n# End:\n")
 
   ;; Clean up links
   (goto-char (point-min))
-  (while (re-search-forward "\\[\\[\\([:word:]+:[:digit:]+\\)]]" nil t)
+  ;; (while (re-search-forward "\\[\\[\\([[:word:]]+:[[:digit:]]+\\)]]" nil t)
+  (while (re-search-forward    "\\[\\[\\([[:word:]]+:\\([[:word:]]+-\\)?[[:digit:]]+\\)]]"
+                            nil t)
     (replace-match "\\1"))
   (goto-char (point-min))
-  (while (re-search-forward "\\[\\[[[:word:]]+:[[:digit:]]+]\\[\\([^]]+\\)]]" nil t)
-    (replace-match "\\1"))
+  (while (re-search-forward "\\[\\[[[:word:]]+:\\([[:word:]]+-\\)?[[:digit:]]+]\\[\\([^]]+\\)]]" nil t)
+    (replace-match "\\2"))
+
+  ;; Prepare paste buffer for Slack
+  (copy-region-as-kill (point-min) (point-max))
+  (with-temp-buffer
+    (insert "```\n")
+    (yank)
+    (insert "```\n")
+    (copy-region-as-kill (point-min) (point-max)))
 
   (save-buffer)
   (kill-buffer))
