@@ -77,8 +77,9 @@ opens the same thing from the other directory using
 
 (defun status-to-phone ()
   "Moves most recent two days' entries from *status-file* into a
-Dropbox file that I can read from my phone. Useful for standup
-meetings."
+Dropbox file that I can read from my phone. Also copies it into
+the system paste buffer, ready for Slack. Useful for daily
+standup meetings."
   (interactive)
 
   ;; Grab last two days' entries.
@@ -94,12 +95,11 @@ meetings."
   (goto-char (point-min))
   (yank)
 
-  ;; Swap two days' entries and change headings to "Yesterday" and
-  ;; "Today".
+  ;; Change headings to "Today" and "Yesterday" and swap their order
   (goto-char (point-min))
   (kill-line)
   (insert "* Today")
-  (search-forward "\n*")
+  (search-forward-regexp "\n* [[:digit:]]\\{4\\}-[[:digit:]]\\{2\\}-[[:digit:]]\\{2\\}")
   (beginning-of-line)
   (kill-line)
   (insert "* Yesterday")
@@ -112,15 +112,14 @@ meetings."
 
   ;; Clean up links
   (goto-char (point-min))
-  ;; (while (re-search-forward "\\[\\[\\([[:word:]]+:[[:digit:]]+\\)]]" nil t)
-  (while (re-search-forward    "\\[\\[\\([[:word:]]+:\\([[:word:]]+-\\)?[[:digit:]]+\\)]]"
+  (while (re-search-forward "\\[\\[\\([[:word:]]+:\\([[:word:]]+-\\)?[[:digit:]]+\\)]]"
                             nil t)
     (replace-match "\\1"))
   (goto-char (point-min))
   (while (re-search-forward "\\[\\[[[:word:]]+:\\([[:word:]]+-\\)?[[:digit:]]+]\\[\\([^]]+\\)]]" nil t)
     (replace-match "\\2"))
 
-  ;; Prepare paste buffer for Slack
+  ;; Make a version in the system paste buffer for pasting into Slack
   (copy-region-as-kill (point-min) (point-max))
   (with-temp-buffer
     (insert "```\n")
