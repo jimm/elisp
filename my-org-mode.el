@@ -23,6 +23,18 @@
             (org-remove-inline-images)
             (org-present-read-write)))
 
+;;; Org Capture
+
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "todo.org" "To Do")
+         "* TODO %?\n  %a\n  %f"
+         :prepend t
+         :empty-lines 1)
+        ("n" "Note" entry (file+headline "notes.org" "Notes")
+         "* %?\n  %U\n  %i\n  %a"
+         :prepend t
+         :empty-lines 1)))
+
 ;; Org Mode extras
 
 (defun my-org-execute-src ()
@@ -55,7 +67,8 @@ values."
       org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org"))
       org-startup-folded 'nofold
       org-src-fontify-natively t
-      org-fontify-whole-heading-line t) ; bg color covers whole line
+      org-fontify-whole-heading-line t  ; bg color covers whole line
+      org-default-notes-file (concat *my-pim-dir* "orgs/notes.org"))
 
 (add-hook 'org-mode-hook
           (lambda ()
