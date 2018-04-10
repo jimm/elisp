@@ -76,4 +76,12 @@ file."
     (send-to-iterm (concat "cd " (find-rails-root path)))
     (send-to-iterm (concat "spring rspec " path))))
 
+(defun spring-run-rspec-in-compile-buffer (arg)
+  "Run \"spring rspec FILE\" in a compilation buffer."
+  (interactive "p")
+  (let ((path (buffer-file-name)))
+    (if (> arg 1)
+        (setq path (concat path ":" (int-to-string (line-number-at-pos)))))
+    (compile (concat "cd " (find-rails-root path) " && spring rspec " path))))
+
 (provide 'my-rails)
