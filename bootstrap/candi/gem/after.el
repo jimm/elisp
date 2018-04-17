@@ -26,6 +26,7 @@
             '("heroku-uat"     . "candi-heroku candiuat")
             '("heroku-jim"     . "candi-heroku jim-qa")
             '("heroku-kajal"   . "candi-heroku kajal-qa")
+            '("heroku-eric"    . "candi-heroku eric-qa")
             '("rails-console"  . "candi-console")
             '("spring-rails-console"  . "candi-console --spring")))
 
