@@ -20,15 +20,27 @@
 (add-to-list 'grep-find-ignored-files "*[-.]min.js")
 
 (require 'inf-ruby)
+
+(defun -heroku-config-impl-entries ()
+  "Reads $candi/.git/config and returns a list of cons cells
+suitable for `inf-ruby-implementations`."
+  (find-file-read-only (concat (getenv "candi") "/.git/config"))
+  (let ((envs ()))
+    (while (search-forward "[remote \"" nil t)
+      (let ((start (point)))
+        (search-forward "\"")
+        (let ((name (buffer-substring-no-properties start (- (point) 1))))
+          (unless (member name '("heroku" "origin"))
+            (setq envs (cons (cons name (concat "candi-heroku " name))
+                             envs))))))
+    (kill-buffer)
+    envs))
+
+;; Add Heroku configs plus a few more to inf-ruby-implementations
 (mapc (lambda (impl) (push impl inf-ruby-implementations))
-      (list '("heroku-prod"    . "candi-heroku candiprod2")
-            '("heroku-staging" . "candi-heroku candistaging")
-            '("heroku-uat"     . "candi-heroku candiuat")
-            '("heroku-jim"     . "candi-heroku jim-qa")
-            '("heroku-kajal"   . "candi-heroku kajal-qa")
-            '("heroku-eric"    . "candi-heroku eric-qa")
-            '("rails-console"  . "candi-console")
-            '("spring-rails-console"  . "candi-console --spring")))
+      (append (-heroku-config-impl-entries)
+              (list '("rails-console" . "candi-console")
+                    '("spring-rails-console"  . "candi-console --spring"))))
 
 ;; Markdown
 (add-hook 'markdown-mode-hook
@@ -170,7 +182,6 @@ standup meetings."
 (add-hook 'org-present-mode-quit-hook
           (lambda ()
             (set-background-color *current-background*)))
-
 
 ;;;
 ;;; fzf
