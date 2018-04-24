@@ -147,27 +147,15 @@ standup meetings."
   "Calls `status-to-phone' then copies two days' entries to Slack."
   (interactive)
 
-  (status-to-phone)
+  (status-to-phone)                     ; kill buffer contains text we want
+  (let ((tempfile (make-temp-file "status-to-slack"))
+        (json-tempfile (make-temp-file "status-to-slack" nil ".json")))
+    (with-temp-file tempfile (yank 1))
 
-  ;; Open file, copy entries
-  (find-file (concat (getenv "dbox") "/Miscellaneous/status.txt"))
-  (goto-char (point-min))
-  (org-forward-heading-same-level 2)
-  (copy-region-as-kill (point-min) (point))
-  (kill-buffer)
-
-  (let ((tempfile (make-temp-file "status-to-slack")))
-    (find-file tempfile)
-    (insert "```\n")
-    (yank 1)
-    (insert "```\n")
-    (save-buffer)
-    (kill-buffer)
-
-    (shell-command (concat "slacker.rb -u jim -c random < " tempfile " > /tmp/slack_post.json"))
-    (shell-command (concat "curl -X POST --silent --data @/tmp/slack_post.json " (getenv "SLACK_WEBHOOK_URL")))
+    (shell-command (concat "slacker.rb -u jim -c random < " tempfile " > " json-tempfile))
+    (shell-command (concat "curl -X POST --silent --data @" json-tempfile " " (getenv "SLACK_WEBHOOK_URL")))
     (delete-file tempfile)
-    (delete-file "/tmp/slack_post.json")))
+    (delete-file json-tempfile)))
 
 ;;; ================================================================
 
