@@ -188,7 +188,7 @@ do so when `this-command' is one of the commands in
           (lambda ()
             (setq groovy-basic-offset 4)
             (define-key groovy-mode-map "\r" #'newline-and-indent)
-            (define-key groovy-mode-map "\C-cr" #'executable-interpret)
+            (define-key groovy-mode-map "\C-cx" #'executable-interpret)
             (font-lock-mode 1)))
 
 ;; Groovy shell mode
@@ -228,7 +228,7 @@ do so when `this-command' is one of the commands in
 (add-hook 'coffee-mode-hook
           (lambda ()
             (setq coffee-js-mode #'javascript-mode)
-            (define-key coffee-mode-map "\C-cr" #'executable-interpret)
+            (define-key coffee-mode-map "\C-cx" #'executable-interpret)
             (define-key coffee-mode-map "\C-ck" #'compile-coffee-buffer)
             (set (make-local-variable 'tab-width) 2)))
 
@@ -254,7 +254,7 @@ do so when `this-command' is one of the commands in
 (add-hook 'elixir-mode-hook
           (lambda ()
             (define-key elixir-mode-map "\C-cd" #'debug-comment)
-            (define-key elixir-mode-map "\C-cr" 'executable-interpret)
+            (define-key elixir-mode-map "\C-cx" 'executable-interpret)
             (when-fboundp-call alchemist-mode)))
 
 ;;; Alchemist
@@ -380,7 +380,7 @@ do so when `this-command' is one of the commands in
 (add-hook 'python-mode-hook
           (lambda ()
             (turn-on-font-lock)
-            (define-key python-mode-map "\C-cr" #'executable-interpret)
+            (define-key python-mode-map "\C-cx" #'executable-interpret)
             ;; these two are in addition to the \C-< and \C-> bindings
             ;; that already exist in Python mode
             (define-key python-mode-map "\M-[" #'python-indent-shift-left)
@@ -422,7 +422,7 @@ do so when `this-command' is one of the commands in
                 (lambda ()
                   (define-key scala-mode-map [f1] my-shell) ; I don't use Speedbar
                   (define-key scala-mode-map "\r" #'newline-and-indent)
-                  (define-key scala-mode-map "\C-cr" #'executable-interpret)))
+                  (define-key scala-mode-map "\C-cx" #'executable-interpret)))
       ;; That bright red face for vars is too annoying
       (set-face-attribute 'scala-font-lock:var-face nil :bold nil :foreground "red3"))
   (error nil))
@@ -989,7 +989,7 @@ you have a local copy, for example.")
 (add-to-list 'auto-mode-alist '("\\.cr$" . crystal-mode)) ; Crystal
 (add-hook 'crystal-mode-hook
           (lambda ()
-            (define-key crystal-mode-map "\C-cr" #'executable-interpret)))
+            (define-key cxystal-mode-map "\C-cr" #'executable-interpret)))
 
 ;;
 ;; Dired-mode
