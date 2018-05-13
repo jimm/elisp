@@ -57,8 +57,7 @@ copy of org-structure-template-alist with lower-case template
 values."
   (mapcar (lambda (entry)
             (list (car entry)
-                  (downcase (cadr entry))
-                  (caddr entry)))
+                  (downcase (cadr entry))))
           org-structure-template-alist))
 
 ;; The first three are recommended

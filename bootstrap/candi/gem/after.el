@@ -20,15 +20,27 @@
 (add-to-list 'grep-find-ignored-files "*[-.]min.js")
 
 (require 'inf-ruby)
+
+(defun -heroku-config-impl-entries ()
+  "Reads $candi/.git/config and returns a list of cons cells
+suitable for `inf-ruby-implementations`."
+  (find-file-read-only (concat (getenv "candi") "/.git/config"))
+  (let ((envs ()))
+    (while (search-forward "[remote \"" nil t)
+      (let ((start (point)))
+        (search-forward "\"")
+        (let ((name (buffer-substring-no-properties start (- (point) 1))))
+          (unless (member name '("heroku" "origin"))
+            (setq envs (cons (cons name (concat "candi-heroku " name))
+                             envs))))))
+    (kill-buffer)
+    envs))
+
+;; Add Heroku configs plus a few more to inf-ruby-implementations
 (mapc (lambda (impl) (push impl inf-ruby-implementations))
-      (list '("heroku-prod"    . "candi-heroku candiprod2")
-            '("heroku-staging" . "candi-heroku candistaging")
-            '("heroku-uat"     . "candi-heroku candiuat")
-            '("heroku-jim"     . "candi-heroku jim-qa")
-            '("heroku-kajal"   . "candi-heroku kajal-qa")
-            '("heroku-eric"    . "candi-heroku eric-qa")
-            '("rails-console"  . "candi-console")
-            '("spring-rails-console"  . "candi-console --spring")))
+      (append (-heroku-config-impl-entries)
+              (list '("rails-console" . "candi-console")
+                    '("spring-rails-console"  . "candi-console --spring"))))
 
 ;; Markdown
 (add-hook 'markdown-mode-hook
@@ -135,27 +147,15 @@ standup meetings."
   "Calls `status-to-phone' then copies two days' entries to Slack."
   (interactive)
 
-  (status-to-phone)
+  (status-to-phone)                     ; kill buffer contains text we want
+  (let ((tempfile (make-temp-file "status-to-slack"))
+        (json-tempfile (make-temp-file "status-to-slack" nil ".json")))
+    (with-temp-file tempfile (yank 1))
 
-  ;; Open file, copy entries
-  (find-file (concat (getenv "dbox") "/Miscellaneous/status.txt"))
-  (goto-char (point-min))
-  (org-forward-heading-same-level 2)
-  (copy-region-as-kill (point-min) (point))
-  (kill-buffer)
-
-  (let ((tempfile (make-temp-file "status-to-slack")))
-    (find-file tempfile)
-    (insert "```\n")
-    (yank 1)
-    (insert "```\n")
-    (save-buffer)
-    (kill-buffer)
-
-    (shell-command (concat "slacker.rb -u jim -c random < " tempfile " > /tmp/slack_post.json"))
-    (shell-command (concat "curl -X POST --silent --data @/tmp/slack_post.json " (getenv "SLACK_WEBHOOK_URL")))
+    (shell-command (concat "slacker.rb -u jim -c random < " tempfile " > " json-tempfile))
+    (shell-command (concat "curl -X POST --silent --data @" json-tempfile " " (getenv "SLACK_WEBHOOK_URL")))
     (delete-file tempfile)
-    (delete-file "/tmp/slack_post.json")))
+    (delete-file json-tempfile)))
 
 ;;; ================================================================
 
@@ -170,7 +170,6 @@ standup meetings."
 (add-hook 'org-present-mode-quit-hook
           (lambda ()
             (set-background-color *current-background*)))
-
 
 ;;;
 ;;; fzf

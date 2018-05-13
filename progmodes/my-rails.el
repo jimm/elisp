@@ -51,7 +51,7 @@ file."
   (interactive "DRails root: \nsRails environment [development]: ")
   (let* ((rails-root (val-or-default rails-root (find-rails-root (buffer-file-name))))
          (rails-env (val-or-default rails-env "development"))
-         (cmd (concat " rdb -s -e " rails-env " -r " rails-root))
+         (cmd (concat "rdb -s -e " rails-env " -r " rails-root))
          (vars (shell-command-to-string cmd))
          (lines (split-string vars "\n" t))
          (db-settings (mapcar (lambda (line)
@@ -67,21 +67,19 @@ file."
     (sql-mysql)
     (sql-set-sqli-buffer-generally)))
 
+(defun -spring-run-rspec (f arg)
+  (let ((path (buffer-file-name)))
+    (if (> arg 1)
+        (setq path (concat path ":" (int-to-string (line-number-at-pos)))))
+    (funcall f (concat "cd " (find-rails-root path) " && spring rspec " path))))
+
 (defun spring-run-rspec-in-terminal (arg)
   "Run \"spring rspec FILE\" in an external terminal."
   (interactive "p")
-  (let ((path (buffer-file-name)))
-    (if (> arg 1)
-        (setq path (concat path ":" (int-to-string (line-number-at-pos)))))
-    (send-to-iterm (concat "cd " (find-rails-root path)))
-    (send-to-iterm (concat "spring rspec " path))))
+  (-spring-run-rspec #'send-to-iterm arg))
 
 (defun spring-run-rspec-in-compile-buffer (arg)
   "Run \"spring rspec FILE\" in a compilation buffer."
-  (interactive "p")
-  (let ((path (buffer-file-name)))
-    (if (> arg 1)
-        (setq path (concat path ":" (int-to-string (line-number-at-pos)))))
-    (compile (concat "cd " (find-rails-root path) " && spring rspec " path))))
+  (-spring-run-rspec #'compile arg))
 
 (provide 'my-rails)
