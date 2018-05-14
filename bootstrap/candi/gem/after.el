@@ -14,6 +14,13 @@
       emms-source-file-default-directory "~/Documents/Dropbox/Music/music/"
       Buffer-menu-name-width 24)
 
+(add-to-list 'org-capture-templates
+             '("k" "Ticket w/checklist" entry (file+headline "work/candi/todo.org" "Miscellaneous")
+               "* TODO %?\n   [[jira:CAN-??]]\n   - [ ] Development\n   - [ ] PR +1\n   - [ ] QA pass\n   - [ ] Merge, delete branch"
+               :prepend t
+               :empty-lines 1)
+             t)
+
 ;; Add to the list of directories and files to ignore from rgrep, grep-find,
 ;; and friends.
 (add-to-list 'grep-find-ignored-directories "bundle")
@@ -161,6 +168,9 @@ standup meetings."
 
 ;;
 ;; Org Present Mode
+;;
+;; Note that there's a bug in the (old) version of Org mode that Org Present
+;; depends on that breaks table formatting.
 ;;
 ;; https://github.com/rlister/org-present
 (defvar *org-present-orig-background* nil)
