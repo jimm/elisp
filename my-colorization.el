@@ -35,10 +35,12 @@
     (when (>= emacs-major-version 24)
       (set-face-attribute 'org-level-2 nil
                           :foreground *org-dark-l2-foreground*)
-      (set-face-attribute 'org-block nil
+      (set-face-attribute 'org-block-background nil
                           :foreground *org-dark-block-foreground*
                           :background *org-dark-block-background*)
       (set-face-attribute 'org-block-begin-line nil
+                          :background *org-dark-block-border-background*)
+      (set-face-attribute 'org-block-end-line nil
                           :background *org-dark-block-border-background*))))
 
 (defun lighten-up ()
@@ -54,8 +56,10 @@
     (when (>= emacs-major-version 24)
       (set-face-attribute 'org-level-2 nil
                           :foreground *org-light-l2-foreground*)
-      (set-face-attribute 'org-block nil
+      (set-face-attribute 'org-block-background nil
                           :foreground *org-light-block-foreground*
                           :background *org-light-block-background*)
       (set-face-attribute 'org-block-begin-line nil
+                          :background *org-light-block-border-background*)
+      (set-face-attribute 'org-block-end-line nil
                           :background *org-light-block-border-background*))))
