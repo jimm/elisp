@@ -38,7 +38,11 @@ suitable for `inf-ruby-implementations`."
         (search-forward "\"")
         (let ((name (buffer-substring-no-properties start (- (point) 1))))
           (unless (member name '("heroku" "origin"))
-            (setq envs (cons (cons name (concat "candi-heroku " name))
+            (setq envs (cons (cons name
+                                   (concat "candi-heroku " name))
+                             envs))
+            (setq envs (cons (cons (concat name "-size-m")
+                                   (concat "candi-heroku " name "--size=performance-m"))
                              envs))))))
     (kill-buffer)
     envs))
