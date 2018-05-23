@@ -1,20 +1,25 @@
 (defun send-to-iterm (str)
-  "Send STR to the front window/session in iTerm. STR may contain
-multiple lines separated by `\n'."
+  "Send STR to the front window/session in iTerm, with an
+additional newline if STR does not end in one. STR may contain
+multiple lines."
   (interactive "siTerm input: ")
-  (let ((lines (split-string
-                (replace-regexp-in-string "\"" "\\\"" str t t)
-                "\n")))
+  (let ((tempfile (concat "/tmp/emacs_iterm_"
+                          (int-to-string (abs (random)))
+                          ".txt")))
+    (with-temp-file tempfile
+      (insert str)
+      (when (not (string-equal "\n" (substring str (- (length str) 1))))
+        (insert "\n")))
     (do-applescript (concat
                      "tell application \"iTerm\"\n"
                      "	tell the current window\n"
                      "    tell the current session\n"
-                     ;; could also use "write contents of file <foo>"
-                     (mapconcat (lambda (s) (concat "write text \"" s "\"\n")) lines "")
+                     "      write contents of file \"" tempfile "\"\n"
                      "    end tell\n"
                      "	end tell\n"
                      "end tell\n"
-                     ))))
+                     ))
+    (delete-file tempfile)))
 
 (defun send-region-to-iterm ()
   "Send the region to iTerm using send-to-iterm."
@@ -34,7 +39,7 @@ a key."
   (save-excursion
     (beginning-of-line)
     (push-mark)
-    (end-of-line)
+    (forward-line)
     (send-region-to-iterm)))
 
 (defun send-current-line-to-iterm-and-next-line ()
