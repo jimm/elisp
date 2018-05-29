@@ -42,7 +42,7 @@ suitable for `inf-ruby-implementations`."
                                    (concat "candi-heroku " name))
                              envs))
             (setq envs (cons (cons (concat name "-size-m")
-                                   (concat "candi-heroku " name "--size=performance-m"))
+                                   (concat "candi-heroku " name " --size=performance-m"))
                              envs))))))
     (kill-buffer)
     envs))
