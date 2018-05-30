@@ -32,16 +32,19 @@
     (set-face-attribute 'mode-line nil
                         :foreground *dark-mode-foreground*
                         :background *dark-mode-background*)
-    (when (>= emacs-major-version 24)
-      (set-face-attribute 'org-level-2 nil
-                          :foreground *org-dark-l2-foreground*)
-      (set-face-attribute 'org-block-background nil
-                          :foreground *org-dark-block-foreground*
-                          :background *org-dark-block-background*)
-      (set-face-attribute 'org-block-begin-line nil
-                          :background *org-dark-block-border-background*)
-      (set-face-attribute 'org-block-end-line nil
-                          :background *org-dark-block-border-background*))))
+    (let ((block-sym (if (>= emacs-major-version 26)
+                         'org-block
+                       'org-block-background)))
+      (when (>= emacs-major-version 24)
+        (set-face-attribute 'org-level-2 nil
+                            :foreground *org-dark-l2-foreground*)
+        (set-face-attribute org-block-sym nil
+                            :foreground *org-dark-block-foreground*
+                            :background *org-dark-block-background*)
+        (set-face-attribute 'org-block-begin-line nil
+                            :background *org-dark-block-border-background*)
+        (set-face-attribute 'org-block-end-line nil
+                            :background *org-dark-block-border-background*))))
 
 (defun lighten-up ()
   (interactive)
@@ -53,13 +56,16 @@
     (set-face-attribute 'mode-line nil
                         :foreground *light-mode-foreground*
                         :background *light-mode-background*)
-    (when (>= emacs-major-version 24)
-      (set-face-attribute 'org-level-2 nil
-                          :foreground *org-light-l2-foreground*)
-      (set-face-attribute 'org-block-background nil
-                          :foreground *org-light-block-foreground*
-                          :background *org-light-block-background*)
-      (set-face-attribute 'org-block-begin-line nil
-                          :background *org-light-block-border-background*)
-      (set-face-attribute 'org-block-end-line nil
-                          :background *org-light-block-border-background*))))
+    (let ((org-block-sym (if (>= emacs-major-version 26)
+                         'org-block
+                       'org-block-background)))
+      (when (>= emacs-major-version 24)
+        (set-face-attribute 'org-level-2 nil
+                            :foreground *org-light-l2-foreground*)
+        (set-face-attribute org-block-sym nil
+                            :foreground *org-light-block-foreground*
+                            :background *org-light-block-background*)
+        (set-face-attribute 'org-block-begin-line nil
+                            :background *org-light-block-border-background*)
+        (set-face-attribute 'org-block-end-line nil
+                            :background *org-light-block-border-background*)))))
