@@ -6,6 +6,9 @@
  '(abbrev-mode nil t)
  '(css-indent-offset 2)
  '(eshell-save-history-on-exit t)
+ '(generic-extras-enable-list
+   (quote
+    (alias-generic-mode apache-conf-generic-mode apache-log-generic-mode etc-fstab-generic-mode etc-modules-conf-generic-mode etc-passwd-generic-mode etc-services-generic-mode etc-sudoers-generic-mode fvwm-generic-mode hosts-generic-mode inetd-conf-generic-mode java-manifest-generic-mode java-properties-generic-mode javascript-generic-mode mailagent-rules-generic-mode mailrc-generic-mode named-boot-generic-mode named-database-generic-mode prototype-generic-mode resolve-conf-generic-mode samba-generic-mode show-tabs-generic-mode vrml-generic-mode x-resource-generic-mode xmodmap-generic-mode)))
  '(package-selected-packages
    (quote
     (bundler projectile projectile-rails crystal-mode docker docker-compose-mode docker-tramp slime graphviz-dot-mode yasnippet yasnippet-snippets inf-ruby dockerfile-mode rjsx-mode magit toml-mode rust-mode elm-mode elm-yasnippets yaml-mode textile-mode smex sicp sass-mode rspec-mode ponylang-mode markdown-mode lua-mode less-css-mode inf-clojure http-twiddle haskell-mode hamlet-mode go-mode fzf flx-ido emms dumb-jump diminish coffee-mode alchemist ag ace-window 2048-game)))
