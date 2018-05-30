@@ -44,7 +44,7 @@
         (set-face-attribute 'org-block-begin-line nil
                             :background *org-dark-block-border-background*)
         (set-face-attribute 'org-block-end-line nil
-                            :background *org-dark-block-border-background*))))
+                            :background *org-dark-block-border-background*)))))
 
 (defun lighten-up ()
   (interactive)
