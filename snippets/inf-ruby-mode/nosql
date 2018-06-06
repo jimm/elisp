@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name : AR::Base.logger.level = :warn
+# key: nosql
+# --
+ActiveRecord::Base.logger.level = :warn$0

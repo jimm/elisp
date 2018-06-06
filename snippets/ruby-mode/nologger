@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name : AR::Base.logger = nil
-# key: nologger
-# --
-ActiveRecord::Base.logger = nil$0
