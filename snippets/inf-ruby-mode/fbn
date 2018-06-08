@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: find_by(number: '')
+# key: fbn
+# --
+find_by(number: '$1')$0
