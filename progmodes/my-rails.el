@@ -42,7 +42,8 @@ directory."
   (rails-shell-command "console"))
 
 (defun rdb (&optional rails-root rails-env)
-  "Given optional RAILS-ROOT (default: search for root from
+  "Start a MySQL buffer using `rdb' to determine connection.
+Given optional RAILS-ROOT (default: search for root from
 default-directory) and RAILS-ENV (\"development\" by default),
 read the database settings from config/database.yml, set sql-*
 variable values, and call `sql-mysql'. Uses my `rdb' script to
@@ -59,8 +60,9 @@ file."
                                 (let ((keyval (split-string line "=")))
                                   (cons (car keyval) (substring (cadr keyval) 1 -1))))
                               lines)))
+    (message "%S" db-settings)
     (setq sql-server   (cdr (assoc "host" db-settings))
-          sql-port     (string-to-int (cdr (assoc "port" db-settings)))
+          sql-port     (string-to-number (cdr (assoc "port" db-settings)))
           sql-database (cdr (assoc "database" db-settings))
           sql-user     (cdr (assoc "username" db-settings))
           sql-password (cdr (assoc "password" db-settings)))
