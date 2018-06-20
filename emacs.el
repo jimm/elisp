@@ -82,6 +82,19 @@ do so when `this-command' is one of the commands in
 (setq visible-bell nil
       ring-bell-function #'mode-line-visible-bell)
 
+(defun path-to-clipboard ()
+  "Copies path to file visited by current buffer to the system clipboard.
+From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs"
+  (interactive)
+  (let ((filename (if (equal major-mode 'dired-mode)
+                      default-directory
+                    (buffer-file-name))))
+    (when filename
+      (with-temp-buffer
+        (insert filename)
+        (clipboard-kill-region (point-min) (point-max)))
+      (message filename))))
+
 ;;; 2048-game
 (add-hook '2048-mode-hook
           (lambda ()
