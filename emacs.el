@@ -48,9 +48,10 @@ whitespace-only string."
         package--init-file-ensured t)   ; avoid check for being in init.el
   (package-initialize))
 
-(defvar my-shell #'eshell
+;; Possible values include #'shell, #'eshell, or #'switch-to-iterm
+(defvar my-shell #'shell
   "The shell to use inside Emacs; examples include 'shell or 'eshell.")
-(defvar my-alternate-shell #'switch-to-iterm
+(defvar my-alternate-shell #'eshell
   "Alternate shell. Bound to alternate key.")
 
 (when (equal default-directory "/")
