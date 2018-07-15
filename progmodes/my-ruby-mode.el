@@ -1,6 +1,7 @@
 (require 'my-rails)
 (require 'rdoc-mode)
 (require 'ruby-testing)
+(require 'ob-ruby)                      ; Org-Babel support for Ruby eval
 
 (defun insert-ruby-hash-arrow ()
   (interactive "*")

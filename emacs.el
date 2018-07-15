@@ -48,8 +48,13 @@ whitespace-only string."
         package--init-file-ensured t)   ; avoid check for being in init.el
   (package-initialize))
 
+(defun my-start-shell ()
+  (interactive)
+  (shell)
+  (set-process-query-on-exit-flag (get-process "shell") nil))
+
 ;; Possible values include #'shell, #'eshell, or #'switch-to-iterm
-(defvar my-shell #'shell
+(defvar my-shell #'my-start-shell
   "The shell to use inside Emacs; examples include 'shell or 'eshell.")
 (defvar my-alternate-shell #'eshell
   "Alternate shell. Bound to alternate key.")
