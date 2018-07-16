@@ -151,7 +151,7 @@ standup meetings."
     (replace-match "\\1"))
   (goto-char (point-min))
   (while (re-search-forward "\\[\\[\\([[:word:]]+:[[:word:]]+-?[[:digit:]]+\\)]\\[\\([^]]+\\)]]" nil t)
-    (replace-match "\"\\2\" (\\1)"))
+    (replace-match "\\2 (\\1)"))
 
   ;; Make a version in the system paste buffer for pasting into Slack
   (copy-region-as-kill (point-min) (point-max))
