@@ -1008,7 +1008,7 @@ you have a local copy, for example.")
 (add-to-list 'auto-mode-alist '("\\.cr$" . crystal-mode)) ; Crystal
 (add-hook 'crystal-mode-hook
           (lambda ()
-            (define-key cxystal-mode-map "\C-cr" #'executable-interpret)))
+            (define-key crystal-mode-map "\C-cx" #'executable-interpret)))
 
 ;;
 ;; Dired-mode
