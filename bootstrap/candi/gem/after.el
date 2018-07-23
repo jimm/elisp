@@ -136,8 +136,8 @@ standup meetings."
 
   ;; Bullet lists
   (goto-char (point-min))
-  (while (re-search-forward "^-" nil t)
-    (replace-match "•"))
+  (while (re-search-forward "^\\( *\\)-" nil t)
+    (replace-match "\\1\\1•"))
 
   ;; Convert =this= to `this`
   (goto-char (point-min))
@@ -152,6 +152,11 @@ standup meetings."
   (goto-char (point-min))
   (while (re-search-forward "\\[\\[\\([[:word:]]+:[[:word:]]+-?[[:digit:]]+\\)]\\[\\([^]]+\\)]]" nil t)
     (replace-match "\\2 (\\1)"))
+
+  ;; Subheadings
+  (goto-char (point-min))
+  (while (re-search-forward "^\\*\\* +\\(.*\\)" nil t)
+    (replace-match "_\\1_"))
 
   ;; Make a version in the system paste buffer for pasting into Slack
   (copy-region-as-kill (point-min) (point-max))
