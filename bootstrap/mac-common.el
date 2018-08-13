@@ -1,3 +1,8 @@
+(defun open-email-client ()
+  "Open an email client"
+  (interactive)
+  (shell-command "open mailto:"))
+
 ;;; On Mac OS, GUI applications don't get your login environment variables.
 ;;; Read them from a shell and set them, except for a few, and set
 ;;; `exec-path' from the contents of PATH.
