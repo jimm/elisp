@@ -146,19 +146,9 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
           (lambda ()
             (when-fboundp-call inf-clojure-minor-mode)
             (define-key clojure-mode-map "\r" 'newline-and-indent)
-            (define-key clojure-mode-map "\C-c\C-c" #'comment-region)
             (define-key clojure-mode-map "\C-cd" 'debug-comment)
             (define-key clojure-mode-map "\C-ci" 'in-ns-to-inferior-lisp)
-            (define-key clojure-mode-map "\C-cn" 'ns-to-inferior-lisp)
-            (define-key inf-clojure-minor-mode-map "\C-c\C-c" #'comment-region)))
-
-(add-hook 'nrepl-connected-hook
-          (lambda ()
-            ;; nREPL mode has two key bindings that do the same thing:
-            ;; \C-c\C-c and C-M-x both run nrepl-eval-expression-at-point.
-            ;; Normally \C-c\C-c is bound to comment-region, so let's
-            ;; reinstate that.
-            (define-key nrepl-interaction-mode-map "\C-c\C-c" 'comment-region)))
+            (define-key clojure-mode-map "\C-cn" 'ns-to-inferior-lisp)))
 
 ;;; Common Lisp
 
@@ -841,8 +831,7 @@ you have a local copy, for example.")
 ;;
 (add-hook 'sh-mode-hook
           (lambda ()
-            (define-key sh-mode-map "\C-c\C-k" #'compile)
-            (define-key shell-mode-map "\C-c\C-c" #'comment-region)))
+            (define-key sh-mode-map "\C-c\C-k" #'compile)))
 
 ;;
 ;; Eshell-mode
