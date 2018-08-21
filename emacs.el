@@ -325,10 +325,6 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
 (setq js2-basic-offset 2)
 ;;(setq js2-use-font-lock-faces t)
 
-;;; KeyMaster
-(autoload #'keymaster-mode "keymaster-mode")
-(add-to-list 'auto-mode-alist '("\\.km$" . keymaster-mode))
-
 ;;; Markdown
 (add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\|mdown\\)$" . markdown-mode))
 (add-hook 'markdown-mode-hook
@@ -399,10 +395,6 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
 (autoload #'sass-mode "sass-mode" "sass mode")
 (add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
 (add-to-list 'auto-mode-alist '("\\.s\\(a\\|c\\)?ss$" . sass-mode))
-
-;;; shenzhen-io-mode
-(autoload #'shenzhen-io-mode "shenzhen-io-mode")
-(add-to-list 'auto-mode-alist '("\\.szio" . shenzhen-io-mode))
 
 ;;; Smex
 (when (fboundp #'smex-initialize)
