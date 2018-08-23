@@ -134,12 +134,15 @@ standup meetings."
   (end-of-buffer)
   (delete-blank-lines)
 
-  (let ((replace (lambda (regex replace)
+  (let ((replace (lambda (regex replacement)
                    (goto-char (point-min))
                    (while (re-search-forward regex nil t)
-                     (replace-match replace)))))
+                     (replace-match replacement)))))
     ;; Bullet lists
-    (funcall replace "^\\( *\\)-" "\\1\\1•")
+    ;; (replace-regexp "^\\( *\\)-" "\\,(length \"foo\")•")
+    (goto-char (point-min))
+    (while (re-search-forward "^\\( *\\)-" nil t)
+      (replace-match (concat (replace-regexp-in-string "  " "\t" (match-string 1)) "•")))
     ;; Convert =this= to `this`
     (funcall replace "=\\([^=]+\\)=" "`\\1`")
     ;; Clean up links
@@ -147,7 +150,10 @@ standup meetings."
     (funcall replace "\\[\\[\\([[:word:]]+:[[:word:]]+-?[[:digit:]]+\\)]\\[\\([^]]+\\)]]" "_\\2_ (\\1)")
     ;; Subheadings
     (funcall replace "^\\*\\* +\\(.*\\)" "*\\1*")
-    (funcall replace "^\\*\\*\\* +\\(.*\\)" "_\\1_"))
+    (funcall replace "^\\*\\*\\* +\\(.*\\)" "_\\1_")
+    ;; Tables
+    (funcall replace "\n\n|" "\n\n```\n|")
+    (funcall replace "|\n\n" "|\n```\n\n"))
 
   ;; Make a version in the system paste buffer for pasting into Slack
   (copy-region-as-kill (point-min) (point-max))
