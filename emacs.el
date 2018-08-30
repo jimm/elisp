@@ -48,8 +48,13 @@ whitespace-only string."
         package--init-file-ensured t)   ; avoid check for being in init.el
   (package-initialize))
 
+(defun my-start-shell ()
+  (interactive)
+  (shell)
+  (set-process-query-on-exit-flag (get-process "shell") nil))
+
 ;; Possible values include #'shell, #'eshell, or #'switch-to-iterm
-(defvar my-shell #'shell
+(defvar my-shell #'my-start-shell
   "The shell to use inside Emacs; examples include 'shell or 'eshell.")
 (defvar my-alternate-shell #'eshell
   "Alternate shell. Bound to alternate key.")
@@ -141,19 +146,9 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
           (lambda ()
             (when-fboundp-call inf-clojure-minor-mode)
             (define-key clojure-mode-map "\r" 'newline-and-indent)
-            (define-key clojure-mode-map "\C-c\C-c" #'comment-region)
             (define-key clojure-mode-map "\C-cd" 'debug-comment)
             (define-key clojure-mode-map "\C-ci" 'in-ns-to-inferior-lisp)
-            (define-key clojure-mode-map "\C-cn" 'ns-to-inferior-lisp)
-            (define-key inf-clojure-minor-mode-map "\C-c\C-c" #'comment-region)))
-
-(add-hook 'nrepl-connected-hook
-          (lambda ()
-            ;; nREPL mode has two key bindings that do the same thing:
-            ;; \C-c\C-c and C-M-x both run nrepl-eval-expression-at-point.
-            ;; Normally \C-c\C-c is bound to comment-region, so let's
-            ;; reinstate that.
-            (define-key nrepl-interaction-mode-map "\C-c\C-c" 'comment-region)))
+            (define-key clojure-mode-map "\C-cn" 'ns-to-inferior-lisp)))
 
 ;;; Common Lisp
 
@@ -194,24 +189,6 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
         ;; Scala error messages
         '("\\(\\([a-zA-Z0-9]*/\\)*\\([a-zA-Z0-9]*\\.scala\\)\\):\\([0-9]*\\).*" 1 2)
         compilation-error-regexp-alist)))
-
-;;; Groovy
-(autoload #'groovy-mode "groovy-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.groovy$" . groovy-mode))
-(add-hook 'groovy-mode-hook
-          (lambda ()
-            (setq groovy-basic-offset 4)
-            (define-key groovy-mode-map "\r" #'newline-and-indent)
-            (define-key groovy-mode-map "\C-cx" #'executable-interpret)
-            (font-lock-mode 1)))
-
-;; Groovy shell mode
-(autoload #'run-groovy "inf-groovy" "Run an inferior Groovy shell process")
-(autoload #'inf-groovy-keys "inf-groovy"
-  "Set local key defs for inf-groovy in groovy-mode")
-(add-hook 'groovy-mode-hook
-          (lambda ()
-            (inf-groovy-keys)))
 
 ;;; ido
 (when (fboundp #'ido-mode)
@@ -348,10 +325,6 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
 (setq js2-basic-offset 2)
 ;;(setq js2-use-font-lock-faces t)
 
-;;; KeyMaster
-(autoload #'keymaster-mode "keymaster-mode")
-(add-to-list 'auto-mode-alist '("\\.km$" . keymaster-mode))
-
 ;;; Markdown
 (add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\|mdown\\)$" . markdown-mode))
 (add-hook 'markdown-mode-hook
@@ -422,47 +395,6 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
 (autoload #'sass-mode "sass-mode" "sass mode")
 (add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
 (add-to-list 'auto-mode-alist '("\\.s\\(a\\|c\\)?ss$" . sass-mode))
-
-;;; Scala
-;; You might need to "sbaz install scala-tool-support" which puts emacs support
-;; into /usr/local/scala/misc/scala-tool-support/emacs"
-
-(condition-case ex
-    (progn
-      (autoload #'scala-mode "scala-mode2" "Scala mode" t nil)
-      (add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
-      (load "inf-sbt")
-      (add-hook 'scala-mode-hook
-                (lambda ()
-                  (define-key scala-mode-map [f1] my-shell) ; I don't use Speedbar
-                  (define-key scala-mode-map "\r" #'newline-and-indent)
-                  (define-key scala-mode-map "\C-cx" #'executable-interpret)))
-      ;; That bright red face for vars is too annoying
-      (set-face-attribute 'scala-font-lock:var-face nil :bold nil :foreground "red3"))
-  (error nil))
-
-;; Derived from path-to-java-package in progmodes/my-java-mode.el
-(defun path-to-scala-package (path)
-  "Returns a Scala package name for PATH, which is a file path.
-Looks for 'src' or 'src/scala/{main,test}' in PATH and uses everything after
-that, turning slashes into dots. For example, the path
-/home/foo/project/src/main/scala/com/yoyodyne/project/Foo.scala becomes
-'com.yoyodyne.project'. If PATH is a directory, the last part of
-the path is ignored. That is a bug, but it's one I can live with
-for now."
-  (interactive)
-  (let ((reverse-path-list (cdr (reverse (split-string path "/")))))
-    (mapconcat
-     #'identity
-     (reverse (upto reverse-path-list
-		    (if (or (member "main" reverse-path-list)
-                            (member "test" reverse-path-list))
-                        "scala" "src")))
-     ".")))
-
-;;; shenzhen-io-mode
-(autoload #'shenzhen-io-mode "shenzhen-io-mode")
-(add-to-list 'auto-mode-alist '("\\.szio" . shenzhen-io-mode))
 
 ;;; Smex
 (when (fboundp #'smex-initialize)
@@ -891,8 +823,7 @@ you have a local copy, for example.")
 ;;
 (add-hook 'sh-mode-hook
           (lambda ()
-            (define-key sh-mode-map "\C-c\C-k" #'compile)
-            (define-key shell-mode-map "\C-c\C-c" #'comment-region)))
+            (define-key sh-mode-map "\C-c\C-k" #'compile)))
 
 ;;
 ;; Eshell-mode
@@ -1003,7 +934,7 @@ you have a local copy, for example.")
 (add-to-list 'auto-mode-alist '("\\.cr$" . crystal-mode)) ; Crystal
 (add-hook 'crystal-mode-hook
           (lambda ()
-            (define-key cxystal-mode-map "\C-cr" #'executable-interpret)))
+            (define-key crystal-mode-map "\C-cx" #'executable-interpret)))
 
 ;;
 ;; Dired-mode
@@ -1173,11 +1104,6 @@ I'm using save-excursion."
     (address str)
     (search-forward "mailto:")
     (org-open-at-point)))
-
-(defun open-email-client ()
-  "Open an email client"
-  (interactive)
-  (shell-command "open mailto:"))
 
 ;; From http://steve-yegge.blogspot.com/2007/02/my-save-excursion.html
 (defun article-length ()

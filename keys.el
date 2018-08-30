@@ -18,7 +18,6 @@
 (global-set-key "\C-c2" #'rgrep)
 (global-set-key "\C-c3" #'grep)
 (global-set-key "\C-c4" #'git-grep)
-(global-set-key "\C-c\C-c" #'comment-region)
 (global-set-key "\C-c\C-d" #'git-root-dired)
 (global-set-key "\C-h" #'backward-delete-char)
 (global-set-key "\C-cn" #'org-capture)
@@ -70,9 +69,7 @@
 (when (fboundp #'smex-initialize)
   (global-set-key (kbd "M-x") #'smex)
   (global-set-key (kbd "M-X") #'smex-major-mode-commands)
-  ;; This is your old M-x. (Was "C-c C-c M-x" in smex sample, but "C-c C-c" is
-  ;; already taken by my comment-region binding.
-  (global-set-key (kbd "C-c C-x M-x") #'execute-extended-command))
+  (global-set-key (kbd "C-c C-c M-x") #'execute-extended-command))
 
 ;;; Tried writing a loop to do this, but the final number wasn't being captured
 (global-set-key "\M-1" (lambda () (interactive) (nth-other-window 0)))

@@ -1,6 +1,7 @@
 (require 'my-rails)
 (require 'rdoc-mode)
 (require 'ruby-testing)
+(require 'ob-ruby)                      ; Org-Babel support for Ruby eval
 
 (defun insert-ruby-hash-arrow ()
   (interactive "*")
@@ -46,8 +47,6 @@ current project."
             (define-key ruby-mode-map "\C-cx" #'executable-interpret)
             (define-key ruby-mode-map "\C-cd" #'debug-comment)
             (define-key ruby-mode-map "\C-ch" #'insert-ruby-hash-arrow)
-            (define-key ruby-mode-map "\C-ct" #'run-ruby-test)
-            (define-key ruby-mode-map "\C-cs" #'run-ruby-spec)
             (define-key ruby-mode-map "\C-c." #'my-ruby-find-definition-at-point)
             (define-key ruby-mode-map "{" #'self-insert-command)
             (define-key ruby-mode-map "}" #'self-insert-command)
