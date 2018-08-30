@@ -5,7 +5,7 @@
                              (tool-bar-mode . nil)
                              (font . "Menlo 14"))))
     (setq initial-frame-alist
-          (append basic-frame-alist '((width . 235) (height . 71)
+          (append basic-frame-alist '((width . 205) (height . 71)
                                       (top . 0) (left . 0)))
           default-frame-alist basic-frame-alist)))
 
