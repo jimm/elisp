@@ -192,11 +192,5 @@ standup meetings."
           (lambda ()
             (set-background-color *current-background*)))
 
-;;;
-;;; fzf
-;;;
-(when (fboundp 'fzf)
-  (setq fzf/executable "/Users/jim.menard/.fzf/bin/fzf"))
-
 ;; Start Emacs server
 (server-start)

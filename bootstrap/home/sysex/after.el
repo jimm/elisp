@@ -16,8 +16,5 @@
 
 (setq sql-sqlite-program "sqlite3")
 
-(when (fboundp #'fzf)
-  (setq fzf/executable "~/.fzf/bin/fzf"))
-
 ;; Start Emacs server
 (server-start)

@@ -275,6 +275,12 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
         (global-set-key [\C-f9] #'fzf)
       (global-set-key [f9] #'ef))))
 
+;;;
+;;; fzf
+;;;
+(when (fboundp 'fzf)
+  (setq fzf/executable "~/.fzf/bin/fzf"))
+
 ;;; Gnus
 (setq gnus-site-init-file (concat *my-emacs-lib-dir* "gnus-init.el"))
 (if (zerop (shell-command "which gnutls-cli >/dev/null 2>&1"))

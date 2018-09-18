@@ -1,4 +1,5 @@
-;;; My collection of functions that are sort of like projectile-mode.
+;;; My collection of functions and settings that are sort of like
+;;; projectile-mode.
 
 (setq compile-command "makeup "  ; script finds make/rake/mix.exs/build/etc.
       grep-command "grep -n ")
@@ -57,6 +58,8 @@ current symbol at point."
 
 ;;; ================================================================
 ;;; Finding files
+;;;
+;;; ...but see also `fzf'.
 ;;; ================================================================
 
 ;;
