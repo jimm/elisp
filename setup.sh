@@ -45,12 +45,12 @@ fi
 
 # ==== main ====
 
-# Create ~/.emacs
-backup_if_exists ~/.emacs
-$debug ln -s $bd/$domain/$machine/dot_emacs ~/.emacs
-
 # Create ~/.emacs.d
 $debug mkdir -p ~/.emacs.d
+
+# Create ~/.emacs
+backup_if_exists ~/.emacs.d/init.el
+$debug ln -s $bd/$domain/$machine/dot_emacs ~/.emacs.d/init.el
 
 # Link newsrc
 if [ -f $newsrc_dir ] ; then
