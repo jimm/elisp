@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name : foo = {foo}
+# key: p
+# condition: 'force-in-comment
+# --
+${1:foo} = {$1}

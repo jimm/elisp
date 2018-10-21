@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: print("", file=sys.stderr)
+# key: pre
+# --
+print(f"$0", file=sys.stderr)

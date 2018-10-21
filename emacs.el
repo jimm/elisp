@@ -370,6 +370,8 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
 
 ;;; python-mode
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
+(custom-set-variables
+ '(python-fill-docstring-style 'pep-257-nn))
 (add-hook 'python-mode-hook
           (lambda ()
             (turn-on-font-lock)
