@@ -278,8 +278,9 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
 ;;;
 ;;; fzf
 ;;;
-(when (fboundp 'fzf)
-  (setq fzf/executable "~/.fzf/bin/fzf"))
+(let ((local-fzf-executable "~/.fzf/bin/fzf"))
+  (when (and (fboundp 'fzf) (file-exists-p local-fzf-executable))
+    (setq fzf/executable local-fzf-executable)))
 
 ;;; Gnus
 (setq gnus-site-init-file (concat *my-emacs-lib-dir* "gnus-init.el"))
