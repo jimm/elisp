@@ -36,6 +36,8 @@ this function."
    package--init-file-ensured t)    ; avoid check for being in init.el
   (add-to-list 'load-path *my-emacs-lib-dir* t) ; add to end of load path
   (load-file custom-file)
+  (when (eq system-type 'darwin)
+    (load-file (concat *my-emacs-lib-dir* "bootstrap/mac-before.el")))
   (load-init-if-exists "before")
   (load-library "emacs")
   (load-init-if-exists "after"))

@@ -1,5 +1,3 @@
-(load-file (concat *my-emacs-lib-dir* "bootstrap/mac-common.el"))
-
 (defvar *my-erlang-emacs-tools-dir*
   (concat (car (file-expand-wildcards "/opt/local/lib/erlang/lib/tools*"))
           "/emacs/"))

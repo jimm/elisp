@@ -1,4 +1,3 @@
-(load-file (concat *my-emacs-lib-dir* "bootstrap/mac-common.el"))
 (load-file (concat *my-emacs-lib-dir* "bootstrap/work-common.el"))
 
 (setq shell-file-name "/bin/bash")

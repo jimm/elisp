@@ -1,5 +1,3 @@
-(load-file (concat *my-emacs-lib-dir* "bootstrap/mac-common.el"))
-
 (when window-system
   (defvar *basic-frame-alist* '((tool-bar-mode . nil)))
   (setq initial-frame-alist

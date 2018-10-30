@@ -1,5 +1,3 @@
-(load-file (concat *my-emacs-lib-dir* "bootstrap/mac-common.el"))
-
 (when window-system
   (let ((basic-frame-alist '((background-color . "white")
                              (tool-bar-mode . nil)

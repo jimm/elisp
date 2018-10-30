@@ -17,6 +17,10 @@
       emms-source-file-default-directory "~/Documents/Dropbox/Music/music/"
       Buffer-menu-name-width 24)
 
+;; Jira
+(add-to-list 'org-link-abbrev-alist
+             '("jira" . "https://jira.warbyparker.com/browse/"))
+
 ;; Markdown
 (add-hook 'markdown-mode-hook
           (lambda () (setq markdown-command "multimarkdown")))
