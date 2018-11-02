@@ -1,5 +1,5 @@
 (defvar *light-foreground* "black")
-(defvar *light-background* "white")
+(defvar *light-background* "ghostwhite")
 (defvar *light-mode-foreground* "yellow")
 (defvar *light-mode-background* "black")
 

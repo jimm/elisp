@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name : if_name_main_
+# key: ifmain
+# --
+if __name__ == '__main__':
+    $0

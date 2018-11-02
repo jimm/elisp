@@ -8,7 +8,7 @@
  '(eshell-save-history-on-exit t)
  '(package-selected-packages
    (quote
-    (yaml-mode editorconfig ace-window ag alchemist avy diminish flx-ido fzf magit markdown-mode projectile sicp slime smex suggest yasnippet yasnippet-snippets)))
+    (groovy-mode yaml-mode editorconfig ace-window ag alchemist avy diminish flx-ido fzf magit markdown-mode projectile sicp slime smex suggest yasnippet yasnippet-snippets)))
  '(python-fill-docstring-style (quote pep-257-nn))
  '(sgml-xml-mode t)
  '(woman-use-own-frame nil))
