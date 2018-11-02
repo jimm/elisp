@@ -382,6 +382,18 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
             (define-key python-mode-map "\M-[" #'python-indent-shift-left)
             (define-key python-mode-map "\M-]" #'python-indent-shift-right)))
 
+(defun pyfmt ()
+  "Format the current Python buffer.
+
+Uses `isort` and `black`, both of which are Python eggs that are
+assumed to be installed already."
+  (interactive)
+  (unless (zerop (call-process "isort" nil nil nil (buffer-file-name)))
+    (error "error running `isort`"))
+  (unless (zerop (call-process "black" nil nil nil (buffer-file-name)))
+    (error "error running `black`"))
+  (revert-buffer nil t))
+
 ;;; ruby-mode
 ;; Use "M-x run-ruby" to start inf-ruby.
 (autoload #'ruby-mode "ruby-mode" "Ruby mode" t nil)
