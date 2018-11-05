@@ -1,6 +1,7 @@
 (load-file (concat *my-emacs-lib-dir* "bootstrap/work-common.el"))
 
-(setq shell-file-name "/bin/bash")
+(setq shell-file-name "/bin/bash"
+      epa-pinentry-mode 'loopback)
 
 (when window-system
   (let ((basic-frame-alist '((tool-bar-mode . nil)
