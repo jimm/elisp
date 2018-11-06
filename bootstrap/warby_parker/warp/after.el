@@ -27,17 +27,17 @@
 
 ;;; projectile-project-root returns nil if no dir found, but the original
 ;;; definition of fzf does not handle that.
-(require 'fzf)
-(defun fzf ()
-  "Starts a fzf session."
-  (interactive)
-  (if (fboundp #'projectile-project-root)
-      (fzf/start (or (condition-case err
-                         (projectile-project-root)
-                       (error
-                        default-directory))
-                     default-directory))
-    (fzf/start default-directory)))
+;; (require 'fzf)
+;; (defun fzf ()
+;;   "Starts a fzf session."
+;;   (interactive)
+;;   (if (fboundp #'projectile-project-root)
+;;       (fzf/start (or (condition-case err
+;;                          (projectile-project-root)
+;;                        (error
+;;                         default-directory))
+;;                      default-directory))
+;;     (fzf/start default-directory)))
 
 ;;; ================================================================
 
