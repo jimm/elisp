@@ -1,3 +1,5 @@
+(defvar *my-pim-dir* "~/pim/")
+
 (setq shell-file-name "/bin/bash"
       epa-pinentry-mode 'loopback)
 
