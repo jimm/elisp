@@ -50,7 +50,10 @@ $debug mkdir -p ~/.emacs.d
 
 # Create ~/.emacs
 backup_if_exists ~/.emacs.d/init.el
-$debug ln -s $bd/$domain/$machine/dot_emacs ~/.emacs.d/init.el
+$debug ln -s $bd/$domain/$machine/init.el ~/.emacs.d/init.el
+
+# Link snippets
+$debug ln -s $HERE/snippets ~/.emacs.d
 
 # Link newsrc
 if [ -f $newsrc_dir ] ; then
