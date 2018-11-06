@@ -86,7 +86,7 @@ elements are abbreviated to their first letters."
       eshell-prompt-function
       (lambda ()
         (let ((vcs-str (or (curr-dir-git-branch-string (eshell/pwd))
-                          (curr-dir-svn-string (eshell/pwd)))))
+                           (curr-dir-svn-string (eshell/pwd)))))
           (concat
            vcs-str
            (chop-path (split-string (tildify-pwd (eshell/pwd)) "/") 3)
