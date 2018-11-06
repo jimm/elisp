@@ -477,7 +477,7 @@ assumed to be installed already."
 (setq x-select-enable-clipboard t
       mouse-drag-copy-region t)
 (when-fboundp-call set-scroll-bar-mode 'right)
-(mouse-wheel-mode 1)
+(when-fboundp-call mouse-wheel-mode 1)
 
 (when (>= emacs-major-version 23)
   ;; Time to try transient mark mode for a while
