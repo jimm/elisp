@@ -386,12 +386,10 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
   "Format the current Python buffer.
 
 Uses `isort` and `black`, both of which are Python eggs that are
-assumed to be installed already."
+assumed to be installed already. Ignores any errors."
   (interactive)
-  (unless (zerop (call-process "isort" nil nil nil (buffer-file-name)))
-    (error "error running `isort`"))
-  (unless (zerop (call-process "black" nil nil nil (buffer-file-name)))
-    (error "error running `black`"))
+  (call-process "isort" nil nil nil (buffer-file-name))
+  (call-process "black" nil nil nil (buffer-file-name))
   (revert-buffer nil t))
 
 ;;; ruby-mode
