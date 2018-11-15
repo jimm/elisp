@@ -1,15 +1,26 @@
-;;;;
-;;;; lilypond-mode.el --- Major mode for editing GNU LilyPond music scores
-;;;;
-;;;; source file of the GNU LilyPond music typesetter
+;;;; lilypond-mode.el -- Major mode for editing GNU LilyPond music scores
+;;;; This file is part of LilyPond, the GNU music typesetter.
 ;;;;  
-;;;; (c) 1999--2009 Jan Nieuwenhuizen <janneke@gnu.org>
-;;;; 
+;;;; Copyright (C) 1999--2015 Jan Nieuwenhuizen <janneke@gnu.org>
 ;;;; Changed 2001--2003 Heikki Junes <heikki.junes@hut.fi>
 ;;;;    * Add PS-compilation, PS-viewing and MIDI-play (29th Aug 2001)
 ;;;;    * Keyboard shortcuts (12th Sep 2001)
 ;;;;    * Inserting tags, inspired on sgml-mode (11th Oct 2001)
 ;;;;    * Autocompletion & Info (23rd Nov 2002)
+;;;;
+;;;; LilyPond is free software: you can redistribute it and/or modify
+;;;; it under the terms of the GNU General Public License as published by
+;;;; the Free Software Foundation, either version 3 of the License, or
+;;;; (at your option) any later version.
+;;;;
+;;;; LilyPond is distributed in the hope that it will be useful,
+;;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;;; GNU General Public License for more details.
+;;;;
+;;;; You should have received a copy of the GNU General Public License
+;;;; along with LilyPond.  If not, see <http://www.gnu.org/licenses/>.
+
 
 ;;; Inspired on auctex
 
@@ -32,7 +43,7 @@
   "File prefix for commands on buffer or region.")
 
 (defvar LilyPond-master-file nil
-  "Master file that Lilypond will be run on.")
+  "Master file that LilyPond will be run on.")
 
 ;; FIXME: find ``\score'' in buffers / make settable?
 (defun LilyPond-get-master-file ()
@@ -275,15 +286,14 @@ in LilyPond-include-path."
 (defun LilyPond-compile-file (command name)
   ;; We maybe should know what we run here (Lily, lilypond, tex)
   ;; and adjust our error-matching regex ?
-  (compile-internal
+  (compilation-start
    (if (eq LilyPond-command-current 'LilyPond-command-master)
        command
      ;; use temporary directory for Commands on Buffer/Region
      ;; hm.. the directory is set twice, first to default-dir
-     (concat "cd " (LilyPond-temp-directory) "; " command))
-   "No more errors" name))
+     (concat "cd " (LilyPond-temp-directory) "; " command))))
 
-;; do we still need this, now that we're using compile-internal?
+;; do we still need this, now that we're using compilation-start?
 (defun LilyPond-save-buffer ()
   "Save buffer and set default command for compiling."
   (interactive)
@@ -422,18 +432,16 @@ in LilyPond-include-path."
 (defcustom LilyPond-command-alist
   ;; Should expand this to include possible keyboard shortcuts which
   ;; could then be mapped to define-key and menu.
-  `(
-    ("LilyPond" . (,(concat LilyPond-lilypond-command " %s") "%s" "%l" "View"))
-    ("2PS" . (,(concat LilyPond-lilypond-command " -f ps %s") "%s" "%p" "ViewPS"))
-    ("2Gnome" . (,(concat LilyPond-lilypond-command " -b gnome %s")))
-
+  '(
+    ("LilyPond" . ((LilyPond-lilypond-command " %s") "%s" "%l" "View"))
+    ("2PS" . ((LilyPond-lilypond-command " -f ps %s") "%s" "%p" "ViewPS"))
     ("Book" . ("lilypond-book %x" "%x" "%l" "LaTeX"))
     ("LaTeX" . ("latex '\\nonstopmode\\input %l'" "%l" "%d" "ViewDVI"))
 
     ;; refreshes when kicked USR1
-    ("View" . (,(concat LilyPond-pdf-command " %f")))
-    ("ViewPDF" . (,(concat LilyPond-pdf-command " %f")))
-    ("ViewPS" . (,(concat LilyPond-ps-command " %p")))
+    ("View" . ((LilyPond-pdf-command " %f")))
+    ("ViewPDF" . ((LilyPond-pdf-command " %f")))
+    ("ViewPS" . ((LilyPond-ps-command " %p")))
 
     ;; The following are refreshed in LilyPond-command:
     ;; - current-midi depends on cursor position and
@@ -559,11 +567,6 @@ Must be the car of an entry in `LilyPond-command-alist'."
   (LilyPond-command (LilyPond-command-menu "2PS") 'LilyPond-get-master-file)
 )
 
-(defun LilyPond-command-formatgnome ()
-  "Format the gnome output of the current document."
-  (interactive)
-  (LilyPond-command (LilyPond-command-menu "2Gnome") 'LilyPond-get-master-file))
-
 (defun LilyPond-command-formatmidi ()
   "Format the midi output of the current document."
   (interactive)
@@ -613,23 +616,35 @@ Must be the car of an entry in `LilyPond-command-alist'."
   (LilyPond-command-select-buffer)
   (LilyPond-command-region (point-min) (point-max)))
 
-(defun LilyPond-command-expand (string file)
-  (let ((case-fold-search nil))
-    (if (string-match "%" string)
-	(let* ((b (match-beginning 0))
-	       (e (+ b 2))
-	       (l (split-file-name file))
-	       (dir (car l))
-	       (base (cadr l)))
-	  (LilyPond-command-expand
-	   (concat (substring string 0 b)
-		   (shell-quote-argument (concat dir base))
-		   (let ((entry (assoc (substring string b e)
-				       LilyPond-expand-alist)))
-		     (if entry (cdr entry) ""))
-		   (substring string e))
-	   file))
-      string)))
+(defun LilyPond-command-expand (arg file)
+  (cond
+   ((listp arg)
+    (mapconcat (lambda (arg) (LilyPond-command-expand arg file))
+	       arg
+	       ""))
+   ((and (symbolp arg) (boundp arg)
+	 ;; Avoid self-quoting symbols
+	 (not (eq (symbol-value arg) arg)))
+    (LilyPond-command-expand (symbol-value arg) file))
+   ((stringp arg)
+    (let ((case-fold-search nil))
+      (if (string-match "%" arg)
+	  (let* ((b (match-beginning 0))
+		 (e (+ b 2))
+		 (l (split-file-name file))
+		 (dir (car l))
+		 (base (cadr l)))
+	    (concat (substring arg 0 b)
+		    (shell-quote-argument (concat dir base))
+		    (LilyPond-command-expand
+		     (concat
+		      (let ((entry (assoc (substring arg b e)
+					  LilyPond-expand-alist)))
+			(if entry (cdr entry) ""))
+		      (substring arg e))
+		     file)))
+	arg)))
+   (t (error "Bad expansion `%S'" arg))))
 
 (defun LilyPond-shell-process (name buffer command)
   (let ((old (current-buffer)))
@@ -747,7 +762,6 @@ command."
   (define-key LilyPond-mode-map "\C-c\C-c" 'LilyPond-command-master)
   (define-key LilyPond-mode-map "\C-cm" 'LilyPond-command-formatmidi)
   (define-key LilyPond-mode-map "\C-c\C-f" 'LilyPond-command-formatps)
-  (define-key LilyPond-mode-map "\C-c\C-g" 'LilyPond-command-formatgnome)
   (define-key LilyPond-mode-map "\C-c\C-s" 'LilyPond-command-view)
   (define-key LilyPond-mode-map "\C-c\C-p" 'LilyPond-command-viewps)
   (define-key LilyPond-mode-map [(control c) return] 'LilyPond-command-current-midi)
@@ -756,7 +770,7 @@ command."
   (define-key LilyPond-mode-map "\C-cb" 'LilyPond-what-beat)
   (define-key LilyPond-mode-map "\C-cf" 'font-lock-fontify-buffer)
   (define-key LilyPond-mode-map "\C-ci" 'LilyPond-insert-tag-current)
-  ;; the following will should be overriden by Lilypond Quick Insert Mode
+  ;; the following will should be overridden by LilyPond Quick Insert Mode
   (define-key LilyPond-mode-map "\C-cq" 'LilyPond-quick-insert-mode)
   (define-key LilyPond-mode-map "\C-c;" 'LilyPond-comment-region)
   (define-key LilyPond-mode-map ")" 'LilyPond-electric-close-paren)
@@ -766,7 +780,7 @@ command."
   (define-key LilyPond-mode-map "|" 'LilyPond-electric-bar)
   (if (string-match "XEmacs\\|Lucid" emacs-version)
       (define-key LilyPond-mode-map [iso-left-tab] 'LilyPond-autocompletion)
-    (define-key LilyPond-mode-map [iso-lefttab] 'LilyPond-autocompletion))
+    (define-key LilyPond-mode-map [(shift iso-lefttab)] 'LilyPond-autocompletion))
   (define-key LilyPond-mode-map "\C-c\t" 'LilyPond-info-index-search)
   )
 
@@ -984,17 +998,17 @@ command."
 (defun LilyPond-menu-keywords ()
   "Make Insert Tag menu. 
 
-The Insert Tag -menu is splitted into parts if it is long enough."
+The Insert Tag -menu is split into parts if it is long enough."
 
   (let ((li (mapcar 'LilyPond-menu-keywords-item LilyPond-menu-keywords))
 	(w (round (sqrt (length LilyPond-menu-keywords))))
-	(splitted '())
+	(split '())
 	(imin 0) imax lw rw)
     (while (< imin (length LilyPond-menu-keywords))
       (setq imax (- (min (+ imin w) (length LilyPond-menu-keywords)) 1))
       (setq lw (nth imin LilyPond-menu-keywords)) 
       (setq rw (nth imax LilyPond-menu-keywords))
-      (add-to-list 'splitted
+      (add-to-list 'split
          (let ((l (list (concat (substring lw 0 (min 7 (length lw))) 
 				" ... " 
 				(substring rw 0 (min 7 (length rw)))))))
@@ -1002,7 +1016,7 @@ The Insert Tag -menu is splitted into parts if it is long enough."
 	     (add-to-list 'l (nth imin li))
 	     (setq imin (1+ imin)))
 	   (reverse l))))
-    (if (> (length LilyPond-menu-keywords) 12) (reverse splitted) li)))
+    (if (> (length LilyPond-menu-keywords) 12) (reverse split) li)))
 
 ;;; LilyPond-mode-menu should not be interactive, via "M-x LilyPond-<Tab>"
 (easy-menu-define LilyPond-mode-menu
@@ -1144,11 +1158,12 @@ LilyPond-command-alist\t\talist from name to command"
 
   ;; Use Command on Region even for inactive mark (region).
   (if (string-match "XEmacs\\|Lucid" emacs-version)
-      (setq zmacs-regions nil)
+      (progn
+	(setq zmacs-regions nil)
+	(make-local-hook 'post-command-hook)) ; XEmacs requires
     (setq mark-even-if-inactive t))
 
   ;; Context dependent syntax tables in LilyPond-mode
-  (when-fboundp-call make-local-hook 'post-command-hook) ; XEmacs requires
   (add-hook 'post-command-hook 'LilyPond-mode-context-set-syntax-table nil t)
 
   ;; Turn on paren-mode buffer-locally, i.e., in LilyPond-mode
