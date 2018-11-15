@@ -386,14 +386,15 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
 (defun pyenv-mode-auto-hook ()
   "Automatically activates pyenv version if .python-version file
 exists, else uses pyenv-defined default, else uses system."
-  (let ((dir (locate-dominating-file default-directory ".python-version")))
-    (pyenv-mode-set
-     (cond ((file-exists-p (concat dir ".python-version"))
-            (car (s-lines (s-trim (f-read-text pyenv-version-path 'utf-8)))))
-           ((file-exists-p "~/.pyenv/version")
-            (car (s-lines (s-trim (f-read-text "~/.pyenv/version" 'utf-8)))))
-           (t
-            "system")))))
+  (when (fboundp #'pyenv-mode-set)
+    (let ((dir (locate-dominating-file default-directory ".python-version")))
+      (pyenv-mode-set
+       (cond ((file-exists-p (concat dir ".python-version"))
+              (car (s-lines (s-trim (f-read-text pyenv-version-path 'utf-8)))))
+             ((file-exists-p "~/.pyenv/version")
+              (car (s-lines (s-trim (f-read-text "~/.pyenv/version" 'utf-8)))))
+             (t
+              "system"))))))
 (add-hook 'python-mode-hook 'pyenv-mode-auto-hook)
 
 (defun pyfmt ()
