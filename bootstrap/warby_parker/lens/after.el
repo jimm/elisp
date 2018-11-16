@@ -18,8 +18,26 @@
       Buffer-menu-name-width 24)
 
 ;; Jira
+(defvar wp-pr-abbreviations-alist
+  '(("mc" . "manage-cloud")
+    ("h" . "helios")
+    ("o" . "odin")))
+
+(defun wp-pr-link (tag)
+  "Given a TAG of the form 'repo-number', returns a URL to a PR in that repo.
+
+Repo names are either abbreviations or full repo names. Abbreviations must
+be found in `wp-pr-abbreviations-alist'."
+  (let* ((elems (split-string tag "-"))
+         (repo (car elems))
+         (pr-num (cadr elems))
+         (full-repo (alist-get repo wp-pr-abbreviations-alist repo nil #'equal)))
+    (concat "https://github.com/WarbyParker/" full-repo "/pull/" pr-num)))
+
 (add-to-list 'org-link-abbrev-alist
              '("jira" . "https://jira.warbyparker.com/browse/"))
+(add-to-list 'org-link-abbrev-alist
+             '("pr" . "%(wp-pr-link)"))
 
 ;; Markdown
 (add-hook 'markdown-mode-hook
