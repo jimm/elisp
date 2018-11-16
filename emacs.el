@@ -387,10 +387,11 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
   "Automatically activates pyenv version if .python-version file
 exists, else uses pyenv-defined default, else uses system."
   (when (fboundp #'pyenv-mode-set)
-    (let ((dir (locate-dominating-file default-directory ".python-version")))
+    (let ((local-py-version-file
+           (concat (locate-dominating-file default-directory ".python-version") ".python-version")))
       (pyenv-mode-set
-       (cond ((file-exists-p (concat dir ".python-version"))
-              (car (s-lines (s-trim (f-read-text pyenv-version-path 'utf-8)))))
+       (cond ((file-exists-p local-py-version-file)
+              (car (s-lines (s-trim (f-read-text local-py-version-file 'utf-8)))))
              ((file-exists-p "~/.pyenv/version")
               (car (s-lines (s-trim (f-read-text "~/.pyenv/version" 'utf-8)))))
              (t
