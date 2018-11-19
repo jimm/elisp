@@ -36,7 +36,7 @@ suitable for `inf-ruby-implementations`."
     (while (search-forward "[remote \"" nil t)
       (let ((start (point)))
         (search-forward "\"")
-        (let ((name (buffer-substring-no-properties start (- (point) 1))))
+        (let ((name (buffer-substring-no-properties start (1- (point)))))
           (unless (member name '("heroku" "origin"))
             (setq envs (cons (cons name
                                    (concat "candi-heroku " name))

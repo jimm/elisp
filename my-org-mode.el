@@ -44,8 +44,8 @@ name (e.g., \"sh\", \"ruby\") as a command. Obviously doesn't
 work for all langauges."
   (interactive)
   (let* ((props (cadr (org-element-context)))
-         (p-beg (- (plist-get props :begin) 1))
-         (p-end (- (plist-get props :end) 1))
+         (p-beg (1- (plist-get props :begin)))
+         (p-end (1- (plist-get props :end)))
          (lang (plist-get props :language))
          (tmpfile (make-temp-file "org-src-")))
     (write-region p-beg p-end tmpfile)

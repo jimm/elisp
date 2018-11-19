@@ -8,7 +8,7 @@ multiple lines."
                           ".txt")))
     (with-temp-file tempfile
       (insert str)
-      (when (not (string-equal "\n" (substring str (- (length str) 1))))
+      (unless (string-equal "\n" (substring str (1- (length str))))
         (insert "\n")))
     (do-applescript (concat
                      "tell application \"iTerm\"\n"

@@ -6,22 +6,23 @@
 
 (defmacro when-fboundp-call (f &rest args)
   "If F is bound, calls it with ARGS."
-  `(when (fboundp (function ,f)) (funcall (function ,f) ,@args)))
+  `(when (fboundp (function ,f))
+     (funcall (function ,f) ,@args)))
 
 (defmacro unless-boundp-setq (var val)
   "If VAR is not bound, sets it to VAL."
   `(unless (boundp (quote ,var)) (setq ,var ,val)))
 
-(defun blank-p (val)
-  "VAL is blank if it is `nil', the empty list, or an empty or
+(defun blankp (val)
+  "Return nil if VAL is `nil', the empty list, or an empty or
 whitespace-only string."
   (or (not val)                         ; nil or empty list
       (and (stringp val) (not (nil-blank-string val)))
       nil))
 
 (defun val-or-default (val default)
-  "If VAL is not `blank-p' return it, else return DEFAULT."
-  (if (not (blank-p val)) val default))
+  "Return VAL if it is not `blankp', else return DEFAULT."
+  (if (not (blankp val)) val default))
 
 ;;; Version-specific configuration
 (if (version< emacs-version "24")
@@ -584,8 +585,8 @@ numbers, and punctuation."
          (chars-len (length chars)))
     (mapconcat (lambda (dummy)
                  (let ((idx (random chars-len)))
-                   (substring chars idx (+ idx 1))))
-               (number-sequence 0 (- password-length 1))
+                   (substring chars idx (1+ idx))))
+               (number-sequence 0 (1- password-length))
                "")))
 
 (defun insert-random-password (arg)
@@ -708,7 +709,7 @@ given `foo.rb'. Default file-name is current buffer's name."
 simple algorithm that may grow over time if needed."
   (interactive "s")
   (let ((len (length str)))
-    (cond ((equal "y" (substring str (- len 1))) (concat (substring str 0 (- len 1)) "ies"))
+    (cond ((equal "y"  (substring str (- len 1))) (concat (substring str 0 (- len 1)) "ies"))
           ((equal "us" (substring str (- len 2))) (concat (substring str 0 (- len 2)) "i"))
           (t (concat str "s")))))
 
@@ -718,8 +719,8 @@ a simple algorithm that may grow over time if needed."
   (interactive "s")
   (let ((len (length str)))
     (cond ((equal "ies" (substring str (- len 3))) (concat (substring str 0 (- len 3)) "y"))
-          ((equal "i" (substring str (- len 1))) (concat (substring str 0 (- len 1)) "us"))
-          ((equal "s" (substring str (- len 1))) (substring str 0 (- len 1)))
+          ((equal "i"   (substring str (- len 1))) (concat (substring str 0 (- len 1)) "us"))
+          ((equal "s"   (substring str (- len 1))) (substring str 0 (- len 1)))
           (t str))))
 
 (defun debug-comment ()
