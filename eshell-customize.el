@@ -71,8 +71,8 @@ command is not found)."
 (defun chop-path (path-list n)
   "Joins elements of PATH-LIST with \"/\". All but the last N
 elements are abbreviated to their first letters."
-  (flet ((shorten (elm) (if (zerop (length elm)) ""
-                          (substring elm 0 1))))
+  (cl-flet ((shorten (elm) (if (zerop (length elm)) ""
+                             (substring elm 0 1))))
     (if (> (length path-list) n)
         (concat
          (mapconcat #'shorten (butlast path-list n) "/")
