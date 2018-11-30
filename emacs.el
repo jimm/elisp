@@ -405,14 +405,15 @@ exists, else uses pyenv-defined default, else uses system."
 Save the current buffer, run `isort' and `black' against the
 file, and revert the buffer, loading any changes. Both `isort'
 and `black' are Python eggs that are assumed to be installed
-already. This function ignores any errors from those programs.
+already. This function ignores any errors from `isort' but
+displays errors from `black'.
 
 Do nothing if the current buffer's major mode is not `python-mode'."
   (interactive)
   (when (eq major-mode #'python-mode)
     (save-buffer)
     (call-process "isort" nil nil nil (buffer-file-name))
-    (call-process "black" nil nil nil (buffer-file-name))
+    (shell-command (concat "black --quiet " (buffer-file-name)))
     (revert-buffer nil t)))
 
 ;;; ruby-mode
