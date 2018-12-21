@@ -371,33 +371,6 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
                   (format " prj[%s]" (projectile-project-name))))))
 
 ;;; python-mode
-(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
-(custom-set-variables
- '(python-fill-docstring-style 'pep-257-nn))
-(add-hook 'python-mode-hook
-          (lambda ()
-            (turn-on-font-lock)
-            (define-key python-mode-map "\C-cx" #'executable-interpret)
-            ;; these two are in addition to the \C-< and \C-> bindings
-            ;; that already exist in Python mode
-            (define-key python-mode-map "\M-[" #'python-indent-shift-left)
-            (define-key python-mode-map "\M-]" #'python-indent-shift-right)))
-
-;;; Based on pyenv-mode-auto (https://github.com/ssbb/pyenv-mode-auto)
-(defun pyenv-mode-auto-hook ()
-  "Automatically activates pyenv version if .python-version file
-exists, else uses pyenv-defined default, else uses system."
-  (when (fboundp #'pyenv-mode-set)
-    (let ((local-py-version-file
-           (concat (locate-dominating-file default-directory ".python-version") ".python-version")))
-      (pyenv-mode-set
-       (cond ((file-exists-p local-py-version-file)
-              (car (s-lines (s-trim (f-read-text local-py-version-file 'utf-8)))))
-             ((file-exists-p "~/.pyenv/version")
-              (car (s-lines (s-trim (f-read-text "~/.pyenv/version" 'utf-8)))))
-             (t
-              "system"))))))
-(add-hook 'python-mode-hook 'pyenv-mode-auto-hook)
 
 (defun pyfmt ()
   "Format the current Python buffer.
@@ -415,6 +388,35 @@ Do nothing if the current buffer's major mode is not `python-mode'."
     (call-process "isort" nil nil nil (buffer-file-name))
     (shell-command (concat "black --quiet " (buffer-file-name)))
     (revert-buffer nil t)))
+
+(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
+(custom-set-variables
+ '(python-fill-docstring-style 'pep-257-nn))
+(add-hook 'python-mode-hook
+          (lambda ()
+            (turn-on-font-lock)
+            (define-key python-mode-map "\C-cx" #'executable-interpret)
+            ;; these two are in addition to the \C-< and \C-> bindings
+            ;; that already exist in Python mode
+            (define-key python-mode-map "\M-[" #'python-indent-shift-left)
+            (define-key python-mode-map "\M-]" #'python-indent-shift-right)
+            (add-hook #'after-save-hook #'pyfmt nil t)))
+
+;;; Based on pyenv-mode-auto (https://github.com/ssbb/pyenv-mode-auto)
+(defun pyenv-mode-auto-hook ()
+  "Automatically activates pyenv version if .python-version file
+exists, else uses pyenv-defined default, else uses system."
+  (when (fboundp #'pyenv-mode-set)
+    (let ((local-py-version-file
+           (concat (locate-dominating-file default-directory ".python-version") ".python-version")))
+      (pyenv-mode-set
+       (cond ((file-exists-p local-py-version-file)
+              (car (s-lines (s-trim (f-read-text local-py-version-file 'utf-8)))))
+             ((file-exists-p "~/.pyenv/version")
+              (car (s-lines (s-trim (f-read-text "~/.pyenv/version" 'utf-8)))))
+             (t
+              "system"))))))
+(add-hook 'python-mode-hook 'pyenv-mode-auto-hook)
 
 ;;; ruby-mode
 ;; Use "M-x run-ruby" to start inf-ruby.
@@ -822,6 +824,7 @@ you have a local copy, for example.")
                   c-tab-always-indent nil
                   c-recognize-knr-p nil)
             (local-set-key "\r" #'newline-and-indent)
+            (define-key c-mode-map "\C-c\C-k" #'compile)
             (autoload #'fh-open-header-file-other-window "find-header"
               "Locate header file and load it into other window" t)
             (autoload #'fh-open-header-file-other-frame "find-header"
@@ -845,6 +848,7 @@ you have a local copy, for example.")
 (add-hook 'c++-mode-hook
           (lambda ()
             (c-set-style "stroustrup")
+            (define-key c++-mode-map "\C-c\C-k" #'compile)
             (setq c-basic-offset 2)))
 
 ;;
