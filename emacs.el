@@ -1190,6 +1190,18 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (add-hook 'rcirc-print-hooks #'my-rcirc-print-hook)
 
 ;;
+;; When editing emacsclient buffer, use this to send a non-zero status back
+;; to emacsclient.
+;;
+;; https://superuser.com/questions/295156/how-to-set-the-exit-status-for-emacsclient/542916
+;;
+(defun buffer-kill-emacsclients ()
+  "Sends error exit command to every client for the current buffer."
+  (interactive)
+  (dolist (proc server-buffer-clients)
+    (server-send-string proc "-error killed by buffer-kill-emacs")))
+
+;;
 ;; Cursor manipulation
 ;;
 
