@@ -12,5 +12,5 @@
           default-frame-alist basic-frame-alist)))
 
 (defvar *my-erlang-emacs-tools-dir*
-  (concat (car (file-expand-wildcards "/opt/local/lib/erlang/lib/tools-*"))
+  (concat (car (file-expand-wildcards "/usr/local/lib/erlang/lib/tools-*"))
           "/emacs/"))
