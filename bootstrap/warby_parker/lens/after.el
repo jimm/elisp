@@ -1,4 +1,4 @@
-(lighten-up)
+(load-theme 'leuven)
 
 (defun zoom-frame-width-cols ()
   "I need to override this because when I'm hooked up to multiple monitors,
