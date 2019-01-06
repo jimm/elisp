@@ -8,7 +8,7 @@
  '(eshell-save-history-on-exit t)
  '(package-selected-packages
    (quote
-    (docker docker-compose-mode dockerfile-mode org-present htmlize pyenv-mode go-mode groovy-mode yaml-mode editorconfig ace-window ag alchemist avy diminish flx-ido fzf magit markdown-mode projectile sicp slime smex suggest yasnippet yasnippet-snippets)))
+    (crystal-mode docker docker-compose-mode dockerfile-mode org-present htmlize pyenv-mode go-mode groovy-mode yaml-mode editorconfig ace-window ag alchemist avy diminish flx-ido fzf magit markdown-mode projectile sicp slime smex suggest yasnippet yasnippet-snippets)))
  '(python-fill-docstring-style (quote pep-257-nn))
  '(sgml-xml-mode t)
  '(woman-use-own-frame nil))
