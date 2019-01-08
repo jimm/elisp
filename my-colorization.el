@@ -12,11 +12,15 @@
 (defvar *org-light-block-foreground* "black")
 (defvar *org-light-block-border-background* "gray95")
 (defvar *org-light-block-background* "ivory")
+(defvar *org-light-table-foreground* "black")
+(defvar *org-light-table-background* "mint cream")
 
 (defvar *org-dark-l2-foreground* "white")
 (defvar *org-dark-block-foreground* "white")
 (defvar *org-dark-block-border-background* "gray30")
 (defvar *org-dark-block-background* "gray20")
+(defvar *org-dark-table-foreground* "mint cream")
+(defvar *org-dark-table-background* "gray30")
 
 (defvar *org-presentation-background* "white")
 (defvar *current-foreground* nil)
@@ -44,7 +48,10 @@
         (set-face-attribute 'org-block-begin-line nil
                             :background *org-dark-block-border-background*)
         (set-face-attribute 'org-block-end-line nil
-                            :background *org-dark-block-border-background*)))))
+                            :background *org-dark-block-border-background*)
+        (set-face-attribute 'org-table
+                            :foreground *org-dark-table-foreground*
+                            :background *org-dark-table-background*)))))
 
 (defun lighten-up ()
   (interactive)
@@ -68,4 +75,7 @@
         (set-face-attribute 'org-block-begin-line nil
                             :background *org-light-block-border-background*)
         (set-face-attribute 'org-block-end-line nil
-                            :background *org-light-block-border-background*)))))
+                            :background *org-light-block-border-background*)
+        (set-face-attribute 'org-table
+                            :foreground *org-light-table-foreground*
+                            :background *org-light-table-background*)))))
