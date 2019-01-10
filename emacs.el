@@ -873,6 +873,7 @@ you have a local copy, for example.")
 ;;
 ;; sh-mode
 ;;
+(add-to-list 'auto-mode-alist '("\\.env$" . sh-mode))
 (add-hook 'sh-mode-hook
           (lambda ()
             (define-key sh-mode-map "\C-c\C-k" #'compile)))
