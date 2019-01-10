@@ -51,8 +51,8 @@ current symbol at point."
                   nil nil 'grep-find-history))
          (default-directory (git-root-dir))
          (case-ignore-flag (and (isearch-no-upper-case-p regexp t) "-i"))
-         (cmd (concat "git grep -E -n --full-name " case-ignore-flag
-                      " \"" regexp "\"")))
+         (cmd (concat "git grep --extended-regexp --line-number --full-name"
+                      " --untracked " case-ignore-flag " \"" regexp "\"")))
   (grep-find cmd)))
 
 

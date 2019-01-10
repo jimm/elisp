@@ -370,6 +370,11 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
                     " prj"
                   (format " prj[%s]" (projectile-project-name))))))
 
+;;; editorconfig
+(when (fboundp #'editorconfig-mode)
+  (editorconfig-mode t)
+  (setq editorconfig-mode-lighter " edconf"))
+
 ;;; python-mode
 
 (defun pyfmt ()
