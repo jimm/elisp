@@ -21,7 +21,8 @@
 (defvar wp-pr-abbreviations-alist
   '(("mc" . "manage-cloud")
     ("h" . "helios")
-    ("o" . "odin")))
+    ("o" . "odin")
+    ("p" . "puck")))
 
 (defun wp-pr-link (tag)
   "Given a TAG of the form 'repo-number', returns a URL to a PR in that repo.

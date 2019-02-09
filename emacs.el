@@ -496,11 +496,6 @@ exists, else uses pyenv-defined default, else uses system."
 (add-to-list 'auto-mode-alist
              '("\\.properties$" . java-properties-generic-mode))
 
-;;
-;; Global variable settings and options
-;;
-(when-fboundp-call appt-activate 1)	; appointment notification
-
 ;; Ubuntu stuff
 ;(menu-bar-enable-clipboard)
 (setq x-select-enable-clipboard t
@@ -746,6 +741,7 @@ a simple algorithm that may grow over time if needed."
 ;; PIM
 ;;
 (setq diary-file (concat *my-pim-dir* "diary"))
+(when-fboundp-call appt-activate 1)	; appointment notification
 
 (defun address (str)
   "Find STR in my address book file. Looks first for STR as the
