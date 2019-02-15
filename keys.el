@@ -52,9 +52,9 @@
                 (lambda () (interactive) (switch-to-buffer "*SQL*")))
 (global-set-key [f7] #'line-to-other-window)
 (global-set-key [\C-f7] #'send-current-line-to-iterm-and-next-line)
-(if (fboundp #'fzf)
+(if (fboundp #'fzf-git)
     (progn
-      (global-set-key [f9] #'fzf)
+      (global-set-key [f9] #'fzf-git)
       (global-set-key [\C-f9] #'ef))
   (global-set-key [f9] #'ef))
 (global-set-key [f10] #'zoom-frame)
