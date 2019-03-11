@@ -30,8 +30,8 @@
 Repo names are either abbreviations or full repo names. Abbreviations must
 be found in `wp-pr-abbreviations-alist'."
   (let* ((elems (split-string tag "-"))
-         (repo (car elems))
-         (pr-num (cadr elems))
+         (repo (string-join (butlast elems) "-"))
+         (pr-num (car (last elems)))
          (full-repo (alist-get repo wp-pr-abbreviations-alist repo nil #'equal)))
     (concat "https://github.com/WarbyParker/" full-repo "/pull/" pr-num)))
 
