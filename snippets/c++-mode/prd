@@ -2,4 +2,4 @@
 # name: fprintf(stderr, ...); // DEBUG
 # key: prd
 # --
-fprintf(stderr, "$1", $2); // DEBUG
+fprintf(stderr, "$1\n", $2); // DEBUG
