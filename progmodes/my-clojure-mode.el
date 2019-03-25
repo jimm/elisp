@@ -4,7 +4,7 @@
 
 (defun reload-clojure-file ()
   (interactive)
-  (send-to-iterm (concat "(load-file \"" (buffer-file-name) "\")")))
+  (send-to-terminal (concat "(load-file \"" (buffer-file-name) "\")")))
 
 (defun in-ns-to-inferior-lisp ()
   "Send (in-ns 'ns-of-this-buffer) to inferior lisp."

@@ -51,7 +51,7 @@
 (global-set-key [\C-f5]
                 (lambda () (interactive) (switch-to-buffer "*SQL*")))
 (global-set-key [f7] #'line-to-other-window)
-(global-set-key [\C-f7] #'send-current-line-to-iterm-and-next-line)
+(global-set-key [\C-f7] #'send-current-line-to-terminal-and-next-line)
 (if (fboundp #'fzf-git)
     (progn
       (global-set-key [f9] #'fzf-git)

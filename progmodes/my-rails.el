@@ -78,7 +78,7 @@ file."
 (defun spring-run-rspec-in-terminal (arg)
   "Run \"spring rspec FILE\" in an external terminal."
   (interactive "p")
-  (-spring-run-rspec #'send-to-iterm arg))
+  (-spring-run-rspec #'send-to-terminal arg))
 
 (defun spring-run-rspec-in-compile-buffer (arg)
   "Run \"spring rspec FILE\" in a compilation buffer."

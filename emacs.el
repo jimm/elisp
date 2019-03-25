@@ -54,7 +54,7 @@ whitespace-only string."
   (shell)
   (set-process-query-on-exit-flag (get-process "shell") nil))
 
-;; Possible values include #'shell, #'eshell, or #'switch-to-iterm
+;; Possible values include #'shell, #'eshell, or #'switch-to-terminal
 (defvar my-shell #'eshell
   "The shell to use inside Emacs; examples include 'shell or 'eshell.")
 (defvar my-alternate-shell #'my-start-shell
@@ -1215,7 +1215,8 @@ me about the channels listed in my-rcirc-notifiy-channels."
 ;;
 ;; Sending text to iTerm and similar functions
 ;;
-(load "iterm")
+(defvar *my-terminal-program* "iTerm")
+(load "terminal-interaction")
 
 (defun line-to-other-window ()
   (interactive)
