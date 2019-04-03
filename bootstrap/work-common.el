@@ -27,11 +27,11 @@ Assumes `*status-file*' is defined."
   ;; Change headings to "Today" and "Yesterday" and swap their order
   (goto-char (point-min))
   (kill-line)
-  (insert "*~~~~~~~~ Today ~~~~~~~~*")
+  (insert "*Today*")
   (search-forward-regexp "\n* [[:digit:]]\\{4\\}-[[:digit:]]\\{2\\}-[[:digit:]]\\{2\\}")
   (beginning-of-line)
   (kill-line)
-  (insert "*~~~~~~~~ Yesterday ~~~~~~~~*")
+  (insert "*Yesterday*")
   (beginning-of-line)
   (kill-region (point) (point-max))
   (beginning-of-buffer)
