@@ -10,6 +10,7 @@
    (quote
     (pyvenv erlang crystal-mode docker docker-compose-mode dockerfile-mode org-present htmlize pyenv-mode go-mode groovy-mode yaml-mode editorconfig ace-window ag alchemist avy diminish flx-ido fzf magit markdown-mode sicp slime smex suggest yasnippet yasnippet-snippets)))
  '(python-fill-docstring-style (quote pep-257-nn))
+ '(safe-local-variable-values (quote ((*prevent-python-formatting* . t))))
  '(sgml-xml-mode t)
  '(woman-use-own-frame nil))
 (custom-set-faces

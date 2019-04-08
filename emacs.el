@@ -377,6 +377,10 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
 
 ;;; python-mode
 
+(defvar *prevent-python-formatting* nil
+  "This is a buffer-local variable that prevents `pyfmt' from
+  running when it is non-`nil'.")
+
 (defun pyfmt ()
   "Format the current Python buffer.
 
@@ -386,9 +390,11 @@ and `black' are Python eggs that are assumed to be installed
 already. This function ignores any errors from `isort' but
 displays errors from `black'.
 
-Do nothing if the current buffer's major mode is not `python-mode'."
+Do nothing if the current buffer's major mode is not
+`python-mode' or if the buffer-local variable
+`*prevent-python-formatting*' is non-`nil'."
   (interactive)
-  (when (eq major-mode #'python-mode)
+  (when (and (eq major-mode #'python-mode) (not *prevent-python-formatting*))
     (save-buffer)
     (call-process "isort" nil nil nil (buffer-file-name))
     (shell-command (concat "black --quiet " (buffer-file-name)))
