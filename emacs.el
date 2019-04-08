@@ -1225,6 +1225,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (load "terminal-interaction")
 
 (defun line-to-other-window ()
+  "Send the current line to the other window."
   (interactive)
   (save-excursion
     (beginning-of-line)
@@ -1243,6 +1244,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
   (forward-char))
 
 (defun region-to-other-window ()
+  "Send the current region to the other window."
   (interactive)
   (save-excursion
     (let ((str (buffer-substring-no-properties (point) (mark))))
@@ -1280,11 +1282,9 @@ me about the channels listed in my-rcirc-notifiy-channels."
           (lambda ()
             (define-key LilyPond-mode-map "\C-c\C-k" #'compile)))
 
-;;
-;; Dedicated window toggle
-;; http://dfan.org/blog/2009/02/19/emacs-dedicated-windows/
-;;
 (defun toggle-current-window-dedication ()
+  "Dedicated window toggle. See
+http://dfan.org/blog/2009/02/19/emacs-dedicated-windows/"
   (interactive)
   (let* ((window    (selected-window))
          (dedicated (window-dedicated-p window)))
@@ -1293,9 +1293,6 @@ me about the channels listed in my-rcirc-notifiy-channels."
              (if dedicated "no longer " "")
              (buffer-name))))
 
-;;
-;; Time manipulation
-;;
 (defun add-times (&rest time-strings)
   "Takes a list of hour:minute time strings such as \"1:23\" or
 \"0:44\" adds them up, and returns a string in the same format."
@@ -1306,17 +1303,8 @@ me about the channels listed in my-rcirc-notifiy-channels."
       (apply #'+ (mapcar (lambda (p) (* 60 (cadr p))) parsed)) ; minutes
       (apply #'+ (mapcar (lambda (p) (* 3600 (caddr p))) parsed)))))) ; hours
 
-;;
-;; Scrambling a word
-;;
-(defun word-at-point ()
-  (save-excursion
-    (forward-word)
-    (push-mark)
-    (backward-word)
-    (buffer-substring-no-properties (point) (mark))))
-
 (defun do-scramble-word (word scrambled)
+  "Helper for `scramble-word'."
   (if (zerop (length word))
       scrambled
     (let ((i (random (length word))))
@@ -1325,18 +1313,17 @@ me about the channels listed in my-rcirc-notifiy-channels."
        (concat scrambled (substring word i (1+ i)))))))
 
 (defun scramble-word ()
+  "Scramble the word under the cursor."
   (interactive)
-  (let ((word (do-scramble-word (word-at-point) "")))
+  (let ((word (do-scramble-word (thing-at-point 'word) "")))
     (save-excursion
       (forward-word)
       (backward-kill-word 1)
       (insert word))))
 
-;;
-;; Reorganize current frame's buffers to show current buffer and current
-;; buffer's directory.
-;;
 (defun center-of-attention ()
+  "Reorganize current frame's buffers to show current buffer and
+current buffer's directory."
   (interactive)
   (let ((fname (file-name-nondirectory (buffer-file-name))))
     (delete-other-windows)
@@ -1348,10 +1335,8 @@ me about the channels listed in my-rcirc-notifiy-channels."
     (search-backward " ")
     (forward-char 1)))
 
-;;
-;; Reformat my bank's transactions CSV file
-;;
 (defun reformat-bank-transactions ()
+  "Reformat my bank's transactions CSV file."
   (interactive)
 
   (beginning-of-buffer)
