@@ -53,6 +53,7 @@ Assumes `*status-file*' is defined."
     ;; Clean up links
     (funcall replace "\\[\\[\\([[:word:]]+:\\([[:word:]]+-\\)?[[:digit:]]+\\)]]" "\\1")
     (funcall replace "\\[\\[\\([[:word:]]+:[[:word:]]+-?[[:digit:]]+\\)]\\[\\([^]]+\\)]]" "_\\2_ (\\1)")
+    (funcall replace "\\[\\[\\(http.+\\)]\\[\\([^]]+\\)]]" "_\\2_ (\\1)")
     ;; Subheadings
     (funcall replace "^\\*\\* +\\(.*\\)" "*\\1*")
     (funcall replace "^\\*\\*\\* +\\(.*\\)" "_\\1_")
