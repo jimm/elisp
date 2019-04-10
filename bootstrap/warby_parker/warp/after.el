@@ -1,4 +1,4 @@
-(lighten-up)
+(set-my-colors 'light)
 
 (defun zoom-frame-width-cols ()
   "I need to override this because when I'm hooked up to multiple monitors,

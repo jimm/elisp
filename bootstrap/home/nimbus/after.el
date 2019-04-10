@@ -1,4 +1,4 @@
-(lighten-up)
+(set-my-colors 'light)
 
 (defun zoom-frame-width-cols ()
   (interactive)				; for testing

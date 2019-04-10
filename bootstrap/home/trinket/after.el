@@ -1,4 +1,4 @@
-(lighten-up)
+(set-my-colors 'light)
 
 (setq dired-use-ls-dired nil)
 
