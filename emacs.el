@@ -348,8 +348,8 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
 ;;; Org Mode
 (load "my-org-mode")
 
-;;; Colorization (needs to come after org mode)
-(load "my-colorization")
+;;; My "mini-themes". This needs to be loaded after my-org-mode.
+(load "my-themes")
 
 ;;; perl-mode
 (autoload #'perl-mode "perl-mode" "Perl mode" t nil)

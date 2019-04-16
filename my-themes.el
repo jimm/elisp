@@ -1,4 +1,4 @@
-(defvar *my-colors*
+(defvar *my-themes*
   '((light . ((foreground . "black")
               (background . "ghostwhite")
               (mode . ((foreground . "yellow")
@@ -34,7 +34,7 @@
 (defvar *current-foreground* nil)
 (defvar *current-background* nil)
 
-(defun set-colors (colors-alist)
+(defun set-theme (colors-alist)
   (ignore-errors
     (let ((fg (cdr (assoc 'foreground colors-alist)))
           (bg (cdr (assoc 'background colors-alist))))
@@ -64,6 +64,6 @@
                               :foreground (cdr (assoc 'table-foreground org-alist))
                               :background (cdr (assoc 'table-background org-alist))))))))
 
-(defun set-my-colors (my-colors-sym)
+(defun set-my-theme (my-theme-sym)
   (interactive "SColor theme name: ")
-  (set-colors (assoc my-colors-sym *my-colors*)))
+  (set-theme (assoc my-theme-sym *my-themes*)))

@@ -1,7 +1,7 @@
 ;;; Org Mode
 ;;;
-;;; Colorization is handled in my-colorization.el, which should be loaded
-;;; after this file.
+;;; Colorization is handled in my-themes.el, which should be loaded after
+;;; this file.
 
 (require 'org)
 (unless (boundp 'org-ans1)

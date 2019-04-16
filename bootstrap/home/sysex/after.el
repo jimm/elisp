@@ -1,4 +1,4 @@
-(set-my-colors 'light)
+(set-my-theme 'light)
 
 (defvar work-orgs-dir "warby_parker"
   "Name of $pim/orgs/work subdir where I keep work-related Org mode files.")
