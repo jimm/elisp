@@ -1,5 +1,3 @@
-(set-my-theme 'light)
-
 (defun zoom-frame-width-cols ()
   "I need to override this because when I'm hooked up to multiple monitors,
 `display-pixel-width' returns the wrong value."
@@ -25,20 +23,6 @@
 (add-hook 'markdown-mode-hook
           (lambda () (setq markdown-command "multimarkdown")))
 
-;;; projectile-project-root returns nil if no dir found, but the original
-;;; definition of fzf does not handle that.
-;; (require 'fzf)
-;; (defun fzf ()
-;;   "Starts a fzf session."
-;;   (interactive)
-;;   (if (fboundp #'projectile-project-root)
-;;       (fzf/start (or (condition-case err
-;;                          (projectile-project-root)
-;;                        (error
-;;                         default-directory))
-;;                      default-directory))
-;;     (fzf/start default-directory)))
-
 ;;; ================================================================
 
 ;;
@@ -55,6 +39,3 @@
 (add-hook 'org-present-mode-quit-hook
           (lambda ()
             (set-background-color *current-background*)))
-
-;; Start Emacs server
-(server-start)
