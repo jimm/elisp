@@ -9,9 +9,16 @@
 ;; To send buffer to sonic-pi, use C-c C-k
 ;; To stop play, use C-c C-b
 
-(add-to-list 'load-path "~/.emacs.d/sonic-pi/")
+(add-to-list 'load-path "~/.emacs.d/sonic-pi.el/")
 (require 'sonic-pi)
+(setq sonic-pi-path "~/src/miscellaneous/sonic-pi/") ; Must end with "/"
+
+(defun sonic-pi-server-cmd ()
+  "This overrides the definition already loaded, because the
+command doesn't live where the existing code thinks it is."
+  (concat sonic-pi-path "app/server/ruby/bin/sonic-pi-server.rb"))
+
+;; Optionally define a hook
 (add-hook 'sonic-pi-mode-hook
           (lambda ()
-            (setq sonic-pi-path "~/src/sonic-pi/")
             (define-key ruby-mode-map "\C-c\C-b" 'sonic-pi-stop-all)))

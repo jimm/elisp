@@ -381,7 +381,7 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
   "This is a buffer-local variable that prevents `pyfmt' from
   running when it is non-`nil'.")
 
-(defun pyfmt (arg)
+(defun pyfmt (&optional arg)
   "Format the current Python buffer.
 
 Save the current buffer, run `isort' and `black' against the
@@ -393,10 +393,11 @@ displays errors from `black'.
 If ARG is > 1, force formatting even if
 *prevent-python-formatting* is `nil'. ARG is 1 by default.
 
-Do nothing if the current buffer's major mode is not
+Else, do nothing if the current buffer's major mode is not
 `python-mode' or if the buffer-local variable
 `*prevent-python-formatting*' is non-`nil'."
   (interactive "p")
+  (setq arg (or arg 1))
   (when (and (eq major-mode #'python-mode)
              (or (> arg 1)
                  (not *prevent-python-formatting*)))
@@ -990,11 +991,40 @@ you have a local copy, for example.")
 ;;
 (add-to-list 'load-path (concat user-emacs-directory "emacs-crystal-mode/") t)
 
+(defvar *prevent-crystal-formatting* nil
+  "This is a buffer-local variable that prevents `crystal-format'
+  from running when it is non-`nil'.")
+
+
+(defun crystal-format (&optional arg)
+  "Format the current Crystal buffer.
+
+Save the current buffer, run `crystal tool format' against the
+file, and revert the buffer, loading any changes.
+
+If ARG is > 1, force formatting even if
+*prevent-python-formatting* is `nil'. ARG is 1 by default.
+
+Else, do nothing if the current buffer's major mode is not
+`crystal-mode' or if the buffer-local variable
+`*prevent-crystal-formatting*' is non-`nil'."
+  (interactive "p")
+  (setq arg (or arg 1))
+  (when (and (eq major-mode #'crystal-mode)
+             (or (> arg 1)
+                 (not *prevent-crystal-formatting*)))
+    (save-buffer)
+    (call-process "crystal" nil nil t
+                  "tool" "format" "--no-color"
+                  (file-name-nondirectory (buffer-file-name)))
+    (revert-buffer nil t)))
+
 (autoload #'crystal-mode "crystal-mode" "Crystal mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.cr$" . crystal-mode)) ; Crystal
 (add-hook 'crystal-mode-hook
           (lambda ()
-            (define-key crystal-mode-map "\C-cx" #'executable-interpret)))
+            (define-key crystal-mode-map "\C-cx" #'executable-interpret)
+            (add-hook #'after-save-hook #'crystal-format nil t)))
 
 ;;
 ;; Dired-mode
