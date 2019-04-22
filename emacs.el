@@ -243,10 +243,41 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
 (when-fboundp-call dumb-jump-mode)
 
 ;;; Elixir
+(defvar *prevent-elixir-formatting* nil
+  "This is a buffer-local variable that prevents `elixir-format'
+  from running when it is non-`nil'.")
+
+
+(defun elixir-format (&optional arg)
+  "Format the current Elixir buffer.
+
+Save the current buffer, run `elixir tool format' against the
+file, and revert the buffer, loading any changes.
+
+If ARG is > 1, force formatting even if
+*prevent-python-formatting* is `nil'. ARG is 1 by default.
+
+Else, do nothing if the current buffer's major mode is not
+`elixir-mode' or if the buffer-local variable
+`*prevent-elixir-formatting*' is non-`nil'."
+  (interactive "p")
+  (setq arg (or arg 1))
+  (when (and (eq major-mode #'elixir-mode)
+             (or (> arg 1)
+                 (not *prevent-elixir-formatting*)))
+    (save-buffer)
+    (let ((mix-file (locate-dominating-file default-directory "mix.exs")))
+      (if mix-file
+          (let ((default-directory (file-name-nondirectory mix-file)))
+            (call-process "mix" nil nil t "format"
+                          (file-name-nondirectory (buffer-file-name)))
+            (revert-buffer nil t))))))
+
 (add-hook 'elixir-mode-hook
           (lambda ()
             (define-key elixir-mode-map "\C-cd" #'debug-comment)
             (define-key elixir-mode-map "\C-cx" 'executable-interpret)
+            (add-hook #'after-save-hook #'elixir-format nil t)
             (when-fboundp-call alchemist-mode)))
 
 ;;; Alchemist
