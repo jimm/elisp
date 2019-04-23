@@ -1,3 +1,5 @@
+(menu-bar-mode -1)                      ; disable
+
 (defun zoom-frame-width-cols ()
   "I need to override this because when I'm hooked up to multiple monitors,
 `display-pixel-width' returns the wrong value."
