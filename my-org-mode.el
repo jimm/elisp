@@ -93,3 +93,20 @@ values."
                       :bold t)
   (set-face-attribute 'org-level-2 nil
                       :bold t))
+
+;;; ================================================================
+
+;;
+;; Org Present Mode
+;;
+;; Note that there's a bug in the (old) version of Org mode that Org Present
+;; depends on that breaks table formatting.
+;;
+;; https://github.com/rlister/org-present
+(defvar *org-present-orig-background* nil)
+(add-hook 'org-present-mode-hook
+          (lambda ()
+            (set-background-color *org-presentation-background*)))
+(add-hook 'org-present-mode-quit-hook
+          (lambda ()
+            (set-background-color *current-background*)))
