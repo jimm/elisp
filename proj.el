@@ -7,7 +7,9 @@
 ;; For rgrep, grep-find, and friends
 (load "grep")
 (setq grep-find-ignored-directories
-      (append (list "tmp" "target" "ebin" "_build" "_site")
+      (append (list
+               "tmp" "target" "ebin" "_build" "_site" ".vagrant" "node_modules"
+               ".tox" "virtualenv" "venv" "__pycache__")
               grep-find-ignored-directories)
 
       grep-find-ignored-files
