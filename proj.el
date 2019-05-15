@@ -7,19 +7,19 @@
   (let ((dir (if (directory-name-p file-or-dir)
                  file-or-dir
                (file-name-nondirectory file-or-dir))))
+    ;; This will be ever so slightly faster if you put more-frequently used
+    ;; files nearer to the front of the list.
     (find t (mapcar (lambda (f) (file-exists-p (concat dir f)))
-                    '("Makefile" "Rakefile" "build.xml" "build.sbt" "pom.xml"
-                      "project.clj" "main.go" "pkg" "mix.exs" "makefile"
-                      "shard.yml" "Cargo.toml" "cargo.toml")))))
+                    '("Makefile" "mix.exs" "shard.yml"  "tox.ini" "Rakefile"
+                      "project.clj" "main.go" "pkg" "makefile" "pom.xml"
+                      "Cargo.toml" "cargo.toml" "build.xml" "build.sbt")))))
 
 (defun makeup (&optional args)
   "Finds the first build file in the default directory or any
 directory above and then runs the appropriate build command,
 passing on any args given to this script."
   (interactive "sMakeup args: ")
-  (let* ((dir (or
-               (locate-dominating-file default-directory ".git")
-               (locate-dominating-file default-directory #'makeup-dir-p)))
+  (let* ((dir (locate-dominating-file default-directory #'makeup-dir-p))
          (default-directory (or dir default-directory)))
     (compile (concat "makeup " args))))
 
