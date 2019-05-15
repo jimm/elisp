@@ -17,10 +17,10 @@
 directory above and then runs the appropriate build command,
 passing on any args given to this script."
   (interactive "sMakeup args: ")
-  (let ((dir (or
-              (locate-dominating-file default-directory ".git")
-              (locate-dominating-file default-directory #'makeup-dir-p))))
-    (when dir (setq default-directory dir))
+  (let* ((dir (or
+               (locate-dominating-file default-directory ".git")
+               (locate-dominating-file default-directory #'makeup-dir-p)))
+         (default-directory (or dir default-directory)))
     (compile (concat "makeup " args))))
 
 (setq compile-command "makeup "  ; script finds make/rake/mix.exs/build/etc.
