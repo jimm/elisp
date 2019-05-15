@@ -1020,9 +1020,6 @@ you have a local copy, for example.")
 ;;
 ;; Crystal-mode
 ;;
-;; TODO remove these two lines when my fork is merged into main
-(add-to-list 'load-path (concat user-emacs-directory "~/src/github/emacs-crystal-mode/") t)
-(autoload #'crystal-mode "crystal-mode" "Crystal mode" t nil)
 
 (defvar *prevent-crystal-formatting* nil
   "This is a buffer-local variable that prevents `crystal-format'
@@ -1057,7 +1054,11 @@ Else, do nothing if the current buffer's major mode is not
 (add-hook 'crystal-mode-hook
           (lambda ()
             (define-key crystal-mode-map "\C-cx" #'executable-interpret)
-            (add-hook #'after-save-hook #'crystal-format nil t)))
+            (add-hook #'after-save-hook #'crystal-format nil t)
+            ;; FIXME remove when my PR is accepted and merged into crystal-mode
+            (setf (alist-get 'crystal-spec compilation-error-regexp-alist-alist)
+                  '("^\\(Error \\)?in \\([^()\t\n]+\\):\\([0-9]+\\):? .*$" 2 3))))
+
 
 ;;
 ;; Dired-mode
