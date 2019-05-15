@@ -1020,7 +1020,9 @@ you have a local copy, for example.")
 ;;
 ;; Crystal-mode
 ;;
-(add-to-list 'load-path (concat user-emacs-directory "emacs-crystal-mode/") t)
+;; TODO remove these two lines when my fork is merged into main
+(add-to-list 'load-path (concat user-emacs-directory "~/src/github/emacs-crystal-mode/") t)
+(autoload #'crystal-mode "crystal-mode" "Crystal mode" t nil)
 
 (defvar *prevent-crystal-formatting* nil
   "This is a buffer-local variable that prevents `crystal-format'
