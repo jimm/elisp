@@ -1,6 +1,28 @@
 ;;; My collection of functions and settings that are sort of like
 ;;; projectile-mode.
 
+(defun makeup-dir-p (file-or-dir)
+  "Returns `t' if `file-or-dir' is a directory from which we should run the
+`makeup' shell command."
+  (let ((dir (if (directory-name-p file-or-dir)
+                 file-or-dir
+               (file-name-nondirectory file-or-dir))))
+    (find t (mapcar (lambda (f) (file-exists-p (concat dir f)))
+                    '("Makefile" "Rakefile" "build.xml" "build.sbt" "pom.xml"
+                      "project.clj" "main.go" "pkg" "mix.exs" "makefile"
+                      "shard.yml" "Cargo.toml" "cargo.toml")))))
+
+(defun makeup (&optional args)
+  "Finds the first build file in the default directory or any
+directory above and then runs the appropriate build command,
+passing on any args given to this script."
+  (interactive "sMakeup args: ")
+  (let ((dir (or
+              (locate-dominating-file default-directory ".git")
+              (locate-dominating-file default-directory #'makeup-dir-p))))
+    (when dir (setq default-directory dir))
+    (compile (concat "makeup " args))))
+
 (setq compile-command "makeup "  ; script finds make/rake/mix.exs/build/etc.
       grep-command "grep -n ")
 
