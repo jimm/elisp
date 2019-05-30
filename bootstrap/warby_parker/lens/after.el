@@ -66,7 +66,7 @@ Assumes that `FILE-NAME' is within the helios code base."
   (interactive "f")
   (let ((helios-dir (concat (getenv "helios") "/")))
     (compile (concat "cd " helios-dir
-                     " && tox -e py36-test "
+                     " && $box/bin/htest "
                      (substring file-name (length helios-dir))))))
 
 ;; Start Emacs server
