@@ -59,14 +59,18 @@ be found in `wp-pr-abbreviations-alist'."
                      default-directory))
       (fzf/start default-directory)))
 
-(defun htest (file-name)
-  "Runs the current file as a single test using the localdev script.
+(defun htest (arg file-name)
+  "Runs `FILE-NAME' (by default, the current buffer's file) as a
+single test using my \"htest\" script. That script assumes that
+`FILE-NAME' is within the helios code base.
 
-Assumes that `FILE-NAME' is within the helios code base."
-  (interactive "f")
+If `ARG' is greater than 1, add the `-s' flag to htest, telling
+it to skip db initialization."
+  (interactive "p\nftest file: ")
   (let ((helios-dir (concat (getenv "helios") "/")))
     (compile (concat "cd " helios-dir
                      " && $box/bin/htest "
+                     (if (> arg 1) "-s " "")
                      (substring file-name (length helios-dir))))))
 
 ;; Start Emacs server
