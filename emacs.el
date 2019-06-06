@@ -1054,10 +1054,7 @@ Else, do nothing if the current buffer's major mode is not
 (add-hook 'crystal-mode-hook
           (lambda ()
             (define-key crystal-mode-map "\C-cx" #'executable-interpret)
-            (add-hook #'after-save-hook #'crystal-format nil t)
-            ;; FIXME remove when my PR is accepted and merged into crystal-mode
-            (setf (alist-get 'crystal-spec compilation-error-regexp-alist-alist)
-                  '("^\\(Error \\)?in \\([^()\t\n]+\\):\\([0-9]+\\):? .*$" 2 3))))
+            (add-hook #'after-save-hook #'crystal-format nil t)))
 
 
 ;;
