@@ -393,6 +393,7 @@ Else, do nothing if the current buffer's major mode is not
                   c-tab-always-indent nil)))
 
 ;;; projectile
+;;; see also keys.el
 (when (fboundp #'projectile-global-mode)
   (projectile-global-mode)
   (setq projectile-enable-caching t
