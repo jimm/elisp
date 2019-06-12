@@ -395,12 +395,9 @@ Else, do nothing if the current buffer's major mode is not
 ;;; projectile
 ;;; see also keys.el
 (when (fboundp #'projectile-global-mode)
-  (projectile-global-mode)
+  (projectile-mode)
   (setq projectile-enable-caching t
-        projectile-mode-line            ; "Projectile[%s]" is too long
-        '(:eval (if (file-remote-p default-directory)
-                    " prj"
-                  (format " prj[%s]" (projectile-project-name))))))
+        projectile-mode-line-prefix " prj"))
 
 ;;; editorconfig
 (when (fboundp #'editorconfig-mode)
