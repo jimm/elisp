@@ -9,9 +9,9 @@
 (when-fboundp-global-set-key "\C-xo" switch-window)
 (when-fboundp-global-set-key [f11]   switch-window)
 
-(defun htest-current-buffer ()
-  (interactive)
-  (htest 1 (buffer-file-name)))
+(defun htest-current-buffer (arg)
+  (interactive "p")
+  (htest arg (buffer-file-name)))
 
 (let ((m (define-prefix-command 'my-python-proj-map))
       (h (define-prefix-command 'my-python-proj-helios-map)))
@@ -21,4 +21,4 @@
 
 (add-hook 'python-mode-hook
           (lambda ()
-            (define-key python-mode-map (kbd "C-c ,") 'my-python-proj-map)))
+            (define-key python-mode-map (kbd "C-c p") 'my-python-proj-map)))

@@ -82,7 +82,7 @@
 (global-set-key "\M-8" (lambda () (interactive) (nth-other-window 7)))
 
 (when (fboundp #'projectile-global-mode)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+  (define-key projectile-mode-map (kbd "C-c ,") 'projectile-command-map))
 
 ;;; Load local machine's keys.el if it exists.
 
