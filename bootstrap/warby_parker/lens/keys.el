@@ -21,4 +21,4 @@
 
 (add-hook 'python-mode-hook
           (lambda ()
-            (define-key python-mode-map (kbd "C-c p") 'my-python-proj-map)))
+            (define-key python-mode-map (kbd "C-c ,") 'my-python-proj-map)))
