@@ -364,6 +364,11 @@ Else, do nothing if the current buffer's major mode is not
 (setq js2-basic-offset 2)
 ;;(setq js2-use-font-lock-faces t)
 
+;;; TypeScript
+(when (fboundp #'typescript-mode)
+  (add-to-list 'auto-mode-alist '("\\.tsx$" . typescript-mode)))
+
+
 ;;; Markdown
 (add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\|mdown\\)$" . markdown-mode))
 (add-hook 'markdown-mode-hook
