@@ -2,4 +2,4 @@
 # name: IO.puts/DEBUG
 # key: prd
 # --
-IO.puts "$0" # DEBUG
+IO.puts("$0") # DEBUG

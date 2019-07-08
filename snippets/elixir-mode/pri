@@ -2,4 +2,4 @@
 # name: IO.inspect/DEBUG
 # key: pri
 # --
-IO.inspect $0 # DEBUG
+IO.inspect($0) # DEBUG
