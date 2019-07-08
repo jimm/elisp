@@ -35,6 +35,7 @@
 (when-fboundp-global-set-key "\M-gg" avy-goto-line)
 (when-fboundp-global-set-key "\M-g\M-g" avy-goto-line)
 (when-fboundp-global-set-key "\C-xo" ace-window)
+(when-fboundp-global-set-key "\M-o" ace-window)
 
 (when-fboundp-global-set-key "\M-go" dumb-jump-go-other-window)
 (when-fboundp-global-set-key "\M-gj" dumb-jump-go)
