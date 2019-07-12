@@ -62,17 +62,19 @@ not in a Git repo, uses the current directory."
   (dired (or (git-root-dir) default-directory)))
 
 (defun git-grep (arg)
-  "Runs 'git grep' after reading the search regular expression
-from the minibuffer. Starts the search in the current directory's
-root git repo directory.
+  "Runs 'git grep', starts the search in the current directory's root git repo
+directory.
 
-With a prefix argument, initializes the search string with the
-current symbol at point."
+  By default, initializes the search string with the current
+  symbol at point. With a prefix argument, reads the regex from
+  the minibuffer."
   (interactive "P")
-  (let* ((regexp (read-from-minibuffer
-                  "Search regexp: "
-                  (and arg (regexp-quote (thing-at-point 'symbol)))
-                  nil nil 'grep-find-history))
+  (let* ((symbol-at-point (thing-at-point 'symbol))
+         (regexp (if (or arg (not symbol-at-point))
+                     (read-from-minibuffer
+                      "Search regexp: " nil nil nil 'grep-find-history)
+                   (regexp-quote symbol-at-point)))
+
          (default-directory (git-root-dir))
          (case-ignore-flag (and (isearch-no-upper-case-p regexp t) "-i"))
          (cmd (concat "git grep --extended-regexp --line-number --full-name"
