@@ -79,7 +79,10 @@ directory.
          (case-ignore-flag (and (isearch-no-upper-case-p regexp t) "-i"))
          (cmd (concat "git grep --extended-regexp --line-number --full-name"
                       " --untracked " case-ignore-flag " \"" regexp "\"")))
-  (grep-find cmd)))
+    (while (equal "" regexp)
+        (setq regexp (read-from-minibuffer
+                      "Search regexp (must not be the empty string): " nil nil nil 'grep-find-history)))
+    (grep-find cmd)))
 
 
 ;;; ================================================================
