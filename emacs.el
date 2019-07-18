@@ -1432,6 +1432,28 @@ current buffer's directory."
   (mark-whole-buffer)
   (reverse-region (point) (mark)))
 
+(defun github-open-current-buffer (github-user)
+  "Opens current buffer's file on Github, displaying master branch version.
+
+Repo's owner is `GITHUB-USER'.
+
+Assumes current path is inside $HOME/src/, and that the next
+directory down is the name of the Github repo."
+  (interactive (list
+                (read-string (format "Github repo owner (%s): " (getenv "USER"))
+                             nil nil (getenv "USER"))))
+  (let ((path (buffer-file-name))
+        (expected-path-prefix (concat (getenv "HOME") "/src/")))
+    (unless (equal expected-path-prefix
+                   (substring path 0 (length expected-path-prefix)))
+      (error (concat "current buffer's file must be in " expected-path-prefix)))
+    (let* ((suffix (substring path (length expected-path-prefix)))
+           (path-components (split-string suffix "/"))
+           (url (concat "https://github.com/" (or github-user (getenv "USER"))
+                        "/" (car path-components) "/blob/master/"
+                        (string-join (cdr path-components) "/"))))
+      (browse-url-generic url))))
+
 ;;; Key bindings, both common and local to the current machine.
 ;;; See README.org.
 (load "keys")
