@@ -1433,7 +1433,8 @@ current buffer's directory."
   (reverse-region (point) (mark)))
 
 (defun github-open-current-buffer (github-user)
-  "Opens current buffer's file on Github, displaying master branch version.
+  "Opens current buffer's file on Github, at the current line,
+displaying the master branch version.
 
 Repo's owner is `GITHUB-USER'.
 
@@ -1451,7 +1452,8 @@ directory down is the name of the Github repo."
            (path-components (split-string suffix "/"))
            (url (concat "https://github.com/" (or github-user (getenv "USER"))
                         "/" (car path-components) "/blob/master/"
-                        (string-join (cdr path-components) "/"))))
+                        (string-join (cdr path-components) "/")
+                        "#L" (int-to-string (line-number-at-pos)))))
       (browse-url-generic url))))
 
 ;;; Key bindings, both common and local to the current machine.
