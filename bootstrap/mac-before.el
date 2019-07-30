@@ -1,5 +1,5 @@
 (defun open-email-client ()
-  "Open an email client"
+  "Open the default email client."
   (interactive)
   (shell-command "open mailto:"))
 
@@ -12,11 +12,17 @@
   "Environment variables to ignore.")
 
 (defun mac-append-to-exec-path (path)
+  "Add all the paths in the colon-separated `PATH' to
+`exec-path'."
   (mapc (lambda (path-element)
           (add-to-list 'exec-path path-element))
         (split-string val ":")))
 
 (defun mac-process-env-string (setting)
+  "Parse an environment variable `SETTING' of the form \"foo=bar\".
+
+Call `setenv' to set the corresponding value in Emacs. If the
+variable is \"PATH\", also call `mac-append-to-exec-path'."
   (let* ((idx (string-match "=" setting))
          (env (substring setting 0 idx))
          (val (substring setting (1+ idx))))
