@@ -62,12 +62,12 @@ not in a Git repo, uses the current directory."
   (dired (or (git-root-dir) default-directory)))
 
 (defun git-grep (arg)
-  "Runs 'git grep', starts the search in the current directory's root git repo
-directory.
+  "Runs 'git grep', starting the search in the current
+directory's root git repo directory.
 
-  By default, initializes the search string with the current
-  symbol at point. With a prefix argument, reads the regex from
-  the minibuffer."
+By default, initializes the search string with the current symbol
+at point. With a prefix argument, reads the regex from the
+minibuffer."
   (interactive "P")
   (let* ((symbol-at-point (thing-at-point 'symbol))
          (regexp (if (or arg (not symbol-at-point))
@@ -84,6 +84,27 @@ directory.
                       "Search regexp (must not be the empty string): " nil nil nil 'grep-find-history)))
     (grep-find cmd)))
 
+(defun git-grep-callers-python (arg)
+  "Runs 'git grep \"[. \\t]current_symbol\\(\"' to find callers of the symbol
+at point.
+
+With a prefix argument, includes the symbol's definition. This is specific
+to Python because we look for \"def current_symbol\"."
+  (interactive "P")
+  (let* ((symbol-at-point (thing-at-point 'symbol))
+         (regexp (concat "[. \t]"
+                         (or symbol-at-point
+                             (read-from-minibuffer
+                              "Symbol (must not be the empty string): "
+                              nil nil nil 'grep-find-history))
+                         "\\("))
+         (default-directory (git-root-dir))
+         (case-ignore-flag (and (isearch-no-upper-case-p regexp t) "-i"))
+         (ignore-def-grep (concat " | grep -v 'def " symbol-at-point "'"))
+         (cmd (concat "git grep --extended-regexp --line-number --full-name"
+                      " --untracked " case-ignore-flag " '" regexp "'"
+                      (unless arg ignore-def-grep))))
+    (grep-find cmd)))
 
 ;;; ================================================================
 ;;; Finding files
