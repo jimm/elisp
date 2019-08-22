@@ -70,10 +70,10 @@ at point. With a prefix argument, reads the regex from the
 minibuffer."
   (interactive "P")
   (let* ((symbol-at-point (thing-at-point 'symbol))
-         (regexp (if (or arg (not symbol-at-point))
+         (regexp (if (and arg (symbol-at-point))
+                   (regexp-quote symbol-at-point)
                      (read-from-minibuffer
-                      "Search regexp: " nil nil nil 'grep-find-history)
-                   (regexp-quote symbol-at-point)))
+                      "Search regexp: " nil nil nil 'grep-find-history)))
 
          (default-directory (git-root-dir))
          (case-ignore-flag (and (isearch-no-upper-case-p regexp t) "-i"))
@@ -92,12 +92,12 @@ With a prefix argument, includes the symbol's definition. This is specific
 to Python because we look for \"def current_symbol\"."
   (interactive "P")
   (let* ((symbol-at-point (thing-at-point 'symbol))
-         (regexp (concat "[. \t]"
+         (regexp (concat "\\b"
                          (or symbol-at-point
                              (read-from-minibuffer
                               "Symbol (must not be the empty string): "
                               nil nil nil 'grep-find-history))
-                         "\\("))
+                         "\\b"))
          (default-directory (git-root-dir))
          (case-ignore-flag (and (isearch-no-upper-case-p regexp t) "-i"))
          (ignore-def-grep (concat " | grep -v 'def " symbol-at-point "'"))
