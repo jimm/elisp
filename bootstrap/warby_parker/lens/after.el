@@ -68,8 +68,7 @@ If `ARG' is greater than 1, add the `-s' flag to htest, telling
 it to skip db initialization."
   (interactive "p\nftest file: ")
   (let ((helios-dir (concat (getenv "helios") "/")))
-    (compile (concat "cd " helios-dir
-                     " && $box/bin/htest "
+    (compile (concat "cd $helios && htest "
                      (if (> arg 1) "-s " "")
                      (substring file-name (length helios-dir))))))
 

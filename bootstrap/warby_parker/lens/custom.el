@@ -11,7 +11,7 @@
     (alias-generic-mode apache-conf-generic-mode apache-log-generic-mode etc-fstab-generic-mode etc-modules-conf-generic-mode etc-passwd-generic-mode etc-services-generic-mode etc-sudoers-generic-mode fvwm-generic-mode hosts-generic-mode inetd-conf-generic-mode java-manifest-generic-mode java-properties-generic-mode javascript-generic-mode mailagent-rules-generic-mode mailrc-generic-mode named-boot-generic-mode named-database-generic-mode prototype-generic-mode resolve-conf-generic-mode samba-generic-mode show-tabs-generic-mode vrml-generic-mode x-resource-generic-mode xmodmap-generic-mode)))
  '(package-selected-packages
    (quote
-    (coffee-mode typescript-mode 2048-game projectile edit-indirect ox-jira pyvenv erlang crystal-mode docker docker-compose-mode dockerfile-mode org-present htmlize pyenv-mode go-mode groovy-mode yaml-mode editorconfig ace-window ag alchemist avy diminish flx-ido fzf magit markdown-mode sicp slime smex suggest yasnippet yasnippet-snippets)))
+    (swift-mode coffee-mode typescript-mode 2048-game projectile edit-indirect ox-jira pyvenv erlang crystal-mode docker docker-compose-mode dockerfile-mode org-present htmlize pyenv-mode go-mode groovy-mode yaml-mode editorconfig ace-window ag alchemist avy diminish flx-ido fzf magit markdown-mode sicp slime smex suggest yasnippet yasnippet-snippets)))
  '(python-fill-docstring-style (quote pep-257-nn))
  '(safe-local-variable-values (quote ((*prevent-python-formatting* . t))))
  '(sgml-xml-mode t)
