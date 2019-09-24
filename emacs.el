@@ -1456,6 +1456,18 @@ directory down is the name of the Github repo."
                         "#L" (int-to-string (line-number-at-pos)))))
       (browse-url-generic url))))
 
+(defun unwrap ()
+  "Unwraps all paragraphs in the current buffer buffer into single long lines.
+This is a VERY simplistic algorithm."
+  (interactive)
+  (beginning-of-buffer)
+  (while (replace-search "\n" nil nil nil nil)
+    (replace-match " "))
+  (beginning-of-buffer)
+  (while (replace-search "  " nil nil nil nil)
+    (replace-match "\n\n"))
+  (beginning-of-buffer))
+
 ;;; Key bindings, both common and local to the current machine.
 ;;; See README.org.
 (load "keys")
