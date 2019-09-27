@@ -85,7 +85,8 @@ values."
                          (lambda ()
                            (let ((yas/fallback-behavior 'return-nil))
                              (yas/expand))))
-            (define-key yas-keymap "\t" 'yas-next-field-or-maybe-expand)))
+            (when (fboundp #'yas-global-mode)
+              (define-key yas-keymap "\t" 'yas-next-field-or-maybe-expand))))
 
 (when (>= emacs-major-version 24)
   (set-face-attribute 'org-level-1 nil
