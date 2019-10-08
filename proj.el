@@ -31,7 +31,7 @@ passing on any args given to this script."
 (setq grep-find-ignored-directories
       (append (list
                "tmp" "target" "ebin" "_build" "_site" ".vagrant" "node_modules"
-               ".tox" "virtualenv" "venv" "__pycache__")
+               ".tox" "virtualenv" "venv" "__pycache__" "dist" "_dist")
               grep-find-ignored-directories)
 
       grep-find-ignored-files
