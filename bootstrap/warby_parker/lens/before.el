@@ -1,8 +1,5 @@
 (load-file (concat *my-emacs-lib-dir* "bootstrap/work-common.el"))
 
-(setq my-shell #'my-start-shell
-      my-alternate-shell #'eshell)
-
 (setq shell-file-name "/bin/bash"
       epa-pinentry-mode 'loopback)
 
