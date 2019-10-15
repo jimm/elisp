@@ -1456,17 +1456,18 @@ directory down is the name of the Github repo."
                         "#L" (int-to-string (line-number-at-pos)))))
       (browse-url-generic url))))
 
-(defun unwrap ()
-  "Unwraps all paragraphs in the current buffer buffer into single long lines.
-This is a VERY simplistic algorithm."
-  (interactive)
-  (beginning-of-buffer)
-  (while (replace-search "\n" nil nil nil nil)
-    (replace-match " "))
-  (beginning-of-buffer)
-  (while (replace-search "  " nil nil nil nil)
-    (replace-match "\n\n"))
-  (beginning-of-buffer))
+;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
+;;; Found on the Emacs Wiki at
+;;; https://www.emacswiki.org/emacs/UnfillParagraph
+(defun unfill-paragraph (&optional region)
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive (progn (barf-if-buffer-read-only) '(t)))
+  (let ((fill-column (point-max))
+        ;; This would override `fill-column' if it's an integer.
+        (emacs-lisp-docstring-fill-column t))
+    (fill-paragraph nil region)))
+
+(defalias #'unwrap #'unfill-paragraph)
 
 ;;; Key bindings, both common and local to the current machine.
 ;;; See README.org.
