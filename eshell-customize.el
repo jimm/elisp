@@ -41,9 +41,12 @@ PWD is not in a git repo (or the git command is not found)."
   (when (and (eshell-search-path "git")
              (locate-dominating-file pwd ".git"))
     (let* ((git-output (shell-command-to-string "git symbolic-ref HEAD | sed -e 's,refs/heads/,,'"))
-           (branch (if (> (length git-output) 0)
-                       (substring git-output 0 -1) ; strip off newline
-                     "(no branch)"))
+           (branch (cond
+                    ((string-equal git-output "master\n") "m")
+                    ((string-match "fatal: ref HEAD is not a symbol" git-output) "?")
+                    ((> (length git-output) 0)
+                     (substring git-output 0 -1)) ; strip off newline
+                     (t "?")))
            (truncated-branch (if *my-eshell-vcs-maxlen*
                                  (truncate-string-to-width branch *my-eshell-vcs-maxlen* nil nil t)
                                branch)))
@@ -90,7 +93,7 @@ elements are abbreviated to their first letters."
           (concat
            vcs-str
            (chop-path (split-string (tildify-pwd (eshell/pwd)) "/") 3)
-           (if (= (user-uid) 0) " #" " $")
+           (if (= (user-uid) 0) "#" "$")
            " "))))
 
 ;; ; From http://www.emacswiki.org/cgi-bin/wiki.pl/EshellWThirtyTwo
