@@ -427,17 +427,23 @@ displays errors from `black'.
 If ARG is > 1, force formatting even if
 *prevent-python-formatting* is `nil'. ARG is 1 by default.
 
+If ARG is < 0, skip formatting even if
+*prevent-python-formatting* is non-`nil'.
+
 Else, do nothing if the current buffer's major mode is not
 `python-mode' or if the buffer-local variable
 `*prevent-python-formatting*' is non-`nil'."
   (interactive "p")
   (setq arg (or arg 1))
   (when (and (eq major-mode #'python-mode)
+             (> arg 0)
              (or (> arg 1)
                  (not *prevent-python-formatting*)))
     (save-buffer)
     (call-process "isort" nil nil nil (buffer-file-name))
-    (shell-command (concat "black --quiet " (buffer-file-name)))
+    (shell-command (concat
+                    "black --quiet --skip-numeric-underscore-normalization "
+                    (buffer-file-name)))
     (revert-buffer nil t)))
 
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
