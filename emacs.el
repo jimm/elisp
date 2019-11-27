@@ -442,7 +442,7 @@ Else, do nothing if the current buffer's major mode is not
     (save-buffer)
     (call-process "isort" nil nil nil (buffer-file-name))
     (shell-command (concat
-                    "black --quiet --skip-numeric-underscore-normalization "
+                    "black --quiet "
                     (buffer-file-name)))
     (revert-buffer nil t)))
 
@@ -1356,6 +1356,11 @@ me about the channels listed in my-rcirc-notifiy-channels."
 (add-hook 'LilyPond-mode-hook
           (lambda ()
             (define-key LilyPond-mode-map "\C-c\C-k" #'compile)))
+
+;;
+;; Arduino
+;;
+(add-to-list'auto-mode-alist '("\\.ino$" . c++-mode))
 
 (defun toggle-current-window-dedication ()
   "Dedicated window toggle. See
