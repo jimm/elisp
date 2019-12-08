@@ -54,7 +54,8 @@ variable is \"PATH\", also call `mac-append-to-exec-path'."
       ns-command-modifier 'meta         ; define Command as Meta key
       ns-option-modifier 'super         ; define Option as Super key
       ns-right-command-modifier 'super  ; let's see if I use Right-Cmd Super
-      sql-sqlite-program "sqlite3")
+      sql-sqlite-program "sqlite3"
+      epa-pinentry-mode 'loopback)
 
 ;;; http://debbugs.gnu.org/cgi/bugreport.cgi?bug=5683#19
 (when (fboundp 'ns-list-colors)
