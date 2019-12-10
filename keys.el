@@ -23,6 +23,7 @@
 (global-set-key "\C-cn" #'org-capture)
 (global-set-key "\C-cx" #'executable-interpret)
 (global-set-key "\C-x?" #'help-for-help)
+(global-set-key "\C-xg" #'magit-status)
 (global-set-key "\C-x\C-k" #'compile)
 (global-set-key "\C-x\C-m" #'open-email-client)
 (global-set-key "\C-c\C-k" #'compile)
