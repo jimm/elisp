@@ -228,10 +228,8 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
 (eval-after-load "dash" '(dash-enable-font-lock))
 
 ;;; Magit
-(defun magit-status-here ()
-  (interactive)
-  (magit-status (or (locate-dominating-file default-directory ".git")
-                    default-directory)))
+(when (fboundp #'magit)
+  (require 'magit))
 
 ;;; Magit gitflow
 (ignore-errors
