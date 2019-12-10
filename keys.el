@@ -46,8 +46,6 @@
 (global-set-key [\C-f1] my-alternate-shell)
 (global-set-key [f2] #'git-grep)
 (global-set-key [\C-f2] #'git-grep-callers-python)
-(when-fboundp-global-set-key [f3] magit-status-here)
-(when-fboundp-global-set-key [\C-f3] magit-blame-mode)
 (set-org-file-key [f4] "todo.org")
 (global-set-key [f5]
                 (lambda () (interactive) (switch-to-buffer "*inferior-lisp*")))
