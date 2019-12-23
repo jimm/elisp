@@ -1399,6 +1399,12 @@ http://dfan.org/blog/2009/02/19/emacs-dedicated-windows/"
       (backward-kill-word 1)
       (insert word))))
 
+(defun split-window-right-and-focus ()
+  "Calls `split-window-right' and `other-window'."
+  (interactive)
+  (split-window-right)
+  (other-window 1))
+
 (defun center-of-attention ()
   "Reorganize current frame's buffers to show current buffer and
 current buffer's directory."
