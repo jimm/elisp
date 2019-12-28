@@ -1405,6 +1405,13 @@ http://dfan.org/blog/2009/02/19/emacs-dedicated-windows/"
   (split-window-right)
   (other-window 1))
 
+(defun delete-other-windows-unzoom-frame ()
+  "Calls `delete-other-windows' and resizes the selected frame to
+80 columns."
+  (interactive)
+  (delete-other-windows)
+  (set-frame-width (selected-frame) 80))
+
 (defun center-of-attention ()
   "Reorganize current frame's buffers to show current buffer and
 current buffer's directory."
