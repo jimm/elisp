@@ -8,9 +8,9 @@
 # missing, then the list of available domains will be printed out. Likewise
 # if domain is specified but machine is missing.
 
-cd $(dirname $0)
-HERE=$(pwd)
-bd=$HERE/bootstrap
+cd "$(dirname "$0")"
+HERE="$(pwd)"
+bd="$HERE/bootstrap"
 newsrc_dir=$dbox/Miscellaneous/newsrc.eld
 
 backup_if_exists() {
@@ -45,15 +45,12 @@ fi
 
 # ==== main ====
 
-# Create ~/.emacs.d
-$debug mkdir -p ~/.emacs.d
-
-# Create ~/.emacs
-backup_if_exists ~/.emacs.d/init.el
-$debug ln -s $bd/$domain/$machine/init.el ~/.emacs.d/init.el
+# Create init file
+backup_if_exists init.el
+$debug ln -s $bd/$domain/$machine/init.el ../init.el
 
 # Link snippets
-$debug ln -s $HERE/snippets ~/.emacs.d
+$debug ln -s $HERE/snippets "../snippets"
 
 # Link newsrc
 if [ -f $newsrc_dir ] ; then
