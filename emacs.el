@@ -1491,6 +1491,12 @@ directory down is the name of the Github repo."
 
 (defalias #'unwrap #'unfill-paragraph)
 
+(defun mac-screenshot (&optional file)
+  "Calls the Mac OS screen capture utility and saves the PNG to
+`file'."
+  (interactive "FFile: ")
+  (call-process "screencapture" nil nil nil "-i" file))
+
 ;;; Key bindings, both common and local to the current machine.
 ;;; See README.org.
 (load "keys")
