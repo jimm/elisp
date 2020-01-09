@@ -1162,40 +1162,19 @@ gzip.")))
 ;;
 ;; Frame management
 ;;
-(defcustom *zoom-frame-width-factor* 0.125
-  "Fudge factor for display column width calculations.")
-(defcustom *zoom-frame-height-diff* 4
-  "Fudge factor for display column height calculations.")
-
-(defvar *zoom-frame-saved-width-cols* nil)
-
-(defun zoom-frame-width-cols ()
-  (interactive)				; for testing
-  (round (/ (float (display-pixel-width))
-            (+ (float (frame-char-width)) *zoom-frame-width-factor*))))
-
-(defun zoom-frame-height-lines ()
-  (interactive)				; for testing
-  (- (round (/ (float (display-pixel-height))
-               (float (frame-char-height))))
-     *zoom-frame-height-diff*))
-
 (defun zoom-frame ()
+  "This is almost the same as the built-in function
+`toggle-frame-maximized', but I prefer to have the un-maximized
+state be 'fullheight instead of `nil'."
   (interactive)
-  (let ((frame (selected-frame)))
-    ;; (set-frame-position frame 0 0)
-    (set-frame-width
-     frame
-     (cond ((eq 80 (frame-width)) (or *zoom-frame-saved-width-cols* (zoom-frame-width-cols)))
-           (t (progn
-                (setq *zoom-frame-saved-width-cols* (frame-width))
-                80))))))
-
-(defun max-frame-height ()
-  (interactive)
-  (let ((frame (selected-frame)))
-    (set-frame-position frame 0 0)
-    (set-frame-height frame (zoom-frame-height-lines))))
+  (let ((fullscreen (frame-parameter nil 'fullscreen)))
+    (cond
+     ((memq fullscreen '(fullscreen fullboth))
+      (set-frame-parameter nil 'fullscreen-restore 'maximized))
+     ((eq fullscreen 'maximized)
+      (set-frame-parameter nil 'fullscreen 'fullheight))
+     (t
+      (set-frame-parameter nil 'fullscreen 'maximized)))))
 
 ;; Time and time zone information, for calendar's sunrise-sunset and related
 ;; funcs.
@@ -1407,10 +1386,10 @@ http://dfan.org/blog/2009/02/19/emacs-dedicated-windows/"
 
 (defun delete-other-windows-unzoom-frame ()
   "Calls `delete-other-windows' and resizes the selected frame to
-80 columns."
+full height, 80 columns."
   (interactive)
   (delete-other-windows)
-  (set-frame-width (selected-frame) 80))
+  (set-frame-parameter nil 'fullscreen 'fullheight))
 
 (defun center-of-attention ()
   "Reorganize current frame's buffers to show current buffer and

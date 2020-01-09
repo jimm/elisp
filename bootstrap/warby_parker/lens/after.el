@@ -2,12 +2,6 @@
 
 (add-to-list 'auto-mode-alist '("\\.js\\.hbs$" . js-mode))
 
-(defun zoom-frame-width-cols ()
-  "I need to override this because when I'm hooked up to multiple monitors,
-`display-pixel-width' returns the wrong value."
-  (interactive)
-  176)
-
 (setq org-agenda-files (list
                         (concat *my-pim-dir* "orgs/work/warby_parker/todo.org")
                         (concat *my-pim-dir* "orgs/todo.org"))

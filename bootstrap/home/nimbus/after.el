@@ -1,9 +1,5 @@
 (set-my-theme 'light)
 
-(defun zoom-frame-width-cols ()
-  (interactive)				; for testing
-  268)                                  ; 268 for really full screen, 260 with dock exposed
-
 (setq browse-url-generic-program "open")
 (setq Man-switches "-M /usr/share/man:/usr/local/share/man")
 
