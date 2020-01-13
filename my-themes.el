@@ -8,7 +8,11 @@
                       (block-border-background . "gray95")
                       (block-background . "ivory")
                       (table-foreground . "black")
-                      (table-background . "mint cream")))))
+                      (table-background . "mint cream")))
+              (markdown . ((l2-foreground . "black")
+                           (l3-foreground . "purple")
+                           (l4-foreground . "red")
+                           (l5-foreground . "green")))))
     (dark . ((foreground . "white")
              (background . "grey10")
              (mode . ((foreground . "black")
@@ -18,7 +22,11 @@
                      (block-border-background . "gray30")
                      (block-background . "gray20")
                      (table-foreground . "mint cream")
-                     (table-background . "gray30")))))
+                     (table-background . "gray30")))
+             (markdown . ((l2-foreground . "white")
+                          (l3-foreground . "purple")
+                          (l4-foreground . "red")
+                          (l5-foreground . "green")))))
     (dim . ((foreground . "white")
              (background . "dark slate gray")
              (mode . ((foreground . "black")
@@ -28,7 +36,11 @@
                      (block-border-background . "gray30")
                      (block-background . "gray20")
                      (table-foreground . "mint cream")
-                     (table-background . "gray30")))))))
+                     (table-background . "gray30")))
+             (markdown . ((l2-foreground . "white")
+                          (l3-foreground . "purple")
+                          (l4-foreground . "red")
+                          (l5-foreground . "green")))))))
 
 (defvar *org-presentation-background* "white")
 (defvar *current-foreground* nil)
@@ -62,7 +74,16 @@
                               :background (cdr (assoc 'block-border-background org-alist)))
           (set-face-attribute 'org-table nil
                               :foreground (cdr (assoc 'table-foreground org-alist))
-                              :background (cdr (assoc 'table-background org-alist))))))))
+                              :background (cdr (assoc 'table-background org-alist))))))
+    (let ((md-alist (cdr (assoc 'markdown colors-alist))))
+      (set-face-attribute 'markdown-header-face-2 nil
+                          :foreground (cdr (assoc 'l2-foreground md-alist)) :bold t)
+      (set-face-attribute 'markdown-header-face-3 nil
+                          :foreground (cdr (assoc 'l3-foreground md-alist)))
+      (set-face-attribute 'markdown-header-face-4 nil
+                          :foreground (cdr (assoc 'l4-foreground md-alist)))
+      (set-face-attribute 'markdown-header-face-5 nil
+                          :foreground (cdr (assoc 'l5-foreground md-alist))))))
 
 (defun set-my-theme (my-theme-sym)
   (interactive "SColor theme name: ")

@@ -368,6 +368,7 @@ Else, do nothing if the current buffer's major mode is not
 
 
 ;;; Markdown
+(require 'markdown-mode)                ; so my themes will bind correctly
 (add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\|mdown\\)$" . markdown-mode))
 (add-hook 'markdown-mode-hook
           (lambda ()
@@ -382,7 +383,8 @@ Else, do nothing if the current buffer's major mode is not
 ;;; Org Mode
 (load "my-org-mode")
 
-;;; My "mini-themes". This needs to be loaded after my-org-mode.
+;;; My "mini-themes". This needs to be loaded after my-org-mode and
+;;; markdown-mode.
 (load "my-themes")
 
 ;;; perl-mode
