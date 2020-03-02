@@ -616,10 +616,24 @@ exists, else uses pyenv-defined default, else uses system."
   (interactive)
   (set-buffer-file-coding-system 'utf-8-dos t))
 
-(defun underscores-to-camel-case (str)
-  "Converts STR, which is a word using underscores, to camel case."
+(defun snake-case-to-camel-case (str)
+  "Converts STR, which is a word using snake_case, to CamelCase."
   (interactive "S")
   (apply #'concat (mapcar #'capitalize (split-string str "_"))))
+
+(defun camel-case-to-snake-case (str)
+  "Converts STR, which is a word using CamelCase, to snake_case."
+  (interactive "S")
+  (let* ((case-fold-search nil)
+         (snaked
+          (downcase
+           (replace-regexp-in-string "[A-Z]"
+                                     (lambda (s) (concat "_" (downcase s)))
+                                     str))))
+    (if (and (> (length snaked) 1)
+             (equal "_" (substring snaked 0 1)))
+        (substring snaked 1)
+      snaked)))
 
 ;; I prefer zap-upto-char most of the time
 (defun zap-upto-char (arg char)
