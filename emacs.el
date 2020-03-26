@@ -368,11 +368,12 @@ Else, do nothing if the current buffer's major mode is not
 
 
 ;;; Markdown
-(require 'markdown-mode)                ; so my themes will bind correctly
-(add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\|mdown\\)$" . markdown-mode))
-(add-hook 'markdown-mode-hook
-          (lambda ()
-            (set-face-attribute 'markdown-header-face-1 nil :height 1.2 :bold t)))
+(ignore-errors		       ; some systems don't have markdown-mode
+    (require 'markdown-mode)                ; so my themes will bind correctly
+  (add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\|mdown\\)$" . markdown-mode))
+  (add-hook 'markdown-mode-hook
+	    (lambda ()
+	      (set-face-attribute 'markdown-header-face-1 nil :height 1.2 :bold t))))
 
 ;;; Objective C
 (add-hook 'objc-mode-hook
