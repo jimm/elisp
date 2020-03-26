@@ -1447,8 +1447,8 @@ current buffer's directory."
   (while (search-forward " XXXXXX" nil t)
     (replace-match "" nil t))
 
-  (mark-whole-buffer)
-  (reverse-region (point) (mark)))
+  (reverse-region (point-min) (point-max))
+  (beginning-of-buffer))
 
 (defun github-open-current-buffer (github-user)
   "Opens current buffer's file on Github, at the current line,
