@@ -1456,23 +1456,20 @@ displaying the master branch version.
 
 Repo's owner is `GITHUB-USER'.
 
-Assumes current path is inside $HOME/src/, and that the next
-directory down is the name of the Github repo."
+Assumes that the name of the repo is the same as the directory
+name where .git lives."
   (interactive (list
                 (read-string (format "Github repo owner (%s): " (getenv "USER"))
                              nil nil (getenv "USER"))))
-  (let ((path (buffer-file-name))
-        (expected-path-prefix (concat (getenv "HOME") "/src/")))
-    (unless (equal expected-path-prefix
-                   (substring path 0 (length expected-path-prefix)))
-      (error (concat "current buffer's file must be in " expected-path-prefix)))
-    (let* ((suffix (substring path (length expected-path-prefix)))
-           (path-components (split-string suffix "/"))
-           (url (concat "https://github.com/" (or github-user (getenv "USER"))
-                        "/" (car path-components) "/blob/master/"
-                        (string-join (cdr path-components) "/")
-                        "#L" (int-to-string (line-number-at-pos)))))
-      (browse-url-generic url))))
+
+  (let* ((path (buffer-file-name))
+         (git-root-dir (expand-file-name(locate-dominating-file path ".git")))
+         (repo-name (file-name-nondirectory (directory-file-name git-root-dir)))
+         (dir-path-to-file (substring path (length git-root-dir)))
+         (url (concat "https://github.com/" (or github-user (getenv "USER"))
+                      "/" repo-name "/blob/master" "/" dir-path-to-file
+                      "#L" (int-to-string (line-number-at-pos)))))
+    (browse-url-generic url)))
 
 ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
 ;;; Found on the Emacs Wiki at
