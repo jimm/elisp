@@ -20,6 +20,9 @@
     ("o" . "odin")
     ("p" . "puck")))
 
+(defun wp-repo-link (repo-name)
+  (concat "https://github.com/WarbyParker/" repo-name))
+
 (defun wp-pr-link (tag)
   "Given a TAG of the form 'repo-number', returns a URL to a PR in that repo.
 
@@ -29,12 +32,14 @@ be found in `wp-pr-abbreviations-alist'."
          (repo (string-join (butlast elems) "-"))
          (pr-num (car (last elems)))
          (full-repo (alist-get repo wp-pr-abbreviations-alist repo nil #'equal)))
-    (concat "https://github.com/WarbyParker/" full-repo "/pull/" pr-num)))
+    (concat (wp-repo-link repo) "/pull/" pr-num)))
 
 (add-to-list 'org-link-abbrev-alist
              '("jira" . "https://jira.warbyparker.com/browse/"))
 (add-to-list 'org-link-abbrev-alist
              '("pr" . "%(wp-pr-link)"))
+(add-to-list 'org-link-abbrev-alist
+             '("repo" . "%(wp-repo-link)"))
 
 ;; Markdown
 (add-hook 'markdown-mode-hook
