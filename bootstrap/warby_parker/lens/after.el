@@ -45,20 +45,6 @@ be found in `wp-pr-abbreviations-alist'."
 (add-hook 'markdown-mode-hook
           (lambda () (setq markdown-command "multimarkdown")))
 
-;;; projectile-project-root returns nil if no dir found, but the original
-;;; definition of fzf does not handle that.
-(require 'fzf)
-(if (fboundp #'projectile-project-root)
-    (defun fzf ()
-      "Starts a fzf session."
-      (interactive)
-      (fzf/start (or (condition-case err
-                         (projectile-project-root)
-                       (error
-                        default-directory))
-                     default-directory))
-      (fzf/start default-directory)))
-
 (defun htest (arg file-name)
   "Runs `FILE-NAME' (by default, the current buffer's file) as a
 single test using my \"htest\" script. That script assumes that

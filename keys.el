@@ -55,11 +55,18 @@
                 (lambda () (interactive) (switch-to-buffer "*SQL*")))
 (global-set-key [f7] #'line-to-other-window)
 (global-set-key [\C-f7] #'send-current-line-to-terminal-and-next-line)
-(if (fboundp #'fzf-git)
-    (progn
-      (global-set-key [f9] #'fzf-git)
-      (global-set-key [\C-f9] #'ef))
-  (global-set-key [f9] #'ef))
+
+;; File-finding key bindings.
+(let ((find-file-func (cond ((fboundp #'find-file-in-project)
+                             #'find-file-in-project)
+                            ((fboundp #'find-file-in-repository)
+                             #'find-file-in-repository)
+                            ((fboundp #'fzf-git)
+                             #'fzf-git)
+                            (t #'ef))))
+  (global-set-key [f9] find-file-func)
+  (global-set-key [\C-f9] #'ef))
+
 (global-set-key [f10] #'zoom-frame)
 (global-set-key "\M-\r" #'zoom-frame)
 (global-set-key [\C-f10] #'delete-other-windows-unzoom-frame)

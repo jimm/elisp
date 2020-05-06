@@ -300,16 +300,13 @@ Else, do nothing if the current buffer's major mode is not
           (concat (file-name-directory (getenv "dbox")) "Music/music/"))
     (global-set-key [\C-f7] 'emms-previous)
     (global-set-key [\C-f8] 'emms-pause) ; toggles between pause and resume
-    (global-set-key [\C-f9] 'emms-next)
-    (if (fboundp #'fzf)
-        (global-set-key [\C-f9] #'fzf)
-      (global-set-key [f9] #'ef))))
+    (global-set-key [\C-f9] 'emms-next)))
 
 ;;;
 ;;; fzf
 ;;;
 (let ((local-fzf-executable "~/.fzf/bin/fzf"))
-  (when (and (fboundp 'fzf) (file-exists-p local-fzf-executable))
+  (when (and (fboundp #'fzf) (file-exists-p local-fzf-executable))
     (setq fzf/executable local-fzf-executable)))
 
 ;;; Gnus
