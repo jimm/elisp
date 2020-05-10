@@ -534,7 +534,7 @@ exists, else uses pyenv-defined default, else uses system."
 (when (fboundp #'yas-global-mode)
   (yas-global-mode 1)
   (let ((snip-dir (concat *my-emacs-lib-dir* "snippets")))
-    (add-to-list 'yas-snippet-dirs snip-dir)
+    (setq yas-snippet-dirs (list snip-dir))
     (yas-load-directory snip-dir t)))
 
 ;;; YAML

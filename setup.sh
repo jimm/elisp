@@ -1,8 +1,10 @@
 #!/bin/bash
 #
-# usage: setup.sh [-d] domain machine
+# usage: setup.sh [-d] [-e user-emacs-directory] domain machine
 #
-# Set up a new Emacs installation the way I like it.
+# Set up a new Emacs installation the way I like it. Creates a small init.el
+# file in the emacs init directory. By default that is ~/.emacs.d; override
+# that directory with the `-e` flag.
 #
 # "domain" and "machine" are dirs/subdirs in bootstrap/. If domain is
 # missing, then the list of available domains will be printed out. Likewise
@@ -10,8 +12,19 @@
 
 cd "$(dirname "$0")"
 HERE="$(pwd)"
+user_emacs_dir="~/.emacs.d"
 bd="$HERE/bootstrap"
 newsrc_dir=$dbox/Miscellaneous/newsrc.eld
+
+usage() {
+    cat <<EOS
+usage: setup.sh [-d] [-e user-emacs-directory] domain machine
+
+    -d      Debug: print but do not execute commands
+    -e dir  Override default user-emacs-directory ~/.emacs.d
+EOS
+    exit $1
+}
 
 backup_if_exists() {
     if [ -h $1 ] ; then         # link
@@ -24,10 +37,15 @@ backup_if_exists() {
 # ==== command line arg handling ====
 
 # echo commands if -d specified.
-if [ "$1" = "-d" ] ; then
-    debug=echo
-    shift
-fi
+while getopts "de:" opt ; do
+    case $opt in
+        d) debug=echo ;;
+        e) user_emacs_dir="$OPTARG" ;;
+        h) usage 0 ;;
+        *) usage 1 ;;
+    esac
+done
+shift $((OPTIND-1))
 
 domain=$1
 if [ -z "$domain" ] ; then
@@ -47,10 +65,15 @@ fi
 
 # Create init file
 backup_if_exists init.el
-$debug ln -s $bd/$domain/$machine/init.el ../init.el
-
-# Link snippets
-$debug ln -s $HERE/snippets "../snippets"
+if [ "$debug" = "echo" ] ; then
+    echo creating init.el
+else
+    cat > "$user_emacs_dir/init.el" <<EOS
+(load-file "$HERE/bootstrap-init.el")
+(bootstrap-init "$domain" "$machine")
+EOS
+    $debug ln -s $bd/$domain/$machine/init.el ../init.el
+fi
 
 # Link newsrc
 if [ -f $newsrc_dir ] ; then

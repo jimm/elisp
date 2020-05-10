@@ -24,15 +24,12 @@ Since I use Emacs on multiple machines, I came up with a customization
 scheme that lets me run "before" and "after" code for each machine around my
 main initialization code. Each domain (work, home, etc.) gets its own
 subdirectory and each machine gets its own subdirectory within the domain.
-Inside there are a number of files, all but the first optional: =init.el=,
-=before.el=, =after.el=, =keys.el=, =custom.el=, and the bookmark file
-=emacs.bmk= which is not checked in to source control.
+Inside there are a number of files, all optional: =before.el=, =after.el=,
+=keys.el=, =custom.el=, and the bookmark file =emacs.bmk= which is not
+checked in to source control.
 
-On each box I create a soft link from the appropriate =init.el= file in
-that machine's bootstrap/DOMAIN/MACHINE directory to =~/.emacs.d/init.el=.
-Here's the =init.el= file on the machine I'm using right now, which is really a
-link to =~/.emacs.d/elisp/home/sysex/init.el=:
-
+On each box I create a small =init.el= file in that machine's
+=user-emacs-directory= which looks something like this:
 #+begin_src emacs-lisp
   (load-file "~/.emacs.d/elisp/bootstrap-init.el")
   (bootstrap-init "home" "sysex")
@@ -46,6 +43,9 @@ directory, then the main customization file =emacs.el=, then =after.el=.
 The bootstrap process sets a number of variables including =custom-file=,
 =*my-emacs-lib-dir*=, =*my-emacs-bootstrap-domain*=, and
 =*my-emacs-bootstrap-machine*=.
+
+The shell script =setup.sh= creates the init file and does a few other
+things.
 
 ** Key Bindings
 

@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name : foo = {foo}
+# name : inspect foo = {foo}}
 # key: i
 # --
 ${1:foo} = {$1}
