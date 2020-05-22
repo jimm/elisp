@@ -1176,19 +1176,49 @@ gzip.")))
 ;;
 ;; Frame management
 ;;
+(defun delete-other-windows-unzoom-frame ()
+  "Calls `delete-other-windows' and resizes the selected frame to
+full height, 80 columns."
+  (interactive)
+  (delete-other-windows)
+  (set-frame-parameter nil 'fullscreen 'fullheight))
+
 (defun zoom-frame ()
-  "This is almost the same as the built-in function
-`toggle-frame-maximized', but I prefer to have the un-maximized
-state be 'fullheight instead of `nil'."
+  "Toggle the current frame between full screen and an
+un-maximized 80-column full height frame.
+
+This is similar to the built-in function
+`toggle-frame-maximized', but when un-maximizing this calls
+`delete-other-windows-unzoom-frame'."
   (interactive)
   (let ((fullscreen (frame-parameter nil 'fullscreen)))
     (cond
      ((memq fullscreen '(fullscreen fullboth))
       (set-frame-parameter nil 'fullscreen-restore 'maximized))
      ((eq fullscreen 'maximized)
-      (set-frame-parameter nil 'fullscreen 'fullheight))
+      (delete-other-windows-unzoom-frame))
      (t
       (set-frame-parameter nil 'fullscreen 'maximized)))))
+
+(defun split-window-right-and-focus ()
+  "Calls `split-window-right' and `other-window'."
+  (interactive)
+  (split-window-right)
+  (other-window 1))
+
+(defun center-of-attention ()
+  "Reorganize current frame's buffers to show current buffer and
+current buffer's directory."
+  (interactive)
+  (let ((fname (file-name-nondirectory (buffer-file-name))))
+    (delete-other-windows)
+    (split-window-right)
+    (other-window 1)
+    (dired ".")
+    (goto-char (point-min))
+    (search-forward (concat " " fname "\n"))
+    (search-backward " ")
+    (forward-char 1)))
 
 ;; Time and time zone information, for calendar's sunrise-sunset and related
 ;; funcs.
@@ -1391,33 +1421,6 @@ http://dfan.org/blog/2009/02/19/emacs-dedicated-windows/"
       (forward-word)
       (backward-kill-word 1)
       (insert word))))
-
-(defun split-window-right-and-focus ()
-  "Calls `split-window-right' and `other-window'."
-  (interactive)
-  (split-window-right)
-  (other-window 1))
-
-(defun delete-other-windows-unzoom-frame ()
-  "Calls `delete-other-windows' and resizes the selected frame to
-full height, 80 columns."
-  (interactive)
-  (delete-other-windows)
-  (set-frame-parameter nil 'fullscreen 'fullheight))
-
-(defun center-of-attention ()
-  "Reorganize current frame's buffers to show current buffer and
-current buffer's directory."
-  (interactive)
-  (let ((fname (file-name-nondirectory (buffer-file-name))))
-    (delete-other-windows)
-    (split-window-right)
-    (other-window 1)
-    (dired ".")
-    (goto-char (point-min))
-    (search-forward (concat " " fname "\n"))
-    (search-backward " ")
-    (forward-char 1)))
 
 (defun reformat-bank-transactions ()
   "Reformat my bank's transactions CSV file."
