@@ -42,7 +42,10 @@ PWD is not in a git repo (or the git command is not found)."
              (locate-dominating-file pwd ".git"))
     (let* ((git-output (shell-command-to-string "git symbolic-ref HEAD | sed -e 's,refs/heads/,,'"))
            (branch (cond
-                    ((string-equal git-output "master\n") "m")
+                    ((or
+                      (string-equal git-output "master\n")
+                      (string-equal git-output "main\n"))
+                      "m")
                     ((string-match "fatal: ref HEAD is not a symbol" git-output) "?")
                     ((> (length git-output) 0)
                      (substring git-output 0 -1)) ; strip off newline
