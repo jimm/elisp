@@ -44,12 +44,15 @@ PWD is not in a git repo (or the git command is not found)."
            (branch (cond
                     ((or
                       (string-equal git-output "master\n")
-                      (string-equal git-output "main\n"))
-                      "m")
-                    ((string-match "fatal: ref HEAD is not a symbol" git-output) "?")
+                      (string-equal git-output "main\n")
+                      (string-equal git-output "trunk\n"))
+                     "_")
+                    ((string-match "fatal: ref HEAD is not a symbol" git-output)
+                     "?")
                     ((> (length git-output) 0)
                      (substring git-output 0 -1)) ; strip off newline
-                     (t "?")))
+                    (t
+                     "?")))
            (truncated-branch (if *my-eshell-vcs-maxlen*
                                  (truncate-string-to-width branch *my-eshell-vcs-maxlen* nil nil t)
                                branch)))
