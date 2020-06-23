@@ -13,7 +13,8 @@ into this repository.
 * Load Path
 
 The global variable =*my-emacs-lib-dir*= must be defined to point to this
-directory.
+directory. That is done automatically in =bootstrap-init.el=, but you can
+always override it if you need to.
 
 The load path is set up to look in the Emacs installation first, then in
 =*my-emacs-lib-dir*=.
