@@ -54,10 +54,11 @@ whitespace-only string."
   (shell)
   (set-process-query-on-exit-flag (get-process "shell") nil))
 
-;; Possible values include #'shell, #'eshell, or #'switch-to-terminal
-(defvar my-shell #'eshell
+;; Possible values include #'shell, #'eshell, #'switch-to-terminal, and
+;; #'my-start-shell
+(defvar my-shell #'shell
   "The shell to use inside Emacs; examples include 'shell or 'eshell.")
-(defvar my-alternate-shell #'my-start-shell
+(defvar my-alternate-shell #'eshell
   "Alternate shell. Bound to alternate key.")
 
 (when (equal default-directory "/")
