@@ -72,7 +72,6 @@ else
 (load-file "$HERE/bootstrap-init.el")
 (bootstrap-init "$domain" "$machine")
 EOS
-    $debug ln -s $bd/$domain/$machine/init.el ../init.el
 fi
 
 # Link newsrc
