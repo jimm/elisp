@@ -56,9 +56,9 @@ whitespace-only string."
 
 ;; Possible values include #'shell, #'eshell, #'switch-to-terminal, and
 ;; #'my-start-shell
-(defvar my-shell #'shell
+(defvar my-shell #'eshell
   "The shell to use inside Emacs; examples include 'shell or 'eshell.")
-(defvar my-alternate-shell #'eshell
+(defvar my-alternate-shell #'shell
   "Alternate shell. Bound to alternate key.")
 
 (when (equal default-directory "/")

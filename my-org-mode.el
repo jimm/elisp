@@ -8,20 +8,11 @@
   (defvar org-ans1)
   (defvar org-ans2))
 
-
-;;; Org Present
-(add-hook 'org-present-mode-hook
-          (lambda ()
-            (org-present-big)
-            (org-present-hide-cursor)
-            (org-display-inline-images)
-            (org-present-read-only)))
-(add-hook 'org-present-mode-quit-hook
-          (lambda ()
-            (org-present-small)
-            (org-present-show-cursor)
-            (org-remove-inline-images)
-            (org-present-read-write)))
+(let ((emacs-mastery-base-dir (concat (getenv "writing") "/books/emacs-mastery/")))
+  (setq org-publish-project-alias
+        '(("emacs-mastery"
+           :base-directory emacs-mastery-base-dir
+           :publishing-directory (concat emacs-mastery-base-dir "_html/")))))
 
 ;;; Org Capture
 
@@ -100,6 +91,20 @@ values."
 ;;
 ;; Org Present Mode
 ;;
+
+(add-hook 'org-present-mode-hook
+          (lambda ()
+            (org-present-big)
+            (org-present-hide-cursor)
+            (org-display-inline-images)
+            (org-present-read-only)))
+(add-hook 'org-present-mode-quit-hook
+          (lambda ()
+            (org-present-small)
+            (org-present-show-cursor)
+            (org-remove-inline-images)
+            (org-present-read-write)))
+
 ;; Note that there's a bug in the (old) version of Org mode that Org Present
 ;; depends on that breaks table formatting.
 ;;
