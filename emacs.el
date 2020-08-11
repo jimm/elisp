@@ -2,7 +2,7 @@
 
 ;;; Note: this file should be loaded by bootstrap-init.el.
 
-(require 'cl)
+(require 'cl-lib)
 
 (defmacro when-fboundp-call (f &rest args)
   "If F is bound, calls it with ARGS."
@@ -1350,34 +1350,6 @@ me about the channels listed in my-rcirc-notifiy-channels."
       (insert str)
       (comint-send-input)
       (other-window -1))))
-
-;;
-;; LilyPond mode
-;;
-(defcustom LilyPond-ps-command "open"
-  "Command used to display PS files."
-  :group 'LilyPond
-  :type 'string)
-
-(defcustom LilyPond-pdf-command "open"
-  "Command used to display PDF files."
-  :group 'LilyPond
-  :type 'string)
-
-(defcustom LilyPond-midi-command "open"
-  "Command used to play MIDI files."
-  :group 'LilyPond
-  :type 'string)
-
-(defcustom LilyPond-all-midi-command "open"
-  "Command used to play MIDI files."
-  :group 'LilyPond
-  :type 'string)
-(autoload #'LilyPond-mode "lilypond-init" "lilyPond mode")
-(add-to-list 'auto-mode-alist '("\\.ly$" . LilyPond-mode))
-(add-hook 'LilyPond-mode-hook
-          (lambda ()
-            (define-key LilyPond-mode-map "\C-c\C-k" #'compile)))
 
 ;;
 ;; Arduino
