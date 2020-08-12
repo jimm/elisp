@@ -45,9 +45,10 @@ whitespace-only string."
   (when (< emacs-major-version 24)
     ;; For important compatibility libraries like cl-lib
     (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-  (setq package-enable-at-startup nil   ; prevent initializing twice
-        package--init-file-ensured t)   ; avoid check for being in init.el
-  (package-initialize))
+  (when (< emacs-major-version 27)
+    (setq package-enable-at-startup nil ; prevent initializing twice
+          package--init-file-ensured t) ; avoid check for being in init.el
+    (package-initialize)))
 
 (defun my-start-shell ()
   (interactive)
