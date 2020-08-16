@@ -58,23 +58,24 @@
       (set-face-attribute 'mode-line nil
                           :foreground (cdr (assoc 'foreground mode-alist))
                           :background (cdr (assoc 'background mode-alist))))
-    (let ((org-alist (cdr (assoc 'org colors-alist))))
-      (let ((block-sym (if (>= emacs-major-version 26)
-                           'org-block
-                         'org-block-background)))
-        (when (>= emacs-major-version 24)
-          (set-face-attribute 'org-level-2 nil
-                              :foreground (cdr (assoc 'l2-foreground org-alist)))
-          (set-face-attribute block-sym nil
-                              :foreground (cdr (assoc 'block-foreground org-alist))
-                              :background (cdr (assoc 'block-background org-alist)))
-          (set-face-attribute 'org-block-begin-line nil
-                              :background (cdr (assoc 'block-border-background org-alist)))
-          (set-face-attribute 'org-block-end-line nil
-                              :background (cdr (assoc 'block-border-background org-alist)))
-          (set-face-attribute 'org-table nil
-                              :foreground (cdr (assoc 'table-foreground org-alist))
-                              :background (cdr (assoc 'table-background org-alist))))))
+    (when (< emacs-major-version 27)
+      (let ((org-alist (cdr (assoc 'org colors-alist))))
+        (let ((block-sym (if (>= emacs-major-version 26)
+                             'org-block
+                           'org-block-background)))
+          (when (>= emacs-major-version 24)
+            (set-face-attribute 'org-level-2 nil
+                                :foreground (cdr (assoc 'l2-foreground org-alist)))
+            (set-face-attribute block-sym nil
+                                :foreground (cdr (assoc 'block-foreground org-alist))
+                                :background (cdr (assoc 'block-background org-alist)))
+            (set-face-attribute 'org-block-begin-line nil
+                                :background (cdr (assoc 'block-border-background org-alist)))
+            (set-face-attribute 'org-block-end-line nil
+                                :background (cdr (assoc 'block-border-background org-alist)))
+            (set-face-attribute 'org-table nil
+                                :foreground (cdr (assoc 'table-foreground org-alist))
+                                :background (cdr (assoc 'table-background org-alist)))))))
     (let ((md-alist (cdr (assoc 'markdown colors-alist))))
       (set-face-attribute 'markdown-header-face-2 nil
                           :foreground (cdr (assoc 'l2-foreground md-alist)) :bold t)
