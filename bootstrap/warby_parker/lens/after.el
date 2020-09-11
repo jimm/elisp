@@ -15,8 +15,11 @@
 
 ;; Jira
 (defvar wp-pr-abbreviations-alist
-  '(("mc" . "manage-cloud")
-    ("h" . "helios")
+  '(("h" . "helios")
+    ("ios" . "poe-ios")
+    ("pmp" . "practice-management-platform")
+    ("rom" . "retail-order-management")
+    ("mc" . "manage-cloud")
     ("o" . "odin")
     ("p" . "puck")))
 
@@ -61,6 +64,13 @@ it to skip db initialization."
 (defun wp-github-open-current-buffer ()
   (interactive)
   (github-open-current-buffer "WarbyParker"))
+
+(defun find-in-iso (regex)
+  "Runs my `find-git' shell script against all the code in a known directory containing my team's repos."
+  (interactive "ssearch regex: ")
+  (let ((tempfile "/tmp/find-in-iso.grep"))
+    (shell-command (concat "find-git -e -d " (getenv "iso") " " regex " > " tempfile))
+    (find-file tempfile)))
 
 ;; Start Emacs server
 (server-start)
