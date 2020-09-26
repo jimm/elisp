@@ -66,7 +66,8 @@ it to skip db initialization."
   (github-open-current-buffer "WarbyParker"))
 
 (defun find-in-iso (regex)
-  "Runs my `find-git' shell script against all the code in a known directory containing my team's repos."
+  "Runs my `find-git' shell script against all the code in a
+known directory containing my team's repos."
   (interactive "ssearch regex: ")
   (let ((tempfile "/tmp/find-in-iso.grep"))
     (shell-command (concat "find-git -e -d " (getenv "iso") " "
