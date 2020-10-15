@@ -8,9 +8,8 @@
  '(css-indent-offset 2)
  '(eshell-save-history-on-exit t)
  '(package-selected-packages
-   (quote
-    (typescript-mode org-present swift-mode avy ox-impress-js projectile projectile-rails slime suggest yasnippet-snippets lua-mode crystal-mode graphviz-dot-mode textile-mode use-package ag yasnippet yaml-mode smex sicp sass-mode rspec-mode markdown-mode magit less-css-mode inf-ruby inf-clojure http-twiddle haskell-mode hamlet-mode go-mode fzf flx-ido emms dumb-jump diminish coffee-mode alchemist ace-window 2048-game)))
- '(python-fill-docstring-style (quote pep-257-nn))
+   '(jade-mode typescript-mode org-present swift-mode avy ox-impress-js projectile projectile-rails slime suggest yasnippet-snippets lua-mode crystal-mode graphviz-dot-mode textile-mode use-package ag yasnippet yaml-mode smex sicp sass-mode rspec-mode markdown-mode magit less-css-mode inf-ruby inf-clojure http-twiddle haskell-mode hamlet-mode go-mode fzf flx-ido emms dumb-jump diminish coffee-mode alchemist ace-window 2048-game))
+ '(python-fill-docstring-style 'pep-257-nn)
  '(sgml-xml-mode t)
  '(woman-use-own-frame nil))
 (custom-set-faces
