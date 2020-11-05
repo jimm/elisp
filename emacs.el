@@ -1305,7 +1305,7 @@ me about the channels listed in my-rcirc-notifiy-channels."
   "Sends error exit command to every client for the current buffer."
   (interactive)
   (dolist (proc server-buffer-clients)
-    (server-send-string proc "-error killed by buffer-kill-emacs")))
+    (server-send-string proc "-error killed by buffer-kill-emacsclients")))
 
 ;;
 ;; Cursor manipulation
