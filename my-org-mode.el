@@ -4,6 +4,7 @@
 ;;; this file.
 
 (require 'org)
+(require 'ox-md nil t)                  ; markdown export mode
 (unless (boundp 'org-ans1)
   (defvar org-ans1)
   (defvar org-ans2))
