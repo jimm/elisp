@@ -12,7 +12,7 @@
 
 cd "$(dirname "$0")"
 HERE="$(pwd)"
-user_emacs_dir="~/.emacs.d"
+user_emacs_dir="$HOME/.emacs.d"
 bd="$HERE/bootstrap"
 newsrc_dir=$dbox/Miscellaneous/newsrc.eld
 
@@ -21,7 +21,7 @@ usage() {
 usage: setup.sh [-d] [-e user-emacs-directory] domain machine
 
     -d      Debug: print but do not execute commands
-    -e dir  Override default user-emacs-directory ~/.emacs.d
+    -e dir  Override default user-emacs-directory \$HOME/.emacs.d
 EOS
     exit $1
 }
