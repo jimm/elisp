@@ -491,6 +491,9 @@ exists, else uses pyenv-defined default, else uses system."
 (eval-after-load "inf-ruby"
   (load "my-ruby-mode"))
 
+;;; Rust
+(setq rust-format-on-save t)
+
 ;;; HAML and SASS
 ;; Found {haml,sass}-mode.el files in the directory path-to-haml-gem/extra/.
 (autoload #'haml-mode "haml-mode" "haml mode")
