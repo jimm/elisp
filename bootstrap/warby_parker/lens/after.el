@@ -11,7 +11,8 @@
                             ".org")
       *my-eshell-vcs-maxlen* 32
       emms-source-file-default-directory "~/Documents/Dropbox/Music/music/"
-      Buffer-menu-name-width 24)
+      Buffer-menu-name-width 24
+      user-email-address "jim.menard@warbyparker.com")
 
 ;; Jira
 (defvar wp-pr-abbreviations-alist
