@@ -43,15 +43,6 @@ work for all langauges."
     (write-region p-beg p-end tmpfile)
     (compile (concat lang " " tmpfile))))
 
-(defun lower-case-org-mode-templates ()
-  "I like lower-case Org Mode templates. This function returns a
-copy of org-structure-template-alist with lower-case template
-values."
-  (mapcar (lambda (entry)
-            (list (car entry)
-                  (downcase (cadr entry))))
-          org-structure-template-alist))
-
 ;; The first three are recommended
 (setq org-agenda-include-diary t
       org-directory (concat *my-pim-dir* "orgs/")
@@ -65,8 +56,7 @@ values."
           (lambda ()
             (org-add-link-type "addr" #'address)
             (org-add-link-type "date" #'my-goto-calendar-date)
-            (setq org-export-with-sub-superscripts nil
-                  org-structure-template-alist (lower-case-org-mode-templates))
+            (setq org-export-with-sub-superscripts nil)
             (define-key org-mode-map "\C-cr" #'my-org-execute-src)
             (define-key org-mode-map "\C-ct" #'org-toggle-link-display)
             ;; yasnippet mode
@@ -79,6 +69,17 @@ values."
                              (yas/expand))))
             (when (fboundp #'yas-global-mode)
               (define-key yas-keymap "\t" 'yas-next-field-or-maybe-expand))))
+
+;; Modify org-structure-template-alist when Org Mode version is < 9.3.
+(when (version< org-version "9.3")
+    "I like lower-case Org Mode templates. This function returns a
+copy of org-structure-template-alist with lower-case template
+values."
+    (setq org-structure-template-alist
+          (mapcar (lambda (entry)
+                    (list (car entry)
+                          (downcase (cadr entry))))
+                  org-structure-template-alist)))
 
 (when (>= emacs-major-version 24)
   (set-face-attribute 'org-level-1 nil
