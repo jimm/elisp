@@ -10,10 +10,10 @@
 # missing, then the list of available domains will be printed out. Likewise
 # if domain is specified but machine is missing.
 
-cd "$(dirname "$0")"
-HERE="$(pwd)"
+cd "$(dirname "$0"/..)"
+ELISP_DIR="$(pwd)"
 user_emacs_dir="$HOME/.emacs.d"
-bd="$HERE/bootstrap"
+bd="$ELISP_DIR/bootstrap"
 newsrc_dir=$dbox/Miscellaneous/newsrc.eld
 
 usage() {
@@ -69,7 +69,7 @@ if [ "$debug" = "echo" ] ; then
     echo creating init.el
 else
     cat > "$user_emacs_dir/init.el" <<EOS
-(load-file "$HERE/bootstrap-init.el")
+(load-file "$ELISP_DIR/bootstrap-init.el")
 (bootstrap-init "$domain" "$machine")
 EOS
 fi
