@@ -597,6 +597,7 @@ exists, else uses pyenv-defined default, else uses system."
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
+(put 'narrow-to-page 'disabled nil)
 
 (fset #'yes-or-no-p #'y-or-n-p)        ; accept simple 'y'/space, 'n'/delete
 (unless (fboundp #'string-match-p) (defalias #'string-match-p #'string-match))
