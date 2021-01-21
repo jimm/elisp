@@ -237,7 +237,7 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
 (ignore-errors
   (defvar magit-gitflow-popup-key "C-c f")
   (require 'magit-gitflow)
-  (add-hook #'magit-mode-hook #'turn-on-magit-gitflow))
+  (add-hook 'magit-mode-hook #'turn-on-magit-gitflow))
 
 ;;; dumb-jump
 (when-fboundp-call dumb-jump-mode)
@@ -246,7 +246,6 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
 (defvar *prevent-elixir-formatting* nil
   "This is a buffer-local variable that prevents `elixir-format'
   from running when it is non-`nil'.")
-
 
 (defun elixir-format (&optional arg)
   "Format the current Elixir buffer.
@@ -266,31 +265,36 @@ Else, do nothing if the current buffer's major mode is not
              (or (> arg 1)
                  (not *prevent-elixir-formatting*)))
     (save-buffer)
-    (let ((mix-file (locate-dominating-file default-directory "mix.exs")))
-      (if mix-file
-          (let ((default-directory (file-name-nondirectory mix-file)))
-            (call-process "mix" nil nil t "format"
-                          (file-name-nondirectory (buffer-file-name)))
-            (revert-buffer nil t))))))
+    (call-process "mix" nil nil nil "format" (buffer-file-name))
+    (revert-buffer t t)
+    (save-buffer)))
 
 (add-hook 'elixir-mode-hook
           (lambda ()
             (define-key elixir-mode-map "\C-cd" #'debug-comment)
             (define-key elixir-mode-map "\C-cx" 'executable-interpret)
-            (add-hook #'after-save-hook #'elixir-format nil t)
+            (add-hook 'after-save-hook #'elixir-format nil t)
             (when-fboundp-call alchemist-mode)))
 
 ;;; Alchemist
+
+(defun _set_dir_var (env_name sym)
+  "If environment variable `ENV_NAME' is defined and points to a
+directory that exists, set `SYM' to that directory. Else, `SYM'
+is unchanged."
+  (let ((dir_env (getenv env_name)))
+    (when dir_env
+      (let ((dir (file-name-as-directory dir_env)))
+        (when (file-exists-p dir)
+          (set sym dir))))))
+
 (add-hook 'alchemist-mode-hook
           (lambda ()
-            (let ((dir (file-name-as-directory (getenv "ELIXIR_HOME"))))
-              (when (file-exists-p dir)
-                (setq alchemist-goto-elixir-source-dir dir)))
-            (let ((dir (file-name-as-directory (getenv "ERLANG_HOME"))))
-              (when (file-exists-p dir)
-                (setq alchemist-goto-erlang-source-dir dir)))
+            (_set_dir_var "ELIXIR_HOME" alchemist-goto-elixir-source-dir)
+            (_set_dir_var "ERLANG_HOME" alchemist-goto-erlang-source-dir)
             (define-key alchemist-mode-map "\C-c\C-z"
-              #'alchemist-iex-project-run)))
+              #'alchemist-iex-project-run)
+            (add-hook 'after-save-hook #'elixir-format nil t)))
 
 ;;; EMMS
 (when (fboundp #'emms-all)
@@ -298,8 +302,10 @@ Else, do nothing if the current buffer's major mode is not
     (interactive)
     (emms-all)
     (emms-default-players)
-    (setq emms-source-file-default-directory
-          (concat (file-name-directory (getenv "dbox")) "Music/music/"))
+    (let ((dbox (getenv "dbox")))
+      (when dbox
+        (setq emms-source-file-default-directory
+              (concat (file-name-directory dbox) "Music/music/"))))
     (global-set-key [\C-f7] 'emms-previous)
     (global-set-key [\C-f8] 'emms-pause) ; toggles between pause and resume
     (global-set-key [\C-f9] 'emms-next)))
@@ -444,7 +450,7 @@ Else, do nothing if the current buffer's major mode is not
     (shell-command (concat
                     "black --quiet "
                     (buffer-file-name)))
-    (revert-buffer nil t)))
+    (revert-buffer t t)))
 
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (custom-set-variables
@@ -457,7 +463,7 @@ Else, do nothing if the current buffer's major mode is not
             ;; that already exist in Python mode
             (define-key python-mode-map "\M-[" #'python-indent-shift-left)
             (define-key python-mode-map "\M-]" #'python-indent-shift-right)
-            (add-hook #'after-save-hook #'pyfmt nil t)))
+            (add-hook 'after-save-hook #'pyfmt nil t)))
 
 ;;; Based on pyenv-mode-auto (https://github.com/ssbb/pyenv-mode-auto)
 (defun pyenv-mode-auto-hook ()
@@ -1081,7 +1087,7 @@ Else, do nothing if the current buffer's major mode is not
 (add-hook 'crystal-mode-hook
           (lambda ()
             (define-key crystal-mode-map "\C-cx" #'executable-interpret)
-            (add-hook #'after-save-hook #'crystal-format nil t)))
+            (add-hook 'after-save-hook #'crystal-format nil t)))
 
 
 ;;
