@@ -243,42 +243,17 @@ From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
 (when-fboundp-call dumb-jump-mode)
 
 ;;; Elixir
-(defvar *prevent-elixir-formatting* nil
-  "This is a buffer-local variable that prevents `elixir-format'
-  from running when it is non-`nil'.")
-
-(defun elixir-format (&optional arg)
-  "Format the current Elixir buffer.
-
-Save the current buffer, run `elixir tool format' against the
-file, and revert the buffer, loading any changes.
-
-If ARG is > 1, force formatting even if
-*prevent-python-formatting* is `nil'. ARG is 1 by default.
-
-Else, do nothing if the current buffer's major mode is not
-`elixir-mode' or if the buffer-local variable
-`*prevent-elixir-formatting*' is non-`nil'."
-  (interactive "p")
-  (setq arg (or arg 1))
-  (when (and (eq major-mode #'elixir-mode)
-             (or (> arg 1)
-                 (not *prevent-elixir-formatting*)))
-    (save-buffer)
-    (call-process "mix" nil nil nil "format" (buffer-file-name))
-    (revert-buffer t t)
-    (save-buffer)))
 
 (add-hook 'elixir-mode-hook
           (lambda ()
             (define-key elixir-mode-map "\C-cd" #'debug-comment)
             (define-key elixir-mode-map "\C-cx" 'executable-interpret)
-            (add-hook 'after-save-hook #'elixir-format nil t)
-            (when-fboundp-call alchemist-mode)))
+            (add-hook 'before-save-hook #'elixir-format nil t)))
+            ;; (when-fboundp-call alchemist-mode)))
 
 ;;; Alchemist
 
-(defun _set_dir_var (env_name sym)
+(defun -set-dir-var (env_name sym)
   "If environment variable `ENV_NAME' is defined and points to a
 directory that exists, set `SYM' to that directory. Else, `SYM'
 is unchanged."
@@ -290,11 +265,11 @@ is unchanged."
 
 (add-hook 'alchemist-mode-hook
           (lambda ()
-            (_set_dir_var "ELIXIR_HOME" alchemist-goto-elixir-source-dir)
-            (_set_dir_var "ERLANG_HOME" alchemist-goto-erlang-source-dir)
+            (-set-dir-var "ELIXIR_HOME" alchemist-goto-elixir-source-dir)
+            (-set-dir-var "ERLANG_HOME" alchemist-goto-erlang-source-dir)
             (define-key alchemist-mode-map "\C-c\C-z"
               #'alchemist-iex-project-run)
-            (add-hook 'after-save-hook #'elixir-format nil t)))
+            (add-hook 'before-save-hook #'elixir-format nil t)))
 
 ;;; EMMS
 (when (fboundp #'emms-all)
