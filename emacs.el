@@ -288,9 +288,10 @@ is unchanged."
 ;;;
 ;;; fzf
 ;;;
-(let ((local-fzf-executable "~/.fzf/bin/fzf"))
-  (when (and (fboundp #'fzf) (file-exists-p local-fzf-executable))
-    (setq fzf/executable local-fzf-executable)))
+(when (fboundp #'fzf)
+  (let ((local-fzf-executable "~/.fzf/bin/fzf"))
+    (when (file-exists-p local-fzf-executable)
+      (setq fzf/executable local-fzf-executable))))
 
 ;;; Gnus
 (setq gnus-site-init-file (concat *my-emacs-lib-dir* "gnus-init.el"))

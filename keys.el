@@ -59,10 +59,10 @@
 ;; File-finding key bindings.
 (let ((find-file-func (cond ((fboundp #'find-file-in-project)
                              #'find-file-in-project)
-                            ((fboundp #'find-file-in-repository)
-                             #'find-file-in-repository)
                             ((fboundp #'fzf-git)
                              #'fzf-git)
+                            ((fboundp #'find-file-in-repository)
+                             #'find-file-in-repository)
                             (t #'ef))))
   (global-set-key [f9] find-file-func)
   (global-set-key [\C-f9] #'ef))
