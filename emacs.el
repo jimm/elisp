@@ -393,18 +393,29 @@ is unchanged."
 
 ;;; python-mode
 
+(defun pyfmt-default-format-buffer ()
+  "Format the current Python buffer."
+  (if (fboundp #'py-isort-buffer)
+      (py-isort-buffer)
+    (save-buffer)
+    (call-process "isort" nil nil nil (shell-quote-argument (buffer-file-name)))
+    (revert-buffer t t))
+  (if (fboundp #'python-black-buffer)
+      (python-black-buffer)
+    (save-buffer)
+    (shell-command (concat "black --quiet " (shell-quote-argument (buffer-file-name))))
+    (revert-buffer t t)))
+
 (defvar *prevent-python-formatting* nil
   "This is a buffer-local variable that prevents `pyfmt' from
   running when it is non-`nil'.")
 
-(defun pyfmt (&optional arg)
-  "Format the current Python buffer.
+(defvar *pyfmt-format-buffer-func* #'pyfmt-default-format-buffer
+  "This is a buffer-local variable that is a function that will
+  be called with no arguments.")
 
-Save the current buffer, run `isort' and `black' against the
-file, and revert the buffer, loading any changes. Both `isort'
-and `black' are Python eggs that are assumed to be installed
-already. This function ignores any errors from `isort' but
-displays errors from `black'.
+(defun pyfmt (&optional arg)
+  "Format the current Python buffer by calling `*pyfmt-format-buffer-func*'.
 
 If ARG is > 1, force formatting even if
 *prevent-python-formatting* is `nil'. ARG is 1 by default.
@@ -421,12 +432,7 @@ Else, do nothing if the current buffer's major mode is not
              (> arg 0)
              (or (> arg 1)
                  (not *prevent-python-formatting*)))
-    (save-buffer)
-    (call-process "isort" nil nil nil (buffer-file-name))
-    (shell-command (concat
-                    "black --quiet "
-                    (buffer-file-name)))
-    (revert-buffer t t)))
+    (funcall *pyfmt-format-buffer-func*)))
 
 (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 (custom-set-variables
