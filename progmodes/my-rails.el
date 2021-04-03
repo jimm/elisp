@@ -69,19 +69,31 @@ file."
     (sql-mysql)
     (sql-set-sqli-buffer-generally)))
 
+;;; ================ running tests ================
+
 (defun -spring-run-rspec (f arg)
+  "Run \"spring rspec FILE\" by sending it to function `F`.
+
+If `ARG' is positive, run only the test that the cursor is in."
   (let ((path (buffer-file-name)))
-    (if (> arg 1)
+    (if (> arg 0)
         (setq path (concat path ":" (int-to-string (line-number-at-pos)))))
     (funcall f (concat "cd " (find-rails-root path) " && spring rspec " path))))
 
-(defun spring-run-rspec-in-terminal (arg)
-  "Run \"spring rspec FILE\" in an external terminal."
+(defun spring-rspec-terminal (arg)
+  "Run \"spring rspec FILE\" in an external terminal.
+
+If `ARG' is positive, run only the test that the cursor is in."
   (interactive "p")
   (-spring-run-rspec #'send-to-terminal arg))
 
-(defun spring-run-rspec-in-compile-buffer (arg)
-  "Run \"spring rspec FILE\" in a compilation buffer."
+(defun spring-rspec-compile (arg)
+  "Run \"spring rspec FILE\" in a compilation buffer.
+
+If `ARG' is positive, run only the test that the cursor is in."
+  (interactive "p")
   (-spring-run-rspec #'compile arg))
+
+;;; ================ done ================
 
 (provide 'my-rails)
