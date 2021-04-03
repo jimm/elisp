@@ -16,9 +16,9 @@
 (defun blankp (val)
   "Return nil if VAL is `nil', the empty list, or an empty or
 whitespace-only string."
-  (or (not val)                         ; nil or empty list
-      (and (stringp val) (not (nil-blank-string val)))
-      nil))
+  (cond ((not val) t)
+        ((and (stringp val) (string-blank-p val)) t)
+        (t nil)))
 
 (defun val-or-default (val default)
   "Return VAL if it is not `blankp', else return DEFAULT."
