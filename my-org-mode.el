@@ -48,6 +48,7 @@ work for all langauges."
       org-directory (concat *my-pim-dir* "orgs/")
       org-agenda-files (list (concat *my-pim-dir* "orgs/todo.org"))
       org-startup-folded 'nofold
+      org-adapt-indentation nil
       org-src-fontify-natively t
       org-fontify-whole-heading-line t  ; bg color covers whole line
       org-default-notes-file (concat *my-pim-dir* "orgs/notes.org"))
@@ -94,18 +95,20 @@ values."
 ;; Org Present Mode
 ;;
 
-(add-hook 'org-present-mode-hook
-          (lambda ()
-            (org-present-big)
-            (org-present-hide-cursor)
-            (org-display-inline-images)
-            (org-present-read-only)))
-(add-hook 'org-present-mode-quit-hook
-          (lambda ()
-            (org-present-small)
-            (org-present-show-cursor)
-            (org-remove-inline-images)
-            (org-present-read-write)))
+(eval-after-load "org-present"
+  '(progn
+     (add-hook 'org-present-mode-hook
+               (lambda ()
+                 (org-present-big)
+                 (org-present-hide-cursor)
+                 (org-display-inline-images)
+                 (org-present-read-only)))
+     (add-hook 'org-present-mode-quit-hook
+               (lambda ()
+                 (org-present-small)
+                 (org-present-show-cursor)
+                 (org-remove-inline-images)
+                 (org-present-read-write)))))
 
 ;; Note that there's a bug in the (old) version of Org mode that Org Present
 ;; depends on that breaks table formatting.

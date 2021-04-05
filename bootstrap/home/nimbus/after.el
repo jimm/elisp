@@ -6,4 +6,5 @@
 (setq sql-sqlite-program "sqlite3")
 
 ;; Start Emacs server
-(server-start)
+(unless (server-running-p)
+  (server-start))

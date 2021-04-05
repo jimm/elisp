@@ -54,4 +54,9 @@ current project."
             (setq ruby-indent-level 2)
             (font-lock-mode 1)))
 
+(when (fboundp #'rubocopyfmt-mode)
+  (add-hook 'ruby-mode-hook #'rubocopfmt-mode))
+
+;;; ================ done ================
+
 (provide 'my-ruby-mode)

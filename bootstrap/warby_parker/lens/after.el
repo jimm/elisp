@@ -80,4 +80,6 @@ known directory containing my team's repos."
     (find-file tempfile)))
 
 ;; Start Emacs server
-(server-start)
+(unless (server-running-p)
+  (server-start))
+
