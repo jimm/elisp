@@ -396,7 +396,7 @@ is unchanged."
 (defun pyfmt-default-format-buffer ()
   "Format the current Python buffer."
   (if (fboundp #'py-isort-buffer)
-      (py-isort_buffer)
+      (py-isort-buffer)
     (save-buffer)
     (call-process "isort" nil nil nil (shell-quote-argument (buffer-file-name)))
     (revert-buffer t t))
