@@ -4,8 +4,22 @@
 #
 # This version contains an update mentioned in the comments.
 
-cd /Applications/Emacs.app/Contents/MacOS
+MACOS_DIR=/Applications/Emacs.app/Contents/MacOS
+EMACS_LAUNCHER_PREFIX=Emacs-x86_64-
+
+if [ ! -d "$MACOS_DIR" ] ; then
+    echo error: "$MACOS_DIR" does not exist, exiting
+    exit 1
+fi
+
+cd "$MACOS_DIR"
+emacs_launcher="$(/bin/ls ${EMACS_LAUNCHER_PREFIX}* | grep -v pdmp | tail -1)"
+if [ -z "$emacs_launcher" ] ; then
+    echo error: No Emacs launcher 'Emacs-x86_64-*' found, exiting
+    exit 1
+fi
+
 mv Emacs Emacs-launcher
-ln -s Emacs-x86_64-10_14 Emacs
-cd /Applications/Emacs.app/Contents/
+ln -s "$emacs_launcher" Emacs
+cd ..
 rm -rf _CodeSignature
