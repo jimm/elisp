@@ -14,12 +14,12 @@ fi
 
 cd "$MACOS_DIR"
 emacs_launcher="$(/bin/ls ${EMACS_LAUNCHER_PREFIX}* | grep -v pdmp | tail -1)"
-if [ -z "$emacs_launcher" ] ; then
+if [ -z "$emacs_exe" ] ; then
     echo error: No Emacs launcher 'Emacs-x86_64-*' found, exiting
     exit 1
 fi
 
 mv Emacs Emacs-launcher
-ln -s "$emacs_launcher" Emacs
+ln -s "$emacs_exe" Emacs
 cd ..
 rm -rf _CodeSignature
