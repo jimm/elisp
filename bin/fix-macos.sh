@@ -5,7 +5,7 @@
 # This version contains an update mentioned in the comments.
 
 MACOS_DIR=/Applications/Emacs.app/Contents/MacOS
-EMACS_LAUNCHER_PREFIX=Emacs-x86_64-
+EMACS_EXE_PREFIX=Emacs-x86_64-
 
 if [ ! -d "$MACOS_DIR" ] ; then
     echo error: "$MACOS_DIR" does not exist, exiting
@@ -13,7 +13,7 @@ if [ ! -d "$MACOS_DIR" ] ; then
 fi
 
 cd "$MACOS_DIR"
-emacs_launcher="$(/bin/ls ${EMACS_LAUNCHER_PREFIX}* | grep -v pdmp | tail -1)"
+emacs_exe="$(/bin/ls -1 ${EMACS_EXE_PREFIX}* | grep -v pdmp | tail -1)"
 if [ -z "$emacs_exe" ] ; then
     echo error: No Emacs launcher 'Emacs-x86_64-*' found, exiting
     exit 1

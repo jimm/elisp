@@ -47,5 +47,7 @@ be found in `tsu-pr-abbreviations-alist'."
   (github-open-current-buffer "tsu-social"))
 
 ;; Start Emacs server
-(unless (server-running-p)
-  (server-start))
+;; Note: for some reason, #'server-running-p is not yet defined, though
+;; #'server-start is. I tried requiring 'server but that didn't help.
+;(unless (server-running-p)
+  (server-start);)
