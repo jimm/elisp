@@ -36,7 +36,7 @@ be found in `wp-pr-abbreviations-alist'."
          (repo (string-join (butlast elems) "-"))
          (pr-num (car (last elems)))
          (full-repo (alist-get repo wp-pr-abbreviations-alist repo nil #'equal)))
-    (concat (wp-repo-link repo) "/pull/" pr-num)))
+    (concat (wp-repo-link full-repo) "/pull/" pr-num)))
 
 (add-to-list 'org-link-abbrev-alist
              '("jira" . "https://jira.warbyparker.com/browse/"))

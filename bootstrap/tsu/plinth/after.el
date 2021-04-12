@@ -31,7 +31,7 @@ be found in `tsu-pr-abbreviations-alist'."
          (repo (string-join (butlast elems) "-"))
          (pr-num (car (last elems)))
          (full-repo (alist-get repo tsu-pr-abbreviations-alist repo nil #'equal)))
-    (concat (tsu-repo-link repo) "/pull/" pr-num)))
+    (concat (tsu-repo-link full-repo) "/pull/" pr-num)))
 
 (add-to-list 'org-link-abbrev-alist
              '("pr" . "%(tsu-pr-link)"))

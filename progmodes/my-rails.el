@@ -76,7 +76,7 @@ file."
 
 If `ARG' is positive, run only the test that the cursor is in."
   (let ((path (buffer-file-name)))
-    (if (> arg 0)
+    (if (> arg 1)
         (setq path (concat path ":" (int-to-string (line-number-at-pos)))))
     (funcall f (concat "cd " (find-rails-root path) " && spring rspec " path))))
 
