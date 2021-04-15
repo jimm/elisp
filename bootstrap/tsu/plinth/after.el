@@ -44,7 +44,12 @@ be found in `tsu-pr-abbreviations-alist'."
 
 (defun tsu-github-open-current-buffer ()
   (interactive)
-  (github-open-current-buffer "tsu-social"))
+  (let* ((git-root-dir (expand-file-name (locate-dominating-file (buffer-file-name) ".git")))
+         (git-dir-name (file-name-nondirectory (directory-file-name git-root-dir)))
+         (ev-repo-p (equal "tsu" git-dir-name)))
+    (github-open-current-buffer "tsu-social"
+                                (if ev-repo-p "rails5.2" "master")
+                                (if ev-repo-p "EvacuationComplete" git-dir-name))))
 
 ;; Start Emacs server
 ;; Note: for some reason, #'server-running-p is not yet defined, though

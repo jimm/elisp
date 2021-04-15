@@ -1348,24 +1348,28 @@ http://dfan.org/blog/2009/02/19/emacs-dedicated-windows/"
   (reverse-region (point-min) (point-max))
   (beginning-of-buffer))
 
-(defun github-open-current-buffer (github-user)
-  "Opens current buffer's file on Github, at the current line,
-displaying the master branch version.
+(defvar *github-open-default-branch* "main")
 
-Repo's owner is `GITHUB-USER'.
+(defun github-open-current-buffer (&optional github-user branch repo)
+  "Opens current buffer's file on Github.
 
-Assumes that the name of the repo is the same as the directory
-name where .git lives."
-  (interactive (list
-                (read-string (format "Github repo owner (%s): " (getenv "USER"))
-                             nil nil (getenv "USER"))))
+Repo's owner is `GITHUB-USER', defaulting to the value of the
+environment variable `USER'.
 
+Branch is `BRANCH', defaulting to the value of `*github-open-default-branch*'.
+
+Repo name is `REPO', defaulting to the git root directory at or
+above the current buffer's file's directory."
+  (interactive)
   (let* ((path (buffer-file-name))
-         (git-root-dir (expand-file-name(locate-dominating-file path ".git")))
-         (repo-name (file-name-nondirectory (directory-file-name git-root-dir)))
+         (git-root-dir (expand-file-name (locate-dominating-file path ".git")))
+         (repo-name (or repo (file-name-nondirectory (directory-file-name git-root-dir))))
          (dir-path-to-file (substring path (length git-root-dir)))
-         (url (concat "https://github.com/" (or github-user (getenv "USER"))
-                      "/" repo-name "/blob/master" "/" dir-path-to-file
+         (url (concat "https://github.com/"
+                      (or github-user (getenv "USER"))
+                      "/" repo-name "/blob/"
+                      (or branch *github-open-default-branch*)
+                      "/" dir-path-to-file
                       "#L" (int-to-string (line-number-at-pos)))))
     (browse-url-generic url)))
 
