@@ -45,6 +45,10 @@ whitespace-only string."
   (when (< emacs-major-version 27)
     (setq package-enable-at-startup nil  ; prevent initializing twice
           package--init-file-ensured t)) ; avoid check for being in init.el
+  ;; https://emacs.stackexchange.com/questions/60560/error-retrieving-https-elpa-gnu-org-packages-archive-contents-error-http-400
+  ;; says that this should be fixed in v27, but I need this for at least
+  ;; 27.2.2.
+  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
   (package-initialize))
 
 (defun my-start-shell ()
