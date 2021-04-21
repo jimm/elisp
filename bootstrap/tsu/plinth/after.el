@@ -15,7 +15,7 @@
       user-email-address "jim@tsusocial.com"
       rubocopfmt-use-bundler-when-possible nil)
 
-;; Jira
+;; Github
 (defvar tsu-pr-abbreviations-alist
   '(("e" . "EvacuationComplete")))
 
@@ -33,6 +33,8 @@ be found in `tsu-pr-abbreviations-alist'."
          (full-repo (alist-get repo tsu-pr-abbreviations-alist repo nil #'equal)))
     (concat (tsu-repo-link full-repo) "/pull/" pr-num)))
 
+(add-to-list 'org-link-abbrev-alist
+             '("jira" . "https://tsu.atlassian.net/browse/"))
 (add-to-list 'org-link-abbrev-alist
              '("pr" . "%(tsu-pr-link)"))
 (add-to-list 'org-link-abbrev-alist
