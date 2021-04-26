@@ -92,18 +92,29 @@ do so when `this-command' is one of the commands in
 (setq visible-bell nil
       ring-bell-function #'mode-line-visible-bell)
 
+(defun -string-to-clipboard (s)
+  (with-temp-buffer
+    (insert s)
+    (clipboard-kill-region (point-min) (point-max)))
+  (message s))
+
 (defun path-to-clipboard ()
   "Copies path to file visited by current buffer to the system clipboard.
 From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs"
   (interactive)
-  (let ((filename (if (equal major-mode 'dired-mode)
-                      default-directory
-                    (buffer-file-name))))
+  (let ((filename (or (buffer-file-name) default-directory)))
     (when filename
-      (with-temp-buffer
-        (insert filename)
-        (clipboard-kill-region (point-min) (point-max)))
-      (message filename))))
+      (-string-to-clipboard filename))))
+
+(defun path-from-git-root-to-clipboard ()
+  "Copies relative path of file visited by current buffer to system clipboard."
+  (interactive)
+  (let ((absolute-path (or (buffer-file-name) default-directory)))
+    (when absolute-path
+      (let* ((git-root-dir (expand-file-name (locate-dominating-file absolute-path ".git")))
+             (relative-path (substring absolute-path (length git-root-dir))))
+        (when relative-path
+          (-string-to-clipboard relative-path))))))
 
 ;;; 2048-game
 (add-hook '2048-mode-hook
