@@ -23,6 +23,7 @@
 
 Call `setenv' to set the corresponding value in Emacs. If the
 variable is \"PATH\", also call `mac-append-to-exec-path'."
+  (message "%s" (concat "mac-process-env-string " setting)) ; DEBUG
   (let* ((idx (string-match "=" setting))
          (env (substring setting 0 idx))
          (val (substring setting (1+ idx))))
@@ -34,7 +35,12 @@ variable is \"PATH\", also call `mac-append-to-exec-path'."
 (defun mac-load-environment-and-path ()
   "Read env from shell and set our environment and `exec-path'."
   (mapc #'mac-process-env-string
-        (let ((envs (shell-command-to-string "INSIDE_EMACS=1 ZDOTDIR=$HOME /bin/bash -l -c '/bin/zsh -l -c /usr/bin/env'")))
+        (let ((envs
+               (if (file-exists-p (concat user-emacs-directory "env"))
+                   (with-temp-buffer
+                     (insert-file-contents (concat user-emacs-directory "env"))
+                     (buffer-string))
+                 (shell-command-to-string "INSIDE_EMACS=1 ZDOTDIR=$HOME /bin/zsh -l -c /usr/bin/env"))))
           (cdr (reverse (split-string envs "\n"))))))
 
 (mac-load-environment-and-path)
