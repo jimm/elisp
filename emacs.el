@@ -1119,7 +1119,7 @@ gzip.")))
 full height, 80 columns."
   (interactive)
   (delete-other-windows)
-  (set-frame-parameter nil 'fullscreen 'fullheight))
+  (set-frame-parameter nil 'fullscreen 'maximized))
 
 (defun zoom-frame ()
   "Toggle the current frame between full screen and an

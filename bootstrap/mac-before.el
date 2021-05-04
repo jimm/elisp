@@ -40,7 +40,7 @@ variable is \"PATH\", also call `mac-append-to-exec-path'."
                    (with-temp-buffer
                      (insert-file-contents (concat user-emacs-directory "env"))
                      (buffer-string))
-                 (shell-command-to-string "INSIDE_EMACS=1 ZDOTDIR=$HOME /bin/zsh -l -c /usr/bin/env"))))
+                 (shell-command-to-string "INSIDE_EMACS=1 ZDOTDIR=$HOME /bin/zsh -i -c /usr/bin/env"))))
           (cdr (reverse (split-string envs "\n"))))))
 
 (mac-load-environment-and-path)

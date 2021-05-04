@@ -67,9 +67,9 @@
   (global-set-key [f9] find-file-func)
   (global-set-key [\C-f9] #'ef))
 
-(global-set-key [f10] #'zoom-frame)
-(global-set-key "\M-\r" #'zoom-frame)
-(global-set-key [\s-f10] (lambda () (interactive) (set-frame-width nil 80)))
+(global-set-key [f10] #'toggle-frame-maximized)
+(global-set-key "\M-\r" #'toggle-frame-maximized)
+(global-set-key [\s-f10] #'toggle-frame-maximized) ;; (lambda () (interactive) (set-frame-width nil 80)))
 (global-set-key [\C-f10] #'delete-other-windows-unzoom-frame)
 (global-set-key [f11] #'other-window)
 
