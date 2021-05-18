@@ -92,29 +92,37 @@ do so when `this-command' is one of the commands in
 (setq visible-bell nil
       ring-bell-function #'mode-line-visible-bell)
 
-(defun -string-to-clipboard (s)
-  (with-temp-buffer
-    (insert s)
-    (clipboard-kill-region (point-min) (point-max)))
-  (message s))
+(defun -string-to-clipboard (s include-line-at-point)
+  (let* ((line-num (line-number-at-pos))
+         (str (concat s (if include-line-at-point
+                            (concat ":" (int-to-string line-num))
+                          ""))))
+    (with-temp-buffer
+      (insert str)
+      (clipboard-kill-region (point-min) (point-max)))
+    (message str)))
 
-(defun path-to-clipboard ()
+(defun path-to-clipboard (&optional arg)
   "Copies path to file visited by current buffer to the system clipboard.
+
+With an `ARG', append the line number at point.
 From https://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs"
-  (interactive)
+  (interactive "p")
   (let ((filename (or (buffer-file-name) default-directory)))
     (when filename
-      (-string-to-clipboard filename))))
+      (-string-to-clipboard filename (> arg 1)))))
 
-(defun path-from-git-root-to-clipboard ()
-  "Copies relative path of file visited by current buffer to system clipboard."
-  (interactive)
+(defun path-from-git-root-to-clipboard (&optional arg)
+  "Copies relative path of file visited by current buffer to system clipboard.
+
+With an `ARG', append the line number at point."
+  (interactive "p")
   (let ((absolute-path (or (buffer-file-name) default-directory)))
     (when absolute-path
       (let* ((git-root-dir (expand-file-name (locate-dominating-file absolute-path ".git")))
              (relative-path (substring absolute-path (length git-root-dir))))
         (when relative-path
-          (-string-to-clipboard relative-path))))))
+          (-string-to-clipboard relative-path (> arg 1)))))))
 
 ;;; 2048-game
 (add-hook '2048-mode-hook
