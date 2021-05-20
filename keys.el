@@ -46,8 +46,9 @@
 (global-set-key [f1] my-shell)
 (global-set-key [\C-f1] my-alternate-shell)
 (global-set-key [f2] #'git-grep)
-(global-set-key [\C-f2] #'git-grep-callers-python)
+(global-set-key [\C-f2] #'git-grep-callers-python-ruby)
 (global-set-key [f3] #'split-window-right-and-focus)
+(global-set-key [\C-f3] #'center-of-attention)
 (set-org-file-key [f4] "todo.org")
 (global-set-key [f5]
                 (lambda () (interactive) (switch-to-buffer "*inferior-lisp*")))
@@ -69,8 +70,7 @@
 
 (global-set-key [f10] #'toggle-frame-maximized)
 (global-set-key "\M-\r" #'toggle-frame-maximized)
-(global-set-key [\s-f10] #'toggle-frame-maximized) ;; (lambda () (interactive) (set-frame-width nil 80)))
-(global-set-key [\C-f10] #'delete-other-windows-unzoom-frame)
+(global-set-key [\C-f10] (lambda () (interactive) (set-frame-width nil 80)))
 (global-set-key [f11] #'other-window)
 
 (global-set-key "\C-cl" #'org-store-link)

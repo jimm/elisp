@@ -85,12 +85,12 @@ minibuffer."
                       "Search regexp (must not be the empty string): " nil nil nil 'grep-find-history)))
     (grep-find cmd)))
 
-(defun git-grep-callers-python (arg)
-  "Runs 'git grep \"[. \\t]current_symbol\\(\"' to find callers of the symbol
+(defun git-grep-callers-python-ruby (arg)
+  "Runs 'git grep \"\\bcurrent_symbol\\b\"' to find callers of the symbol
 at point.
 
 With a prefix argument, includes the symbol's definition. This is specific
-to Python because we look for \"def current_symbol\"."
+to Python/Ruby because we look for \"def current_symbol\\b\"."
   (interactive "P")
   (let* ((symbol-at-point (thing-at-point 'symbol))
          (regexp (concat "\\b"
@@ -101,7 +101,7 @@ to Python because we look for \"def current_symbol\"."
                          "\\b"))
          (default-directory (git-root-dir))
          (case-ignore-flag (and (isearch-no-upper-case-p regexp t) "-i"))
-         (ignore-def-grep (concat " | grep -v 'def " symbol-at-point "'"))
+         (ignore-def-grep (concat " | grep -v 'def " symbol-at-point "\\b'"))
          (cmd (concat "git grep --extended-regexp --line-number --full-name"
                       " --untracked " case-ignore-flag " '" regexp "'"
                       (unless arg ignore-def-grep))))

@@ -1122,30 +1122,6 @@ gzip.")))
 ;;
 ;; Frame management
 ;;
-(defun delete-other-windows-unzoom-frame ()
-  "Calls `delete-other-windows' and resizes the selected frame to
-full height, 80 columns."
-  (interactive)
-  (delete-other-windows)
-  (set-frame-parameter nil 'fullscreen 'maximized))
-
-(defun zoom-frame ()
-  "Toggle the current frame between full screen and an
-un-maximized 80-column full height frame.
-
-This is similar to the built-in function
-`toggle-frame-maximized', but when un-maximizing this calls
-`delete-other-windows-unzoom-frame'."
-  (interactive)
-  (let ((fullscreen (frame-parameter nil 'fullscreen)))
-    (cond
-     ((memq fullscreen '(fullscreen fullboth))
-      (set-frame-parameter nil 'fullscreen-restore 'maximized))
-     ((eq fullscreen 'maximized)
-      (delete-other-windows-unzoom-frame))
-     (t
-      (set-frame-parameter nil 'fullscreen 'maximized)))))
-
 (defun split-window-right-and-focus ()
   "Calls `split-window-right' and `other-window'."
   (interactive)
