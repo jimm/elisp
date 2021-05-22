@@ -53,6 +53,33 @@ be found in `display-pr-abbreviations-alist'."
                                 (if ev-repo-p "rails5.2" "master")
                                 (if ev-repo-p "EvacuationComplete" git-dir-name))))
 
+(defvar display-docker-buffer-name "*Display Docker*")
+
+;; Local Docker development
+(defun dd-start ()
+"Opens a shell and starts the app Docker container."
+  (interactive)
+  (if (get-buffer display-docker-buffer-name)
+      (switch-to-buffer display-docker-buffer-name)
+    (progn
+      (shell)
+      (rename-buffer "*Display Docker*")
+      (insert (concat "cd " (getenv "wd")))
+      (comint-send-input)
+      (insert "docker compose exec app /bin/bash")
+      (comint-send-input))))
+
+(defun dd-run-tests (&optional arg)
+"Runs the test in the current buffer's file by sending the proper command to
+display-docker-buffer-name.
+
+With an `ARG', append the line number at point."
+  (interactive "p")
+  (let ((test-path (path-from-git-root-to-clipboard-kill-ring arg)))
+    (switch-to-buffer-other-window display-docker-buffer-name)
+    (insert (concat "spring rspec " test-path))
+    (comint-send-input)))
+
 ;; Start Emacs server
 ;; Note: for some reason, #'server-running-p is not yet defined, though
 ;; #'server-start is. I tried requiring 'server but that didn't help.
