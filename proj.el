@@ -144,3 +144,44 @@ optional argument."
 		 (t (ef find-name-arg (file-name-directory dirname)))))
 	  ((= 1 len) (find-file (car files)))
 	  (t (find-dired dir (concat "-name " find-name-arg))))))
+
+;;; ================================================================
+;;; Copying file paths to the clipboard
+;;; ================================================================
+
+(defun -path-to-clipboard-kill-ring (s include-line-at-point)
+"Saves `s' to the kill ring and GUI clipboard, optionally
+appending the current line number."
+  (let* ((line-num (line-number-at-pos))
+         (str (concat s (if include-line-at-point
+                            (concat ":" (int-to-string line-num))
+                          ""))))
+    (with-temp-buffer
+      (insert str)
+      (clipboard-kill-ring-save (point-min) (point-max)))
+    (message str)))
+
+(defun path-to-clipboard-kill-ring (&optional arg)
+  "Copies path to file visited by current buffer to the kill ring and GUI
+clipboard. Returns filename.
+
+With an `ARG', append the line number at point. From
+https://stackoverflow.com/questions/2416655/file-path-to-kill-ring-in-emacs"
+  (interactive "p")
+  (let ((filename (or (buffer-file-name) default-directory)))
+    (when filename
+      (-path-to-clipboard-kill-ring filename (> arg 1))
+      filename)))
+
+(defun path-from-git-root-to-clipboard-kill-ring (&optional arg)
+  "Copies relative path of file visited by current buffer to the kill ring and
+GUI clipboard. Returns filename.
+
+With an `ARG', append the line number at point."
+  (interactive "p")
+  (let ((absolute-path (or (buffer-file-name) default-directory)))
+    (when absolute-path
+      (let* ((git-root-dir (expand-file-name (locate-dominating-file absolute-path ".git")))
+             (relative-path (substring absolute-path (length git-root-dir))))
+        (when relative-path
+          (-path-to-clipboard-kill-ring relative-path (> arg 1)))))))
