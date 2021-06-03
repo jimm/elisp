@@ -73,12 +73,43 @@ be found in `display-pr-abbreviations-alist'."
 "Runs the test in the current buffer's file by sending the proper command to
 display-docker-buffer-name.
 
-With an `ARG', append the line number at point."
+With an `ARG', append the line number at point.
+
+If it has not already been called, `dd-start' is run to create the bufffer and
+attach to the Docker app container."
   (interactive "p")
+  (let ((curr-buffer (get-buffer)))
+    (unless (get-buffer display-docker-buffer-name)
+      (dd-start)
+      (switch-to-buffer curr-buffer)))
   (let ((test-path (path-from-git-root-to-clipboard-kill-ring arg)))
     (switch-to-buffer-other-window display-docker-buffer-name)
+    (goto-char (point-max))
     (insert (concat "spring rspec " test-path))
     (comint-send-input)))
+
+(defun -ssh-ec2 (name buffer-name)
+  (interactive)
+  (if (get-buffer buffer-name)
+      (switch-to-buffer buffer-name)
+    (progn
+      (shell)
+      (rename-buffer buffer-name)
+      (goto-char (point-max))
+      (insert (concat "ssh " name))
+      (comint-send-input)
+      (insert "jimm")
+      (comint-send-input))))
+
+(defun ssh-stage ()
+  (interactive)
+  (-ssh-ec2 "stage" "*stage*"))
+
+(defalias #'ssh-test #'ssh-stage)
+
+(defun ssh-prod ()
+ssh prod  (interactive)
+  (-ssh-ec2 "prod" "*prod*"))
 
 ;; Start Emacs server
 ;; Note: for some reason, #'server-running-p is not yet defined, though

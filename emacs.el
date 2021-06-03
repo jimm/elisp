@@ -1052,7 +1052,7 @@ gzip.")))
 ;; http://stackoverflow.com/questions/3072648/cucumbers-ansi-colors-messing-up-emacs-compilation-buffer
 (require 'ansi-color)
 (defun colorize-current-buffer ()
-  "Display ANSI color codes correctly in the *compilation* buffer."
+  "Display ANSI color codes correctly in the current buffer."
   (interactive)
   (let ((inhibit-read-only t))
     (ansi-color-apply-on-region (point-min) (point-max))))
