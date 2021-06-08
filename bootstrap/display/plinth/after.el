@@ -78,7 +78,7 @@ With an `ARG', append the line number at point.
 If it has not already been called, `dd-start' is run to create the bufffer and
 attach to the Docker app container."
   (interactive "p")
-  (let ((curr-buffer (get-buffer)))
+  (let ((curr-buffer (current-buffer)))
     (unless (get-buffer display-docker-buffer-name)
       (dd-start)
       (switch-to-buffer curr-buffer)))
