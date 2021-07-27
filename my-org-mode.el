@@ -60,6 +60,11 @@ work for all langauges."
             (setq org-export-with-sub-superscripts nil)
             (define-key org-mode-map "\C-cr" #'my-org-execute-src)
             (define-key org-mode-map "\C-ct" #'org-toggle-link-display)
+
+            ;; Bind keys normally used for TAGS finding/return
+            (define-key org-mode-map "\M-." #'org-open-at-point)
+            (define-key org-mode-map "\M-," #'org-mark-ring-goto)
+
             ;; yasnippet mode
             ;; TODO org-set-local has gone away. Delete this call when all
             ;; of my Emacs instances are updated
