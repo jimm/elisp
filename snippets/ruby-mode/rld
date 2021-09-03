@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Rails.logger.debug("") # DEBUG
+# key: rld
+# --
+Rails.logger.debug("$0") # DEBUG
