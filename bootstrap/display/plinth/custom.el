@@ -9,7 +9,7 @@
  '(generic-extras-enable-list
    '(alias-generic-mode apache-conf-generic-mode apache-log-generic-mode etc-fstab-generic-mode etc-modules-conf-generic-mode etc-passwd-generic-mode etc-services-generic-mode etc-sudoers-generic-mode fvwm-generic-mode hosts-generic-mode inetd-conf-generic-mode java-manifest-generic-mode java-properties-generic-mode javascript-generic-mode mailagent-rules-generic-mode mailrc-generic-mode named-boot-generic-mode named-database-generic-mode prototype-generic-mode resolve-conf-generic-mode samba-generic-mode show-tabs-generic-mode vrml-generic-mode x-resource-generic-mode xmodmap-generic-mode))
  '(package-selected-packages
-   '(git-commit malyon swift-mode kotlin-mode dockerfile-mode 2048-game ace-window ag alchemist avy crystal-mode diminish fzf inf-ruby magit markdown-mode org-present projectile projectile-rails py-isort python-black rubocop rubocopfmt slime smex yaml-mode yasnippet yasnippet-snippets))
+   '(git-commit malyon swift-mode kotlin-mode dockerfile-mode 2048-game ace-window ag alchemist avy crystal-mode diminish fzf inf-ruby magit markdown-mode org-present projectile py-isort python-black rubocop rubocopfmt slime smex yaml-mode yasnippet yasnippet-snippets))
  '(python-fill-docstring-style 'pep-257-nn)
  '(safe-local-variable-values
    '((*prevent-ruby-formatting*)

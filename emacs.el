@@ -371,6 +371,7 @@ is unchanged."
 ;;; see also keys.el
 (when (fboundp #'projectile-global-mode)
   (projectile-mode)
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
   (setq projectile-enable-caching t
         projectile-mode-line-prefix " prj"))
 
