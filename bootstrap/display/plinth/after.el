@@ -10,6 +10,7 @@
                             (format-time-string "%Y")
                             ".org")
       *my-eshell-vcs-maxlen* 32
+      *my-eshell-vcs-del-prefix* "jimm/"
       emms-source-file-default-directory "~/Documents/Dropbox/Music/music/"
       Buffer-menu-name-width 24
       user-email-address "jim@displaysocial.com"
