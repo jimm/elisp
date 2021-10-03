@@ -3,6 +3,9 @@
 (defvar *my-eshell-vcs-maxlen* nil
   "If defined, VCS branch names will be truncated to this width.")
 
+(defvar *my-eshell-vcs-del-prefix* ""
+  "If defined, a string that will be deleted from the beginning of VCS branch names.")
+
 ;;; Select a random sig as the eshell banner.
 (let ((sigfile (concat *my-pim-dir* "signatures")))
   (when (file-exists-p sigfile)
@@ -41,16 +44,17 @@ PWD is not in a git repo (or the git command is not found)."
   (when (and (eshell-search-path "git")
              (locate-dominating-file pwd ".git"))
     (let* ((git-output (shell-command-to-string "git symbolic-ref HEAD | sed -e 's,refs/heads/,,'"))
+           (raw-branch-name (if (> (length git-output) 0) (substring git-output 0 -1) ""))
            (branch (cond
                     ((or
-                      (string-equal git-output "master\n")
-                      (string-equal git-output "main\n")
-                      (string-equal git-output "trunk\n"))
+                      (string-equal raw-branch-name "master")
+                      (string-equal raw-branch-name "main")
+                      (string-equal raw-branch-name "trunk"))
                      "_")
-                    ((string-match "fatal: ref HEAD is not a symbol" git-output)
+                    ((string-match "fatal: ref HEAD is not a symbol" raw-branch-name)
                      "?")
-                    ((> (length git-output) 0)
-                     (substring git-output 0 -1)) ; strip off newline
+                    ((> (length raw-branch-name) 0)
+                     (string-remove-prefix *my-eshell-vcs-del-prefix* raw-branch-name))
                     (t
                      "?")))
            (truncated-branch (if *my-eshell-vcs-maxlen*
