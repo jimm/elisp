@@ -1,4 +1,4 @@
-(set-my-theme 'light)
+ (set-my-theme 'light)
 
 (add-to-list 'auto-mode-alist '("\\.js\\.hbs$" . js-mode))
 
@@ -14,7 +14,8 @@
       emms-source-file-default-directory "~/Documents/Dropbox/Music/music/"
       Buffer-menu-name-width 24
       user-email-address "jim@displaysocial.com"
-      rubocopfmt-use-bundler-when-possible nil)
+      rubocopfmt-use-bundler-when-possible nil
+      ns-right-command-modifier 'meta)  ; for Win kbd at office
 
 ;; Github
 (defvar display-pr-abbreviations-alist
