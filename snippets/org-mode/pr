@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name : pr link
+# key: pr
+# --
+[[pr:e-$1]]$0
