@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name : TS jira link w/title
+# key: tst
+# --
+[[jira:TS-$1][$2]]$0
