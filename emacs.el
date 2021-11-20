@@ -221,12 +221,6 @@ do so when `this-command' is one of the commands in
 (when (fboundp #'magit)
   (require 'magit))
 
-;;; Magit gitflow
-(ignore-errors
-  (defvar magit-gitflow-popup-key "C-c f")
-  (require 'magit-gitflow)
-  (add-hook 'magit-mode-hook #'turn-on-magit-gitflow))
-
 ;;; dumb-jump
 (when-fboundp-call dumb-jump-mode)
 
@@ -1313,32 +1307,43 @@ http://dfan.org/blog/2009/02/19/emacs-dedicated-windows/"
   (reverse-region (point-min) (point-max))
   (beginning-of-buffer))
 
-(defvar *github-open-default-branch* "main")
+
+(defun -git-url-and-branch-from-config (git-config-file)
+"Reads `GIT-CONFIG-FILE' and returns a two element list of the
+form (github-url first-branch)."
+  (with-temp-buffer
+    (insert-file-contents git-config-file)
+    (let ((default-branch (save-excursion
+                            (let ((beg (search-forward "[branch \"")))
+                              (buffer-substring-no-properties beg (1- (search-forward "\""))))))
+          (url (save-excursion
+                 (let ((beg (search-forward "url = ")))
+                   (end-of-line)
+                   (buffer-substring-no-properties beg (point))))))
+      (setf url (replace-regexp-in-string "git@" "https://" url))
+      (setf url (replace-regexp-in-string "github\\.com:" "github.com/" url))
+      (setf url (replace-regexp-in-string "\\.git$" "" url))
+      (list url default-branch))))
+
 
 (defun github-open-current-buffer (&optional branch)
-  "Opens current buffer's file on Github. The git user and repo name are read from the current buffer's corresponding `.git/config' file.
+  "Opens current buffer's file on Github. The git user and repo name are
+read from the current buffer's corresponding `.git/config' file.
 
-Branch is `BRANCH', defaulting to the value of
-`*github-open-default-branch*'."
+Branch is `BRANCH', defaulting to the value of the first branch
+found in the config file."
   (interactive)
   (let* ((path (buffer-file-name))
          (git-root-dir (expand-file-name (locate-dominating-file path ".git")))
-         (git-config-file (concat git-root-dir ".git/config"))
          (dir-path-to-file (substring path (length git-root-dir)))
-         (url ""))
-    (with-temp-buffer
-      (insert-file-contents git-config-file)
-      (let ((beg (search-forward "url = ")))
-        (end-of-line)
-        (setf url (buffer-substring-no-properties beg (point)))))
-    (setf url (replace-regexp-in-string "git@" "https://" url))
-    (setf url (replace-regexp-in-string "github\\.com:" "github.com/" url))
-    (setf url (concat url
-                      "/blob/"
-                      (or branch *github-open-default-branch*)
-                      "/" dir-path-to-file
-                      "#L" (int-to-string (line-number-at-pos))))
-    (browse-url-generic url)))
+         (url-and-branch (-git-url-and-branch-from-config (concat git-root-dir ".git/config")))
+         (url (car url-and-branch))
+         (default-branch (cadr url-and-branch)))
+    (browse-url-generic (concat url
+                                "/blob/"
+                                (or branch default-branch)
+                                "/" dir-path-to-file
+                                "#L" (int-to-string (line-number-at-pos))))))
 
 
 ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
