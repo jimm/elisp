@@ -1315,28 +1315,31 @@ http://dfan.org/blog/2009/02/19/emacs-dedicated-windows/"
 
 (defvar *github-open-default-branch* "main")
 
-(defun github-open-current-buffer (&optional github-user branch repo)
-  "Opens current buffer's file on Github.
+(defun github-open-current-buffer (&optional branch)
+  "Opens current buffer's file on Github. The git user and repo name are read from the current buffer's corresponding `.git/config' file.
 
-Repo's owner is `GITHUB-USER', defaulting to the value of the
-environment variable `USER'.
-
-Branch is `BRANCH', defaulting to the value of `*github-open-default-branch*'.
-
-Repo name is `REPO', defaulting to the git root directory at or
-above the current buffer's file's directory."
+Branch is `BRANCH', defaulting to the value of
+`*github-open-default-branch*'."
   (interactive)
   (let* ((path (buffer-file-name))
          (git-root-dir (expand-file-name (locate-dominating-file path ".git")))
-         (repo-name (or repo (file-name-nondirectory (directory-file-name git-root-dir))))
+         (git-config-file (concat git-root-dir ".git/config"))
          (dir-path-to-file (substring path (length git-root-dir)))
-         (url (concat "https://github.com/"
-                      (or github-user (getenv "USER"))
-                      "/" repo-name "/blob/"
+         (url ""))
+    (with-temp-buffer
+      (insert-file-contents git-config-file)
+      (let ((beg (search-forward "url = ")))
+        (end-of-line)
+        (setf url (buffer-substring-no-properties beg (point)))))
+    (setf url (replace-regexp-in-string "git@" "https://" url))
+    (setf url (replace-regexp-in-string "github\\.com:" "github.com/" url))
+    (setf url (concat url
+                      "/blob/"
                       (or branch *github-open-default-branch*)
                       "/" dir-path-to-file
-                      "#L" (int-to-string (line-number-at-pos)))))
+                      "#L" (int-to-string (line-number-at-pos))))
     (browse-url-generic url)))
+
 
 ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
 ;;; Found on the Emacs Wiki at

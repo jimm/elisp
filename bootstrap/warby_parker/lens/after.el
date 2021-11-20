@@ -62,10 +62,6 @@ it to skip db initialization."
                      (if (> arg 1) "-s " "")
                      (substring file-name (length helios-dir))))))
 
-(defun wp-github-open-current-buffer ()
-  (interactive)
-  (github-open-current-buffer "WarbyParker"))
-
 (defun find-in-iso (regex)
   "Runs my `find-git' shell script against all the code in a
 known directory containing my team's repos."

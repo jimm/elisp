@@ -46,15 +46,6 @@ be found in `display-pr-abbreviations-alist'."
 (add-hook 'markdown-mode-hook
           (lambda () (setq markdown-command "multimarkdown")))
 
-(defun display-github-open-current-buffer ()
-  (interactive)
-  (let* ((git-root-dir (expand-file-name (locate-dominating-file (buffer-file-name) ".git")))
-         (git-dir-name (file-name-nondirectory (directory-file-name git-root-dir)))
-         (ev-repo-p (equal "display" git-dir-name)))
-    (github-open-current-buffer "tsu-social"
-                                (if ev-repo-p "rails5.2" "master")
-                                (if ev-repo-p "EvacuationComplete" git-dir-name))))
-
 (defvar display-docker-buffer-name "*Display Docker*")
 
 ;; Local Docker development
