@@ -48,7 +48,8 @@ whitespace-only string."
   ;; https://emacs.stackexchange.com/questions/60560/error-retrieving-https-elpa-gnu-org-packages-archive-contents-error-http-400
   ;; says that this should be fixed in v27, but I need this for at least
   ;; 27.2.2.
-  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+  (when (and (version< emacs-version "26.3") (>= libgnutls-version 30603))
+    (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
   (package-initialize))
 
 (defun my-start-shell ()
