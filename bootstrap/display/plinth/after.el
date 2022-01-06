@@ -101,8 +101,18 @@ attach to the Docker app container."
 (defalias #'ssh-test #'ssh-stage)
 
 (defun ssh-prod ()
-ssh prod  (interactive)
+  (interactive)
   (-ssh-ec2 "prod" "*prod*"))
+
+(defun open-jira (ticket-num)
+  "Opens a work JIRA ticket, prompting for the ticket number if needed.
+Project defaults to \"TS\"."
+  (interactive "sJIRA ticket: ")
+  (let* ((full-ticket-num (if (string-match "-" ticket-num)
+                              ticket-num
+                            (concat "TS-" ticket-num)))
+         (url (concat "https://tsu.atlassian.net/browse/" full-ticket-num)))
+    (browse-url-generic url)))
 
 ;; Start Emacs server
 ;; Note: for some reason, #'server-running-p is not yet defined, though
