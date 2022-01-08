@@ -1,5 +1,10 @@
 (require 'rails-find-other-file)
 
+(when (fboundp #'projectile-rails-mode)
+  (add-hook 'projectile-rails-mode-hook
+	    (lambda ()
+	      (define-key projectile-rails-mode-map (kbd "C-c r") 'projectile-rails-command-map))))
+
 (defun rails-root-p (path)
   "Returns true if path is a Rails root directory. Uses a heuristic that
 involves looking for known Rails directories."
