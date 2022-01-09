@@ -1,6 +1,7 @@
 (require 'rails-find-other-file)
 
 (when (fboundp #'projectile-rails-mode)
+  (projectile-rails-global-mode)
   (add-hook 'projectile-rails-mode-hook
 	    (lambda ()
 	      (define-key projectile-rails-mode-map (kbd "C-c r") 'projectile-rails-command-map))))
