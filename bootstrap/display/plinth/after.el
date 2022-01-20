@@ -15,6 +15,8 @@
       Buffer-menu-name-width 24
       user-email-address "jim@displaysocial.com"
       rubocopfmt-use-bundler-when-possible nil
+      ;; https://docspring.com/blog/posts/making-rubocop-20-times-faster/
+      rubocopfmt-rubocop-command "rubocop-daemon-wrapper"
       ns-right-command-modifier 'meta)  ; for Win kbd at office
 
 ;; Github
