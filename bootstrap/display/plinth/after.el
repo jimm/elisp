@@ -21,7 +21,10 @@
 
 ;; Github
 (defvar display-pr-abbreviations-alist
-  '(("e" . "EvacuationComplete")))
+  '(("e" . "EvacuationComplete")
+    ("p" . "protosockets")
+    ("ml" . "display-ml")
+    ("mc" . "mediaconvert")))
 
 (defun display-repo-link (repo-name)
   (concat "https://github.com/tsu-social/" repo-name))
@@ -49,20 +52,27 @@ be found in `display-pr-abbreviations-alist'."
           (lambda () (setq markdown-command "multimarkdown")))
 
 (defvar display-docker-buffer-name "*Display Docker*")
+(defvar protosockets-docker-buffer-name "*Protosockets Docker*")
 
-;; Local Docker development
+;;; Local Docker development
+
+(defun -docker-start (buffer-name dir-env-var container-name)
+"Opens a shell and starts the app Docker container."
+  (interactive)
+  (if (get-buffer buffer-name)
+      (switch-to-buffer buffer-name)
+    (progn
+      (shell)
+      (rename-buffer buffer-name)
+      (insert (concat "cd " (getenv dir-env-var)))
+      (comint-send-input)
+      (insert (concat "docker compose exec " container-name " /bin/bash"))
+      (comint-send-input))))
+
 (defun dd-start ()
 "Opens a shell and starts the app Docker container."
   (interactive)
-  (if (get-buffer display-docker-buffer-name)
-      (switch-to-buffer display-docker-buffer-name)
-    (progn
-      (shell)
-      (rename-buffer "*Display Docker*")
-      (insert (concat "cd " (getenv "wd")))
-      (comint-send-input)
-      (insert "docker compose exec app /bin/bash")
-      (comint-send-input))))
+  (-docker-start display-docker-buffer-name "wd" "app"))
 
 (defun dd-run-tests (&optional arg)
 "Runs the test in the current buffer's file by sending the proper command to
@@ -74,7 +84,7 @@ If it has not already been called, `dd-start' is run to create the bufffer and
 attach to the Docker app container."
   (interactive "p")
   (let ((curr-buffer (current-buffer)))
-    (unless (get-buffer display-docker-buffer-name)
+    (unless (get-buffer "*Display Docker*")
       (dd-start)
       (switch-to-buffer curr-buffer)))
   (let ((test-path (path-from-git-root-to-clipboard-kill-ring arg)))
@@ -82,6 +92,30 @@ attach to the Docker app container."
     (goto-char (point-max))
     (insert (concat "spring rspec " test-path))
     (comint-send-input)))
+
+(defun proto-start ()
+"Opens a shell and starts the protosockets Docker container."
+  (interactive)
+  (-docker-start protosockets-docker-buffer-name "protocm" "dserver"))
+
+(defun proto-run-tests (&optional arg)
+"Runs the test in the current buffer's file by sending the proper command to
+protosockets-docker-buffer-name.
+
+With an `ARG', pass the `--onlyChanged' flag to Jest.
+
+If it has not already been called, `proto-start' is run to create the bufffer and
+attach to the Docker app container."
+  (interactive "p")
+  (let ((curr-buffer (current-buffer)))
+    (unless (get-buffer protosockets-docker-buffer-name)
+      (dd-start)
+      (switch-to-buffer curr-buffer)))
+  (switch-to-buffer-other-window protosockets-docker-buffer-name)
+  (goto-char (point-max))
+  (insert (concat "TRIVIA_ENV=test yarn test --color=false --detectOpenHandles"
+                  (if (> (or arg 1) 1) " --onlyChanged" "")))
+  (comint-send-input))
 
 (defun -ssh-ec2 (name buffer-name)
   (interactive)
