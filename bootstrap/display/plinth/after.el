@@ -26,6 +26,12 @@
     ("ml" . "display-ml")
     ("mc" . "mediaconvert")))
 
+(defun display-jira-link (ticket)
+  "Prepends \"TS-\" if there is no project prefix in `ticket'."
+  (concat "https://tsu.atlassian.net/browse/"
+          (when (not (string-match-p "-" ticket)) "TS-")
+          ticket))
+
 (defun display-repo-link (repo-name)
   (concat "https://github.com/tsu-social/" repo-name))
 
@@ -41,7 +47,7 @@ be found in `display-pr-abbreviations-alist'."
     (concat (display-repo-link full-repo) "/pull/" pr-num)))
 
 (add-to-list 'org-link-abbrev-alist
-             '("jira" . "https://tsu.atlassian.net/browse/"))
+             '("jira" . "%(display-jira-link)"))
 (add-to-list 'org-link-abbrev-alist
              '("pr" . "%(display-pr-link)"))
 (add-to-list 'org-link-abbrev-alist
