@@ -65,9 +65,9 @@ not in a Git repo, uses the current directory."
   "Runs 'git grep', starting the search in the current
 directory's root git repo directory.
 
-By default, initializes the search string with the current symbol
-at point. With a prefix argument, reads the regex from the
-minibuffer."
+By default, reads the regex from the minibuffer. With a prefix
+argument, initializes the search string with the current symbol
+at point."
   (interactive "P")
   (let* ((symbol-at-point (thing-at-point 'symbol))
          (regexp (if (and arg (symbol-at-point))
