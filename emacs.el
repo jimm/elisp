@@ -504,7 +504,11 @@ is unchanged."
 (put 'narrow-to-region 'disabled nil)
 (put 'narrow-to-page 'disabled nil)
 
-(fset #'yes-or-no-p #'y-or-n-p)        ; accept simple 'y'/space, 'n'/delete
+;; accept simple 'y'/space, 'n'/delete
+(if (boundp 'use-short-answers)
+    (setq use-short-answers t)
+  (fset #'yes-or-no-p #'y-or-n-p))
+
 (unless (fboundp #'string-match-p) (defalias #'string-match-p #'string-match))
 
 (defun display-startup-echo-area-message ()
