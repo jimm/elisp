@@ -22,6 +22,10 @@
 (global-set-key "\C-h" #'backward-delete-char)
 (global-set-key "\C-cn" #'org-capture)
 (global-set-key "\C-cx" #'executable-interpret)
+(when window-system
+  (global-set-key "\C-xu" (lambda ()
+                            (interactive)
+                            (message "Use Ctrl-/ instead."))))
 (global-set-key "\C-x?" #'help-for-help)
 (global-set-key "\C-xg" #'magit-status)
 (global-set-key "\C-x\C-k" #'compile)
