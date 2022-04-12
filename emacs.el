@@ -506,7 +506,7 @@ is unchanged."
 
 ;; accept simple 'y'/space, 'n'/delete
 (if (boundp 'use-short-answers)
-    (setq (use-short-answers t))
+    (setq use-short-answers t)
   (fset #'yes-or-no-p #'y-or-n-p))
 
 (unless (fboundp #'string-match-p) (defalias #'string-match-p #'string-match))
