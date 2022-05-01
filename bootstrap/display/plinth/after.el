@@ -1,4 +1,4 @@
- (set-my-theme 'light)
+(set-my-theme 'light)
 
 (add-to-list 'auto-mode-alist '("\\.js\\.hbs$" . js-mode))
 
