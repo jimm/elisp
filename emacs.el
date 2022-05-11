@@ -369,7 +369,8 @@ is unchanged."
   (projectile-mode)
   (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
   (setq projectile-enable-caching t
-        projectile-mode-line-prefix " prj"))
+        projectile-mode-line-prefix " prj")
+  (projectile-update-project-type 'rails-rspec :src-dir "app/"))
 
 ;;; editorconfig
 (when (fboundp #'editorconfig-mode)
