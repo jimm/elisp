@@ -24,6 +24,8 @@ whitespace-only string."
   "Return VAL if it is not `blankp', else return DEFAULT."
   (if (not (blankp val)) val default))
 
+(setq bookmark-set-fringe-mark nil)
+
 ;;; Version-specific configuration
 (if (version< emacs-version "24")
     (let ((f (expand-file-name "~/.emacs.d/elpa/package.el")))
