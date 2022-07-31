@@ -30,7 +30,6 @@
 (global-set-key "\C-xg" #'magit-status)
 (global-set-key "\C-x\C-k" #'compile)
 (global-set-key "\C-x\C-m" #'open-email-client)
-(global-set-key "\C-c\C-k" #'compile)
 (global-set-key "\C-x\C-z" #'shrink-window)
 (global-set-key "\M- " #'just-one-space)
 

@@ -224,6 +224,10 @@ do so when `this-command' is one of the commands in
 ;;; Magit
 (when (fboundp #'magit)
   (require 'magit))
+(when (fboundp #'forge)
+  (with-eval-after-load 'magit
+    (setq auth-soruces '("~/.authinfo"))
+    (require 'forge)))
 
 ;;; dumb-jump
 (when-fboundp-call dumb-jump-mode)
