@@ -116,21 +116,7 @@ do so when `this-command' is one of the commands in
 (eval-after-load "clojure-mode"
   (load "my-clojure-mode"))
 
-;; See also inf-clojure mode
-(setq inferior-lisp-program "lein repl")
-
-(defun clojure-repl (exe)
-  (let ((cmd (concat exe " repl")))
-    (setq inferior-lisp-program cmd)
-    (inf-clojure cmd)))
-
-(defun lein-repl ()
-  (interactive)
-  (clojure-repl "lein"))
-
-(defun boot-repl ()
-  (interactive)
-  (clojure-repl "boot"))
+;;; Common Lisp
 
 (add-hook 'lisp-mode-hook
           (lambda ()
@@ -145,7 +131,8 @@ do so when `this-command' is one of the commands in
             (define-key clojure-mode-map "\C-ci" 'in-ns-to-inferior-lisp)
             (define-key clojure-mode-map "\C-cn" 'ns-to-inferior-lisp)))
 
-;;; Common Lisp
+;; See also inf-clojure mode
+(setq inferior-lisp-program "sbcl")
 
 ;; (require 'slime)
 ;; (slime-setup)
@@ -162,6 +149,10 @@ do so when `this-command' is one of the commands in
   (interactive)
   (-set-lisp-and-run "clisp"))
   
+(defun clojure ()
+  (interactive)
+  (-set-lisp-and-run "lein repl"))
+
 ;;; Scheme
 (add-hook 'scheme-mode-hook
           (lambda ()
