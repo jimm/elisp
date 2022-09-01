@@ -59,6 +59,7 @@ be found in `display-pr-abbreviations-alist'."
 
 (defvar display-docker-buffer-name "*Display Docker*")
 (defvar protosockets-docker-buffer-name "*Protosockets Docker*")
+(defvar notif-docker-buffer-name "*Notifications Docker*")
 
 ;;; Local Docker development
 
@@ -94,7 +95,7 @@ attach to the Docker app container."
       (dd-start)
       (switch-to-buffer curr-buffer)))
   (let ((test-path (path-from-git-root-to-clipboard-kill-ring arg)))
-    (switch-to-buffer-other-window display-docker-buffer-name)
+    (switch-to-buffer-other-window display-docker-buffer-name t)
     (goto-char (point-max))
     (insert (concat "spring rspec " test-path))
     (comint-send-input)))
@@ -115,12 +116,40 @@ attach to the Docker app container."
   (interactive "p")
   (let ((curr-buffer (current-buffer)))
     (unless (get-buffer protosockets-docker-buffer-name)
-      (dd-start)
+      (proto-start)
       (switch-to-buffer curr-buffer)))
-  (switch-to-buffer-other-window protosockets-docker-buffer-name)
+  (switch-to-buffer-other-window protosockets-docker-buffer-name t)
   (goto-char (point-max))
   (insert (concat "TRIVIA_ENV=test yarn test --color=false --detectOpenHandles"
                   (if (> (or arg 1) 1) " --onlyChanged" "")))
+  (comint-send-input))
+
+(defun notif-start ()
+"Opens a shell and starts the notifications Docker container."
+  (interactive)
+  (-docker-start notif-docker-buffer-name "notif" "web"))
+
+(defun notif-run-tests (&optional arg)
+"Runs the test in the current buffer's file by sending the proper command to
+notif-docker-buffer-name.
+
+With an `ARG', runs only the curren test at point.
+
+If it has not already been called, `notif-start' is run to create the bufffer and
+attach to the Docker app container."
+  (interactive "p")
+  (let* ((curr-buffer (current-buffer))
+         (test-path (path-from-git-root-to-clipboard-kill-ring 0))
+         (curr-func (which-function))
+         (run-func-arg (if (and (> (or arg 1) 1) curr-func) ; arg given and we are in a func
+                           (concat "-- -k " (replace-regexp-in-string ".*\\." "" curr-func) " ")
+                         " ")))
+    (unless (get-buffer notif-docker-buffer-name)
+      (notif-start)
+      (switch-to-buffer curr-buffer))
+    (switch-to-buffer-other-window notif-docker-buffer-name t)
+    (goto-char (point-max))
+    (insert "bin/run_test " run-func-arg test-path))
   (comint-send-input))
 
 (defun -ssh-ec2 (name buffer-name)
