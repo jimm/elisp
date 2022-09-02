@@ -98,11 +98,14 @@ elements are abbreviated to their first letters."
                              "^[^#$%>\n]*[#$%>] *")
       eshell-prompt-function
       (lambda ()
-        (let ((vcs-str (or (curr-dir-git-branch-string (eshell/pwd))
-                           (curr-dir-svn-string (eshell/pwd)))))
+        (let* ((vcs-str (or (curr-dir-git-branch-string (eshell/pwd))
+                            (curr-dir-svn-string (eshell/pwd))))
+               (chopped-path (chop-path (split-string (tildify-pwd (eshell/pwd)) "/") 3)))
           (concat
            vcs-str
-           (chop-path (split-string (tildify-pwd (eshell/pwd)) "/") 3)
+           ;; (chop-path (split-string (tildify-pwd (eshell/pwd)) "/") 3)
+           chopped-path
+           (when (> (+ 1 (length vcs-str) (length chopped-path)) (* (window-width) 0.5)) "\n")
            (if (= (user-uid) 0) "#" "$")
            " "))))
 
