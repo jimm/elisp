@@ -19,6 +19,35 @@
       rubocopfmt-rubocop-command "rubocop-daemon-wrapper"
       ns-right-command-modifier 'meta)  ; for Win kbd at office
 
+;; Jira
+(defvar display-jira-abbreviations-alist
+  '(("t" . "TS")
+    ("c" . "CSS")
+    ("d" . "DA")
+    ("b" . "DAS")
+    ("m" . "MES")))
+
+(defvar display-jira-default-project "CSS"
+  "Default Jira project name, used when there is no project name in
+a jira: link.")
+
+(defun display-jira-link (tag)
+  "Given a TAG of the form '<proj>-<number>', returns a URL to a
+Jira ticket in that project. With no project, use
+`display-jira-default-project` instead.
+
+Project names are either local abbreviations or full Jira project
+abbreviations. Abbreviations must be found in
+`display-jira-abbreviations-alist'."
+  (let ((elems (split-string tag "-")))
+    (if (= 1 (length elems))
+        (concat "https://tsu.atlassian.net/browse/"
+                display-jira-default-project "-" tag)
+      (let* ((proj (string-join (butlast elems) "-"))
+             (ticket-num (car (last elems)))
+             (full-proj (alist-get proj display-jira-abbreviations-alist proj nil #'equal)))
+        (concat "https://tsu.atlassian.net/browse/" full-proj "-" ticket-num)))))
+
 ;; Github
 (defvar display-pr-abbreviations-alist
   '(("e" . "EvacuationComplete")
@@ -26,26 +55,21 @@
     ("ml" . "display-ml")
     ("mc" . "mediaconvert")))
 
-(defun display-jira-link (ticket)
-  "Prepends \"TS-\" if there is no project prefix in `ticket'."
-  (concat "https://tsu.atlassian.net/browse/"
-          (when (not (string-match-p "-" ticket)) "TS-")
-          ticket))
-
 (defun display-repo-link (repo-name)
   (concat "https://github.com/tsu-social/" repo-name))
 
 (defun display-pr-link (tag)
-  "Given a TAG of the form 'repo-number', returns a URL to a PR in that repo.
+  "Given a TAG of the form '<repo>-<number>', returns a URL to a PR in that repo.
 
-Repo names are either abbreviations or full repo names. Abbreviations must
-be found in `display-pr-abbreviations-alist'."
+Repo names are either abbreviations or full repo names.
+Abbreviations must be found in `display-pr-abbreviations-alist'."
   (let* ((elems (split-string tag "-"))
          (repo (string-join (butlast elems) "-"))
          (pr-num (car (last elems)))
          (full-repo (alist-get repo display-pr-abbreviations-alist repo nil #'equal)))
     (concat (display-repo-link full-repo) "/pull/" pr-num)))
 
+;; Tell Org Mode about these custom links
 (add-to-list 'org-link-abbrev-alist
              '("jira" . "%(display-jira-link)"))
 (add-to-list 'org-link-abbrev-alist
