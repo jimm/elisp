@@ -882,7 +882,7 @@ you have a local copy, for example.")
 (when (or (eq my-shell #'eshell)
           (eq my-alternate-shell #'eshell))
   (load "eshell")
-  (load "eshell-customize"))
+  (load "my-eshell"))
 
 ;;
 ;; Shell-mode
