@@ -664,6 +664,30 @@ given `foo.rb'. Default file-name is current buffer's name."
 ;; When saving files, set execute permission if #! is in first line.
 (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p)
 
+;;
+;; Set tab stops to eight chars, not four
+;;
+(defun eight-tab-stops ()
+  (interactive)
+  (setq tab-stop-list
+        '(8 16 24 32 40 48 56 64 72 80)))
+
+;;
+;; Set tab stops to four chars, not eight
+;;
+(defun four-tab-stops ()
+  (interactive)
+  (setq tab-stop-list
+        '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80)))
+
+(defun tab-two () (interactive) (setq tab-width 2))
+(defun tab-four () (interactive) (setq tab-width 4))
+(defun tab-eight () (interactive) (setq tab-width 8))
+
+(defalias #'t2 #'tab-two)
+(defalias #'t4 #'tab-four)
+(defalias #'t8 #'tab-eight)
+
 (defun capitalize-next-char ()
   "Capitalize next character and move point right 1 character."
   (interactive "*")
@@ -1057,34 +1081,8 @@ gzip.")))
     (ansi-color-apply-on-region (point-min) (point-max))))
 (add-hook 'compilation-filter-hook 'colorize-current-buffer)
 
-;;
-;; Set tab stops to eight chars, not four
-;;
-(defun eight-tab-stops ()
-  (interactive)
-  (setq tab-stop-list
-        '(8 16 24 32 40 48 56 64 72 80)))
-
-;;
-;; Set tab stops to four chars, not eight
-;;
-(defun four-tab-stops ()
-  (interactive)
-  (setq tab-stop-list
-        '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80)))
-
-(defun tab-two () (interactive) (setq tab-width 2))
-(defun tab-four () (interactive) (setq tab-width 4))
-(defun tab-eight () (interactive) (setq tab-width 8))
-
-;;
-;; aliases
-;;
 (defalias #'flfb #'font-lock-fontify-buffer)
 (defalias #'run-hook #'run-hooks)
-(defalias #'t2 #'tab-two)
-(defalias #'t4 #'tab-four)
-(defalias #'t8 #'tab-eight)
 
 ;;
 ;; Frame management
