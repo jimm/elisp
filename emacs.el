@@ -1285,30 +1285,9 @@ http://dfan.org/blog/2009/02/19/emacs-dedicated-windows/"
   "Reformat my bank's transactions CSV file."
   (interactive)
 
-  (beginning-of-buffer)
-  (search-forward "<Date>,<CheckNum>")
-  (end-of-line)
-  (forward-char)
-  (delete-region 1 (point))
-
-  (end-of-buffer)
-  (search-backward "/")
-  (end-of-line)
-  (forward-char)
-  (push-mark)
-  (end-of-buffer)
-  (delete-region (point) (mark))
-
-  (beginning-of-buffer)
-  (while (search-forward "" nil t)
-    (replace-match "" nil t))
-  (beginning-of-buffer)
-  (while (search-forward " XXXXXX" nil t)
-    (replace-match "" nil t))
-
-  (reverse-region (point-min) (point-max))
-  (beginning-of-buffer))
-
+  (replace-string-in-region "\n\n" "\n" (point-min) (point-max))
+  (replace-regexp-in-region "^[0-9]+," "" (point-min) (point-max))
+  (reverse-region (point-min) (point-max)))
 
 (defun -git-url-and-branch-from-config (git-config-file)
 "Reads `GIT-CONFIG-FILE' and returns a two element list of the
