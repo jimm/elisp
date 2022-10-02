@@ -2,7 +2,6 @@
 (set-org-file-key [\C-f4] "todo.org")
 (global-set-key [f5] #'status)
 (global-set-key [\C-f5] (lambda () (interactive) (switch-to-buffer "*SQL*")))
-(global-set-key [f6] #'pyfmt)
 (set-org-file-key [\C-f6] "notes.org")
 (global-set-key "\C-cc" #'same-file-other-dir)
 
