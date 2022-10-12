@@ -1,8 +1,8 @@
 (defvar *my-themes*
   '((light . ((foreground . "black")
               (background . "ghostwhite")
-              (mode . ((foreground . "yellow")
-                       (background . "black")))
+              (mode . ((foreground . "black")
+                       (background . "yellow")))
               (org . ((l2-foreground . "black")
                       (block-foreground . "black")
                       (block-border-background . "gray95")
