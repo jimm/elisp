@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name : HERE="..."
+# key: here
+# --
+HERE="$(cd $(dirname "\$0") && pwd)"$0
