@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: $stderr.puts "" # DEBUG
+# name: puts "" # DEBUG
 # key: prd
 # --
-$stderr.puts "$0" # DEBUG
+puts "$0" # DEBUG

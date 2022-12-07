@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: $stderr.puts "var = #{var}" # DEBUG
-# key: prdv
-# --
-$stderr.puts "${1:var} = #{$1$0}" # DEBUG
