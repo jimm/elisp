@@ -124,6 +124,18 @@ attach to the Docker app container."
     (insert (concat "spring rspec " test-path))
     (comint-send-input)))
 
+(defun dd-run-next-failure ()
+  "Runs tests with the --next-failure flag."
+  (interactive)
+  (let ((curr-buffer (current-buffer)))
+    (unless (get-buffer "*Display Docker*")
+      (dd-start)
+      (switch-to-buffer curr-buffer)))
+  (switch-to-buffer-other-window display-docker-buffer-name t)
+  (goto-char (point-max))
+  (insert (concat "spring rspec --next-failure"))
+  (comint-send-input))
+
 (defun proto-start ()
 "Opens a shell and starts the protosockets Docker container."
   (interactive)

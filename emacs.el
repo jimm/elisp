@@ -395,7 +395,8 @@ is unchanged."
   (load "my-ruby-mode"))
 
 ;;; Rust
-(setq rust-format-on-save t)
+(setq rust-format-on-save nil           ; buries buffer for some reason
+      rust-rustfmt-switches '("--edition" "2021"))
 
 ;;; HAML and SASS
 ;; Found {haml,sass}-mode.el files in the directory path-to-haml-gem/extra/.
