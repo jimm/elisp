@@ -395,7 +395,7 @@ is unchanged."
   (load "my-ruby-mode"))
 
 ;;; Rust
-(setq rust-format-on-save nil           ; buries buffer for some reason
+(setq rust-format-on-save t
       rust-rustfmt-switches '("--edition" "2021"))
 
 ;;; HAML and SASS
@@ -827,7 +827,6 @@ you have a local copy, for example.")
                   c-tab-always-indent nil
                   c-recognize-knr-p nil)
             (local-set-key "\r" #'newline-and-indent)
-            (define-key c-mode-map "\C-c\C-k" #'compile)
             (autoload #'fh-open-header-file-other-window "find-header"
               "Locate header file and load it into other window" t)
             (autoload #'fh-open-header-file-other-frame "find-header"
@@ -851,7 +850,6 @@ you have a local copy, for example.")
 (add-hook 'c++-mode-hook
           (lambda ()
             (c-set-style "stroustrup")
-            (define-key c++-mode-map "\C-c\C-k" #'compile)
             (setq c-basic-offset 2)))
 
 ;;
@@ -872,9 +870,6 @@ you have a local copy, for example.")
 ;; sh-mode
 ;;
 (add-to-list 'auto-mode-alist '("\\.env$" . sh-mode))
-(add-hook 'sh-mode-hook
-          (lambda ()
-            (define-key sh-mode-map "\C-c\C-k" #'compile)))
 
 ;;
 ;; Eshell-mode
@@ -917,13 +912,10 @@ you have a local copy, for example.")
                       (file-name-sans-extension (buffer-file-name))
                       ".txt"))
       )
-    (add-hook 'tex-mode-hook
-              (lambda () (define-key tex-mode-map "\C-c\C-k" #'compile)))
     (add-hook 'latex-mode-hook
               (lambda ()
                 (define-key latex-mode-map "\C-c\C-p" #'tex-print)
                 ;; (define-key latex-mode-map "\C-c\C-t" #'my-tex-to-text)
-                (define-key latex-mode-map "\C-c\C-k" #'compile)
                 (define-key latex-mode-map "\C-c\C-i" #'find-mine)
                 (define-key latex-mode-map "\C-c\C-s" #'my-tex-slide-dvi-view)))))
 
@@ -960,8 +952,7 @@ you have a local copy, for example.")
     (add-hook 'sgml-mode-hook
               (lambda ()
                 (require 'tex-mode)
-                (auto-fill-mode 1)
-                (define-key sgml-mode-map "\C-c\C-k" #'compile)))
+                (auto-fill-mode 1)))))
 
     (add-hook 'html-mode-hook
               (lambda ()
@@ -1340,6 +1331,10 @@ found in the config file."
     (fill-paragraph nil region)))
 
 (defalias #'unwrap #'unfill-paragraph)
+
+;;; Music
+(set-register ?f "♭")
+(set-register ?s "♯")
 
 (defun mac-screenshot (&optional file)
   "Calls the Mac OS screen capture utility and saves the PNG to
