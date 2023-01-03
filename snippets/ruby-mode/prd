@@ -2,4 +2,4 @@
 # name: puts "" # DEBUG
 # key: prd
 # --
-puts "$0" # DEBUG
+warn "$0" # DEBUG
