@@ -55,7 +55,8 @@ current project."
             (font-lock-mode 1)))
 
 (when (fboundp #'rubocopfmt-mode)
-  (add-hook 'ruby-mode-hook #'rubocopfmt-mode))
+  (add-hook 'ruby-mode-hook #'rubocopfmt-mode)
+  (setf rubocopfmt-use-bundler-when-possible nil))
 
 ;;; ================ done ================
 

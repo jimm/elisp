@@ -3,13 +3,11 @@
 (defvar work-orgs-dir "warby_parker"
   "Name of $pim/orgs/work subdir where I keep work-related Org mode files.")
 
-(setq dired-use-ls-dired nil)
-
-(setq browse-url-generic-program "open")
-(setq Man-switches "-M /usr/share/man:/usr/local/share/man")
-
-(setq sql-sqlite-program "sqlite3")
-
+(setq dired-use-ls-dired nil
+      browse-url-generic-program "open"
+      Man-switches "-M /usr/share/man:/usr/local/share/man"
+      sql-sqlite-program "sqlite3"
+      rubocopfmt-rubocop-command "rubocop-daemon-wrapper")
 
 ;; Org Mode repo: link
 (defun display-repo-link (repo-name)
