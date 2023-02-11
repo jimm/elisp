@@ -1,6 +1,10 @@
 (custom-set-variables
  '(python-fill-docstring-style 'pep-257-nn))
 
+(let ((pyenv-py "/Users/jimm/.pyenv/shims/python"))
+  (when (file-exists-p pyenv-py)
+    (setq python-shell-interpreter pyenv-py)))
+
 (add-hook 'python-mode-hook
           (lambda ()
             (turn-on-font-lock)
@@ -10,6 +14,7 @@
             (define-key python-mode-map "\M-[" #'python-indent-shift-left)
             (define-key python-mode-map "\M-]" #'python-indent-shift-right)
             (python-black-on-save-mode)))
+(add-hook 'before-save-hook 'py-isort-before-save)
 
 ;;; Based on pyenv-mode-auto (https://github.com/ssbb/pyenv-mode-auto)
 (defun pyenv-mode-auto-hook ()
