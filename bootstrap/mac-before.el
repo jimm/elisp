@@ -23,7 +23,6 @@
 
 Call `setenv' to set the corresponding value in Emacs. If the
 variable is \"PATH\", also call `mac-append-to-exec-path'."
-  (message "%s" (concat "mac-process-env-string " setting)) ; DEBUG
   (let* ((idx (string-match "=" setting))
          (env (substring setting 0 idx))
          (val (substring setting (1+ idx))))
