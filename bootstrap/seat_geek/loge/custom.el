@@ -7,7 +7,7 @@
  '(css-indent-offset 2)
  '(eshell-save-history-on-exit t)
  '(package-selected-packages
-   '(ace-window ag avy diminish fzf go-mode go-snippets magit org-present projectile py-isort python-black yasnippet yasnippet-snippets))
+   '(csharp-mode 2048-game flx-ido http-twiddle inf-ruby rubocopfmt sass-mode sicp slime smex yaml-mode mermaid-mode markdown-mode graphviz-dot-mode ace-window ag avy diminish fzf go-mode go-snippets magit org-present projectile py-isort python-black yasnippet yasnippet-snippets))
  '(python-fill-docstring-style 'pep-257-nn)
  '(sgml-xml-mode t)
  '(woman-use-own-frame nil))

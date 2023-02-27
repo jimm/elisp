@@ -10,11 +10,11 @@
       rubocopfmt-rubocop-command "rubocop-daemon-wrapper")
 
 ;; Org Mode repo: link
-(defun display-repo-link (repo-name)
+(defun my-org-mode-repo-link (repo-name)
   (concat "https://github.com/jimm/" repo-name))
 
 (add-to-list 'org-link-abbrev-alist
-             '("repo" . "%(display-repo-link)"))
+             '("repo" . "%(my-org-mode-repo-link)"))
 
 ;; Start Emacs server
 (unless (server-running-p)

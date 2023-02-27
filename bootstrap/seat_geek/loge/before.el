@@ -1,3 +1,5 @@
+(load-file (concat *my-emacs-lib-dir* "bootstrap/work-common.el"))
+
 (when window-system
   (let ((basic-frame-alist '((tool-bar-mode . nil)
                              (font . "Menlo 13"))))
