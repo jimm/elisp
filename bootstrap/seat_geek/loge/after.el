@@ -116,11 +116,12 @@ Abbreviations must be found in `sg-pr-abbreviations-alist'."
 (add-to-list 'org-link-abbrev-alist
              '("pr" . "%(my-org-mode-pr-link)"))
 
-;; Start Emacs server
-(unless (server-running-p)
-  (server-start))
+(defun wiki-home ()
+"Opens the SeatGeek wiki home page."
+  (interactive)
+  (browse-url "https://seatgeek.atlassian.net/wiki/home"))
 
-(defun search-wiki (search-text)
+(defun wiki-search (search-text)
 "Performs a search on the SeatGeek wiki using `SEARCH-TEXT'."
   (interactive "sSearch text: ")
   (browse-url

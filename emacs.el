@@ -1344,3 +1344,7 @@ found in the config file."
 ;;; Key bindings, both common and local to the current machine.
 ;;; See README.org.
 (load "keys")
+
+;; Start Emacs server
+(unless (server-running-p)
+  (server-start))

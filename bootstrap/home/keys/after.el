@@ -15,7 +15,3 @@
 
 (add-to-list 'org-link-abbrev-alist
              '("repo" . "%(my-org-mode-repo-link)"))
-
-;; Start Emacs server
-(unless (server-running-p)
-  (server-start))
