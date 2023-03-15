@@ -97,6 +97,8 @@ abbreviations. Abbreviations must be found in
 
 (defvar sg-pr-abbreviations-alist
   '(("lg" . "platform/letsgo")
+    ("pp" . "consumer/peakpass")
+    ("sg" . "consumer/seatgeek")
     ("box" . "jmenard/sandbox")))
 
 (defun sg-repo-link (repo-name)

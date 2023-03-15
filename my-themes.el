@@ -3,6 +3,7 @@
               (background . "ghostwhite")
               (mode . ((foreground . "yellow")
                        (background . "black")))
+              (eshell . ((prompt-foreground . "Blue")))
               (org . ((l2-foreground . "black")
                       (block-foreground . "black")
                       (block-border-background . "gray95")
@@ -19,6 +20,7 @@
              (background . "grey10")
              (mode . ((foreground . "black")
                       (background . "orange")))
+             (eshell . ((prompt-foreground . "LightBlue")))
              (org . ((l2-foreground . "yellow")
                      (block-foreground . "white")
                      (block-border-background . "gray30")
@@ -35,6 +37,7 @@
              (background . "dark slate gray")
              (mode . ((foreground . "black")
                       (background . "orange")))
+             (eshell . ((prompt-foreground . "LightBlue")))
              (org . ((l2-foreground . "yellow3")
                      (block-foreground . "white")
                      (block-border-background . "gray30")
@@ -64,6 +67,11 @@
       (set-face-attribute 'mode-line nil
                           :foreground (cdr (assoc 'foreground mode-alist))
                           :background (cdr (assoc 'background mode-alist))))
+    (let ((eshell-alist (cdr (assoc 'eshell colors-alist))))
+      (message "%s %S" "eshell-alist" eshell-alist) ;DEBUG
+      (set-face-attribute 'eshell-prompt nil
+                          :foreground (cdr (assoc 'prompt-foreground eshell-alist))
+                          :bold t))
     (let ((org-alist (cdr (assoc 'org colors-alist))))
       (let ((block-sym (if (>= emacs-major-version 26)
                            'org-block
