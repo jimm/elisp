@@ -1,7 +1,4 @@
 ;;; Org Mode
-;;;
-;;; Colorization is handled in my-themes.el, which should be loaded after
-;;; this file.
 
 (require 'org)
 (require 'ox-md nil t)                  ; markdown export mode

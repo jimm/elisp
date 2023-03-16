@@ -15,7 +15,7 @@
       rubocopfmt-rubocop-command "rubocop-daemon-wrapper"
       ns-right-command-modifier 'meta)  ; for Win kbd at office
 
-(set-my-theme 'light)
+(load-theme 'jim-light)
 
 ;;; Modify -git-url-and-branch-from-config to translate the URL domain. I
 ;;; don't know how to have git tell me what the `insteadOf` value is for the

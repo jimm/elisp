@@ -346,10 +346,6 @@ is unchanged."
 ;;; Org Mode
 (load "my-org-mode")
 
-;;; My "mini-themes". This needs to be loaded after my-org-mode and
-;;; markdown-mode.
-(load "my-themes")
-
 ;;; perl-mode
 (autoload #'perl-mode "perl-mode" "Perl mode" t nil)
 (add-hook 'perl-mode-hook
@@ -492,6 +488,7 @@ is unchanged."
       frame-title-format '((:eval (if (buffer-file-name)
                                       (abbreviate-file-name (buffer-file-name))
                                     "%b")))
+      custom-theme-directory (concat *my-emacs-lib-dir* "themes/")
       eww-search-prefix "https://www.google.com.com/?q=")
 
 (setq-default fill-column 76
