@@ -9,7 +9,7 @@
    `(mode-line ((t (:foreground "yellow" :background "black"))))
    `(eshell-prompt ((t (:foreground "blue" :bold t))))
 
-   `(org-level-2 ((t (:foreground "black"))))
+   `(org-level-2 ((t (:foreground "black" :bold t))))
    `(,org-mode-block-sym ((t (:foreground "black"
                      :background "ivory"))))
    `(org-block-begin-line ((t (:background "gray95"))))
@@ -20,7 +20,7 @@
                    :background "ivory"))))
 
 
-   `(markdown-header-face-2 ((t (:foreground "black"))))
+   `(markdown-header-face-2 ((t (:foreground "black" :bold t))))
    `(markdown-header-face-3 ((t (:foreground "purple"))))
    `(markdown-header-face-4 ((t (:foreground "red"))))
    `(markdown-header-face-5 ((t (:foreground "green"))))
