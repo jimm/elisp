@@ -17,36 +17,21 @@
 
 (load-theme 'jim-light)
 
-;;; Modify -git-url-and-branch-from-config to translate the URL domain. I
-;;; don't know how to have git tell me what the `insteadOf` value is for the
-;;; URL, so we do it the brute force way here.
-(defvar sg-git-url-to-xlate "git@gitlab.service.seatgeek.mgmt:")
-(defvar sg-git-xlated-url "https://gitlab.seatgeekadmin.com/")
+(defvar sg-git-internal-domain "gitlab.service.seatgeek.mgmt")
+(defvar sg-git-external-domain "gitlab.seatgeekadmin.com")
+
 (defun sg-git-url-modify (url-and-branch)
-  (message "%s %S" "sg-git-url-modify: url-and-branch = " url-and-branch) ; DEBUG
-  (message "%s %S" "sg-git-url-to-xlate" sg-git-url-to-xlate) ; DEBUG
-  (message "%s %S" "sg-git-xlated-url" sg-git-xlated-url) ; DEBUG
+"Advice for -git-url-and-branch-from-config that translates the
+URL domain. I don't know how to have git tell me what the
+`insteadOf' value is for the URL, so we do it the brute force way
+here."
   (let ((url (car url-and-branch))
-        (branch (cadr url-and-branch))
-        (to-xlate-len (length sg-git-url-to-xlate)))
-    ;; TODO look for gitlab... up to colon
-    ;; because I'm seeing both git@ and https://
-    (message "%s %S %S" "(length url), to-xlate-len" (length url) to-xlate-len) ;DEBUG
-    (message "%s %S" "(substring url 0 to-xlate-len)" (substring url 0 to-xlate-len)) ;DEBUG
-    (if (and (> (length url) to-xlate-len)
-             (string-equal sg-git-url-to-xlate (substring url 0 to-xlate-len)))
-        (progn                          ; DEBUG
-          (message "match, %s %S" "returning" (list (concat sg-git-xlated-url (substring url to-xlate-len)) branch)) ; DEBUG
-        (list (concat sg-git-xlated-url (substring url to-xlate-len))
-              branch)
-        )                               ;DEBUG
-      (progn                            ;DEBUG
-        (message "%s %S" "no match, returning" url-and-branch)
-      url-and-branch
-      )                                 ;DEBUG
-)))
+        (branch (cadr url-and-branch)))
+    (list (replace-regexp-in-string sg-git-internal-domain sg-git-external-domain url)
+          branch)))
+
 (advice-add #'-git-url-and-branch-from-config :filter-return #'sg-git-url-modify)
-; (advice-remove #'-git-url-and-branch-from-config #'sg-git-url-modify)
+;; ; (advice-remove #'-git-url-and-branch-from-config #'sg-git-url-modify)
 
 (defvar work-orgs-dir "seat_geek"
   "Name of $pim/orgs/work subdir where I keep work-related Org mode files.")
@@ -129,3 +114,48 @@ Abbreviations must be found in `sg-pr-abbreviations-alist'."
   (browse-url
    (concat "https://seatgeek.atlassian.net/wiki/search?text="
            (url-hexify-string search-text))))
+
+;;; Local API development
+
+(defvar sg-api-poetry-shell-buffer-name "*API Poetry Shell*")
+
+(defun -poetry-start (buffer-name dir-env-var)
+"Opens a shell and starts the API poetry shell."
+  (interactive)
+  (if (get-buffer buffer-name)
+      (switch-to-buffer buffer-name)
+    (progn
+      (shell)
+      (rename-buffer buffer-name)
+      (insert (concat "cd " (getenv dir-env-var)))
+      (comint-send-input)
+      (insert "poetry shell")
+      (comint-send-input))))
+
+(defun api-start ()
+"Opens a shell and starts the API poetry shell."
+  (interactive)
+  (-poetry-start sg-api-poetry-shell-buffer-name "api"))
+
+(defun api-run-tests (&optional arg)
+"Runs the test in the current buffer's file by sending the proper command to
+sg-api-poetry-shell-buffer-name.
+
+With an `ARG', append the line number at point.
+
+If it has not already been called, `api-start' is run to create
+the buffer and start the API poetry shell."
+  (interactive "p")
+  (unless (get-buffer sg-api-poetry-shell-buffer-name)
+    (let ((curr-buffer (current-buffer)))
+      (api-start)
+      (switch-to-buffer curr-buffer)))
+  (let* ((test-path (path-from-git-root-to-clipboard-kill-ring 1))
+         (curr-func (which-function))
+         (test-name (if (and (> (or arg 1) 1) curr-func) ; arg given and we are in a func
+                        (concat test-path "::" (replace-regexp-in-string "\\." "::" curr-func))
+                      test-path)))
+    (switch-to-buffer-other-window sg-api-poetry-shell-buffer-name t)
+    (goto-char (point-max))
+    (insert (concat "TEST_NAME=" test-name " PYTEST=pytest make test"))
+    (comint-send-input)))

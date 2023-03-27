@@ -1290,7 +1290,8 @@ form (github-url first-branch)."
                    (end-of-line)
                    (buffer-substring-no-properties beg (point))))))
       (setf url (replace-regexp-in-string "git@" "https://" url))
-      (setf url (replace-regexp-in-string "github\\.com:" "github.com/" url))
+      ;; Replace the non-protocol ":" with "/"
+      (setf url (replace-regexp-in-string "\\([a-z]\\):\\([a-z]\\)" "\\1/\\2" url))
       (setf url (replace-regexp-in-string "\\.git$" "" url))
       (list url default-branch))))
 
