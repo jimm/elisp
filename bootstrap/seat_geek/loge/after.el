@@ -80,8 +80,9 @@ abbreviations. Abbreviations must be found in
 
 ;; Org Mode pr: link
 
-(defvar sg-pr-abbreviations-alist
+(defvar sg-mr-abbreviations-alist
   '(("lg" . "platform/letsgo")
+    ("api" . "consumer/api")
     ("pp" . "consumer/peakpass")
     ("sg" . "consumer/seatgeek")
     ("box" . "jmenard/sandbox")))
@@ -89,19 +90,19 @@ abbreviations. Abbreviations must be found in
 (defun sg-repo-link (repo-name)
   (concat "https://gitlab.seatgeekadmin.com/" repo-name))
 
-(defun my-org-mode-pr-link (tag)
-  "Given a TAG of the form '<repo>-<number>', returns a URL to a PR in that repo.
+(defun my-org-mode-mr-link (tag)
+  "Given a TAG of the form '<repo>-<number>', returns a URL to a MR in that repo.
 
 Repo names are either abbreviations or full repo names.
-Abbreviations must be found in `sg-pr-abbreviations-alist'."
+Abbreviations must be found in `sg-mr-abbreviations-alist'."
   (let* ((elems (split-string tag "-"))
          (repo (string-join (butlast elems) "-"))
-         (pr-num (car (last elems)))
-         (full-repo (alist-get repo sg-pr-abbreviations-alist repo nil #'equal)))
-    (concat (sg-repo-link full-repo) "/-/merge_requests/" pr-num)))
+         (mr-num (car (last elems)))
+         (full-repo (alist-get repo sg-mr-abbreviations-alist repo nil #'equal)))
+    (concat (sg-repo-link full-repo) "/-/merge_requests/" mr-num)))
 
 (add-to-list 'org-link-abbrev-alist
-             '("pr" . "%(my-org-mode-pr-link)"))
+             '("mr" . "%(my-org-mode-mr-link)"))
 
 (defun wiki-home ()
 "Opens the SeatGeek wiki home page."
