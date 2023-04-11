@@ -138,6 +138,13 @@ Abbreviations must be found in `sg-mr-abbreviations-alist'."
   (interactive)
   (-poetry-start sg-api-poetry-shell-buffer-name "api"))
 
+(defun -api-test-name ()
+  (let* ((test-path (path-from-git-root-to-clipboard-kill-ring 1))
+         (curr-func (which-function)))
+    (if (and (> (or arg 1) 1) curr-func) ; arg given and we are in a func
+        (concat test-path "::" (replace-regexp-in-string "\\." "::" curr-func))
+      test-path)))
+
 (defun api-run-tests (&optional arg)
 "Runs the test in the current buffer's file by sending the proper command to
 sg-api-poetry-shell-buffer-name.
@@ -151,12 +158,20 @@ the buffer and start the API poetry shell."
     (let ((curr-buffer (current-buffer)))
       (api-start)
       (switch-to-buffer curr-buffer)))
-  (let* ((test-path (path-from-git-root-to-clipboard-kill-ring 1))
-         (curr-func (which-function))
-         (test-name (if (and (> (or arg 1) 1) curr-func) ; arg given and we are in a func
-                        (concat test-path "::" (replace-regexp-in-string "\\." "::" curr-func))
-                      test-path)))
     (switch-to-buffer-other-window sg-api-poetry-shell-buffer-name t)
     (goto-char (point-max))
-    (insert (concat "TEST_NAME=" test-name " PYTEST=pytest make test"))
-    (comint-send-input)))
+    (insert (concat "TEST_NAME=" (-api-test-name) " PYTEST=pytest make test"))
+    (comint-send-input))
+
+(defun api-compile-tests (&optional arg)
+  "Runs the test in the current buffer's file by sending the proper command to
+a terminal.
+
+With an `ARG', append the line number at point.
+
+If it has not already been called, `api-start' is run to create
+the buffer and start the API poetry shell."
+  (interactive "p")
+  (let ((default-directory
+          (locate-dominating-file (buffer-file-name (current-buffer)) ".git")))
+    (compile (concat "TEST_NAME=" (-api-test-name) " PYTEST=pytest poetry run make test"))))

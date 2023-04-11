@@ -1004,6 +1004,13 @@ Else, do nothing if the current buffer's major mode is not
 
 
 ;;
+;; C#-mode
+(add-hook 'csharp-mode-hook
+          (lambda ()
+            (setq c-basic-offset 4)))
+
+
+;;
 ;; Dired-mode
 ;;
 (put 'dired-find-alternate-file 'disabled nil)
