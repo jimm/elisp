@@ -78,7 +78,7 @@ abbreviations. Abbreviations must be found in
 (add-to-list 'org-link-abbrev-alist
              '("jira" . "%(my-org-mode-jira-link)"))
 
-;; Org Mode pr: link
+;; Org Mode mr: link
 
 (defvar sg-mr-abbreviations-alist
   '(("lg" . "platform/letsgo")

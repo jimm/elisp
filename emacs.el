@@ -1060,6 +1060,9 @@ gzip.")))
 ;;
 ;; Dealing with ANSII color codes
 ;;
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+(add-hook 'eshell-mode-hook 'ansi-color-for-comint-mode-on)
+
 (defun remove-colorization ()
   "Remove ANSI color codes from the current buffer."
   (interactive)
