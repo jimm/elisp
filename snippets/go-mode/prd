@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: fmt.Println("") // DEBUG
+# name: fmt.Fprintf(os.Stderr, "") // DEBUG
 # key: prd
 # --
-fmt.Println("$0") // DEBUG
+fmt.Fprintf(os.Stderr, "$0\n") // DEBUG
