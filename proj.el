@@ -151,11 +151,13 @@ optional argument."
 
 (defun -path-to-clipboard-kill-ring (s include-line-at-point)
 "Saves `s' to the kill ring and GUI clipboard, optionally
-appending the current line number."
+appending the current line number. Turns $HOME prefix into '~'.
+Also outputs the path."
   (let* ((line-num (line-number-at-pos))
          (str (concat s (if include-line-at-point
                             (concat ":" (int-to-string line-num))
                           ""))))
+    (setf str (string-replace (getenv "HOME") "~" str))
     (with-temp-buffer
       (insert str)
       (clipboard-kill-ring-save (point-min) (point-max)))
