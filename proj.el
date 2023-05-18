@@ -157,11 +157,7 @@ Also outputs the path."
          (str (concat s (if include-line-at-point
                             (concat ":" (int-to-string line-num))
                           ""))))
-    (setf str (string-replace (getenv "HOME") "~" str))
-    (with-temp-buffer
-      (insert str)
-      (clipboard-kill-ring-save (point-min) (point-max)))
-    (message str)))
+    (string-to-clipboard (string-replace (getenv "HOME") "~" str))))
 
 (defun path-to-clipboard-kill-ring (&optional arg)
   "Copies path to file visited by current buffer to the kill ring and GUI

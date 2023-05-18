@@ -96,6 +96,10 @@ do so when `this-command' is one of the commands in
 (setq visible-bell nil
       ring-bell-function #'mode-line-visible-bell)
 
+;;; mood-line
+(when (fboundp #'mood-line-mode)
+  (mood-line-mode))
+
 ;;; 2048-game
 (add-hook '2048-mode-hook
           (lambda ()
@@ -555,6 +559,14 @@ Goes backward if ARG is negative; error if CHAR not found."
   (zap-to-char arg char)
   (insert-char char)
   (backward-char))
+
+(defun string-to-clipboard (s)
+"Saves string `s' to the kill ring and GUI clipboard."
+  (interactive)
+  (with-temp-buffer
+    (insert str)
+    (clipboard-kill-ring-save (point-min) (point-max)))
+  (message str))
 
 (defun generate-random-password (password-length)
   "Generate a random password PASSWORD-LENGTH characters long.
