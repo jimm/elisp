@@ -85,7 +85,8 @@ abbreviations. Abbreviations must be found in
     ("api" . "consumer/api")
     ("pp" . "consumer/peakpass")
     ("sg" . "consumer/seatgeek")
-    ("box" . "jmenard/sandbox")))
+    ("box" . "jmenard/sandbox")
+    ("rsc" . "consumer/rescraper")))
 
 (defun sg-repo-link (repo-name)
   (concat "https://gitlab.seatgeekadmin.com/" repo-name))
