@@ -66,18 +66,20 @@ not in a Git repo, uses the current directory."
 directory's root git repo directory.
 
 By default, reads the regex from the minibuffer. With a prefix
-argument, initializes the search string with the current symbol
-at point."
+`ARG', initializes the search string with the current symbol at
+point. If `ARG' is 16 (C-uC-u prefix), adds word boundary regex
+markers before and after the current symbol."
   (interactive "P")
   (let* ((symbol-at-point (thing-at-point 'symbol))
          (regexp (if (and arg (symbol-at-point))
-                   (regexp-quote symbol-at-point)
-                     (read-from-minibuffer
-                      "Search regexp: " nil nil nil 'grep-find-history)))
-
+                     (concat (when (= (car arg) 16) "\\b")
+                             (regexp-quote symbol-at-point)
+                             (when (= (car arg) 16) "\\b"))
+                   (read-from-minibuffer
+                    "Search regexp: " nil nil nil 'grep-find-history)))
          (default-directory (git-root-dir))
          (case-ignore-flag (and (isearch-no-upper-case-p regexp t) "-i"))
-         (cmd (concat "git grep --extended-regexp --line-number --full-name"
+         (cmd (concat "git grep --perl-regexp --line-number --full-name"
                       " --untracked " case-ignore-flag " -- '" regexp "'"
                       " | cut -c -240")))
     (while (equal "" regexp)
@@ -89,8 +91,8 @@ at point."
   "Runs 'git grep \"\\bcurrent_symbol\\b\"' to find callers of the symbol
 at point.
 
-With a prefix argument, includes the symbol's definition. This is specific
-to Python/Ruby because we look for \"def current_symbol\\b\"."
+With a prefix `ARG', includes the symbol's definition. This is
+specific to Python/Ruby because we look for \"def current_symbol\\b\"."
   (interactive "P")
   (let* ((symbol-at-point (thing-at-point 'symbol))
          (regexp (concat "\\b"
@@ -102,9 +104,10 @@ to Python/Ruby because we look for \"def current_symbol\\b\"."
          (default-directory (git-root-dir))
          (case-ignore-flag (and (isearch-no-upper-case-p regexp t) "-i"))
          (ignore-def-grep (concat " | grep -v 'def " symbol-at-point "\\b'"))
-         (cmd (concat "git grep --extended-regexp --line-number --full-name"
+         (cmd (concat "git grep --perl-regexp --line-number --full-name"
                       " --untracked " case-ignore-flag " '" regexp "'"
-                      (unless arg ignore-def-grep))))
+                      (unless arg ignore-def-grep)
+                      " | cut -c -240")))
     (grep-find cmd)))
 
 ;;; ================================================================
