@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: print(f"**** {x=}") # DEBUG
+# key: prp
+# --
+print(f"**** {$0=}") # DEBUG

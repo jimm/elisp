@@ -111,7 +111,7 @@ Abbreviations must be found in `sg-mr-abbreviations-alist'."
   (browse-url "https://seatgeek.atlassian.net/wiki/home"))
 
 (defun wiki-search (search-text)
-"Performs a search on the SeatGeek wiki using `SEARCH-TEXT'."
+"Performs a search on the SeatGeek wiki using SEARCH-TEXT."
   (interactive "sSearch text: ")
   (browse-url
    (concat "https://seatgeek.atlassian.net/wiki/search?text="
@@ -134,11 +134,6 @@ Abbreviations must be found in `sg-mr-abbreviations-alist'."
       (insert "poetry shell")
       (comint-send-input))))
 
-(defun api-start ()
-"Opens a shell and starts the API poetry shell."
-  (interactive)
-  (-poetry-start sg-api-poetry-shell-buffer-name "api"))
-
 (defun -api-test-name ()
   (let* ((test-path (path-from-git-root-to-clipboard-kill-ring 1))
          (curr-func (which-function)))
@@ -146,29 +141,11 @@ Abbreviations must be found in `sg-mr-abbreviations-alist'."
         (concat test-path "::" (replace-regexp-in-string "\\." "::" curr-func))
       test-path)))
 
-(defun api-run-tests (&optional arg)
-"Runs the test in the current buffer's file by sending the proper command to
-sg-api-poetry-shell-buffer-name.
-
-With an `ARG', append the line number at point.
-
-If it has not already been called, `api-start' is run to create
-the buffer and start the API poetry shell."
-  (interactive "p")
-  (unless (get-buffer sg-api-poetry-shell-buffer-name)
-    (let ((curr-buffer (current-buffer)))
-      (api-start)
-      (switch-to-buffer curr-buffer)))
-    (switch-to-buffer-other-window sg-api-poetry-shell-buffer-name t)
-    (goto-char (point-max))
-    (insert (concat "TEST_NAME=" (-api-test-name) " PYTEST=pytest make test"))
-    (comint-send-input))
-
 (defun api-compile-tests (&optional arg)
   "Runs the test in the current buffer's file by sending the proper command to
 a terminal.
 
-With an `ARG', append the line number at point.
+With an ARG, append the line number at point.
 
 If it has not already been called, `api-start' is run to create
 the buffer and start the API poetry shell."

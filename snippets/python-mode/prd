@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: print(f"") # DEBUG
+# name: print(f"**** ") # DEBUG
 # key: prd
 # --
-print(f"$0") # DEBUG
+print(f"**** $0") # DEBUG

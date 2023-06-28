@@ -66,8 +66,8 @@ not in a Git repo, uses the current directory."
 directory's root git repo directory.
 
 By default, reads the regex from the minibuffer. With a prefix
-`ARG', initializes the search string with the current symbol at
-point. If `ARG' is 16 (C-uC-u prefix), adds word boundary regex
+ARG, initializes the search string with the current symbol at
+point. If ARG is 16 (C-uC-u prefix), adds word boundary regex
 markers before and after the current symbol."
   (interactive "P")
   (let* ((symbol-at-point (thing-at-point 'symbol))
@@ -91,7 +91,7 @@ markers before and after the current symbol."
   "Runs 'git grep \"\\bcurrent_symbol\\b\"' to find callers of the symbol
 at point.
 
-With a prefix `ARG', includes the symbol's definition. This is
+With a prefix ARG, includes the symbol's definition. This is
 specific to Python/Ruby because we look for \"def current_symbol\\b\"."
   (interactive "P")
   (let* ((symbol-at-point (thing-at-point 'symbol))
@@ -166,7 +166,7 @@ Also outputs the path."
   "Copies path to file visited by current buffer to the kill ring and GUI
 clipboard. Returns filename.
 
-With an `ARG', append the line number at point. From
+With an ARG, append the line number at point. From
 https://stackoverflow.com/questions/2416655/file-path-to-kill-ring-in-emacs"
   (interactive "p")
   (let ((filename (or (buffer-file-name) default-directory)))
@@ -178,7 +178,7 @@ https://stackoverflow.com/questions/2416655/file-path-to-kill-ring-in-emacs"
   "Copies relative path of file visited by current buffer to the kill ring and
 GUI clipboard. Returns filename.
 
-With an `ARG', append the line number at point."
+With an ARG, append the line number at point."
   (interactive "p")
   (let ((absolute-path (or (buffer-file-name) default-directory)))
     (when absolute-path

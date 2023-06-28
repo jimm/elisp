@@ -78,9 +78,9 @@ file."
 ;;; ================ running tests ================
 
 (defun -spring-run-rspec (f arg)
-  "Run \"spring rspec FILE\" by sending it to function `F`.
+  "Run \"spring rspec FILE\" by sending it to function F.
 
-If `ARG' is positive, run only the test that the cursor is in."
+If ARG is positive, run only the test that the cursor is in."
   (let ((path (buffer-file-name)))
     (if (> arg 1)
         (setq path (concat path ":" (int-to-string (line-number-at-pos)))))
@@ -89,14 +89,14 @@ If `ARG' is positive, run only the test that the cursor is in."
 (defun spring-rspec-terminal (arg)
   "Run \"spring rspec FILE\" in an external terminal.
 
-If `ARG' is positive, run only the test that the cursor is in."
+If ARG is positive, run only the test that the cursor is in."
   (interactive "p")
   (-spring-run-rspec #'send-to-terminal arg))
 
 (defun spring-rspec-compile (arg)
   "Run \"spring rspec FILE\" in a compilation buffer.
 
-If `ARG' is positive, run only the test that the cursor is in."
+If ARG is positive, run only the test that the cursor is in."
   (interactive "p")
   (-spring-run-rspec #'compile arg))
 

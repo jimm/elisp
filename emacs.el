@@ -239,9 +239,9 @@ do so when `this-command' is one of the commands in
 ;;; Alchemist
 
 (defun -set-dir-var (env_name sym)
-  "If environment variable `ENV_NAME' is defined and points to a
-directory that exists, set `SYM' to that directory. Else, `SYM'
-is unchanged."
+  "If environment variable ENV_NAME is defined and points to a
+directory that exists, set SYM to that directory. Else, SYM is
+unchanged."
   (let ((dir_env (getenv env_name)))
     (when dir_env
       (let ((dir (file-name-as-directory dir_env)))
@@ -1301,7 +1301,7 @@ http://dfan.org/blog/2009/02/19/emacs-dedicated-windows/"
   (reverse-region (point-min) (point-max)))
 
 (defun -git-url-and-branch-from-config (git-config-file)
-"Reads `GIT-CONFIG-FILE' and returns a two element list of the
+"Reads GIT-CONFIG-FILE and returns a two element list of the
 form (github-url first-branch)."
   (with-temp-buffer
     (insert-file-contents git-config-file)
@@ -1323,7 +1323,7 @@ form (github-url first-branch)."
   "Opens current buffer's file on Github. The git user and repo name are
 read from the current buffer's corresponding `.git/config' file.
 
-Branch is `BRANCH', defaulting to the value of the first branch
+Branch is BRANCH, defaulting to the value of the first branch
 found in the config file."
   (interactive)
   (let* ((path (buffer-file-name))

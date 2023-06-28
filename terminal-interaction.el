@@ -9,12 +9,12 @@
                   (string-equal "\n" (substring str (1- (length str)))))
         (insert "\n")))
     (do-applescript (concat
-                     "tell application \"" *my-terminal-program* "\"\n"
-                     "	tell the current window\n"
-                     "    tell the current session\n"
-                     "      write contents of file \"" tempfile "\"\n"
+                     "tell application \"iTerm\"\n"
+                     "    tell current window\n"
+                     "        tell current session\n"
+                     "            write contents of file \"" tempfile "\"\n"
+                     "        end tell\n"
                      "    end tell\n"
-                     "	end tell\n"
                      "end tell\n"
                      ))
     (delete-file tempfile)))
