@@ -73,6 +73,7 @@
 (global-set-key "\M-\r" #'toggle-frame-maximized)
 (global-set-key [\C-f10] (lambda () (interactive) (set-frame-width nil 80)))
 (global-set-key [f11] #'other-window)
+(when-fboundp-global-set-key [\C-f11] ace-swap-window)
 
 (global-set-key "\C-cl" #'org-store-link)
 
