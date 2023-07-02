@@ -1,3 +1,11 @@
+(add-to-list 'auto-mode-alist '("\\.aj$" . java-mode)) ; Roo aspect files
+(add-to-list 'auto-mode-alist '("\\.jsp$" . html-mode))
+(add-to-list 'auto-mode-alist '("\\.w[as]r$" . archive-mode))
+;; (add-hook 'java-mode-hook
+;;           (lambda ()
+;;             (c-set-style "java")
+;;             (if window-system (font-lock-mode 1))))
+
 (defun upto (list elem)
   "Returns a list whose elements are those of LIST up to but not
 including ELEM."

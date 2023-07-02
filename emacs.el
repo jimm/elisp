@@ -309,14 +309,6 @@ unchanged."
 (eval-after-load "java"
   (load "my-java-mode"))
 
-(add-to-list 'auto-mode-alist '("\\.aj$" . java-mode)) ; Roo aspect files
-(add-to-list 'auto-mode-alist '("\\.jsp$" . html-mode))
-(add-to-list 'auto-mode-alist '("\\.w[as]r$" . archive-mode))
-(add-hook 'java-mode-hook
-          (lambda ()
-            (c-set-style "java")
-            (if window-system (font-lock-mode 1))))
-
 ;;; JavaScript
 (autoload #'javascript-mode "javascript" nil t)
 (add-to-list 'auto-mode-alist '("\\.[agj]s$" . javascript-mode))
