@@ -1,10 +1,6 @@
 (setq org-agenda-files (list
                         (concat *my-pim-dir* "orgs/work/seat_geek/todo.org")
                         (concat *my-pim-dir* "orgs/todo.org"))
-      *status-file* (concat *my-pim-dir*
-                            "orgs/work/seat_geek/status_"
-                            (format-time-string "%Y")
-                            ".org")
       *my-eshell-vcs-maxlen* 20
       *my-eshell-vcs-del-prefix* "jm-"
       emms-source-file-default-directory "~/Documents/Dropbox/Music/music/"
@@ -16,6 +12,15 @@
       ns-right-command-modifier 'meta)  ; for Win kbd at office
 
 (load-theme 'jim-light)
+
+(require 'status)
+(global-set-key [f4]
+                (lambda () (interactive) (find-file (car org-agenda-files))))
+(global-set-key [f5] #'status)
+(setq *status-file* (concat *my-pim-dir*
+                            "orgs/work/seat_geek/status_"
+                            (format-time-string "%Y")
+                            ".org"))
 
 (defvar sg-git-internal-domain "gitlab.service.seatgeek.mgmt")
 (defvar sg-git-external-domain "gitlab.seatgeekadmin.com")
