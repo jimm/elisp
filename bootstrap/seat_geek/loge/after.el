@@ -158,3 +158,11 @@ the buffer and start the API poetry shell."
   (let ((default-directory
           (locate-dominating-file (buffer-file-name (current-buffer)) ".git")))
     (compile (concat "TEST_NAME=" (-api-test-name) " PYTEST=pytest poetry run make test"))))
+
+(defun mr-description ()
+  "Open a temp file containing the MR text template."
+  (interactive)
+  (find-file (make-temp-file "/tmp/mr-description-" nil ".md"))
+  (insert-file (concat (getenv "HOME") "/Documents/merge_request_template.md"))
+  (goto-char (point-min))
+  (forward-line 2))
