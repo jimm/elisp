@@ -7,13 +7,8 @@
   "If defined, a string that will be deleted from the beginning of VCS branch names.")
 
 ;;; Select a random sig as the eshell banner.
-(let ((sigfile (concat *my-pim-dir* "signatures")))
-  (when (file-exists-p sigfile)
-    (let ((sigs (with-temp-buffer
-                  (insert-file-contents sigfile)
-                  (split-string (buffer-string) "\n\n" t))))
-      (setq eshell-banner-message
-            (concat (nth (random (length sigs)) sigs) "\n\n")))))
+(when (file-exists-p *my-signature-file*)
+    (setq eshell-banner-message '(concat (random-signature) "\n\n")))
 
 (require 'em-hist)			; So the history vars are defined
 (if (boundp 'eshell-save-history-on-exit)

@@ -55,6 +55,21 @@ whitespace-only string."
     ;; )
   (package-initialize))
 
+;;; Signatures
+;;;
+;;; This section must come before my eshell initialization.
+
+(defvar *my-signature-file* (concat *my-pim-dir* "signatures"))
+
+(defun random-signature ()
+  "Returns a random signature from my *my-signature-file* file."
+  (interactive)
+  (when (file-exists-p *my-signature-file*)
+    (let ((sigs (with-temp-buffer
+                  (insert-file-contents *my-signature-file*)
+                  (split-string (buffer-string) "\n\n" t))))
+      (nth (random (length sigs)) sigs))))
+
 (defun my-start-shell ()
   (interactive)
   (shell)
@@ -1343,6 +1358,7 @@ found in the config file."
     (fill-paragraph nil region)))
 
 (defalias #'unwrap #'unfill-paragraph)
+
 
 ;;; Music
 (set-register ?f "♭")
