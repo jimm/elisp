@@ -1,4 +1,5 @@
-(setq eshell-history-size 512)
+(setq eshell-history-size 512
+      eshell-last-dir-ring-size 256)
 
 (defvar *my-eshell-vcs-maxlen* nil
   "If defined, VCS branch names will be truncated to this width.")
