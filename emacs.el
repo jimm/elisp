@@ -379,7 +379,7 @@ unchanged."
 
 ;;; editorconfig
 (when (fboundp #'editorconfig-mode)
-  (editorconfig-mode t)
+  (editorconfig-mode 1)
   (setq editorconfig-mode-lighter " edconf"))
 
 ;;; python-mode
