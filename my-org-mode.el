@@ -48,7 +48,8 @@ work for all langauges."
       org-adapt-indentation nil
       org-src-fontify-natively t
       org-fontify-whole-heading-line t  ; bg color covers whole line
-      org-default-notes-file (concat *my-pim-dir* "orgs/notes.org"))
+      org-default-notes-file (concat *my-pim-dir* "orgs/notes.org")
+      org-use-sub-superscripts "{}")
 
 (add-hook 'org-mode-hook
           (lambda ()
