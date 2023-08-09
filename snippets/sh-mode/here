@@ -2,4 +2,4 @@
 # name : HERE="..."
 # key: here
 # --
-HERE="$(cd $(dirname "\$0") && pwd)"$0
+HERE="$(cd "$(dirname "\$0")" && pwd)"$0
