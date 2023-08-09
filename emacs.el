@@ -303,7 +303,8 @@ unchanged."
 ;;; Go
 (autoload #'go-mode "go-mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.go$" . go-mode))
-(add-hook 'before-save-hook #'gofmt-before-save)
+(when (fboundp #'gofmt-before-save)
+  (add-hook 'before-save-hook #'gofmt-before-save))
 (add-hook 'go-mode-hook
           (lambda ()
             (tab-four)
