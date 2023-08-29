@@ -49,8 +49,9 @@ Assumes `*status-file*' is defined."
     (goto-char (point-min))
     (while (re-search-forward "^\\( *\\)-" nil t)
       (replace-match (concat (replace-regexp-in-string "  " "\t" (match-string 1)) "•")))
-    ;; Convert =this= to `this`
+    ;; Convert =this= and ~this~ to `this`
     (funcall replace "=\\([^=]+\\)=" "`\\1`")
+    (funcall replace "~\\([^~]+\\)~" "`\\1`")
     ;; Clean up links
     (funcall replace "\\[\\[\\([[:word:]]+:\\([[:word:]]+-\\)?[[:digit:]]+\\)]]" "\\1")
     (funcall replace "\\[\\[\\([[:word:]]+:[[:word:]]+-?[[:digit:]]+\\)]\\[\\([^]]+\\)]]" "_\\2_ (\\1)")
