@@ -147,7 +147,7 @@ Abbreviations must be found in `sg-mr-abbreviations-alist'."
         (concat test-path "::" (replace-regexp-in-string "\\." "::" curr-func))
       test-path)))
 
-(defun api-compile-tests (&optional arg)
+(defun api-tests (&optional arg)
   "Runs the test in the current buffer's file by sending the proper command to
 a terminal.
 
@@ -158,7 +158,7 @@ the buffer and start the API poetry shell."
   (interactive "p")
   (let ((default-directory
           (locate-dominating-file (buffer-file-name (current-buffer)) ".git")))
-    (compile (concat "TEST_NAME=" (-api-test-name) " PYTEST=pytest poetry run make test"))))
+    (compile (concat "SG_ENV=test ASYNC_TEST_TIMEOUT=10 poetry run pytest " (-api-test-name)))))
 
 (defun mr-description ()
   "Open a temp file containing the MR text template."
