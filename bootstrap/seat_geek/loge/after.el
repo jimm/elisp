@@ -13,15 +13,6 @@
 
 (load-theme 'jim-light)
 
-(require 'status)
-(global-set-key [f4]
-                (lambda () (interactive) (find-file (car org-agenda-files))))
-(global-set-key [f5] #'status)
-(setq *status-file* (concat *my-pim-dir*
-                            "orgs/work/seat_geek/status_"
-                            (format-time-string "%Y")
-                            ".org"))
-
 (defvar sg-git-internal-domain "gitlab.service.seatgeek.mgmt")
 (defvar sg-git-external-domain "gitlab.seatgeekadmin.com")
 
@@ -167,3 +158,15 @@ the buffer and start the API poetry shell."
   (insert-file (concat (getenv "HOME") "/Documents/merge_request_template.md"))
   (goto-char (point-min))
   (forward-line 2))
+
+;;; ================ key bindings ================
+
+(require 'status)
+(global-set-key [f4]
+                (lambda () (interactive) (find-file (car org-agenda-files))))
+(global-set-key [f5] #'status)
+(setq *status-file* (concat *my-pim-dir*
+                            "orgs/work/seat_geek/status_"
+                            (format-time-string "%Y")
+                            ".org"))
+(global-set-key [f8] #'api-tests)
