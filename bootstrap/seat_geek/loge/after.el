@@ -149,7 +149,7 @@ the buffer and start the API poetry shell."
   (interactive "p")
   (let ((default-directory
           (locate-dominating-file (buffer-file-name (current-buffer)) ".git")))
-    (compile (concat "SG_ENV=test ASYNC_TEST_TIMEOUT=10 poetry run pytest " (-api-test-name)))))
+    (compile (concat "api-tests " (-api-test-name)))))
 
 (defun mr-description ()
   "Open a temp file containing the MR text template."
