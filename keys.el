@@ -59,8 +59,10 @@
 (global-set-key [\C-f7] #'send-current-line-to-terminal-and-next-line)
 
 ;; File-finding key bindings.
-(let ((find-file-func (cond ((fboundp #'find-file-in-project)
-                             #'find-file-in-project)
+(let ((find-file-func (cond ((fboundp #'projectile-find-file)
+                              #'projectile-find-file)
+                             ((fboundp #'find-file-in-project)
+                              #'find-file-in-project)
                             ((fboundp #'fzf-git)
                              #'fzf-git)
                             ((fboundp #'find-file-in-repository)
