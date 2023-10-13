@@ -1376,5 +1376,6 @@ found in the config file."
 (load "keys")
 
 ;; Start Emacs server
-(unless (server-running-p)
-  (server-start))
+(when (fboundp #'server-running-p)
+  (unless (server-running-p)
+    (server-start)))
