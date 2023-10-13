@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: console.log // DEBUG
+# key: prd
+# --
+console.log("****", $1); // DEBUG
