@@ -1327,8 +1327,10 @@ form (github-url first-branch)."
       (list url default-branch))))
 
 
-(defun github-open-current-buffer (&optional branch)
-  "Opens current buffer's file on Github. The git user and repo name are
+;;; Git URL and browser-opening funcs
+
+(defun git-url (&optional branch)
+  "Returns the URL for the current buffer and current line. The git user and repo name are
 read from the current buffer's corresponding `.git/config' file.
 
 Branch is BRANCH, defaulting to the value of the first branch
@@ -1340,11 +1342,20 @@ found in the config file."
          (url-and-branch (-git-url-and-branch-from-config (concat git-root-dir ".git/config")))
          (url (car url-and-branch))
          (default-branch (cadr url-and-branch)))
-    (browse-url-generic (concat url
-                                "/blob/"
-                                (or branch default-branch)
-                                "/" dir-path-to-file
-                                "#L" (int-to-string (line-number-at-pos))))))
+    (concat url
+            "/blob/"
+            (or branch default-branch)
+            "/" dir-path-to-file
+            "#L" (int-to-string (line-number-at-pos)))))
+
+(defun git-open (&optional branch)
+  "Opens current buffer's file on Github. The git user and repo name are
+read from the current buffer's corresponding `.git/config' file.
+
+Branch is BRANCH, defaulting to the value of the first branch
+found in the config file."
+  (interactive)
+  (browse-url-generic (git-url branch)))
 
 
 ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
