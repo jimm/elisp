@@ -1330,8 +1330,9 @@ form (github-url first-branch)."
 ;;; Git URL and browser-opening funcs
 
 (defun git-url (&optional branch)
-  "Returns the URL for the current buffer and current line. The git user and repo name are
-read from the current buffer's corresponding `.git/config' file.
+  "Returns the URL for the current buffer and current line. The
+git user and repo name are read from the current buffer's
+corresponding `.git/config' file.
 
 Branch is BRANCH, defaulting to the value of the first branch
 found in the config file."
@@ -1357,6 +1358,9 @@ found in the config file."
   (interactive)
   (browse-url-generic (git-url branch)))
 
+(defun git-url-to-clipboard (&optional branch)
+  "Copies the current buffer's git repo URL to the clipboard."
+  (string-to-clipboard (git-url branch)))
 
 ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
 ;;; Found on the Emacs Wiki at
