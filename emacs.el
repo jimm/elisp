@@ -568,8 +568,8 @@ Goes backward if ARG is negative; error if CHAR not found."
   (insert-char char)
   (backward-char))
 
-(defun string-to-clipboard (s)
-"Saves string `s' to the kill ring and GUI clipboard."
+(defun string-to-clipboard (str)
+"Saves string `str' to the kill ring and GUI clipboard."
   (interactive)
   (with-temp-buffer
     (insert str)
@@ -1360,6 +1360,7 @@ found in the config file."
 
 (defun git-url-to-clipboard (&optional branch)
   "Copies the current buffer's git repo URL to the clipboard."
+  (interactive)
   (string-to-clipboard (git-url branch)))
 
 ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
@@ -1375,6 +1376,11 @@ found in the config file."
 
 (defalias #'unwrap #'unfill-paragraph)
 
+;;; Shellcheck
+(defun shellcheck ()
+  "Runs `shellcheck' on the current file in a compile buffer."
+  (interactive)
+  (compile (concat "shellcheck " (file-name-nondirectory (buffer-file-name)))))
 
 ;;; Music
 (set-register ?f "♭")
