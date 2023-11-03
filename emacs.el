@@ -1035,6 +1035,7 @@ Else, do nothing if the current buffer's major mode is not
 ;; Dired-mode
 ;;
 (put 'dired-find-alternate-file 'disabled nil)
+(setq dired-listing-switches "-alh")
 (defun my-dired-only-show (only-string)
   "Only show files that match a regular expression."
   (interactive "sOnly show files that match regexp: ")
