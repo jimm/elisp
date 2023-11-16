@@ -51,8 +51,8 @@ whitespace-only string."
   ;; says that this should be fixed in v27, but I need this for at least
   ;; 27.2.2.
   ;; (when (and (version< emacs-version "26.3") (>= libgnutls-version 30603))
-    (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-    ;; )
+  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+  ;; )
   (package-initialize))
 
 ;;; Signatures
@@ -167,7 +167,7 @@ do so when `this-command' is one of the commands in
 (defun clisp ()
   (interactive)
   (-set-lisp-and-run "clisp"))
-  
+
 (defun clojure ()
   (interactive)
   (-set-lisp-and-run "lein repl"))
@@ -249,7 +249,7 @@ do so when `this-command' is one of the commands in
             (define-key elixir-mode-map "\C-cd" #'debug-comment)
             (define-key elixir-mode-map "\C-cx" 'executable-interpret)
             (add-hook 'before-save-hook #'elixir-format nil t)))
-            ;; (when-fboundp-call alchemist-mode)))
+;; (when-fboundp-call alchemist-mode)))
 
 ;;; Alchemist
 
@@ -268,7 +268,7 @@ unchanged."
             (-set-dir-var "ELIXIR_HOME" alchemist-goto-elixir-source-dir)
             (-set-dir-var "ERLANG_HOME" alchemist-goto-erlang-source-dir)
             (define-key alchemist-mode-map "\C-c\C-z"
-              #'alchemist-iex-project-run)
+                        #'alchemist-iex-project-run)
             (add-hook 'before-save-hook #'elixir-format nil t)))
 
 ;;; EMMS
@@ -344,7 +344,7 @@ unchanged."
 
 ;;; Markdown
 (ignore-errors		       ; some systems don't have markdown-mode
-    (require 'markdown-mode)                ; so my themes will bind correctly
+  (require 'markdown-mode)                ; so my themes will bind correctly
   (add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\|mdown\\)$" . markdown-mode))
   (add-hook 'markdown-mode-hook
 	    (lambda ()
@@ -465,7 +465,7 @@ unchanged."
              '("\\.properties$" . java-properties-generic-mode))
 
 ;; Ubuntu stuff
-;(menu-bar-enable-clipboard)
+                                        ;(menu-bar-enable-clipboard)
 (setq x-select-enable-clipboard t
       mouse-drag-copy-region t)
 (when-fboundp-call set-scroll-bar-mode 'right)
@@ -569,7 +569,7 @@ Goes backward if ARG is negative; error if CHAR not found."
   (backward-char))
 
 (defun string-to-clipboard (str)
-"Saves string `str' to the kill ring and GUI clipboard."
+  "Saves string `str' to the kill ring and GUI clipboard."
   (interactive)
   (with-temp-buffer
     (insert str)
@@ -674,7 +674,7 @@ given `foo.rb'. Default file-name is current buffer's name."
         ("\\.CC$" .  ((".HH" ".H" ".hh" ".h")))
         ("\\.HH$" .  ((".CC" ".C")))
         ("\\.cxx$" .  ((".hh" ".h" ".hxx")))
-      ))
+        ))
 
 ;;;
 ;;; Misc.
@@ -792,10 +792,10 @@ This function is also used by an Org Mode custom link."
 			      (car date-list)
 			      (caddr date-list)))))
 
-;(setq browse-url-generic-program "mozilla-firefox")
+                                        ;(setq browse-url-generic-program "mozilla-firefox")
 (setq browse-url-generic-program "open")
 
-; Java class Javadoc lookup
+                                        ; Java class Javadoc lookup
 (defvar *my-javadoc-url*
   "http://download.oracle.com/javase/1.5.0/docs/api/"
   "The start of the URL to use to open Java API docs. Override this when
@@ -811,7 +811,7 @@ you have a local copy, for example.")
 ;;
 ;; Tramp
 ;;
-; (setq tramp-default-method "scp")
+                                        ; (setq tramp-default-method "scp")
 (defun debug-tramp ()
   (interactive)
   (setq tramp-debug-buffer t
@@ -1000,7 +1000,7 @@ Save the current buffer, run `crystal tool format' against the
 file, and revert the buffer, loading any changes.
 
 If ARG is > 1, force formatting even if
-*prevent-python-formatting* is `nil'. ARG is 1 by default.
+*prevent-crystal-formatting* is `nil'. ARG is 1 by default.
 
 Else, do nothing if the current buffer's major mode is not
 `crystal-mode' or if the buffer-local variable
@@ -1310,7 +1310,7 @@ http://dfan.org/blog/2009/02/19/emacs-dedicated-windows/"
   (reverse-region (point-min) (point-max)))
 
 (defun -git-url-and-branch-from-config (git-config-file)
-"Reads GIT-CONFIG-FILE and returns a two element list of the
+  "Reads GIT-CONFIG-FILE and returns a two element list of the
 form (github-url first-branch)."
   (with-temp-buffer
     (insert-file-contents git-config-file)

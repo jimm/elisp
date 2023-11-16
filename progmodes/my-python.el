@@ -13,9 +13,7 @@
             ;; that already exist in Python mode
             (define-key python-mode-map "\M-[" #'python-indent-shift-left)
             (define-key python-mode-map "\M-]" #'python-indent-shift-right)
-            (python-black-on-save-mode)))
-(when (fboundp #'py-isort-before-save)
-  (add-hook 'before-save-hook 'py-isort-before-save))
+	    (python-black-on-save-mode)))
 
 ;;; Based on pyenv-mode-auto (https://github.com/ssbb/pyenv-mode-auto)
 (defun pyenv-mode-auto-hook ()
