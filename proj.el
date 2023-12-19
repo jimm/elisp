@@ -68,7 +68,9 @@ directory's root git repo directory.
 By default, reads the regex from the minibuffer. With a prefix
 ARG, initializes the search string with the current symbol at
 point. If ARG is 16 (C-uC-u prefix), adds word boundary regex
-markers before and after the current symbol."
+markers before and after the current symbol.
+
+Each line of output is truncated to a max of 240 characters."
   (interactive "P")
   (let* ((symbol-at-point (thing-at-point 'symbol))
          (regexp (if (and arg (symbol-at-point))
