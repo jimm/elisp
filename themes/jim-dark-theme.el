@@ -16,7 +16,8 @@
    `(org-block-end-line ((t (:background "gray30"))))
    `(org-table ((t (:foreground "mint cream"
                     :background "gray 30"))))
-   `(org-code ((t (:foreground "cyan"))))
+   `(org-code ((t (:foreground "cyan"
+                   :background "grey10"))))
 
 
    `(markdown-header-face-2 ((t (:foreground "white" :bold t))))
