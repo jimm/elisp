@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: puts "" # DEBUG
+# name: warn "" # DEBUG
 # key: prd
 # --
 warn "$0" # DEBUG

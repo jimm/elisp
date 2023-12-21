@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: puts "" if $DEBUG
+# key: pd
+# --
+puts "$0" if $DEBUG
