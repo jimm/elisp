@@ -1348,7 +1348,8 @@ found in the config file."
             "/blob/"
             (or branch default-branch)
             "/" dir-path-to-file
-            "#L" (int-to-string (line-number-at-pos)))))
+            (let ((n (line-number-at-pos)))
+              (when (> n 1) (concat "#L" (int-to-string n)))))))
 
 (defun git-open (&optional branch)
   "Opens current buffer's file on Github. The git user and repo name are
