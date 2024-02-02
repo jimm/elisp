@@ -1309,24 +1309,41 @@ http://dfan.org/blog/2009/02/19/emacs-dedicated-windows/"
   (replace-regexp-in-region "^[0-9]+," "" (point-min) (point-max))
   (reverse-region (point-min) (point-max)))
 
-(defun -git-url-and-branch-from-config (git-config-file)
-  "Reads GIT-CONFIG-FILE and returns a two element list of the
-form (github-url first-branch)."
-  (with-temp-buffer
-    (insert-file-contents git-config-file)
-    (let ((default-branch (save-excursion
-                            (let ((beg (search-forward "[branch \"")))
-                              (buffer-substring-no-properties beg (1- (search-forward "\""))))))
-          (url (save-excursion
-                 (let ((beg (search-forward "url = ")))
-                   (end-of-line)
-                   (buffer-substring-no-properties beg (point))))))
-      (setf url (replace-regexp-in-string "git@" "https://" url))
-      ;; Replace the non-protocol ":" with "/"
-      (setf url (replace-regexp-in-string "\\([a-z]\\):\\([a-z]\\)" "\\1/\\2" url))
-      (setf url (replace-regexp-in-string "\\.git$" "" url))
-      (list url default-branch))))
 
+;;; Git
+
+(defun -git-root-dir ()
+  "Returns the current file's repo root directory."
+  (expand-file-name (locate-dominating-file (buffer-file-name) ".git")))
+
+(defun -git-path-to-current-file ()
+  "Returns the path from the current file's repo root directory to
+the current file. Includes the filename."
+  (let* ((path (buffer-file-name))
+         (git-root-dir (expand-file-name (locate-dominating-file path ".git"))))
+    (substring path (length git-root-dir))))
+
+(defun -git-url-and-branch-from-config ()
+  "Reads the git config file associated with the current buffer's
+file and returns a two element list of the form (github-url
+first-branch)."
+  (let ((fname (concat
+                (expand-file-name (locate-dominating-file (buffer-file-name) ".git"))
+                ".git/config")))
+    (with-temp-buffer
+      (insert-file-contents fname)
+      (let ((default-branch (save-excursion
+                              (let ((beg (search-forward "[branch \"")))
+                                (buffer-substring-no-properties beg (1- (search-forward "\""))))))
+            (url (save-excursion
+                   (let ((beg (search-forward "url = ")))
+                     (end-of-line)
+                     (buffer-substring-no-properties beg (point))))))
+        (setf url (replace-regexp-in-string "git@" "https://" url))
+        ;; Replace the non-protocol ":" with "/"
+        (setf url (replace-regexp-in-string "\\([a-z]\\):\\([a-z]\\)" "\\1/\\2" url))
+        (setf url (replace-regexp-in-string "\\.git$" "" url))
+        (list url default-branch)))))
 
 ;;; Git URL and browser-opening funcs
 
@@ -1338,17 +1355,16 @@ corresponding `.git/config' file.
 Branch is BRANCH, defaulting to the value of the first branch
 found in the config file."
   (interactive)
-  (let* ((path (buffer-file-name))
-         (git-root-dir (expand-file-name (locate-dominating-file path ".git")))
-         (dir-path-to-file (substring path (length git-root-dir)))
-         (url-and-branch (-git-url-and-branch-from-config (concat git-root-dir ".git/config")))
+  (let* ((dir-path-to-file (-git-path-to-current-file))
+         (url-and-branch (-git-url-and-branch-from-config))
          (url (car url-and-branch))
          (default-branch (cadr url-and-branch)))
     (concat url
             "/blob/"
             (or branch default-branch)
             "/" dir-path-to-file
-            "#L" (int-to-string (line-number-at-pos)))))
+            (let ((n (line-number-at-pos)))
+              (when (> n 1) (concat "#L" (int-to-string n)))))))
 
 (defun git-open (&optional branch)
   "Opens current buffer's file on Github. The git user and repo name are
