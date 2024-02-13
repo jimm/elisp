@@ -3,6 +3,10 @@
                         (concat *my-pim-dir* "orgs/todo.org"))
       *my-eshell-vcs-maxlen* 20
       *my-eshell-vcs-del-prefix* "jm-"
+      *status-file* (concat *my-pim-dir*
+                            "orgs/work/seat_geek/status_"
+                            (format-time-string "%Y")
+                            ".org")
       emms-source-file-default-directory "~/Documents/Dropbox/Music/music/"
       Buffer-menu-name-width 24
       user-email-address "jmenard@seatgeek.com"
@@ -159,14 +163,21 @@ the buffer and start the API poetry shell."
   (goto-char (point-min))
   (forward-line 2))
 
+(defun store-link-and-path (&optional arg)
+  "Calls `org-store-link` and saves the path from the repo root
+to current file as a dotted module path into register p."
+  (interactive)
+  (org-store-link arg t)
+  (let ((dir-path-to-file (-git-path-to-current-file)))
+    (set-register ?p
+                  (replace-regexp-in-string
+                   "/"
+                   "."
+                   (file-name-sans-extension dir-path-to-file)))))
+
 ;;; ================ key bindings ================
 
 (require 'status)
-(global-set-key [f4]
-                (lambda () (interactive) (find-file (car org-agenda-files))))
+(global-set-key [f4] #'store-link-and-path)
 (global-set-key [f5] #'status)
-(setq *status-file* (concat *my-pim-dir*
-                            "orgs/work/seat_geek/status_"
-                            (format-time-string "%Y")
-                            ".org"))
 (global-set-key [f8] #'api-tests)
