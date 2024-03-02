@@ -24,6 +24,8 @@
    `(markdown-header-face-3 ((t (:foreground "purple"))))
    `(markdown-header-face-4 ((t (:foreground "red"))))
    `(markdown-header-face-5 ((t (:foreground "green"))))
+
+   `(cypher-variable-face ((t (:foreground "white"))))
    ))
 
 (provide-theme 'jim-dim)
