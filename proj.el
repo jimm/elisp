@@ -9,10 +9,10 @@
                (file-name-nondirectory file-or-dir))))
     ;; This will be ever so slightly faster if you put more-frequently used
     ;; files nearer to the front of the list.
-    (find t (mapcar (lambda (f) (file-exists-p (concat dir f)))
-                    '("Makefile" "mix.exs" "shard.yml"  "tox.ini" "Rakefile"
-                      "project.clj" "main.go" "pkg" "makefile" "pom.xml"
-                      "Cargo.toml" "cargo.toml" "build.xml" "build.sbt")))))
+    (member t (mapcar (lambda (f) (file-exists-p (concat dir f)))
+                      '("Makefile" "mix.exs" "shard.yml"  "tox.ini" "Rakefile"
+                        "project.clj" "main.go" "pkg" "makefile" "pom.xml"
+                        "Cargo.toml" "cargo.toml" "build.xml" "build.sbt")))))
 
 (defun makeup (&optional args)
   "Finds the first build file in the default directory or any
