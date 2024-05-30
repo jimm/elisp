@@ -1,9 +1,5 @@
 ;; See http://www.zachtronics.com/tis-100/
 
-;; (defface keymaster-note-face
-;;   '((t (:foreground "ForestGreen")))
-;;   "keymaster mode option face")
-
 (define-generic-mode tis-100-mode
   '(";" )                               ; comment-list
   '(                                    ; keyword-list

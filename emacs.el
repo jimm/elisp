@@ -1409,6 +1409,10 @@ found in the config file."
   (interactive "FFile: ")
   (call-process "screencapture" nil nil nil "-i" file))
 
+;;; sequencediagram.org
+(autoload #'sequence-diagram-mode "sequence-diagram-mode" "Sequence Diagram mode" t nil)
+(add-to-list 'auto-mode-alist '("\\.seqd$" . sequence-diagram-mode))
+
 ;;; Key bindings, both common and local to the current machine.
 ;;; See README.org.
 (load "keys")
