@@ -1413,6 +1413,10 @@ found in the config file."
 (autoload #'sequence-diagram-mode "sequence-diagram-mode" "Sequence Diagram mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.seqd$" . sequence-diagram-mode))
 
+;;; plantuml.com
+(autoload #'sequence-diagram-mode "plant-uml-mode" "PlantUML mode" t nil)
+(add-to-list 'auto-mode-alist '("\\.puml$" . plant-uml-mode))
+
 ;;; Key bindings, both common and local to the current machine.
 ;;; See README.org.
 (load "keys")
