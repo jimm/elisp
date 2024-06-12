@@ -1394,10 +1394,14 @@ found in the config file."
 (defalias #'unwrap #'unfill-paragraph)
 
 ;;; Shellcheck
-(defun shellcheck ()
-  "Runs `shellcheck' on the current file in a compile buffer."
-  (interactive)
-  (compile (concat "shellcheck " (file-name-nondirectory (buffer-file-name)))))
+(defun shellcheck (arg)
+  "Runs `shellcheck' on the current file in a compile buffer.
+
+When ARG is > 1, adds the `-x` command line option."
+  (interactive "p")
+  (compile (concat "shellcheck "
+                   (when (/= arg 1) "-x ")
+                   (file-name-nondirectory (buffer-file-name)))))
 
 ;;; Music
 (set-register ?f "♭")
