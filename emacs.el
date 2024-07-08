@@ -1413,6 +1413,9 @@ When ARG is > 1, adds the `-x` command line option."
   (interactive "FFile: ")
   (call-process "screencapture" nil nil nil "-i" file))
 
+;;; Swift
+(autoload #'swift-mode "swift-mode" "Swift mode" t nil)
+
 ;;; sequencediagram.org
 (autoload #'sequence-diagram-mode "sequence-diagram-mode" "Sequence Diagram mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.seqd$" . sequence-diagram-mode))
