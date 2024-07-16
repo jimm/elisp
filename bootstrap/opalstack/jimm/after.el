@@ -1,2 +1,5 @@
 (setq crypt-encryption-type 'gpg)
+(require 'epa-file)
+(custom-set-variables '(epg-gpg-program  "/usr/bin/gpg2"))
+(epa-file-enable)
 (when-fboundp-call menu-bar-mode -1)
