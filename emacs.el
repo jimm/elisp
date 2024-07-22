@@ -1424,6 +1424,9 @@ When ARG is > 1, adds the `-x` command line option."
 (autoload #'sequence-diagram-mode "plant-uml-mode" "PlantUML mode" t nil)
 (add-to-list 'auto-mode-alist '("\\.puml$" . plant-uml-mode))
 
+;;; Nov.el ePub reader
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+
 ;;; Key bindings, both common and local to the current machine.
 ;;; See README.org.
 (load "keys")
