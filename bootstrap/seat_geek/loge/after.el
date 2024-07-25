@@ -12,8 +12,8 @@
       user-email-address "jmenard@seatgeek.com"
       rubocopfmt-use-bundler-when-possible nil
       ;; https://docspring.com/blog/posts/making-rubocop-20-times-faster/
-      rubocopfmt-rubocop-command "rubocop-daemon-wrapper"
-      ns-right-command-modifier 'meta)  ; for Win kbd at office
+      rubocopfmt-rubocop-command "rubocop-daemon-wrapper")
+      ;; ns-right-command-modifier 'meta)  ; for Win kbd at office
 
 (load-theme 'jim-light)
 
@@ -46,8 +46,11 @@ here."
 (defun my-org-mode-repo-link (repo-name)
   (concat "https://gitlab.seatgeekadmin.com/" repo-name))
 
+
 (add-to-list 'org-link-abbrev-alist
              '("repo" . "%(my-org-mode-repo-link)"))
+
+(put 'my-org-mode-repo-link 'org-link-abbrev-safe t)
 
 ;; Org Mode jira: link
 (defvar sg-jira-abbreviations-alist
@@ -78,6 +81,8 @@ abbreviations. Abbreviations must be found in
 (add-to-list 'org-link-abbrev-alist
              '("jira" . "%(my-org-mode-jira-link)"))
 
+(put 'my-org-mode-jira-link 'org-link-abbrev-safe t)
+
 ;; Org Mode mr: link
 
 (defvar sg-mr-abbreviations-alist
@@ -105,6 +110,8 @@ Abbreviations must be found in `sg-mr-abbreviations-alist'."
 
 (add-to-list 'org-link-abbrev-alist
              '("mr" . "%(my-org-mode-mr-link)"))
+
+(put 'my-org-mode-mr-link 'org-link-abbrev-safe t)
 
 (defun wiki-home ()
 "Opens the SeatGeek wiki home page."

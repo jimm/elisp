@@ -40,4 +40,6 @@ this function."
     (load-file (concat *my-emacs-lib-dir* "bootstrap/mac-before.el")))
   (load-init-if-exists "before")
   (load-library "emacs")
+  (when (eq system-type 'darwin)
+    (load-file (concat *my-emacs-lib-dir* "bootstrap/mac-after.el")))
   (load-init-if-exists "after"))

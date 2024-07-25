@@ -229,15 +229,13 @@ do so when `this-command' is one of the commands in
             (set (make-local-variable 'tab-width) 2)))
 
 ;;; dash
-(eval-after-load "dash" '(dash-enable-font-lock))
+(use-package dash
+  :config
+  (dash-enable-font-lock))
 
 ;;; Magit
-(when (fboundp #'magit)
-  (require 'magit))
-(when (fboundp #'forge)
-  (with-eval-after-load 'magit
-    (setq auth-soruces '("~/.authinfo"))
-    (require 'forge)))
+(use-package magit
+  :ensure t)
 
 ;;; dumb-jump
 (when-fboundp-call dumb-jump-mode)
@@ -1421,17 +1419,17 @@ When ARG is > 1, adds the `-x` command line option."
 (add-to-list 'auto-mode-alist '("\\.seqd$" . sequence-diagram-mode))
 
 ;;; plantuml.com
-(autoload #'sequence-diagram-mode "plant-uml-mode" "PlantUML mode" t nil)
-(add-to-list 'auto-mode-alist '("\\.puml$" . plant-uml-mode))
+(use-package plantuml-mode
+  :defer t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.puml$" . plant-uml-mode)))
 
 ;;; Nov.el ePub reader
-(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+(use-package nov
+  :defer t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.epub$" . nov-mode)))
 
 ;;; Key bindings, both common and local to the current machine.
 ;;; See README.org.
 (load "keys")
-
-;; Start Emacs server
-(when (fboundp #'server-running-p)
-  (unless (server-running-p)
-    (server-start)))
