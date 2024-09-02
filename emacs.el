@@ -332,6 +332,9 @@ unchanged."
             (setq js-indent-level 2     ; need both?????
                   javascript-indent-level 2)))
 
+;;; JSON
+(add-to-list 'auto-mode-alist '("\\.kmst$" . js-json-mode)) ; KeyMaster JSON files
+
 (setq js2-basic-offset 2)
 ;;(setq js2-use-font-lock-faces t)
 
