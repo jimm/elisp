@@ -15,7 +15,7 @@
             ;; that already exist in Python mode
             (define-key python-mode-map "\M-[" #'python-indent-shift-left)
             (define-key python-mode-map "\M-]" #'python-indent-shift-right)
-	    (ruff-format-on-save)))
+	    (ruff-format-on-save-mode)))
 
 ;;; Based on pyenv-mode-auto (https://github.com/ssbb/pyenv-mode-auto)
 (defun pyenv-mode-auto-hook ()

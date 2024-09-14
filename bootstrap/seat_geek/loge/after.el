@@ -149,6 +149,13 @@ Abbreviations must be found in `sg-mr-abbreviations-alist'."
         (concat test-path "::" (replace-regexp-in-string "\\." "::" curr-func))
       test-path)))
 
+(defun api-checks (script-args)
+  "Runs my api-checks script in the API code directory."
+  (interactive "sapi-checks arguments: ")
+  (let ((default-directory
+          (locate-dominating-file (buffer-file-name (current-buffer)) ".git")))
+    (compile (concat "api-checks " script-args))))
+
 (defun api-tests (&optional arg)
   "Runs the test in the current buffer's file by sending the proper command to
 a terminal.
