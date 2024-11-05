@@ -1410,16 +1410,28 @@ When ARG is > 1, adds the `-x` command line option."
 
 (defun mac-screenshot (&optional file)
   "Calls the Mac OS screen capture utility and saves the PNG to
-`file'."
-  (interactive "FFile: ")
+`file'.
+
+From the man page:
+- control: send to clipboard
+- space: toggle between mouse and window selection
+- escape: cancel"
+  (interactive (list (read-string
+                      "File: "
+                      (concat "/tmp/screenshot_"
+                              (format-time-string "%Y-%m-%d_%H:%M:%S")
+                              ".png"))))
   (call-process "screencapture" nil nil nil "-i" file))
 
 ;;; Swift
-(autoload #'swift-mode "swift-mode" "Swift mode" t nil)
+(use-package swift-mode
+  :defer t)
 
 ;;; sequencediagram.org
-(autoload #'sequence-diagram-mode "sequence-diagram-mode" "Sequence Diagram mode" t nil)
-(add-to-list 'auto-mode-alist '("\\.seqd$" . sequence-diagram-mode))
+(use-package sequence-diagram-mode
+  :defer t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.seqd$" . sequence-diagram-mode)))
 
 ;;; plantuml.com
 (use-package plantuml-mode

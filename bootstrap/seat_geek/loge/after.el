@@ -92,7 +92,8 @@ abbreviations. Abbreviations must be found in
     ("sg" . "consumer/seatgeek")
     ("box" . "jmenard/sandbox")
     ("rsc" . "consumer/rescraper")
-    ("perf" . "consumer/auto-perf-test")))
+    ("perf" . "consumer/auto-perf-test")
+    ("sro" . "sro/sro4")))
 
 (defun sg-repo-link (repo-name)
   (concat "https://gitlab.seatgeekadmin.com/" repo-name))
