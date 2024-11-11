@@ -55,6 +55,30 @@ whitespace-only string."
   ;; )
   (package-initialize))
 
+;;
+;; PIM
+;;
+(defvar *my-pim-dir* "~/pim/")
+(setq diary-file (concat *my-pim-dir* "diary"))
+(when-fboundp-call appt-activate 1)	; appointment notification
+
+(defun address (str)
+  "Find STR in my address book file. Looks first for STR as the
+beginning of a name, then at the beginning of any line. If not
+found, looks for the first occurrence of STR anywhere.
+
+This function is also used by an Org Mode custom link."
+  (interactive "sSearch string: ")
+  (let ((search-str (replace-regexp-in-string "+" " " str))
+        (current-buf (current-buffer)))
+    (find-file (concat *my-pim-dir* "orgs/address_book.org"))
+    (goto-char (point-min))
+    (or
+     (search-forward (concat "\n\n" search-str) nil t)
+     (search-forward (concat "\n" search-str) nil t)
+     (search-forward search-str nil t)
+     (error (concat "\"" search-str "\" not found")))))
+
 ;;; Signatures
 ;;;
 ;;; This section must come before my eshell initialization.
@@ -757,29 +781,6 @@ a simple algorithm that may grow over time if needed."
       (forward-char)
       (unless is-space (insert " ")))
     (insert "DEBUG")))
-
-;;
-;; PIM
-;;
-(setq diary-file (concat *my-pim-dir* "diary"))
-(when-fboundp-call appt-activate 1)	; appointment notification
-
-(defun address (str)
-  "Find STR in my address book file. Looks first for STR as the
-beginning of a name, then at the beginning of any line. If not
-found, looks for the first occurrence of STR anywhere.
-
-This function is also used by an Org Mode custom link."
-  (interactive "sSearch string: ")
-  (let ((search-str (replace-regexp-in-string "+" " " str))
-        (current-buf (current-buffer)))
-    (find-file (concat *my-pim-dir* "orgs/address_book.org"))
-    (goto-char (point-min))
-    (or
-     (search-forward (concat "\n\n" search-str) nil t)
-     (search-forward (concat "\n" search-str) nil t)
-     (search-forward search-str nil t)
-     (error (concat "\"" search-str "\" not found")))))
 
 ;;
 ;; Browse away!
