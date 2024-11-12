@@ -31,7 +31,8 @@ passing on any args given to this script."
 (setq grep-find-ignored-directories
       (append (list
                "tmp" "target" "ebin" "_build" "_site" ".vagrant" "node_modules"
-               ".tox" "virtualenv" "venv" "__pycache__" "dist" "_dist")
+               ".tox" "virtualenv" "venv" "__pycache__" "dist" "_dist"
+               "__nugetartifacts")
               grep-find-ignored-directories)
 
       grep-find-ignored-files
@@ -40,7 +41,7 @@ passing on any args given to this script."
        "*.png" "*.gif" "*.jpg" "*.jpeg"
        ".#*" "*.o" "*~" "*.so" "*.a" "*.elc"
        "*.class" "*.lib" "*.lo" "*.la" "*.toc" "*.aux"
-       "*.pyc" "*.pyo")
+       "*.pyc" "*.pyo" "*.dll")
 
       grep-find-use-xargs 'gnu)
 ;;
@@ -83,7 +84,7 @@ Each line of output is truncated to a max of 240 characters."
          (case-ignore-flag (and (isearch-no-upper-case-p regexp t) "-i"))
          (cmd (concat "git grep --extended-regexp --line-number --full-name"
                       " --untracked " case-ignore-flag " -- '" regexp "'"
-                      " | cut -c -240")))
+                      (when (not (equal system-type 'windows-nt)) " | cut -c -240"))))
     (while (equal "" regexp)
         (setq regexp (read-from-minibuffer
                       "Search regexp (must not be the empty string): " nil nil nil 'grep-find-history)))
@@ -109,7 +110,7 @@ specific to Python/Ruby because we look for \"def current_symbol\\b\"."
          (cmd (concat "git grep --perl-regexp --line-number --full-name"
                       " --untracked " case-ignore-flag " '" regexp "'"
                       (unless arg ignore-def-grep)
-                      " | cut -c -240")))
+                      (when (not (equal system-type 'windows-nt)) " | cut -c -240"))))
     (grep-find cmd)))
 
 ;;; ================================================================

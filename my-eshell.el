@@ -39,7 +39,9 @@ PWD is not in a git repo (or the git command is not found)."
   (interactive)
   (when (and (eshell-search-path "git")
              (locate-dominating-file pwd ".git"))
-    (let* ((git-output (shell-command-to-string "git symbolic-ref HEAD | sed -e 's,refs/heads/,,'"))
+    (let* ((git-output (substring
+                        (shell-command-to-string "git symbolic-ref HEAD")
+                        (length "refs/heads/") ))
            (raw-branch-name (if (> (length git-output) 0) (substring git-output 0 -1) ""))
            (branch (cond
                     ((or
