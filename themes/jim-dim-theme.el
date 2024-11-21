@@ -5,8 +5,8 @@
                             'org-block-background)))
   (custom-theme-set-faces
    'jim-dim
-   `(default ((t (:foreground "white" :background "dark slate gray"))))
-   `(mode-line ((t (:foreground "black" :background "orange"))))
+   `(default ((t (:foreground "white" :background "#574e68"))))
+   `(mode-line ((t (:foreground "black" :background "darkorange2"))))
    `(eshell-prompt ((t (:foreground "LightBlue" :bold t))))
 
    `(org-level-2 ((t (:foreground "yellow3" :dim t))))
@@ -21,7 +21,7 @@
 
 
    `(markdown-header-face-2 ((t (:foreground "white" :bold t))))
-   `(markdown-header-face-3 ((t (:foreground "purple"))))
+   `(markdown-header-face-3 ((t (:foreground "lightgreen"))))
    `(markdown-header-face-4 ((t (:foreground "red"))))
    `(markdown-header-face-5 ((t (:foreground "green"))))
 
