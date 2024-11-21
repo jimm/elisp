@@ -83,8 +83,8 @@ Each line of output is truncated to a max of 240 characters."
          (default-directory (git-root-dir))
          (case-ignore-flag (and (isearch-no-upper-case-p regexp t) "-i"))
          (cmd (concat "git grep --extended-regexp --line-number --full-name"
-                      " --untracked " case-ignore-flag " -- '" regexp "'"
-                      (when (not (equal system-type 'windows-nt)) " | cut -c -240"))))
+                      " --untracked " case-ignore-flag " -- '" regexp
+                      "' | cut -c -240")))
     (while (equal "" regexp)
         (setq regexp (read-from-minibuffer
                       "Search regexp (must not be the empty string): " nil nil nil 'grep-find-history)))
