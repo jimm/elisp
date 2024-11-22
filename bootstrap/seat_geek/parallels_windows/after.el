@@ -15,6 +15,9 @@
       rubocopfmt-rubocop-command "rubocop-daemon-wrapper")
       ;; ns-right-command-modifier 'meta)  ; for Win kbd at office
 
+(setenv "sro" "d:/SroDev/sro4")
+(setenv "el" "c:/Users/jmena/AppData/Roaming/.emacs.d/elisp")
+
 (load-theme 'jim-light)
 
 (defvar sg-git-internal-domain "gitlab.service.seatgeek.mgmt")
