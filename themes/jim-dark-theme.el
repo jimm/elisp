@@ -9,6 +9,7 @@
    `(mode-line ((t (:foreground "black" :background "orange"))))
    `(eshell-prompt ((t (:foreground "LightBlue" :bold t))))
 
+   `(org-level-2 ((t (:foreground "lightblue" :bold t))))
    `(org-level-2 ((t (:foreground "yellow" :bold t))))
    `(,org-mode-block-sym ((t (:foreground "white"
                      :background "gray20"))))

@@ -13,9 +13,19 @@
       rubocopfmt-use-bundler-when-possible nil
       ;; https://docspring.com/blog/posts/making-rubocop-20-times-faster/
       rubocopfmt-rubocop-command "rubocop-daemon-wrapper")
-      ;; ns-right-command-modifier 'meta)  ; for Win kbd at office
+      ;; ns-right-command-modifier 'meta   ; for Win kbd at office
 
 (load-theme 'jim-light)
+
+(use-package chatgpt-shell)
+(setq chatgpt-shell-openai-key (getenv "OPENAI_API_KEY")
+      chatgpt-shell-models (cons
+                            (chatgpt-shell-openai-make-model
+                             :version "gtp-4o"
+                             :token-width 3
+                             :context-window 12800)
+                            chatgpt-shell-models))
+
 
 (defvar sg-git-internal-domain "gitlab.service.seatgeek.mgmt")
 (defvar sg-git-external-domain "gitlab.seatgeekadmin.com")
