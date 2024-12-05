@@ -17,14 +17,16 @@
 
 (load-theme 'jim-light)
 
-(use-package chatgpt-shell)
-(setq chatgpt-shell-openai-key (getenv "OPENAI_API_KEY")
-      chatgpt-shell-models (cons
-                            (chatgpt-shell-openai-make-model
-                             :version "gtp-4o"
-                             :token-width 3
-                             :context-window 12800)
-                            chatgpt-shell-models))
+(use-package chatgpt-shell
+  :defer t
+  :config
+  (setq chatgpt-shell-openai-key (getenv "OPENAI_API_KEY")
+        chatgpt-shell-models (cons
+                              (chatgpt-shell-openai-make-model
+                               :version "gtp-4o"
+                               :token-width 3
+                               :context-window 12800)
+                              chatgpt-shell-models)))
 
 
 (defvar sg-git-internal-domain "gitlab.service.seatgeek.mgmt")
