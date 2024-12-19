@@ -15,8 +15,7 @@
       rubocopfmt-rubocop-command "rubocop-daemon-wrapper")
       ;; ns-right-command-modifier 'meta   ; for Win kbd at office
 
-(set-background-color "ghostwhite")
-; (load-theme 'jim-light)
+(load-theme 'jim-light)
 
 (use-package chatgpt-shell
   :defer t
