@@ -259,7 +259,9 @@ do so when `this-command' is one of the commands in
 
 ;;; Magit
 (use-package magit
-  :ensure t)
+  :ensure t
+  :config
+  (setq magit-show-long-lines-warning nil))
 
 ;;; dumb-jump
 (when-fboundp-call dumb-jump-mode)
