@@ -16,6 +16,7 @@
       ;; ns-right-command-modifier 'meta   ; for Win kbd at office
 
 (load-theme 'jim-light)
+(set-background-color "gray95")
 
 (use-package chatgpt-shell
   :defer t
