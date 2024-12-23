@@ -360,6 +360,7 @@ unchanged."
 
 ;;; JSON
 (add-to-list 'auto-mode-alist '("\\.kmst$" . js-json-mode)) ; KeyMaster JSON files
+(add-to-list 'auto-mode-alist '("\\.hxl$" . js-json-mode)) ; Line 6 HX presets
 
 (setq js2-basic-offset 2)
 ;;(setq js2-use-font-lock-faces t)
