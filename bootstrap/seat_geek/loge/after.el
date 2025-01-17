@@ -17,6 +17,8 @@
 
 (load-theme 'jim-light)
 (set-background-color "gray95")
+(set-face-attribute 'org-block-begin-line nil :background "gray90")
+(set-face-attribute 'org-block-end-line nil :background "gray90")
 
 (use-package chatgpt-shell
   :defer t
