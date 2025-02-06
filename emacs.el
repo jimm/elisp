@@ -51,7 +51,7 @@ whitespace-only string."
   ;; says that this should be fixed in v27, but I need this for at least
   ;; 27.2.2.
   ;; (when (and (version< emacs-version "26.3") (>= libgnutls-version 30603))
-  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+  ;; (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
   ;; )
   (package-initialize))
 
