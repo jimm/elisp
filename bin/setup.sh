@@ -12,7 +12,7 @@
 
 cd "$(dirname "$0")/.."
 ELISP_DIR="$(pwd)"
-user_emacs_dir="$HOME/.emacs.d"
+user_emacs_dir="$HOME/.config/emacs"
 bd="$ELISP_DIR/bootstrap"
 newsrc_dir=$dbox/Miscellaneous/newsrc.eld
 
