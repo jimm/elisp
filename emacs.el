@@ -254,6 +254,7 @@ do so when `this-command' is one of the commands in
 
 ;;; dash
 (use-package dash
+  :ensure t
   :config
   (dash-enable-font-lock))
 
@@ -268,11 +269,18 @@ do so when `this-command' is one of the commands in
 
 ;;; Elixir
 
-(add-hook 'elixir-mode-hook
-          (lambda ()
-            (define-key elixir-mode-map "\C-cd" #'debug-comment)
-            (define-key elixir-mode-map "\C-cx" 'executable-interpret)
-            (add-hook 'before-save-hook #'elixir-format nil t)))
+(use-package elixir-mode
+  :ensure t
+  :config
+  (add-hook 'elixir-mode-hook
+            (lambda ()
+              (define-key elixir-mode-map "\C-cd" #'debug-comment)
+              (define-key elixir-mode-map "\C-cx" 'executable-interpret)
+              (add-hook 'before-save-hook #'elixir-format nil t))))
+
+(use-package alchemist
+  :ensure t)
+
 ;; (when-fboundp-call alchemist-mode)))
 
 ;;; Alchemist
@@ -477,11 +485,16 @@ unchanged."
       uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
 
 ;;; YASnippet
-(when (fboundp #'yas-global-mode)
+(use-package yasnippet
+  :ensure t
+  :config
   (yas-global-mode 1)
   (let ((snip-dir (concat *my-emacs-lib-dir* "snippets")))
     (setq yas-snippet-dirs (list snip-dir))
     (yas-load-directory snip-dir t)))
+
+(use-package yasnippet-snippets
+  :ensure t)
 
 ;;; YAML
 (autoload #'yaml-mode "yaml-mode" nil t)
