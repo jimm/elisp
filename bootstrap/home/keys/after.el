@@ -1,6 +1,6 @@
 (load-theme 'jim-light)
 
-(defvar work-orgs-dir "warby_parker"
+(defvar work-orgs-dir nil
   "Name of $pim/orgs/work subdir where I keep work-related Org mode files.")
 
 (setq dired-use-ls-dired nil
@@ -15,3 +15,5 @@
 
 (add-to-list 'org-link-abbrev-alist
              '("repo" . "%(my-org-mode-repo-link)"))
+
+(put 'my-org-mode-repo-link 'org-link-abbrev-safe t)
