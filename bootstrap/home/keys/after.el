@@ -1,8 +1,5 @@
 (load-theme 'jim-light)
 
-(defvar work-orgs-dir nil
-  "Name of $pim/orgs/work subdir where I keep work-related Org mode files.")
-
 (setq dired-use-ls-dired nil
       browse-url-generic-program "open"
       Man-switches "-M /usr/share/man:/usr/local/share/man"
