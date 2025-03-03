@@ -225,8 +225,9 @@ do so when `this-command' is one of the commands in
   (setq ido-enable-flex-matching t))
 
 ;;; fix-ido
-(when (boundp #'flx-ido-mode)
-  (require 'flx-ido)
+(use-package flx-ido
+  :ensure t
+  :config
   (ido-mode 1)
   (ido-everywhere 1)
   (flx-ido-mode 1)
@@ -640,6 +641,9 @@ insert it at point. See `generate-random-password`."
 ;;
 
 ;; Uses ace-window
+(use-package ace-window
+  :ensure t)
+
 (defun nth-other-window (n)
   (interactive)
   (let ((wnd-list (aw-window-list)))

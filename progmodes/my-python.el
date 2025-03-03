@@ -1,7 +1,8 @@
 (custom-set-variables
  '(python-fill-docstring-style 'pep-257-nn))
 
-(use-package ruff-format)
+(use-package ruff-format
+  :ensure t)
 
 (let ((pyenv-py "/Users/jimm/.pyenv/shims/python"))
   (when (file-exists-p pyenv-py)

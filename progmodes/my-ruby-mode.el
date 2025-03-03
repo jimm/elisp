@@ -54,6 +54,9 @@ current project."
             (setq ruby-indent-level 2)
             (font-lock-mode 1)))
 
+(use-package rubocopfmt
+  :ensure t)
+
 (when (fboundp #'rubocopfmt-mode)
   (add-hook 'ruby-mode-hook #'rubocopfmt-mode)
   (setf rubocopfmt-use-bundler-when-possible nil))

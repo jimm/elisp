@@ -6,7 +6,9 @@
  '(custom-safe-themes
    '("b6c577260232a8b6032ce5db36d3d805e40d6da6f5cf15b847b9fdc810dc87bd" default))
  '(package-selected-packages
-   '(alchemist alchemist-mode yasnippet-snippets elixir-mode elixir yasnippet janet-mode lua-mode dash ruff-format magit))
+   '(ace-window ag alchemist alchemist-mode dash elixir elixir-mode flx-ido
+                go-mode janet-mode lua-mode magit rubocopfmt ruff-format
+                yasnippet yasnippet-snippets))
  '(python-fill-docstring-style 'pep-257-nn))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
