@@ -1415,6 +1415,10 @@ found in the config file."
 
 (defalias #'unwrap #'unfill-paragraph)
 
+;;; mood-line
+(use-package mood-line
+  :ensure t)
+
 ;;; Shellcheck
 (defun shellcheck (arg)
   "Runs `shellcheck' on the current file in a compile buffer.
