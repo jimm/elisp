@@ -26,6 +26,22 @@ whitespace-only string."
 
 (setq bookmark-set-fringe-mark nil)
 
+;;
+;; Tab widths and stops.
+;;
+(defun four-tab-stops ()
+  (interactive)
+  (setq tab-stop-list
+        '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80)))
+
+(defun tab-two () (interactive) (setq tab-width 2))
+(defun tab-four () (interactive) (setq tab-width 4))
+(defun tab-eight () (interactive) (setq tab-width 8))
+
+(defalias #'t2 #'tab-two)
+(defalias #'t4 #'tab-four)
+(defalias #'t8 #'tab-eight)
+
 ;;; Version-specific configuration
 (if (version< emacs-version "24")
     (let ((f (expand-file-name "~/.emacs.d/elpa/package.el")))
@@ -334,14 +350,11 @@ unchanged."
           starttls-extra-arguments nil))
 
 ;;; Go
-(autoload #'go-mode "go-mode" t nil)
-(add-to-list 'auto-mode-alist '("\\.go$" . go-mode))
-(when (fboundp #'gofmt-before-save)
-  (add-hook 'before-save-hook #'gofmt-before-save))
-(add-hook 'go-mode-hook
-          (lambda ()
-            (tab-four)
-            (setq indent-tabs-mode t)))
+(use-package go-mode
+  :hook (before-save-hook . gofmt-before-save)
+  :custom
+  (tab-width 4)
+  (indent-tabs-mode t))
 
 ;;; Haskell
 (autoload #'haskell-mode "haskell-mode" "Haskell mode" t nil)
@@ -735,22 +748,6 @@ given `foo.rb'. Default file-name is current buffer's name."
   (interactive)
   (setq tab-stop-list
         '(8 16 24 32 40 48 56 64 72 80)))
-
-;;
-;; Set tab stops to four chars, not eight
-;;
-(defun four-tab-stops ()
-  (interactive)
-  (setq tab-stop-list
-        '(4 8 12 16 20 24 28 32 36 40 44 48 52 56 60 64 68 72 76 80)))
-
-(defun tab-two () (interactive) (setq tab-width 2))
-(defun tab-four () (interactive) (setq tab-width 4))
-(defun tab-eight () (interactive) (setq tab-width 8))
-
-(defalias #'t2 #'tab-two)
-(defalias #'t4 #'tab-four)
-(defalias #'t8 #'tab-eight)
 
 (defun capitalize-next-char ()
   "Capitalize next character and move point right 1 character."
