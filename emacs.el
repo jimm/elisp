@@ -128,6 +128,17 @@ This function is also used by an Org Mode custom link."
 ;; Add progmodes subdir to the end of load-path.
 (add-to-list 'load-path (concat *my-emacs-lib-dir* "progmodes/") t)
 
+(defun debug-comment ()
+  "Add a DEBUG comment to the current line."
+  (interactive "*")
+  (save-excursion
+    (comment-dwim nil)
+    (backward-char)
+    (let ((is-space (looking-at " ")))
+      (forward-char)
+      (unless is-space (insert " ")))
+    (insert "DEBUG")))
+
 ;;; Silent bell: flash mode line instead. Do nothing when caused by certain
 ;;; functions.
 
@@ -288,17 +299,16 @@ do so when `this-command' is one of the commands in
 
 (use-package elixir-mode
   :ensure t
-  :config
-  (add-hook 'elixir-mode-hook
-            (lambda ()
-              (define-key elixir-mode-map "\C-cd" #'debug-comment)
-              (define-key elixir-mode-map "\C-cx" 'executable-interpret)
-              (add-hook 'before-save-hook #'elixir-format nil t))))
+  :bind (:map elixir-mode-map
+              ("\C-cd" . debug-comment)
+              ("\C-cx" . executable-interpret))
+  :hook (before-save . elixir-format)
+  :custom (font-lock-mode t))
 
 (use-package alchemist
-  :ensure t)
-
-;; (when-fboundp-call alchemist-mode)))
+  :ensure t
+  :bind (:map alchemist-mode-map
+              ("\C-c\C-z" . alchemist-iex-project-run)))
 
 ;;; Alchemist
 
@@ -315,10 +325,7 @@ unchanged."
 (add-hook 'alchemist-mode-hook
           (lambda ()
             (-set-dir-var "ELIXIR_HOME" alchemist-goto-elixir-source-dir)
-            (-set-dir-var "ERLANG_HOME" alchemist-goto-erlang-source-dir)
-            (define-key alchemist-mode-map "\C-c\C-z"
-                        #'alchemist-iex-project-run)
-            (add-hook 'before-save-hook #'elixir-format nil t)))
+            (-set-dir-var "ERLANG_HOME" alchemist-goto-erlang-source-dir)))
 
 ;;; EMMS
 (when (fboundp #'emms-all)
@@ -351,7 +358,7 @@ unchanged."
 
 ;;; Go
 (use-package go-mode
-  :hook (before-save-hook . gofmt-before-save)
+  :hook (before-save . gofmt-before-save)
   :custom
   (tab-width 4)
   (indent-tabs-mode t))
@@ -787,17 +794,6 @@ a simple algorithm that may grow over time if needed."
           ((equal "i"   (substring str (- len 1))) (concat (substring str 0 (- len 1)) "us"))
           ((equal "s"   (substring str (- len 1))) (substring str 0 (- len 1)))
           (t str))))
-
-(defun debug-comment ()
-  "Add a DEBUG comment to the current line."
-  (interactive "*")
-  (save-excursion
-    (comment-dwim nil)
-    (backward-char)
-    (let ((is-space (looking-at " ")))
-      (forward-char)
-      (unless is-space (insert " ")))
-    (insert "DEBUG")))
 
 ;;
 ;; Browse away!
