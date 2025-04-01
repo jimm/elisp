@@ -344,10 +344,8 @@ unchanged."
 ;;;
 ;;; fzf
 ;;;
-(when (fboundp #'fzf)
-  (let ((local-fzf-executable "~/.fzf/bin/fzf"))
-    (when (file-exists-p local-fzf-executable)
-      (setq fzf/executable local-fzf-executable))))
+(use-package fzf
+  :ensure t)
 
 ;;; Gnus
 (setq gnus-site-init-file (concat *my-emacs-lib-dir* "gnus-init.el"))
@@ -472,7 +470,9 @@ unchanged."
 (add-to-list 'auto-mode-alist '("\\.s\\(a\\|c\\)?ss$" . sass-mode))
 
 ;;; Smex
-(when (fboundp #'smex-initialize)
+(use-package smex
+  :ensure t
+  :config
   (smex-initialize))
 
 ;;; SQL
