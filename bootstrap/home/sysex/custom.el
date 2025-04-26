@@ -8,8 +8,8 @@
  '(package-selected-packages
    '(ace-window ag alchemist alchemist-mode dash diminish elixir elixir-mode
                 flx-ido fzf go-mode janet-mode lua-mode magit markdown-mode
-                mood-line mood-line-mode rubocopfmt ruff-format smex
-                yasnippet yasnippet-snippets))
+                mermaid-mode mood-line mood-line-mode rubocopfmt ruff-format
+                smex yasnippet yasnippet-snippets))
  '(python-fill-docstring-style 'pep-257-nn))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
