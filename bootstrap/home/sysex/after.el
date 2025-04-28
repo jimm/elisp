@@ -15,3 +15,7 @@
              '("repo" . "%(my-org-mode-repo-link)"))
 
 (put 'my-org-mode-repo-link 'org-link-abbrev-safe t)
+
+;; Copilot
+(use-package copilot-chat)
+(add-hook 'git-commit-setup-hook 'copilot-chat-insert-commit-message)
