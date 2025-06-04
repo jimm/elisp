@@ -1524,10 +1524,9 @@ From the man page:
 
 ;;; Echo an HTTP response status code name to the minibuffer.
 (defun http-code-name (code &optional print-message)
-"Looks up an HTTP response status code name. When called interactively,
-outputs the name to the minibuffer. Returns the name.
+  "Returns an HTTP response status code's name. When called interactively
+or `print-message` is non-nil, also outputs the name to the minibuffer."
 
-The name is looked up in my \"notes.org\" Org Mode file."
   (interactive "nHTTP response status code: \np")
   (let* ((name (cdr (assoc code *http-response-status-codes*)))
          (code-str (int-to-string code))
@@ -1536,3 +1535,10 @@ The name is looked up in my \"notes.org\" Org Mode file."
     (when print-message
       (message retval))
     retval))
+
+(defun org-table-cell-today ()
+  "Replaces the contents of the current table cell with today's date."
+  (interactive)
+  (org-table-blank-field)
+  (insert (format-time-string "%Y-%m-%d "))
+  (org-table-align))
