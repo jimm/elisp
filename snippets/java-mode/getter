@@ -2,4 +2,4 @@
 # name: getter
 # key: getter
 # --
-public ${1:Object} get${2:$(capitalize-first-char-of-string text)}() { return ${2:ivar}; }$0
+public ${1:Object} get${2:$(capitalize-first-char-of-string yas-text)}() { return ${2:ivar}; }$0
