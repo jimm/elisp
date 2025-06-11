@@ -9,8 +9,8 @@
    '(ace-window ag alchemist alchemist-mode copilot-chat dash diminish elixir
                 elixir-mode flx-ido fzf go-mode janet-mode kotlin-mode
                 lua-mode magit markdown-mode mermaid-mode mood-line
-                mood-line-mode rubocopfmt ruff-format smex yasnippet
-                yasnippet-snippets))
+                mood-line-mode rubocopfmt ruff-format smex yaml-mode
+                yasnippet yasnippet-snippets))
  '(python-fill-docstring-style 'pep-257-nn))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

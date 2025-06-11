@@ -83,7 +83,7 @@ Each line of output is truncated to a max of 240 characters."
          (default-directory (git-root-dir))
          (case-ignore-flag (and (isearch-no-upper-case-p regexp t) "-i"))
          (cmd (concat "git grep --extended-regexp --line-number --full-name"
-                      " --untracked " case-ignore-flag " -- '" regexp
+                      " --untracked --no-color " case-ignore-flag " -- '" regexp
                       "' | cut -c -240")))
     (while (equal "" regexp)
         (setq regexp (read-from-minibuffer
