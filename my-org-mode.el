@@ -92,6 +92,39 @@ values."
   (set-face-attribute 'org-level-2 nil
                       :bold t))
 
+;; ================ custom link handling ================
+
+(defvar-local *my-org-mode-repo-link-prefix* "https://github.com/jimm/"
+  "The prefix for all repo: org links. Can be overridden by a dir-local
+variable.")
+
+(defvar-local *my-org-mode-pr-repo-abbrevs-alist* '(())
+  "An alist of (abbrev . full-repo-name) string pairs.")
+
+(defun my-org-mode-repo-link (repo-name)
+  (concat *my-org-mode-repo-link-prefix* repo-name))
+
+(add-to-list 'org-link-abbrev-alist
+             '("repo" . "%(my-org-mode-repo-link)"))
+
+(put 'my-org-mode-repo-link 'org-link-abbrev-safe t)
+
+(defun my-org-mode-pr-link (tag)
+  "Given a TAG of the form '<repo>-<number>', returns a URL to a PR in that repo.
+
+Repo names are either abbreviations or full repo names.
+Abbreviations must be found in `my-org-mode-pr-abbreviations-alist'."
+  (let* ((elems (split-string tag "-"))
+         (repo (string-join (butlast elems) "-"))
+         (pr-num (car (last elems)))
+         (full-repo (alist-get repo *my-org-mode-pr-repo-abbrevs-alist* repo nil #'string-equal)))
+    (concat (my-org-mode-repo-link full-repo) "/pull/" pr-num)))
+
+(add-to-list 'org-link-abbrev-alist
+             '("pr" . "%(my-org-mode-pr-link)"))
+
+(put 'my-org-mode-pr-link 'org-link-abbrev-safe t)
+
 ;;; ================================================================
 
 ;;

@@ -45,16 +45,6 @@ here."
       sql-sqlite-program "sqlite3"
       rubocopfmt-rubocop-command "rubocop-daemon-wrapper")
 
-;; Org Mode repo: link
-(defun my-org-mode-repo-link (repo-name)
-  (concat "https://gitlab.seatgeekadmin.com/" repo-name))
-
-
-(add-to-list 'org-link-abbrev-alist
-             '("repo" . "%(my-org-mode-repo-link)"))
-
-(put 'my-org-mode-repo-link 'org-link-abbrev-safe t)
-
 ;; Org Mode jira: link
 (defvar sg-jira-abbreviations-alist
   '(("e" . "ENGMT")
@@ -85,36 +75,6 @@ abbreviations. Abbreviations must be found in
              '("jira" . "%(my-org-mode-jira-link)"))
 
 (put 'my-org-mode-jira-link 'org-link-abbrev-safe t)
-
-;; Org Mode mr: link
-
-(defvar sg-mr-abbreviations-alist
-  '(("lg" . "platform/letsgo")
-    ("api" . "consumer/api")
-    ("pp" . "consumer/peakpass")
-    ("sg" . "consumer/seatgeek")
-    ("box" . "jmenard/sandbox")
-    ("rsc" . "consumer/rescraper")
-    ("perf" . "consumer/auto-perf-test")))
-
-(defun sg-repo-link (repo-name)
-  (concat "https://gitlab.seatgeekadmin.com/" repo-name))
-
-(defun my-org-mode-mr-link (tag)
-  "Given a TAG of the form '<repo>-<number>', returns a URL to a MR in that repo.
-
-Repo names are either abbreviations or full repo names.
-Abbreviations must be found in `sg-mr-abbreviations-alist'."
-  (let* ((elems (split-string tag "-"))
-         (repo (string-join (butlast elems) "-"))
-         (mr-num (car (last elems)))
-         (full-repo (alist-get repo sg-mr-abbreviations-alist repo nil #'equal)))
-    (concat (sg-repo-link full-repo) "/-/merge_requests/" mr-num)))
-
-(add-to-list 'org-link-abbrev-alist
-             '("mr" . "%(my-org-mode-mr-link)"))
-
-(put 'my-org-mode-mr-link 'org-link-abbrev-safe t)
 
 (defun wiki-home ()
 "Opens the SeatGeek wiki home page."
