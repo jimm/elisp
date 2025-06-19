@@ -28,9 +28,9 @@
   (let* ((home (expand-file-name (getenv "HOME")))
 	 (home-len (length home)))
     (if (and
-	 (>= (length pwd) home-len)
-	 (equal home (substring pwd 0 home-len)))
-	(concat "~" (substring pwd home-len))
+	     (>= (length pwd) home-len)
+	     (equal home (substring pwd 0 home-len)))
+	    (concat "~" (substring pwd home-len))
       pwd)))
 
 (defun curr-dir-git-branch-string (pwd)

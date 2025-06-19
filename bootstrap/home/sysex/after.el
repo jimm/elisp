@@ -23,11 +23,10 @@
 (defvar work-orgs-dir "particle_health"
   "Name of $pim/orgs/work subdir where I keep work-related Org mode files.")
 
-(defun smoke-tests (&optional arg)
+(defun smoke-tests (&optional skip-tests)
   "Runs the quark smoke tests."
-  (interactive "p")
-  (let ((default-directory
-          (locate-dominating-file (buffer-file-name (current-buffer)) ".git")))
-    (compile "smoke")))
+  (interactive "sTests to skip (management, monolith-{default,alternate,nucleus}): ")
+  (let ((default-directory (getenv "quark")))
+    (compile (concat "TESTS_TO_SKIP=" skip-tests " smoke"))))
 
 (add-to-list 'auto-mode-alist '("\\.proto$" . javascript-mode)) ; good enough for now

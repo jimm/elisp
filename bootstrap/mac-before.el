@@ -31,7 +31,8 @@ variable is \"PATH\", also call `mac-append-to-exec-path'."
         (mac-append-to-exec-path val)))))
 
 (defun mac-load-environment-and-path ()
-  "Read env from shell and set our environment and `exec-path'."
+  "Read env from a file if it exists, otherwise start a subshell and
+capture its environmet. From that, set our environment and `exec-path'."
   (mapc #'mac-process-env-string
         (let ((envs
                (if (file-exists-p (concat user-emacs-directory "env"))
