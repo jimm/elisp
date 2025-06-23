@@ -41,3 +41,14 @@ the full name. Otherwise returns `s`."
     (compile (concat "TESTS_TO_SKIP=" (string-join tests-to-skip ",") " smoke"))))
 
 (add-to-list 'auto-mode-alist '("\\.proto$" . javascript-mode)) ; good enough for now
+
+;; Org mode ph-sc links
+
+(defun my-org-mode-ph-shortcut-link (tag)
+  "Given a TAG of the form '<number>', returns a URL to a Shortcut ticket."
+  (concat "https://app.shortcut.com/particlehealth/story/" tag))
+
+(add-to-list 'org-link-abbrev-alist
+             '("ph-sc" . "%(my-org-mode-ph-shortcut-link)"))
+
+(put 'my-org-mode-ph-shortcut-link 'org-link-abbrev-safe t)
