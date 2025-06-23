@@ -23,10 +23,21 @@
 (defvar work-orgs-dir "particle_health"
   "Name of $pim/orgs/work subdir where I keep work-related Org mode files.")
 
+(defun smoke-tests--val (s)
+  "Returns a smoke test skip string. Given a known abbreviation, returns
+the full name. Otherwise returns `s`."
+  (cond (
+        ((or (equal s "d") (equal s "default")) "monolith-default")
+        ((or (equal s "a") (equal s "alternate")) "monolith-alternate")
+        ((or (equal s "n") (equal s "nucleus")) "monolith-nucleus")
+        ((equal s "m") "management")
+        s))
+
 (defun smoke-tests (&optional skip-tests)
-  "Runs the quark smoke tests."
-  (interactive "sTests to skip (management, monolith-{default,alternate,nucleus}): ")
-  (let ((default-directory (getenv "quark")))
-    (compile (concat "TESTS_TO_SKIP=" skip-tests " smoke"))))
+  "Runs the quark smoke tests, optionally skipping specified test groups."
+  (interactive "sTests to skip (management,monolith-{default,alternate,nucleus}): ")
+  (let ((default-directory (getenv "quark"))
+        (tests-to-skip (mapcar #'smoke-tests--val (split-string skip-tests "[^a-z]+" t))))
+    (compile (concat "TESTS_TO_SKIP=" (string-join tests-to-skip ",") " smoke"))))
 
 (add-to-list 'auto-mode-alist '("\\.proto$" . javascript-mode)) ; good enough for now
