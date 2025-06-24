@@ -31,7 +31,7 @@ the full name. Otherwise returns `s`."
         ((or (equal s "a") (equal s "alternate")) "monolith-alternate")
         ((or (equal s "n") (equal s "nucleus")) "monolith-nucleus")
         ((equal s "m") "management")
-        s))
+        s)))
 
 (defun smoke-tests (&optional skip-tests)
   "Runs the quark smoke tests, optionally skipping specified test groups."
