@@ -26,12 +26,11 @@
 (defun smoke-tests--val (s)
   "Returns a smoke test skip string. Given a known abbreviation, returns
 the full name. Otherwise returns `s`."
-  (cond (
-        ((or (equal s "d") (equal s "default")) "monolith-default")
+  (cond ((or (equal s "d") (equal s "default")) "monolith-default")
         ((or (equal s "a") (equal s "alternate")) "monolith-alternate")
         ((or (equal s "n") (equal s "nucleus")) "monolith-nucleus")
         ((equal s "m") "management")
-        s)))
+        s))
 
 (defun smoke-tests (&optional skip-tests)
   "Runs the quark smoke tests, optionally skipping specified test groups."
