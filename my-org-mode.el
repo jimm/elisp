@@ -92,14 +92,13 @@ values."
   (set-face-attribute 'org-level-2 nil
                       :bold t))
 
-;; ================ custom link handling ================
+;;; ================ custom link handling ================
+
+;; ---------------- repo: ----------------
 
 (defvar-local *my-org-mode-repo-link-prefix* "https://github.com/jimm/"
   "The prefix for all repo: org links. Can be overridden by a dir-local
 variable.")
-
-(defvar-local *my-org-mode-pr-repo-abbrevs-alist* '(())
-  "An alist of (abbrev . full-repo-name) string pairs.")
 
 (defun my-org-mode-repo-link (repo-name)
   (concat *my-org-mode-repo-link-prefix* repo-name))
@@ -108,6 +107,11 @@ variable.")
              '("repo" . "%(my-org-mode-repo-link)"))
 
 (put 'my-org-mode-repo-link 'org-link-abbrev-safe t)
+
+;; ---------------- pr: ----------------
+
+(defvar-local *my-org-mode-pr-repo-abbrevs-alist* '(())
+  "An alist of (abbrev . full-repo-name) string pairs.")
 
 (defun my-org-mode-pr-link (tag)
   "Given a TAG of the form '<repo>-<number>', returns a URL to a PR in that repo.
@@ -124,6 +128,20 @@ Abbreviations must be found in `my-org-mode-pr-abbreviations-alist'."
              '("pr" . "%(my-org-mode-pr-link)"))
 
 (put 'my-org-mode-pr-link 'org-link-abbrev-safe t)
+
+;; ---------------- tk: (ticket) ----------------
+
+(defvar-local *my-org-mode-tk-link-prefix* ""
+  "The prefix for all tk: org links. Can be overridden by a dir-local
+variable.")
+
+(defun my-org-mode-tk-link (tk-name)
+  (concat *my-org-mode-tk-link-prefix* tk-name))
+
+(add-to-list 'org-link-abbrev-alist
+             '("tk" . "%(my-org-mode-tk-link)"))
+
+(put 'my-org-mode-tk-link 'org-link-abbrev-safe t)
 
 ;;; ================================================================
 

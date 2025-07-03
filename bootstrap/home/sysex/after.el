@@ -1,4 +1,5 @@
-(load-theme 'jim-light)
+; (load-theme 'jim-light)
+(set-background-color "GhostWhite")
 
 (setq user-email-address "jim@jimmenard.com"
       dired-use-ls-dired nil
@@ -34,7 +35,7 @@ the full name. Otherwise returns `s`."
 
 (defun smoke-tests (&optional skip-tests)
   "Runs the quark smoke tests, optionally skipping specified test groups."
-  (interactive "sTests to skip (management,monolith-{default,alternate,nucleus}): ")
+  (interactive "sTests to skip ([m]anagement,[d]efault,[a]lternate,[n]ucleus): ")
   (let ((default-directory (getenv "quark"))
         (tests-to-skip (mapcar #'smoke-tests--val (split-string skip-tests "[^a-z]+" t))))
     (compile (concat "TESTS_TO_SKIP=" (string-join tests-to-skip ",") " smoke"))))
