@@ -559,7 +559,6 @@ unchanged."
       auto-revert-verbose nil        ; no message on each auto-revert update
       isearch-lax-whitespace nil
       version-control 'never            ; when to make backup files
-      vc-handled-backends '()           ; disable VC minor mode
       frame-title-format '((:eval (if (buffer-file-name)
                                       (abbreviate-file-name (buffer-file-name))
                                     "%b")))

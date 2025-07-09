@@ -30,14 +30,26 @@ the full name. Otherwise returns `s`."
   (cond ((or (equal s "d") (equal s "default")) "monolith-default")
         ((or (equal s "a") (equal s "alternate")) "monolith-alternate")
         ((or (equal s "n") (equal s "nucleus")) "monolith-nucleus")
+        ((or (equal s "v") (equal s "v2queryflow")) "monolith-v2queryflow")
         ((equal s "m") "management")
         s))
 
 (defun smoke-tests (&optional skip-tests)
   "Runs the quark smoke tests, optionally skipping specified test groups."
-  (interactive "sTests to skip ([m]anagement,[d]efault,[a]lternate,[n]ucleus): ")
+  (interactive "sTests to run ([m]anagement,[d]efault,[a]lternate,[n]ucleus,[v]2queryflow,[A]ll): ")
   (let ((default-directory (getenv "quark"))
-        (tests-to-skip (mapcar #'smoke-tests--val (split-string skip-tests "[^a-z]+" t))))
+        (tests-to-skip (list "management" "monolith-default" "monolith-alternate"
+                             "monolith-nucleus" "monolith-v2queryflow")))
+    (if (equal skip-tests "")
+        (setq tests-to-skip '())
+      (mapc (lambda (ch)
+              (cond ((equal ch ?A) (setq tests-to-skip '()))
+                    ((equal ch ?m) (setq tests-to-skip (remove "management" tests-to-skip)))
+                    ((equal ch ?d) (setq tests-to-skip (remove "monolith-default" tests-to-skip)))
+                    ((equal ch ?a) (setq tests-to-skip (remove "monolith-alternate" tests-to-skip)))
+                    ((equal ch ?n) (setq tests-to-skip (remove "monolith-nucleus" tests-to-skip)))
+                    ((equal ch ?v) (setq tests-to-skip (remove "monolith-v2queryflow" tests-to-skip)))))
+            (string-to-list skip-tests)))
     (compile (concat "TESTS_TO_SKIP=" (string-join tests-to-skip ",") " smoke"))))
 
 (add-to-list 'auto-mode-alist '("\\.proto$" . javascript-mode)) ; good enough for now
@@ -52,3 +64,19 @@ the full name. Otherwise returns `s`."
              '("ph-sc" . "%(my-org-mode-ph-shortcut-link)"))
 
 (put 'my-org-mode-ph-shortcut-link 'org-link-abbrev-safe t)
+
+;; ---------------- Claude ----------------
+;; https://github.com/stevemolitor/claude-code.el
+
+;; for eat terminal backend (the default):
+(use-package eat :ensure t)
+
+;; ;; for vterm terminal backend:
+;; (use-package vterm :ensure t)
+
+;; install claude-code.el
+(use-package claude-code
+  :ensure t
+  :vc (:url "https://github.com/stevemolitor/claude-code.el" :rev :newest)
+  :config (claude-code-mode)
+  :bind-keymap ("C-c c" . claude-code-command-map))
