@@ -58,6 +58,9 @@
 (global-set-key [f7] #'line-to-other-window)
 (global-set-key [\C-f7] #'send-current-line-to-terminal-and-next-line)
 
+(global-set-key [f8] (lambda () (interactive) (revert-buffer t t)))
+(global-set-key [\C-f8] #'revert-all-buffers)
+
 ;; File-finding key bindings.
 (let ((find-file-func (cond ((fboundp #'projectile-find-file)
                               #'projectile-find-file)
