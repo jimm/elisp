@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: WithDetails(slog.Fields({...})
+# key: wds
+# --
+WithDetails(slog.Fields({
+    "${1:field}": $1,$0
+})

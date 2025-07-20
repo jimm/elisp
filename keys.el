@@ -104,5 +104,4 @@
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 ;;; Load local machine's keys.el if it exists.
-
-(load-init-if-exists "keys")
+(load-bootstrap-file-if-exists "keys")

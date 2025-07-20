@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: slog.FromContext(ctx)
+# key: sfc
+# --
+slog.FromContext(ctx)$0

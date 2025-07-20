@@ -8,7 +8,7 @@
   (concat *my-emacs-lib-dir* "bootstrap/" *my-emacs-bootstrap-domain* "/"
           *my-emacs-bootstrap-machine* "/" file-name))
 
-(defun load-init-if-exists (file)
+(defun load-bootstrap-file-if-exists (file)
   "Loads FILE for `*my-emacs-bootstrap-machine*' in
 `*my-emacs-bootstrap-domain*', if it exists.
 
@@ -38,8 +38,8 @@ this function."
   (load-file custom-file)
   (when (eq system-type 'darwin)
     (load-file (concat *my-emacs-lib-dir* "bootstrap/mac-before.el")))
-  (load-init-if-exists "before")
+  (load-bootstrap-file-if-exists "before")
   (load-library "emacs")
   (when (eq system-type 'darwin)
     (load-file (concat *my-emacs-lib-dir* "bootstrap/mac-after.el")))
-  (load-init-if-exists "after"))
+  (load-bootstrap-file-if-exists "after"))

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: fmt.Fprintf(os.Stderr, "")
+# key: pre
+# --
+fmt.Fprintf(os.Stderr, "$1\n")$0
