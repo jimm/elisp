@@ -2,6 +2,6 @@
 # name: WithDetails(slog.Fields({...})
 # key: wds
 # --
-WithDetails(slog.Fields({
+WithDetails(slog.Fields{
     "${1:field}": $1,$0
 })

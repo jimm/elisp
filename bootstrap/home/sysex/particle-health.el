@@ -12,7 +12,8 @@
   "Name of $pim/orgs/work subdir where I keep work-related Org mode files.")
 
 (defvar smoke-tests-command
-  "./internal/testing/smoke/bin/smoke"
+  (concat (getenv "HOME") "/src/ph/sandbox/bin/smoke")
+  ;; "./internal/testing/smoke/bin/smoke"
   "Command used to run the smoke tests")
 
 (defun smoke-tests--val (s)
@@ -55,6 +56,18 @@ the full name. Otherwise returns `s`."
              '("ph-sc" . "%(my-org-mode-ph-shortcut-link)"))
 
 (put 'my-org-mode-ph-shortcut-link 'org-link-abbrev-safe t)
+
+;; ---------------- testing ----------------
+
+(defun ph-go-test ()
+  "Run go tests in the directory containing the current buffer's file from
+the project root dir."
+  (interactive)
+  (let* ((dir (locate-dominating-file default-directory #'makeup-dir-p))
+         (default-directory (or dir default-directory))
+         (file-path (string-replace (getenv "HOME") "~" (buffer-file-name)))
+         (relative-path (substring file-path (length dir))))
+    (compile (concat "cd " dir " && go test ./" (file-name-directory relative-path)))))
 
 ;; ---------------- Claude ----------------
 ;; https://github.com/stevemolitor/claude-code.el
