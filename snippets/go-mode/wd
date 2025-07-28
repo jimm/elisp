@@ -2,4 +2,4 @@
 # name: WithDetail("x", x)
 # key: wd
 # --
-WithDetail("$1:field", $1)$0
+WithDetail("${1:field}", $1)$0

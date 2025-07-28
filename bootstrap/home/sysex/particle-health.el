@@ -64,10 +64,11 @@ the full name. Otherwise returns `s`."
 the project root dir."
   (interactive)
   (let* ((dir (locate-dominating-file default-directory #'makeup-dir-p))
-         (default-directory (or dir default-directory))
-         (file-path (string-replace (getenv "HOME") "~" (buffer-file-name)))
-         (relative-path (substring file-path (length dir))))
-    (compile (concat "cd " dir " && go test ./" (file-name-directory relative-path)))))
+         (dir-path (string-replace (getenv "HOME") "~" default-directory))
+         (relative-dir-path (substring dir-path (length dir))))
+    ;; We tee to /tmp/compile.out because Emacs truncates long error lines
+    ;; and in a compile buffer expanding them can be a pain.
+    (compile (concat "cd " dir " && go test ./" relative-dir-path " | tee /tmp/compile.out"))))
 
 ;; ---------------- Claude ----------------
 ;; https://github.com/stevemolitor/claude-code.el
@@ -82,7 +83,9 @@ the project root dir."
 (use-package claude-code
   :ensure t
   :vc (:url "https://github.com/stevemolitor/claude-code.el" :rev :newest)
-  :config (claude-code-mode)
+  :config
+  (claude-code-mode)
+  (setq claude-code-newline-keybinding-style 'super-return-to-send)
   :bind-keymap ("C-c c" . claude-code-command-map))
 
 ;; ---------------- Spanner ----------------
