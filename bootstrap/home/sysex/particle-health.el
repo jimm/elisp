@@ -58,16 +58,26 @@ the full name. Otherwise returns `s`."
 
 ;; ---------------- testing ----------------
 
-(defun ph-go-test ()
+(defun ph-go-test (arg)
   "Run go tests in the directory containing the current buffer's file from
-the project root dir."
-  (interactive)
+the project root dir.
+
+A numeric argument of 4 causes the test in which the cursor resides to run."
+  (interactive "p")
   (let* ((dir (locate-dominating-file default-directory #'makeup-dir-p))
          (dir-path (string-replace (getenv "HOME") "~" default-directory))
-         (relative-dir-path (substring dir-path (length dir))))
+         (relative-dir-path (substring dir-path (length dir)))
+         (single-test-to-run (when (= arg 4)
+                               (save-excursion
+                                 (search-backward "\nfunc Test")
+                                 (forward-word 2)
+                                 (word-at-point)))))
     ;; We tee to /tmp/compile.out because Emacs truncates long error lines
     ;; and in a compile buffer expanding them can be a pain.
-    (compile (concat "cd " dir " && go test ./" relative-dir-path " | tee /tmp/compile.out"))))
+    (compile (concat "cd " dir " && go test ./" relative-dir-path
+                     (when single-test-to-run
+                       (concat " -run " single-test-to-run))
+                     " | tee /tmp/compile.out"))))
 
 ;; ---------------- Claude ----------------
 ;; https://github.com/stevemolitor/claude-code.el
