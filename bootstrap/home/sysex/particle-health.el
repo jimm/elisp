@@ -12,8 +12,7 @@
   "Name of $pim/orgs/work subdir where I keep work-related Org mode files.")
 
 (defvar smoke-tests-command
-  (concat (getenv "HOME") "/src/ph/sandbox/bin/smoke")
-  ;; "./internal/testing/smoke/bin/smoke"
+  (concat (getenv "box") "/bin/smoke")
   "Command used to run the smoke tests")
 
 (defun smoke-tests--val (s)
