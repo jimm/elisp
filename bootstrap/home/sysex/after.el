@@ -1,5 +1,4 @@
-; (load-theme 'jim-light)
-(set-background-color "GhostWhite")
+(load-theme 'jim-light)
 
 (setq user-email-address "jim@jimmenard.com"
       dired-use-ls-dired nil
