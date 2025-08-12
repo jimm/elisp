@@ -7,10 +7,6 @@
       sql-sqlite-program "sqlite3"
       rubocopfmt-rubocop-command "rubocop-daemon-wrapper")
 
-;; ;; Copilot
-;; ;; (using Claude with PH)
-;; (use-package copilot-chat)
-
 ;;; ================ Particle Health consulting ================
 
 (load-bootstrap-file-if-exists "particle-health")
