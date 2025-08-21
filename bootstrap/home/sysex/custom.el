@@ -8,10 +8,10 @@
      "b6c577260232a8b6032ce5db36d3d805e40d6da6f5cf15b847b9fdc810dc87bd"
      default))
  '(package-selected-packages
-   '(ace-window ag alchemist claude-code copilot-chat diminish eat flx-ido fzf
-                go-mode janet-mode kotlin-mode lua-mode magit mermaid-mode
-                mood-line rubocopfmt ruff-format smex yaml-mode
-                yasnippet-snippets))
+   '(ace-window ag alchemist browse-at-remote claude-code copilot-chat diminish
+                eat flx-ido fzf go-mode janet-mode kotlin-mode lua-mode
+                magit mermaid-mode mood-line rubocopfmt ruff-format smex
+                yaml-mode yasnippet-snippets))
  '(package-vc-selected-packages
    '((claude-code :url "https://github.com/stevemolitor/claude-code.el")))
  '(python-fill-docstring-style 'pep-257-nn)

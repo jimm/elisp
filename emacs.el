@@ -1348,35 +1348,11 @@ first-branch)."
         (setf url (replace-regexp-in-string "\\.git$" "" url))
         (list url default-branch)))))
 
-;;; Git URL and browser-opening funcs
-
-(defun git-url (&optional branch)
-  "Returns the URL for the current buffer and current line. The
-git user and repo name are read from the current buffer's
-corresponding `.git/config' file.
-
-Branch is BRANCH, defaulting to the value of the first branch
-found in the config file."
-  (interactive)
-  (let* ((dir-path-to-file (-git-path-to-current-file))
-         (url-and-branch (-git-url-and-branch-from-config))
-         (url (car url-and-branch))
-         (default-branch (cadr url-and-branch)))
-    (concat url
-            "/blob/"
-            (or branch default-branch)
-            "/" dir-path-to-file
-            (let ((n (line-number-at-pos)))
-              (when (> n 1) (concat "#L" (int-to-string n)))))))
-
-(defun git-open (&optional branch)
-  "Opens current buffer's file on Github. The git user and repo name are
-read from the current buffer's corresponding `.git/config' file.
-
-Branch is BRANCH, defaulting to the value of the first branch
-found in the config file."
-  (interactive)
-  (browse-url-generic (git-url branch)))
+;;; Instead of using my old custom git URL and browser-opening funcs, I've
+;;; started using https://github.com/rmuslimov/browse-at-remote
+(use-package browse-at-remote
+  :ensure t
+  :defer t)
 
 (defun git-url-to-clipboard (&optional branch)
   "Copies the current buffer's git repo URL to the clipboard."
