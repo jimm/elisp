@@ -103,5 +103,9 @@
 (when (fboundp #'projectile-global-mode)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
+;; browse-at-remote
+(global-set-key "\C-cgg" #'browse-at-remote)
+(global-set-key "\C-cgk" #'browse-at-remote-kill)
+
 ;;; Load local machine's keys.el if it exists.
 (load-bootstrap-file-if-exists "keys")
