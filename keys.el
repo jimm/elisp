@@ -44,8 +44,8 @@
 (when-fboundp-global-set-key "\M-gk" dumb-jump-back)
 (when-fboundp-global-set-key "\M-gq" dumb-jump-quick-look)
 
-(global-set-key [f1] my-shell)
-(global-set-key [\C-f1] my-alternate-shell)
+(global-set-key [f1] (lambda () (interactive) (funcall my-shell)))
+(global-set-key [\C-f1] (lambda () (interactive) (funcall my-alternate-shell)))
 (global-set-key [f2] #'git-grep)
 (global-set-key [\C-f2] #'git-grep-callers-python-ruby)
 (global-set-key [f3] #'split-window-right-and-focus)
