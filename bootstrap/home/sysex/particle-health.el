@@ -65,7 +65,7 @@ the project root dir.
 A numeric argument of 4 causes the test in which the cursor resides to run."
   (interactive "p")
   (let* ((dir (locate-dominating-file default-directory #'makeup-dir-p))
-         (dir-path (string-replace (getenv "HOME") "~" default-directory))
+         (dir-path (abbreviate-file-name default-directory))
          (relative-dir-path (substring dir-path (length dir)))
          (single-test-to-run (when (= arg 4)
                                (save-excursion
