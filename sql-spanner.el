@@ -23,8 +23,9 @@
                :prompt-cont-regexp "^[-[:alnum:]_]*[-'(][#>] "
                :statement sql-postgres-statement-starters
                :input-filter sql-remove-tabs-filter
-               :terminator ("\\(^\\s-*\\\\g\\|;\\)" . "\\g")))
-
+               ;; If sql-send-terminator is t then this value is used. The
+               ;; cons says that if there is no \G or ; at end then use \G.
+               :terminator ("\\(\\\\G\\|;\\)" . "\\G")))
 
 (defcustom sql-spanner-program "spanner-cli"
   "Command to start spanner-cli.
@@ -50,23 +51,26 @@ Starts `sql-interactive-mode' after doing some setup."
 
 
 (defcustom sql-spanner-login-params
-  `(server                              ; project
-    database)                           ; instance:database
-  "List of login parameters needed to connect to Spanner."
+  `(user                                ; project id
+    server                              ; instance
+    database)                           ; database
+  "List of login parameters needed to connect to Spanner. NOTE: user must
+be project id, server must be instance name, and database is database
+name."
   :type 'sql-login-params
   :group 'SQL
   :version "0.1")
 
 (defun sql-spanner (&optional buffer)
+  "Run Spanner as an inferior process."
   (interactive "P")
   (sql-product-interactive 'spanner buffer))
 
 (defun sql-comint-spanner (product options &optional buf-name)
   "Create comint buffer and connect to Spanner."
-  (let ((params
-         (append
-          (list "-p" sql-server)
-          (list "-i" (car (split-string sql-database ":")))
-          (list "-d" (cadr (split-string sql-database ":")))
-          options)))
+  (let ((params (append (list "-p" sql-user)
+                        (list "-i" sql-server)
+                        (list "-d" sql-database)
+                        options)))
     (sql-comint product params buf-name)))
+

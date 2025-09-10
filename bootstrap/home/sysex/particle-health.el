@@ -3,6 +3,15 @@
 (setq org-agenda-files (list
                         (concat *my-pim-dir* "orgs/work/seat_geek/todo.org")
                         (concat *my-pim-dir* "orgs/todo.org"))
+      gcp-project-ids '(("d-api" . "particle-health-scratch")
+                        ("d-data" . "prj-d-data")
+                        ("d-sandbox" . "mythical-style-302819")
+                        ("p-api" . "particle-health-prod")
+                        ("p-data" . "prj-p-data")
+                        ("p-sandbox" . "dev-fortress-302415")
+                        ("s-api" . "particle-health-staging")
+                        ("s-data" . "prj-s-data")
+                        ("s-sandbox" . "geometric-ivy-289820"))
       *status-file* (concat *my-pim-dir*
                             "orgs/work/particle_health/status_"
                             (format-time-string "%Y")
@@ -14,6 +23,14 @@
 (defvar smoke-tests-command
   (concat (getenv "box") "/bin/smoke")
   "Command used to run the smoke tests")
+
+(defun gcp-project-id (name)
+  "Returns a project name given a short environment `name' like \"d-api\"."
+  (interactive "sProject short name (d-api): ")
+  (let* ((sname (if (string-empty-p name) "d-api" name))
+         (project-id (cdr (assoc sname gcp-project-ids))))
+    (message project-id)
+    project-id))
 
 (defun smoke-tests--val (s)
   "Returns a smoke test skip string. Given a known abbreviation, returns
@@ -100,3 +117,19 @@ A numeric argument of 4 causes the test in which the cursor resides to run."
 ;; ---------------- Spanner ----------------
 
 (load (concat *my-emacs-lib-dir* "sql-spanner"))
+
+(setq sql-user "particle-health-scratch"
+      sql-server "particle"
+      sql-database "particle"
+      *my-sql-regex* "\\([^;]\\)\\'"
+      *my-sql-regex-replacement* "\\&\\\\G"
+      sql-send-terminator t)            ; use the spanner :terminator cons
+
+
+(defun spanner (env-name)
+  "Runs sql-spanner after translating `env-name' to a GCP project id and
+using that as the default username. The username is interpreted by
+sql-spanner as the GCP project id."
+  ("sProject short name (d-api): ")
+  (set sql-user (gcp-project-id (if (string-empty-p env-name) "d-api" env-name)))
+  (sql-spanner))
