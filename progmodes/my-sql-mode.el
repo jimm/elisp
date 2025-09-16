@@ -23,4 +23,5 @@ sql-send-paragraph."
   
 (add-hook 'sql-mode-hook
           (lambda ()
-            (define-key sql-mode-map "\C-ct" 'show-create-table)))
+            ;; (define-key sql-mode-map "\C-c\C-c" #'my-sql-send-paragraph)))
+            (define-key sql-mode-map "\C-ct" #'show-create-table)))

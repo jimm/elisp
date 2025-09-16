@@ -3,6 +3,13 @@
 ;;; When entering the connection parameters, "server" must be the GCP
 ;;; project id and "database" must be the instance and database names
 ;;; separated by a colon.
+;;;
+;;; In addition to doing the usual, it supports variable substitution. Any
+;;; line in the input matching "@name = value" is stored in the hash table
+;;; `sql-spanner-context'. Any line starting with "unset @name" or "unset
+;;; name" will remove that variable from `sql-spanner-context'. When "@name"
+;;; is seen in any other text, the value is substituted. Names must consist
+;;; of alphanumeric characters or underscore.
 
 (require 'sql)
 
@@ -18,11 +25,11 @@
                :list-all ("\\d+" . "\\dS+")
                :list-table ("\\d+ %s" . "\\dS+ %s")
                ;; :completion-object sql-postgres-completion-object
-               :prompt-regexp "^[-[:alnum:]_]*[-=][#>] "
-               :prompt-length 5
+               :prompt-regexp "^spanner> "
+               :prompt-length 9
                :prompt-cont-regexp "^[-[:alnum:]_]*[-'(][#>] "
                :statement sql-postgres-statement-starters
-               :input-filter sql-remove-tabs-filter
+               :input-filter sql-spanner-input-filter
                ;; If sql-send-terminator is t then this value is used. The
                ;; cons says that if there is no \G or ; at end then use \G.
                :terminator ("\\(\\\\G\\|;\\)" . "\\G")))
@@ -37,18 +44,6 @@ Starts `sql-interactive-mode' after doing some setup."
   "List of additional options for `sql-spanner-program'."
   :type '(repeat string)
   :version "0.1")
-
-;; (defcustom sql-postgres-login-params
-;;   `((user :default ,(user-login-name))
-;;     ;; (database :default ,(user-login-name)
-;;     ;;           :completion ,(completion-table-dynamic
-;;     ;;                         (lambda (_) (sql-postgres-list-databases)))
-;;               :must-match confirm)
-;;     server)
-;;   "List of login parameters needed to connect to Postgres."
-;;   :type 'sql-login-params
-;;   :version "26.1")
-
 
 (defcustom sql-spanner-login-params
   `(user                                ; project id
@@ -74,3 +69,49 @@ name."
                         options)))
     (sql-comint product params buf-name)))
 
+;;; ================ variable substitution ================
+
+(defcustom sql-spanner-context (make-hash-table :test #'equal)
+  "Contans a hash table of variable names and values that get plugged in to
+SQL statements.")
+
+(defun -sql-spanner-extract-bindings (line)
+  "If `line' is a binding or unbinding then process it and turn it into a
+comment, else leave it alone. Returns the possibly modified line.
+
+Bindings look like
+@name = value
+
+Unbindings look like
+unset @name (or unset name)
+"
+  (cond ((string-match
+          (rx line-start
+              ?@ (group (+ (or alnum ?_))) ; @name
+              (* space) ?= (* space)       ; =
+              (group (+ anything))         ; value
+              eol)
+          line)
+         (progn
+           (message "@name = value")
+           (puthash (match-string 1 line) (match-string 2 line) sql-spanner-context )
+           (concat "-- " line)))
+        ((string-match
+          (rx line-start "unset" (* space) (? ?@) (group (+ (or alnum ?_))))
+          line)
+         (progn
+           (remhash (match-string 1 line) sql-spanner-context)
+           (concat "-- " line)))
+        (t line)))
+
+(defun -sql-spanner-comment-or-empty (str)
+  "Returns non-nil if `str' is both not the empty string and not a SQL
+comment line."
+  (or (string-empty-p str)
+      (string-match (rx (* space) "--") str)))
+
+(defun sql-spanner-input-filter (str)
+  ;; This is the default filter for MariaDB and a few others. Not sure if
+  ;; it's necessary for Spanner.
+  ;; (string-replace "\t" " " str))
+  (mapconcat #'-sql-spanner-extract-bindings (split-string str "\n") "\n"))

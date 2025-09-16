@@ -125,11 +125,13 @@ A numeric argument of 4 causes the test in which the cursor resides to run."
       *my-sql-regex-replacement* "\\&\\\\G"
       sql-send-terminator t)            ; use the spanner :terminator cons
 
-
-(defun spanner (env-name)
+(defun spanner (env-name db-name)
   "Runs sql-spanner after translating `env-name' to a GCP project id and
 using that as the default username. The username is interpreted by
 sql-spanner as the GCP project id."
-  ("sProject short name (d-api): ")
-  (set sql-user (gcp-project-id (if (string-empty-p env-name) "d-api" env-name)))
-  (sql-spanner))
+  (interactive "sProject short name (d-api): \nsDatabase name (particle): ")
+  (setq sql-user (gcp-project-id (if (string-empty-p env-name) "d-api" env-name))
+        sql-server "particle"
+        sql-database (if (string-empty-p db-name) "particle" db-name))
+  (let ((sql-spanner-login-params '()))
+    (sql-spanner)))
