@@ -75,7 +75,18 @@ name."
   "Contans a hash table of variable names and values that get plugged in to
 SQL statements.")
 
-(defun -sql-spanner-extract-bindings (line)
+(defun sql-spanner-context-contents ()
+  "Writes the contents of the context to a buffer for viewing."
+  (interactive)
+  (with-temp-buffer-window
+      "*SQL Spanner Variables*"
+      nil
+      nil
+      (maphash (lambda (key value)
+                 (princ (format "%s:\t%s\n" key value)))
+               sql-spanner-context)))
+
+(defun -sql-spanner-process-bindings (line)
   "If `line' is a binding or unbinding then process it and turn it into a
 comment, else leave it alone. Returns the possibly modified line.
 
@@ -93,8 +104,7 @@ unset @name (or unset name)
               eol)
           line)
          (progn
-           (message "@name = value")
-           (puthash (match-string 1 line) (match-string 2 line) sql-spanner-context )
+           (puthash (match-string 1 line) (match-string 2 line) sql-spanner-context)
            (concat "-- " line)))
         ((string-match
           (rx line-start "unset" (* space) (? ?@) (group (+ (or alnum ?_))))
@@ -102,7 +112,21 @@ unset @name (or unset name)
          (progn
            (remhash (match-string 1 line) sql-spanner-context)
            (concat "-- " line)))
-        (t line)))
+        (t (if (string-search "@" line)
+               (-sql-spanner-substitute-bindings line)
+             line))))
+
+(defun -sql-spanner-substitute-bindings (line)
+  "Replace all instances of @name with value from sql-spanner-context. If value is not found, @name will be preserved as-is."
+  (message "substitute bindings line = %s" line)
+  (let ((modified-line "")
+        (start 0))
+    (while-let ((found-offset (string-match (rx ?@ (group (+ (or alnum ?_)))) line)) ; @name
+                (name (match-string 1 line)))
+      (setq line (concat (substring line 0 found-offset)
+                         (gethash name sql-spanner-context)
+                         (substring line (+ found-offset 1 (length name))))))
+    line))
 
 (defun -sql-spanner-comment-or-empty (str)
   "Returns non-nil if `str' is both not the empty string and not a SQL
@@ -111,7 +135,7 @@ comment line."
       (string-match (rx (* space) "--") str)))
 
 (defun sql-spanner-input-filter (str)
-  ;; This is the default filter for MariaDB and a few others. Not sure if
-  ;; it's necessary for Spanner.
+  ;; This commented-out string-replace is the default filter for MariaDB and
+  ;; a few others. Not sure if it's necessary for Spanner.
   ;; (string-replace "\t" " " str))
-  (mapconcat #'-sql-spanner-extract-bindings (split-string str "\n") "\n"))
+  (mapconcat #'-sql-spanner-process-bindings (split-string str "\n") "\n"))
