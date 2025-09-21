@@ -11,7 +11,7 @@
    '(ace-window ag alchemist browse-at-remote claude-code copilot-chat diminish
                 eat flx-ido fzf go-mode janet-mode kotlin-mode lua-mode
                 magit mermaid-mode mood-line rubocopfmt ruff-format smex
-                yaml-mode yasnippet-snippets))
+                terraform-mode yaml-mode yasnippet-snippets))
  '(package-vc-selected-packages
    '((claude-code :url "https://github.com/stevemolitor/claude-code.el")))
  '(python-fill-docstring-style 'pep-257-nn)
