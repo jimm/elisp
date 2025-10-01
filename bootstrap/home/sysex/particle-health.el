@@ -43,7 +43,7 @@ the full name. Otherwise returns `s`."
         s))
 
 (defun smoke-tests (&optional skip-tests)
-  "Runs the quark smoke tests, optionally skipping specified test groups."
+  "Runs some or all of the quark smoke tests."
   (interactive "sTests to run ([m]anagement,[d]efault,[a]lternate,[n]ucleus,[v]2queryflow,[A]ll): ")
   (let ((default-directory (getenv "quark"))
         (tests-to-skip (list "management" "monolith-default" "monolith-alternate"

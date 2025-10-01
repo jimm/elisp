@@ -17,7 +17,9 @@
    '((claude-code :url "https://github.com/stevemolitor/claude-code.el")))
  '(python-fill-docstring-style 'pep-257-nn)
  '(safe-local-variable-values
-   '((*my-org-mode-tk-link-prefix*
+   '((*my-org-mode-pr-repo-abbrevs-alist* ("q" . "quark") ("p" . "proton")
+                                          ("g" . "gateway") ("l" . "gluon"))
+     (*my-org-mode-tk-link-prefix*
       . "https://app.shortcut.com/particlehealth/story/")
      (*my-org-mode-pr-repo-abbrevs-alist* ("q" . "quark") ("p" . "proton")
                                           ("g" . "gluon"))
