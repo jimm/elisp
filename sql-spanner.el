@@ -6,10 +6,20 @@
 ;;;
 ;;; In addition to doing the usual, it supports variable substitution. Any
 ;;; line in the input matching "@name = value" is stored in the hash table
-;;; `sql-spanner-context'. Any line starting with "unset @name" or "unset
-;;; name" will remove that variable from `sql-spanner-context'. When "@name"
-;;; is seen in any other text, the value is substituted. Names must consist
-;;; of alphanumeric characters or underscore.
+;;; `sql-spanner-context' and turned into a comment. Any line starting with
+;;; "unset @name" or "unset name" will remove that variable from
+;;; `sql-spanner-context' and turned into a comment. When "@name" is seen in
+;;; any other text, the value is substituted. Names must consist of
+;;; alphanumeric characters or underscore.
+;;;
+;;; Bugs:
+;;;
+;;; - Renaming the buffer doesn't work; any existing or new SQL buffers
+;;;   don't recognize it as an active SQL buffer.
+;;;
+;;; To do:
+;;;
+;;; - Move `sql-spanner-context' into `sql-product-alist'.
 
 (require 'sql)
 

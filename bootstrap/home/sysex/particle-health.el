@@ -121,8 +121,6 @@ A numeric argument of 4 causes the test in which the cursor resides to run."
 (setq sql-user "particle-health-scratch"
       sql-server "particle"
       sql-database "particle"
-      *my-sql-regex* "\\([^;]\\)\\'"
-      *my-sql-regex-replacement* "\\&\\\\G"
       sql-send-terminator t)            ; use the spanner :terminator cons
 
 (defun spanner (env-name db-name)
