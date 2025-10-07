@@ -12,14 +12,14 @@
 ;;; any other text, the value is substituted. Names must consist of
 ;;; alphanumeric characters or underscore.
 ;;;
+;;; To support multi-line variable definitions, before processing
+;;; backslashes and newlines at the ends of lines are removed, joining lines
+;;; together.
+;;;
 ;;; Bugs:
 ;;;
 ;;; - Renaming the buffer doesn't work; any existing or new SQL buffers
 ;;;   don't recognize it as an active SQL buffer.
-;;;
-;;; To do:
-;;;
-;;; - Move `sql-spanner-context' into `sql-product-alist'.
 
 (require 'sql)
 
@@ -32,8 +32,10 @@
                :sqli-options sql-spanner-options
                :sqli-login sql-spanner-login-params
                :sqli-comint-func sql-comint-spanner
-               :list-all ("\\d+" . "\\dS+")
-               :list-table ("\\d+ %s" . "\\dS+ %s")
+							 ;; list-all ignores parent table information
+               :list-all "SELECT t.table_name FROM information_schema.tables as t WHERE t.table_catalog = '' AND t.table_schema = '' ORDER BY t.table_name;"
+							 ;; a simple list of column info, not a complete CREATE TABLE statement
+               :list-table "SELECT c.column_name, c.spanner_type, c.is_nullable, c.column_default FROM information_schema.columns as c WHERE c.table_name = 'Queries' ORDER BY c.ordinal_position"
                ;; :completion-object sql-postgres-completion-object
                :prompt-regexp "^spanner> "
                :prompt-length 9
@@ -50,13 +52,13 @@
 Starts `sql-interactive-mode' after doing some setup."
   :type 'file)
 
-(defcustom sql-spanner-options '()
+(defcustom sql-spanner-options nil
   "List of additional options for `sql-spanner-program'."
   :type '(repeat string)
   :version "0.1")
 
 (defcustom sql-spanner-login-params
-  `(user                                ; project id
+  '(user                                ; project id
     server                              ; instance
     database)                           ; database
   "List of login parameters needed to connect to Spanner. NOTE: user must
@@ -83,7 +85,10 @@ name."
 
 (defcustom sql-spanner-context (make-hash-table :test #'equal)
   "Contans a hash table of variable names and values that get plugged in to
-SQL statements.")
+SQL statements."
+	:group 'SQL
+	:local t
+	:version "0.1")
 
 (defun sql-spanner-context-contents ()
   "Writes the contents of the context to a buffer for viewing."
@@ -145,7 +150,6 @@ comment line."
       (string-match (rx (* space) "--") str)))
 
 (defun sql-spanner-input-filter (str)
-  ;; This commented-out string-replace is the default filter for MariaDB and
-  ;; a few others. Not sure if it's necessary for Spanner.
-  ;; (string-replace "\t" " " str))
-  (mapconcat #'-sql-spanner-process-bindings (split-string str "\n") "\n"))
+	"Munges `str` before sending it to the SQL buffer by processing bindings."
+	(let ((join-backslashed (string-replace "\\\n" "" str)))
+		(mapconcat #'-sql-spanner-process-bindings (split-string join-backslashed "\n") "\n")))
