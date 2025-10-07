@@ -358,7 +358,7 @@ unchanged."
 (use-package go-mode
   :hook (before-save . gofmt-before-save)
   :custom
-  (tab-width 4)
+  (tab-width 2)
   (indent-tabs-mode t))
 
 ;;; Haskell
