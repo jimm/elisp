@@ -20,9 +20,7 @@
 (defvar work-orgs-dir "particle_health"
   "Name of $pim/orgs/work subdir where I keep work-related Org mode files.")
 
-(defvar smoke-tests-command
-  (concat (getenv "box") "/bin/smoke")
-  "Command used to run the smoke tests")
+(add-to-list 'auto-mode-alist '("\\.proto$" . javascript-mode)) ; good enough for now
 
 (defun gcp-project-id (name)
   "Returns a project name given a short environment `name' like \"d-api\"."
@@ -31,6 +29,14 @@
          (project-id (cdr (assoc sname gcp-project-ids))))
     (message project-id)
     project-id))
+
+;; ---------------- testing ----------------
+
+;; ---- smoke tests ----
+
+(defvar smoke-tests-command
+  (concat (getenv "box") "/bin/smoke")
+  "Command used to run the smoke tests")
 
 (defun smoke-tests--val (s)
   "Returns a smoke test skip string. Given a known abbreviation, returns
@@ -60,20 +66,7 @@ the full name. Otherwise returns `s`."
             (string-to-list skip-tests)))
     (compile (concat "cd $quark && TESTS_TO_SKIP=" (string-join tests-to-skip ",") " " smoke-tests-command))))
 
-(add-to-list 'auto-mode-alist '("\\.proto$" . javascript-mode)) ; good enough for now
-
-;; Org mode ph-sc links
-
-(defun my-org-mode-ph-shortcut-link (tag)
-  "Given a TAG of the form '<number>', returns a URL to a Shortcut ticket."
-  (concat "https://app.shortcut.com/particlehealth/story/" tag))
-
-(add-to-list 'org-link-abbrev-alist
-             '("ph-sc" . "%(my-org-mode-ph-shortcut-link)"))
-
-(put 'my-org-mode-ph-shortcut-link 'org-link-abbrev-safe t)
-
-;; ---------------- testing ----------------
+;; ---- quark Go tests ----
 
 (defun ph-go-test (arg)
   "Run go tests in the directory containing the current buffer's file from

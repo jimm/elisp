@@ -11,4 +11,6 @@
 
 ;;; ================ Particle Health consulting ================
 
-(load-bootstrap-file-if-exists "particle-health")
+(let ((*my-emacs-bootstrap-domain* "particle_health")
+      (*my-emacs-bootstrap-machine* "sysex"))
+  (load-bootstrap-file-if-exists "particle-health"))
