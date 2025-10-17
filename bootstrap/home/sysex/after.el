@@ -8,9 +8,3 @@
       rubocopfmt-rubocop-command "rubocop-daemon-wrapper"
       my-shell #'shell
       my-alternate-shell #'eshell)
-
-;;; ================ Particle Health consulting ================
-
-(let ((*my-emacs-bootstrap-domain* "particle_health")
-      (*my-emacs-bootstrap-machine* "sysex"))
-  (load-bootstrap-file-if-exists "particle-health"))
