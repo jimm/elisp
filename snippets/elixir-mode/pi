@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: |> IO.inspect # DEBUG
+# name: |> IO.inspect
 # key: pi
 # --
-|> IO.inspect # DEBUG$0
+|> IO.inspect$0

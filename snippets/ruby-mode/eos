@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name : <<EOS ... EOS
-# key: eos
-# --
-<<EOS
-$0
-EOS

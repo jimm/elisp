@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name : classify { |...| ... }
-# key: classify
-# group : collections
-# --
-classify { |${e}| $0 }

@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name : caller =\n#{dump top of call stack}
-# key: caller
-# condition: 'force-in-comment
-# --
-caller = "#{caller[0,20].join("\n")}"

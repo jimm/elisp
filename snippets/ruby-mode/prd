@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# name: warn "" # DEBUG
+# name: puts "" if $DEBUG
 # key: prd
 # --
-warn "$0" # DEBUG
+puts "$0" if $DEBUG

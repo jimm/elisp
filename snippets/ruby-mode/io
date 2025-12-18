@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: IO.foreach { |line| line.chomp!... }
-# key: io
-# --
-IO.foreach { |${1:line}|
-  $1.chomp!
-  $0
-}

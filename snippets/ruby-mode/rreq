@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name : require_relative '...'
-# key: rreq
-#group : general
-# --
-require_relative '$0'
