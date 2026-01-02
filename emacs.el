@@ -1308,7 +1308,7 @@ http://dfan.org/blog/2009/02/19/emacs-dedicated-windows/"
   "Reformat my bank's transactions CSV file."
   (interactive)
 
-  (replace-string-in-region "\n\n" "\n" (point-min) (point-max))
+  (replace-regexp-in-region "\r?\n\r?\n" "\n" (point-min) (point-max))
   (replace-regexp-in-region "^[0-9]+," "" (point-min) (point-max))
   (reverse-region (point-min) (point-max)))
 
