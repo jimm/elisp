@@ -1,68 +1,80 @@
 ;;; Define global key bindings then load the local machine's override file
 ;;; if it exists.
 
-(defmacro when-fboundp-global-set-key (k f)
+(defmacro when-fboundp-keymap-global-set (k f)
   `(when (fboundp (function ,f))
-     (global-set-key ,k (function ,f))))
+     (keymap-global-set ,k (function ,f))))
 
 (defmacro set-org-file-key (key file)
   "Map a KEY globally to one of my Org mode FILEs."
-  `(global-set-key ,key
+  `(keymap-global-set ,key
      (lambda ()
        (interactive)
        (find-file (concat *my-pim-dir* "orgs/" ,file)))))
 
-(global-set-key "\M-z" #'zap-upto-char)
-(global-set-key "\M-`" #'my-ff-find-other-file)
-(global-set-key "\C-c1" #'find-grep-dired)
-(global-set-key "\C-c2" #'rgrep)
-(global-set-key "\C-c3" #'grep)
-(global-set-key "\C-c4" #'git-grep)
-(global-set-key "\C-c\C-d" #'git-root-dired)
-(global-set-key "\C-h" #'backward-delete-char)
-(global-set-key "\C-cn" #'org-capture)
-(global-set-key "\C-cx" #'executable-interpret)
+(keymap-global-set "M-z" #'zap-upto-char)
+(keymap-global-set "M-`" #'my-ff-find-other-file)
+(keymap-global-set "C-c 1" #'find-grep-dired)
+(keymap-global-set "C-c 2" #'rgrep)
+(keymap-global-set "C-c 3" #'grep)
+(keymap-global-set "C-c 4" #'git-grep)
+(keymap-global-set "C-c C-d" #'git-root-dired)
+(keymap-global-set "C-h" #'backward-delete-char)
+(keymap-global-set "C-c n" #'org-capture)
+(keymap-global-set "C-c x" #'executable-interpret)
 (when window-system
-  (global-set-key "\C-xu" (lambda ()
+  (keymap-global-set "C-x u" (lambda ()
                             (interactive)
                             (message "Use Ctrl-/ instead."))))
-(global-set-key "\C-x?" #'help-for-help)
-(global-set-key "\C-xg" #'magit-status)
-(global-set-key "\C-x\C-k" #'compile)
-; (global-set-key "\C-x\C-m" #'open-email-client)
-(global-set-key "\C-x\C-z" #'shrink-window)
-(global-set-key "\M- " #'just-one-space)
+(keymap-global-set "C-x ?" #'help-for-help)
+(keymap-global-set "C-x g" #'magit-status)
+(keymap-global-set "C-x C-k" #'compile)
+; (keymap-global-set "C-x C-m" #'open-email-client)
+(keymap-global-set "C-x C-z" #'shrink-window)
+(keymap-global-set "M-<space>" #'just-one-space)
 
-(when-fboundp-global-set-key "\M-'" avy-goto-subword-1)
-(when-fboundp-global-set-key "\M-gg" avy-goto-line)
-(when-fboundp-global-set-key "\M-g\M-g" avy-goto-line)
-(when-fboundp-global-set-key "\C-xo" ace-window)
-(when-fboundp-global-set-key "\M-o" ace-window)
+(when-fboundp-keymap-global-set "M-'" avy-goto-subword-1)
+(when-fboundp-keymap-global-set "M-g g" avy-goto-line)
+(when-fboundp-keymap-global-set "M-g M-g" avy-goto-line)
+(when-fboundp-keymap-global-set "C-x o" ace-window)
+(when-fboundp-keymap-global-set "M-o" ace-window)
 
-(when-fboundp-global-set-key "\M-go" dumb-jump-go-other-window)
-(when-fboundp-global-set-key "\M-gj" dumb-jump-go)
-(when-fboundp-global-set-key "\M-gk" dumb-jump-back)
-(when-fboundp-global-set-key "\M-gq" dumb-jump-quick-look)
+(when-fboundp-keymap-global-set "M-g o" dumb-jump-go-other-window)
+(when-fboundp-keymap-global-set "M-g j" dumb-jump-go)
+(when-fboundp-keymap-global-set "M-g k" dumb-jump-back)
+(when-fboundp-keymap-global-set "M-g q" dumb-jump-quick-look)
 
-(global-set-key [f1] (lambda () (interactive) (funcall my-shell)))
-(global-set-key [\C-f1] (lambda () (interactive) (funcall my-alternate-shell)))
-(global-set-key [f2] #'git-grep)
-(global-set-key [\C-f2] #'git-grep-callers-python-ruby)
-(global-set-key [f3] #'split-window-right-and-focus)
-(global-set-key [\C-f3] #'center-of-attention)
-(set-org-file-key [f4] "todo.org")
-(global-set-key [f5]
-                (lambda () (interactive) (switch-to-buffer "*inferior-lisp*")))
-(global-set-key [\C-f5]
-                (lambda () (interactive) (switch-to-buffer "*SQL*")))
-(global-set-key [f7] #'line-to-other-window)
-(global-set-key [\C-f7] #'send-current-line-to-terminal-and-next-line)
+(keymap-global-set "<f1>" (lambda ()
+                       "runs `my-shell'"
+                       (interactive)
+                       (funcall my-shell)))
+(keymap-global-set "C-<f1>" (lambda ()
+                          "runs `my-alternate-shell'"
+                          (interactive)
+                          (funcall my-alternate-shell)))
+(keymap-global-set "<f2>" #'git-grep)
+(keymap-global-set "C-<f2>" #'git-grep-callers-python-ruby)
+(keymap-global-set "<f3>" #'split-window-right-and-focus)
+(keymap-global-set "C-<f3>" #'center-of-attention)
+(set-org-file-key "<f4>" "todo.org")
+(keymap-global-set "<f5>"
+                (lambda ()
+                  "switch to buffer `*inferior-lisp'"
+                  (interactive)
+                  (switch-to-buffer "*inferior-lisp*")))
+(keymap-global-set "C-<f5>"
+                (lambda ()
+                  "switch to buffer `*SQL*'"
+                  (interactive)
+                  (switch-to-buffer "*SQL*")))
+(keymap-global-set "<f7>" #'line-to-other-window)
+(keymap-global-set "C-<f7>" #'send-current-line-to-terminal-and-next-line)
 
-(global-set-key [f8] (lambda ()
+(keymap-global-set "<f8>" (lambda ()
                        "Revert the current buffer."
                        (interactive)
                        (revert-buffer t t)))
-(global-set-key [\C-f8] #'revert-all-buffers)
+(keymap-global-set "C-<f8>" #'revert-all-buffers)
 
 ;; File-finding key bindings.
 (let ((find-file-func (cond ((fboundp #'projectile-find-file)
@@ -74,41 +86,41 @@
                             ((fboundp #'find-file-in-repository)
                              #'find-file-in-repository)
                             (t #'ef))))
-  (global-set-key [f9] find-file-func)
-  (global-set-key [\C-f9] #'ef))
+  (keymap-global-set "<f9>" find-file-func)
+  (keymap-global-set "C-<f9>" #'ef))
 
-;; (global-set-key [f10] #'toggle-frame-maximized)
-;; (global-set-key "\M-\r" #'toggle-frame-maximized)
-;; (global-set-key [\C-f10] (lambda () (interactive) (set-frame-width nil 80)))
-(global-set-key [f11] #'other-window)
-(when-fboundp-global-set-key [\C-f11] ace-swap-window)
+;; (keymap-global-set "<f10>" #'toggle-frame-maximized)
+;; (keymap-global-set "C-<f10>" (lambda () (interactive) (set-frame-width nil 80)))
+(keymap-global-set "<f11>" #'other-window)
+(when-fboundp-keymap-global-set "C-<f11>" ace-swap-window)
 
-(global-set-key "\C-cl" #'org-store-link)
+(keymap-global-set "C-c l" #'org-store-link)
 
-(global-set-key "\C-cw" #'toggle-current-window-dedication)
+(keymap-global-set "C-c w" #'toggle-current-window-dedication)
 
 ;;; Smex mode
 (when (fboundp #'smex-initialize)
-  (global-set-key (kbd "M-x") #'smex)
-  (global-set-key (kbd "M-X") #'smex-major-mode-commands)
-  (global-set-key (kbd "C-c C-c M-x") #'execute-extended-command))
+  (keymap-global-set "M-x" #'smex)
+  (keymap-global-set "M-X" #'smex-major-mode-commands)
+  (keymap-global-set "C-c C-c M-x" #'execute-extended-command))
 
-;;; Tried writing a loop to do this, but the final number wasn't being captured
-(global-set-key "\M-1" (lambda () (interactive) (nth-other-window 0)))
-(global-set-key "\M-2" (lambda () (interactive) (nth-other-window 1)))
-(global-set-key "\M-3" (lambda () (interactive) (nth-other-window 2)))
-(global-set-key "\M-4" (lambda () (interactive) (nth-other-window 3)))
-(global-set-key "\M-5" (lambda () (interactive) (nth-other-window 4)))
-(global-set-key "\M-6" (lambda () (interactive) (nth-other-window 5)))
-(global-set-key "\M-7" (lambda () (interactive) (nth-other-window 6)))
-(global-set-key "\M-8" (lambda () (interactive) (nth-other-window 7)))
+;;; Tried writing a loop to do this, but the lambdas captured the index
+;;; variable so the wrong number was being used.
+(keymap-global-set "M-1" (lambda () (interactive) (nth-other-window 0)))
+(keymap-global-set "M-2" (lambda () (interactive) (nth-other-window 1)))
+(keymap-global-set "M-3" (lambda () (interactive) (nth-other-window 2)))
+(keymap-global-set "M-4" (lambda () (interactive) (nth-other-window 3)))
+(keymap-global-set "M-5" (lambda () (interactive) (nth-other-window 4)))
+(keymap-global-set "M-6" (lambda () (interactive) (nth-other-window 5)))
+(keymap-global-set "M-7" (lambda () (interactive) (nth-other-window 6)))
+(keymap-global-set "M-8" (lambda () (interactive) (nth-other-window 7)))
 
 (when (fboundp #'projectile-global-mode)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 ;; browse-at-remote
-(global-set-key "\C-cgg" #'browse-at-remote)
-(global-set-key "\C-cgk" #'browse-at-remote-kill)
+(keymap-global-set "C-c g g" #'browse-at-remote)
+(keymap-global-set "C-c g k" #'browse-at-remote-kill)
 
 ;;; Load local machine's keys.el if it exists.
 (load-bootstrap-file-if-exists "keys")
