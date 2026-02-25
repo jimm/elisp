@@ -105,7 +105,8 @@
   (keymap-global-set "C-c C-c M-x" #'execute-extended-command))
 
 ;;; Tried writing a loop to do this, but the lambdas captured the index
-;;; variable so the wrong number was being used.
+;;; variable so the wrong number was being used. Still working on fixing
+;; the capture.
 (keymap-global-set "M-1" (lambda () (interactive) (nth-other-window 0)))
 (keymap-global-set "M-2" (lambda () (interactive) (nth-other-window 1)))
 (keymap-global-set "M-3" (lambda () (interactive) (nth-other-window 2)))
