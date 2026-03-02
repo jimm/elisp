@@ -1550,3 +1550,10 @@ or `print-message` is non-nil, also outputs the name to the minibuffer."
   (org-table-blank-field)
   (insert (format-time-string "%Y-%m-%d "))
   (org-table-align))
+
+;;; Magnus for Claude Code
+;;; https://github.com/hrishikeshs/magnus
+(use-package magnus
+  :ensure t
+  :bind (("C-c m" . magnus)
+         ("C-c M" . magnus-create-instance)))
