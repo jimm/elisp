@@ -262,23 +262,23 @@ do so when `this-command' is one of the commands in
   (setq ido-enable-flex-matching t)
   (setq ido-use-faces nil))
 
-;;; CoffeeScript
-(autoload #'coffee-mode "coffee-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.cjsx$" . coffee-mode))
-(add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
-(add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
-(defun compile-coffee-buffer ()
-  (interactive)
-  (shell-command (concat "coffee"
-                         " -o " (shell-quote-argument (file-name-directory (buffer-file-name)))
-                         " -c " (shell-quote-argument (buffer-file-name)))))
+;; ;;; CoffeeScript
+;; (autoload #'coffee-mode "coffee-mode" nil t)
+;; (add-to-list 'auto-mode-alist '("\\.cjsx$" . coffee-mode))
+;; (add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
+;; (add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
+;; (defun compile-coffee-buffer ()
+;;   (interactive)
+;;   (shell-command (concat "coffee"
+;;                          " -o " (shell-quote-argument (file-name-directory (buffer-file-name)))
+;;                          " -c " (shell-quote-argument (buffer-file-name)))))
 
-(add-hook 'coffee-mode-hook
-          (lambda ()
-            (setq coffee-js-mode #'javascript-mode)
-            (define-key coffee-mode-map "\C-cx" #'executable-interpret)
-            (define-key coffee-mode-map "\C-ck" #'compile-coffee-buffer)
-            (set (make-local-variable 'tab-width) 2)))
+;; (add-hook 'coffee-mode-hook
+;;           (lambda ()
+;;             (setq coffee-js-mode #'javascript-mode)
+;;             (define-key coffee-mode-map "\C-cx" #'executable-interpret)
+;;             (define-key coffee-mode-map "\C-ck" #'compile-coffee-buffer)
+;;             (set (make-local-variable 'tab-width) 2)))
 
 ;;; dash
 (use-package dash
