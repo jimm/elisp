@@ -73,22 +73,24 @@ markers before and after the current symbol.
 
 Each line of output is truncated to a max of 240 characters."
   (interactive "P")
-  (let* ((symbol-at-point (thing-at-point 'symbol))
-         (regexp (if (and arg (symbol-at-point))
-                     (concat (when (= (car arg) 16) "\\b")
-                             (regexp-quote symbol-at-point)
-                             (when (= (car arg) 16) "\\b"))
-                   (read-from-minibuffer
-                    "Search regexp: " nil nil nil 'grep-find-history)))
-         (default-directory (git-root-dir))
-         (case-ignore-flag (and (isearch-no-upper-case-p regexp t) "-i"))
-         (cmd (concat "git grep --extended-regexp --line-number --full-name"
-                      " --untracked --no-color " case-ignore-flag " -- '" regexp
-                      "' | cut -c -240")))
-    (while (equal "" regexp)
+  (let ((default-directory (git-root-dir)))
+    (unless default-directory
+      (error "git-grep: not a git repo"))
+    (let* ((symbol-at-point (thing-at-point 'symbol))
+           (regexp (if (and arg (symbol-at-point))
+                       (concat (when (= (car arg) 16) "\\b")
+                               (regexp-quote symbol-at-point)
+                               (when (= (car arg) 16) "\\b"))
+                     (read-from-minibuffer
+                      "Search regexp: " nil nil nil 'grep-find-history)))
+           (case-ignore-flag (and (isearch-no-upper-case-p regexp t) "-i"))
+           (cmd (concat "git grep --extended-regexp --line-number --full-name"
+                        " --untracked --no-color " case-ignore-flag " -- '" regexp
+                        "' | cut -c -240")))
+      (while (equal "" regexp)
         (setq regexp (read-from-minibuffer
                       "Search regexp (must not be the empty string): " nil nil nil 'grep-find-history)))
-    (grep-find cmd)))
+      (grep-find cmd))))
 
 (defun git-grep-callers-python-ruby (arg)
   "Runs 'git grep \"\\bcurrent_symbol\\b\"' to find callers of the symbol
