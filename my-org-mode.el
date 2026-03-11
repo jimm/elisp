@@ -64,9 +64,6 @@ work for all langauges."
             (define-key org-mode-map "\M-," #'org-mark-ring-goto)
 
             ;; yasnippet mode
-            ;; TODO org-set-local has gone away. Delete this call when all
-            ;; of my Emacs instances are updated
-            (when-fboundp-call org-set-local 'yas-trigger-key "\t")
             (add-to-list 'org-tab-first-hook
                          (lambda ()
                            (let ((yas/fallback-behavior 'return-nil))
@@ -117,7 +114,8 @@ variable.")
   "Given a TAG of the form '<repo>-<number>', returns a URL to a PR in that repo.
 
 Repo names are either abbreviations or full repo names.
-Abbreviations must be found in `my-org-mode-pr-abbreviations-alist'."
+Abbreviations must be found in `my-org-mode-pr-abbreviations-alist'. Can be
+overridden by a dir-local variable."
   (let* ((elems (split-string tag "-"))
          (repo (string-join (butlast elems) "-"))
          (pr-num (car (last elems)))
@@ -175,3 +173,33 @@ variable.")
 (add-hook 'org-present-mode-quit-hook
           (lambda ()
             (set-background-color *current-background*)))
+
+;;; ================================================================
+
+;;
+;; Miscellaneous
+;;
+
+(defun job-search-goto-today ()
+"Jumps to the current day's notes in *my-pim-dir*/orgs/job_search.org.
+If there is not an entry for the current day, creates one."
+  (interactive)
+  (let* ((file (concat *my-pim-dir* "orgs/job_search.org"))
+         (today-str (format-time-string "%Y-%m-%d")))
+    (if-let ((buf (find-buffer-visiting file)))
+        (switch-to-buffer buf)
+      (find-file file))
+    (goto-char (point-min))
+    (search-forward "\n* Diary")
+    (unless
+        (search-forward
+         (concat "\n*** " today-str)
+         nil                                ; to end of buffer
+         t)                                 ; if fail return nil, no error
+      ;; Create a new entry. Assumes we have at least one entry already.
+      (goto-char(point-min))
+      (search-forward "\n* Diary")
+      (search-forward "\n*** 2")        ; start of a day entry
+      (beginning-of-line)
+      (insert "*** " today-str "\n\n\n\n")
+      (goto-char (- (point) 2)))))
