@@ -10,7 +10,8 @@
    `(eshell-prompt ((t (:foreground "blue" :bold t))))
 
    `(org-level-1 ((t (:foreground "blue" :bold t))))
-   `(org-level-2 ((t (:foreground "black" :bold t))))
+   `(org-level-2 ((t (:foreground "darkgreen" :bold t))))
+   `(org-level-4 ((t (:foreground "darkred"))))
    `(,org-mode-block-sym ((t (:foreground "black"
                      :background "ivory"))))
    `(org-block-begin-line ((t (:background "gray95"))))
