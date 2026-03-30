@@ -91,6 +91,16 @@ values."
 
 ;;; ================ custom link handling ================
 
+;; Set up `org-link-abbrev-alist` entries for some commonly used links.
+;;
+;; See the docs for `org-link-abbrev-alist`. Some of these
+;; `my-org-mode-*-link` functions don't need to be functions because they
+;; simply concat a value at the end of a string which is the default
+;; behavior for tagged links where the `org-link-abbrev-alist` entry is a
+;; simple string. But then each machine's bootstrap code would have to
+;; define the entire list of these or at least replace the defaults, whereas
+;; here we use vars that can be overridden by a dir-local variable.
+
 ;; ---------------- repo: ----------------
 
 (defvar-local *my-org-mode-repo-link-prefix* "https://github.com/jimm/"
