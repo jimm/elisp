@@ -59,7 +59,7 @@
 (set-org-file-key "<f4>" "todo.org")
 (keymap-global-set "<f5>"
                 (lambda ()
-                  "switch to buffer `*inferior-lisp'"
+                  "switch to buffer `*inferior-lisp*'"
                   (interactive)
                   (switch-to-buffer "*inferior-lisp*")))
 (keymap-global-set "C-<f5>"
@@ -67,6 +67,9 @@
                   "switch to buffer `*SQL*'"
                   (interactive)
                   (switch-to-buffer "*SQL*")))
+;;; The version of Emacs I'm running keeps blanking the mode line. Probably
+;;; something wrong with my simple custom theme.
+(keymap-global-set "<f6>" (lambda () (interactive) (force-mode-line-update)))
 (keymap-global-set "<f7>" #'line-to-other-window)
 (keymap-global-set "C-<f7>" #'send-current-line-to-terminal-and-next-line)
 
@@ -89,6 +92,7 @@
   (keymap-global-set "<f9>" find-file-func)
   (keymap-global-set "C-<f9>" #'ef))
 
+;;; I currently use Hammerspoon to manage windows on Mac OS.
 ;; (keymap-global-set "<f10>" #'toggle-frame-maximized)
 ;; (keymap-global-set "C-<f10>" (lambda () (interactive) (set-frame-width nil 80)))
 (keymap-global-set "<f11>" #'other-window)

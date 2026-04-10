@@ -10,9 +10,10 @@
 # missing, then the list of available domains will be printed out. Likewise
 # if domain is specified but machine is missing.
 
-cd "$(dirname "$0")/.."
+HERE="$(cd "$(dirname "$0")" >/dev/null && pwd)"
+cd "$HERE"/..
 ELISP_DIR="$(pwd)"
-user_emacs_dir="$HOME/.config/emacs"
+user_emacs_dir="$ELISP_DIR"
 bd="$ELISP_DIR/bootstrap"
 newsrc_dir=$dbox/Miscellaneous/newsrc.eld
 
