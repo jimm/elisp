@@ -64,19 +64,15 @@ fi
 
 # ==== main ====
 
+cd "$HERE"/../..
+
 # Create init file
 backup_if_exists init.el
 if [ "$debug" = "echo" ] ; then
     echo creating init.el
 else
-    cat > "$user_emacs_dir/init.el" <<EOS
+    cat > init.el <<EOS
 (load-file "$ELISP_DIR/bootstrap-init.el")
 (bootstrap-init "$domain" "$machine")
 EOS
-fi
-
-# Link newsrc
-if [ -f $newsrc_dir ] ; then
-    backup_if_exists ~/.newsrc.eld
-    $debug ln -s $newsrc_dir ~/.newsrc.eld
 fi
