@@ -21,7 +21,8 @@
    '((claude-code :url "https://github.com/stevemolitor/claude-code.el")))
  '(python-fill-docstring-style 'pep-257-nn)
  '(safe-local-variable-values
-   '((*my-org-mode-pr-repo-abbrevs-alist* quote (("s" . "seller")))
+   '((*my-org-mode-repo-link-prefix* . "https://github.com/TheRealReal/")
+     (*my-org-mode-pr-repo-abbrevs-alist* quote (("s" . "seller")))
      (*my-org-mode-tk-link-prefix*
       . "https://trr-prod.atlassian.net/browse/")
      (*my-org-mode-repo-link-prefix* . "https://github.com/TheRealReal")
