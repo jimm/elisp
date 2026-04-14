@@ -21,7 +21,11 @@
    '((claude-code :url "https://github.com/stevemolitor/claude-code.el")))
  '(python-fill-docstring-style 'pep-257-nn)
  '(safe-local-variable-values
-   '((*my-org-mode-pr-repo-abbrevs-alist* ("q" . "quark") ("p" . "proton")
+   '((*my-org-mode-pr-repo-abbrevs-alist* quote (("s" . "seller")))
+     (*my-org-mode-tk-link-prefix*
+      . "https://trr-prod.atlassian.net/browse/")
+     (*my-org-mode-repo-link-prefix* . "https://github.com/TheRealReal")
+     (*my-org-mode-pr-repo-abbrevs-alist* ("q" . "quark") ("p" . "proton")
                                           ("g" . "gateway") ("l" . "gluon"))
      (*my-org-mode-tk-link-prefix*
       . "https://app.shortcut.com/particlehealth/story/")
