@@ -19,20 +19,7 @@
                yaml-mode yasnippet-snippets))
  '(package-vc-selected-packages
    '((claude-code :url "https://github.com/stevemolitor/claude-code.el")))
- '(python-fill-docstring-style 'pep-257-nn)
- '(safe-local-variable-values
-   '((*my-org-mode-repo-link-prefix* . "https://github.com/TheRealReal/")
-     (*my-org-mode-pr-repo-abbrevs-alist* quote (("s" . "seller")))
-     (*my-org-mode-tk-link-prefix*
-      . "https://trr-prod.atlassian.net/browse/")
-     (*my-org-mode-repo-link-prefix* . "https://github.com/TheRealReal")
-     (*my-org-mode-pr-repo-abbrevs-alist* ("q" . "quark") ("p" . "proton")
-                                          ("g" . "gateway") ("l" . "gluon"))
-     (*my-org-mode-tk-link-prefix*
-      . "https://app.shortcut.com/particlehealth/story/")
-     (*my-org-mode-pr-repo-abbrevs-alist* ("q" . "quark") ("p" . "proton")
-                                          ("g" . "gluon"))
-     (*my-org-mode-repo-link-prefix* . "https://github.com/ParticleHealth/"))))
+ '(python-fill-docstring-style 'pep-257-nn))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
