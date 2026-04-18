@@ -19,7 +19,18 @@
                yaml-mode yasnippet-snippets))
  '(package-vc-selected-packages
    '((claude-code :url "https://github.com/stevemolitor/claude-code.el")))
- '(python-fill-docstring-style 'pep-257-nn))
+ '(python-fill-docstring-style 'pep-257-nn)
+ '(safe-local-variable-values
+   '((*my-org-mode-pr-repo-abbrevs-alist* ("a" . "api") ("as" . "admin-sales")
+                                          ("gp" . "grcp-packages")
+                                          ("rs" . "real-server")
+                                          ("se" . "seller")
+                                          ("su" . "supply")
+                                          ("tc" . "trr-compose")
+                                          ("wj" . "website-jamstack"))
+     (*my-org-mode-tk-link-prefix*
+      . "https://trr-prod.atlassian.net/browse/")
+     (*my-org-mode-repo-link-prefix* . "https://github.com/TheRealReal/"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
