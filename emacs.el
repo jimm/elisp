@@ -923,6 +923,7 @@ you have a local copy, for example.")
 (setq shell-completion-execonly nil)    ; Any file is completion candidate
 (add-hook 'shell-mode-hook
           (lambda ()
+            (setq tab-width 8)
             (auto-fill-mode -1)
             (setq comint-scroll-show-maximum-output nil)))
 
