@@ -11,7 +11,7 @@
                flx-ido fzf htmlize lua-mode magit magnus markdown-mermaid
                markdown-mode mermaid-mode mood-line projectile
                projectile-rails rspec-mode rubocopfmt ruff-format slime smex
-               suggest vterm yasnippet yasnippet-snippets))
+               suggest vterm yaml-mode yasnippet yasnippet-snippets))
  '(python-fill-docstring-style 'pep-257-nn)
  '(safe-local-variable-values
    '((*my-org-mode-pr-repo-abbrevs-alist* ("a" . "api") ("as" . "admin-sales")

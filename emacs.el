@@ -902,7 +902,7 @@ you have a local copy, for example.")
 ;;
 ;; sh-mode
 ;;
-(add-to-list 'auto-mode-alist '("/\\.env[^/]*" . sh-mode))
+(add-to-list 'auto-mode-alist '("/\\.env\\(/.*\\)$" . sh-mode))
 
 ;;
 ;; Eshell-mode
