@@ -7,11 +7,12 @@
  '(custom-safe-themes
    '("c047f43f076fab9232aa6766caba661a912b5c5a5da0f5ed1926061cedf0393d" default))
  '(package-selected-packages
-   '(2048-game ace-window alchemist browse-at-remote dash diminish elixir-mode
-               flx-ido fzf htmlize lua-mode magit magnus markdown-mermaid
-               markdown-mode mermaid-mode mood-line projectile
-               projectile-rails rspec-mode rubocopfmt ruff-format slime smex
-               suggest vterm yaml-mode yasnippet yasnippet-snippets))
+   '(2048-game ace-window alchemist browse-at-remote dash diminish
+               dockerfile-mode elixir-mode flx-ido fzf htmlize lua-mode
+               magit magnus markdown-mermaid markdown-mode mermaid-mode
+               mood-line projectile projectile-rails rspec-mode rubocopfmt
+               ruff-format slime smex suggest vterm yaml-mode yasnippet
+               yasnippet-snippets))
  '(python-fill-docstring-style 'pep-257-nn)
  '(safe-local-variable-values
    '((*my-org-mode-pr-repo-abbrevs-alist* ("a" . "api") ("as" . "admin-sales")
