@@ -902,7 +902,17 @@ you have a local copy, for example.")
 ;;
 ;; sh-mode
 ;;
-(add-to-list 'auto-mode-alist '("/\\.env\\(/.*\\)$" . sh-mode))
+
+;; Match environment files of the form
+;; .env$
+;; .environment$
+;; /.env/*
+;; /env/*
+(let ((env-regex (rx (or
+                    (seq ".env" (? "ironment") line-end)
+                    (seq "/" (? ".") "env/")))))
+  (add-to-list 'auto-mode-alist (cons env-regex 'sh-mode)))
+
 
 ;;
 ;; Eshell-mode
