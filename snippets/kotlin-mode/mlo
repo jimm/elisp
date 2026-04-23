@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: mutableListOf()
+# key: mlo
+# --
+mutableListOf(${1:1, 2, 3})$0

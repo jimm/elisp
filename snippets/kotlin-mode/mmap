@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: MutableMap<>
+# key: mmap
+# --
+MutableMap<${1:KeyType}, ${2:ValType}>$0

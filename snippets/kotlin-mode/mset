@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: MutableSet<>
+# key: mset
+# --
+MutableSet<${1:Type}>$0

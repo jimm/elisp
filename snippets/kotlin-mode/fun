@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: fun() { ... }
+# key: fun
+# --
+fun ${1:funName}($2)${3:: Unit} {
+    $0
+}

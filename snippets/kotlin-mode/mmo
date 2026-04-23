@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: mutableMapOf()
+# key: mlo
+# --
+mutableMapOf(${1:"a" to 1, "b" to 2})$0

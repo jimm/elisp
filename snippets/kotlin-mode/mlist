@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: MutableList<>
+# key: mlist
+# --
+MutableList<${1:Type}>$0

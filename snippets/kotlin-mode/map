@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Map<>
+# key: map
+# --
+Map<${1:KeyType}, ${2:ValType}>$0
