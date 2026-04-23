@@ -8,7 +8,7 @@
  '(epg-gpg-program "/usr/bin/gpg2")
  '(eshell-save-history-on-exit t)
  '(package-selected-packages
-   '(smex fzf mood-line ace-window yasnippet-snippets yasnippet rubocopfmt ruff-format alchemist elixir-mode dash flx-ido use-package magit))
+   '(magnus browse-at-remote smex fzf mood-line ace-window yasnippet-snippets yasnippet rubocopfmt ruff-format alchemist elixir-mode dash flx-ido use-package magit))
  '(python-fill-docstring-style 'pep-257-nn)
  '(sgml-xml-mode t)
  '(woman-use-own-frame nil))
