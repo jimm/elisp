@@ -693,7 +693,7 @@ call `ff-find-other-file`."
   (interactive "P")
   (let* ((fname (buffer-file-name))
 	 (ext (file-name-extension fname)))
-    (cond ((or (equal "java" ext) (equal "scala" ext))
+    (cond ((or (equal "java" ext) (equal "scala" ext) (equal "kt" ext))
 	   (find-other-java-file fname ext))
 	  ((equal "rb" ext)
 	   (find-other-ruby-file fname))
@@ -701,7 +701,7 @@ call `ff-find-other-file`."
 	   (ff-find-other-file in-other-window ignore-include)))))
 
 (defun find-other-java-file (&optional file-name ext)
-  "Visits `Foo.java' when given `FooTest.java' and vice versa.
+  "Visits `Foo.<ext>' when given `FooTest.<ext>' and vice versa.
 Default file-name is current buffer's name."
   (interactive)
   (let* ((fname (file-name-nondirectory (or file-name (buffer-file-name))))
