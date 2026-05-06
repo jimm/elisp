@@ -6,7 +6,7 @@
   (custom-theme-set-faces
    'jim-dim
    `(default ((t (:foreground "white" :background "#574e68"))))
-   `(mode-line ((t (:foreground "black" :background "darkorange2"))))
+   `(mode-line ((t (:foreground "yellow" :background "black"))))
    `(eshell-prompt ((t (:foreground "LightBlue" :bold t))))
 
    `(org-level-1 ((t (:foreground "yellow" :bold t))))
