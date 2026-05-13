@@ -63,6 +63,8 @@ work for all langauges."
             (define-key org-mode-map "\M-." #'org-open-at-point)
             (define-key org-mode-map "\M-," #'org-mark-ring-goto)
 
+            (flyspell-mode)
+
             ;; yasnippet mode
             (add-to-list 'org-tab-first-hook
                          (lambda ()

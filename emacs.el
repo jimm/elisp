@@ -404,7 +404,8 @@ unchanged."
   (add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\|mdown\\)$" . markdown-mode))
   (add-hook 'markdown-mode-hook
 	    (lambda ()
-	      (set-face-attribute 'markdown-header-face-1 nil :height 1.2 :bold t))))
+	      (set-face-attribute 'markdown-header-face-1 nil :height 1.2 :bold t)
+        (flyspell-mode))))
 
 ;;; Objective C
 (add-hook 'objc-mode-hook
@@ -491,6 +492,7 @@ unchanged."
           (lambda ()
             (auto-fill-mode 0)
             (visual-line-mode 1)
+            (flyspell-mode)
             (set-face-attribute 'textile-h1-face nil :foreground "blue" :height 1.2 :bold t)
             (set-face-attribute 'textile-h2-face nil :foreground "brown" :height 1.0)
             (set-face-attribute 'textile-h3-face nil :foreground "darkgreen" :height 1.0)
@@ -849,7 +851,8 @@ you have a local copy, for example.")
 (add-hook 'text-mode-hook
           (lambda ()
             (auto-fill-mode 1)
-            (four-tab-stops)))
+            (four-tab-stops)
+            (flyspell-mode)))
 
 ;;
 ;; For both C and C++ mode
