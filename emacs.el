@@ -398,6 +398,10 @@ unchanged."
   (add-to-list 'auto-mode-alist '("\\.tsx$" . typescript-mode)))
 
 
+;;; Flyspell mode
+(defalias 'facw #'flyspell-auto-correct-word)
+(defalias 'facp #'flyspell-auto-correct-previous-word)
+
 ;;; Markdown
 (ignore-errors		       ; some systems don't have markdown-mode
   (require 'markdown-mode)                ; so my themes will bind correctly
