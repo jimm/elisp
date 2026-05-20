@@ -405,10 +405,12 @@ unchanged."
 ;;; Markdown
 (ignore-errors		       ; some systems don't have markdown-mode
   (require 'markdown-mode)                ; so my themes will bind correctly
+  (setq markdown-command "kramdown")
   (add-to-list 'auto-mode-alist '("\\.\\(md\\|markdown\\|mdown\\)$" . markdown-mode))
   (add-hook 'markdown-mode-hook
 	    (lambda ()
 	      (set-face-attribute 'markdown-header-face-1 nil :height 1.2 :bold t)
+        (define-key markdown-mode-map "\C-c\C-ca" #'markdown-table-align)
         (flyspell-mode))))
 
 ;;; Objective C

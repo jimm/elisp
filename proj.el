@@ -169,19 +169,18 @@ by calling `abbreviate-file-name'. Also outputs the path."
 
 (defun path-to-clipboard-kill-ring (&optional arg)
   "Copies path to file visited by current buffer to the kill ring and GUI
-clipboard. Returns filename.
+clipboard. Returns path.
 
 With an ARG, append the line number at point. From
 https://stackoverflow.com/questions/2416655/file-path-to-kill-ring-in-emacs"
   (interactive "p")
   (let ((filename (or (buffer-file-name) default-directory)))
     (when filename
-      (-path-to-clipboard-kill-ring filename (> arg 1))
-      filename)))
+      (-path-to-clipboard-kill-ring filename (> (or arg 1) 1)))))
 
 (defun path-from-git-root-to-clipboard-kill-ring (&optional arg)
-  "Copies relative path of file visited by current buffer to the kill ring and
-GUI clipboard. Returns filename.
+  "Copies relative path of file from git root dir visited by current buffer
+to the kill ring and GUI clipboard. Returns relative path.
 
 With an ARG, append the line number at point."
   (interactive "p")
@@ -190,4 +189,4 @@ With an ARG, append the line number at point."
       (let* ((git-root-dir (expand-file-name (locate-dominating-file absolute-path ".git")))
              (relative-path (substring absolute-path (length git-root-dir))))
         (when relative-path
-          (-path-to-clipboard-kill-ring relative-path (> arg 1)))))))
+          (-path-to-clipboard-kill-ring relative-path (> (or arg 1) 1)))))))

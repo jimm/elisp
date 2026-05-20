@@ -8,11 +8,12 @@
    '("c047f43f076fab9232aa6766caba661a912b5c5a5da0f5ed1926061cedf0393d" default))
  '(package-selected-packages
    '(2048-game ace-window alchemist browse-at-remote dash diminish
-               dockerfile-mode elixir-mode flx-ido fzf htmlize kotlin-mode
-               lua-mode magit magnus markdown-mermaid markdown-mode
-               mermaid-mode mood-line projectile projectile-rails rspec-mode
-               rubocopfmt ruff-format slime smex suggest typescript-mode
-               vterm yaml-mode yasnippet yasnippet-snippets))
+               dockerfile-mode elixir-mode flx-ido fzf go-mode htmlize
+               kotlin-mode lua-mode magit magnus markdown-mermaid
+               markdown-mode mermaid-mode mood-line projectile
+               projectile-rails rspec-mode rubocopfmt ruff-format slime smex
+               suggest typescript-mode vterm yaml-mode yasnippet
+               yasnippet-snippets))
  '(python-fill-docstring-style 'pep-257-nn)
  '(safe-local-variable-values
    '((*my-org-mode-pr-repo-abbrevs-alist* ("a" . "api") ("ag" . "api-gateway")
