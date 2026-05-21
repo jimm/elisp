@@ -123,9 +123,12 @@
 (when (fboundp #'projectile-global-mode)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
-;; browse-at-remote
+;;; browse-at-remote
 (keymap-global-set "C-c g g" #'browse-at-remote)
 (keymap-global-set "C-c g k" #'browse-at-remote-kill)
 
 ;;; Load local machine's keys.el if it exists.
 (load-bootstrap-file-if-exists "keys")
+
+;;; Flyspell
+(keymap-global-set "M-#" #'flyspell-auto-correct-word)
