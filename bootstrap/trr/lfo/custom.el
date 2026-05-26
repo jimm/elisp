@@ -5,7 +5,12 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("c047f43f076fab9232aa6766caba661a912b5c5a5da0f5ed1926061cedf0393d" default))
+   '("f465b7460f76b7949b45e8a52990f2df7d67392a32d641fd113199102f78e5bd"
+     "c98024c7780160f7258b7fb040fb6876391632460467ae90d3433989361ea28b"
+     "d7d9b0af41f635b2719b9b13c93190e4f0b6f3510ad1b434f7afd2d592f74bbc"
+     "45fdf8bb74afe2f3f00719eb9f934194773f7b26f9c78861c1d9b49fbb83dfcb"
+     "c047f43f076fab9232aa6766caba661a912b5c5a5da0f5ed1926061cedf0393d"
+     default))
  '(package-selected-packages
    '(2048-game ace-window alchemist browse-at-remote dash diminish
                dockerfile-mode elixir-mode flx-ido fzf go-mode htmlize
