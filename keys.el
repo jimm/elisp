@@ -57,11 +57,7 @@
 (keymap-global-set "<f3>" #'split-window-right-and-focus)
 (keymap-global-set "C-<f3>" #'center-of-attention)
 (set-org-file-key "<f4>" "todo.org")
-(keymap-global-set "<f5>"
-                (lambda ()
-                  "switch to buffer `*inferior-lisp*'"
-                  (interactive)
-                  (switch-to-buffer "*inferior-lisp*")))
+(keymap-global-set "<f5>" #'path-from-git-root-to-clipboard-kill-ring)
 (keymap-global-set "C-<f5>"
                 (lambda ()
                   "switch to buffer `*SQL*'"
