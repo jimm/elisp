@@ -915,10 +915,12 @@ you have a local copy, for example.")
 ;; Match environment files of the form
 ;; .env$
 ;; .environment$
+;; .env.(sample|example)$
 ;; /.env/*
 ;; /env/*
 (let ((env-regex (rx (or
                     (seq ".env" (? "ironment") line-end)
+                    (seq ".env." (or "sample" "example") line-end)
                     (seq "/" (? ".") "env/")))))
   (add-to-list 'auto-mode-alist (cons env-regex 'sh-mode)))
 
