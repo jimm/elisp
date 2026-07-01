@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: hashSetOf<T>()
+# key: hso
+# --
+hashSetOf<$1>(${2:1, 2, 3})$0
