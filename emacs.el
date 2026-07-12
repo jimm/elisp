@@ -1573,6 +1573,9 @@ or `print-message` is non-nil, also outputs the name to the minibuffer."
   (insert (format-time-string "%Y-%m-%d "))
   (org-table-align))
 
+;;; Mermaid
+(use-package mermaid-mode)
+
 ;;; Magnus for Claude Code
 ;;; https://github.com/hrishikeshs/magnus
 (use-package magnus
