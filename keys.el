@@ -76,14 +76,14 @@
 (keymap-global-set "C-<f8>" #'revert-all-buffers)
 
 ;; File-finding key bindings.
-(let ((find-file-func (cond ((fboundp #'projectile-find-file)
-                              #'projectile-find-file)
-                             ((fboundp #'find-file-in-project)
+(let ((find-file-func (cond ((fboundp #'find-file-in-project)
                               #'find-file-in-project)
                             ((fboundp #'fzf-git)
                              #'fzf-git)
                             ((fboundp #'find-file-in-repository)
                              #'find-file-in-repository)
+                            ((fboundp #'projectile-find-file)
+                             #'projectile-find-file)
                             (t #'ef))))
   (keymap-global-set "<f9>" find-file-func)
   (keymap-global-set "C-<f9>" #'ef))
