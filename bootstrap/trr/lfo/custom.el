@@ -21,7 +21,8 @@
                yasnippet-snippets))
  '(python-fill-docstring-style 'pep-257-nn)
  '(safe-local-variable-values
-   '((*my-org-mode-pr-repo-abbrevs-alist* ("a" . "api") ("ag" . "api-gateway")
+   '((rubocopfmt-rubocop-command . "standardrb")
+     (*my-org-mode-pr-repo-abbrevs-alist* ("a" . "api") ("ag" . "api-gateway")
                                           ("as" . "admin-sales")
                                           ("gp" . "grpc-packages")
                                           ("box" . "jimm-sandbox")
