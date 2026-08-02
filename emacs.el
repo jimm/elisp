@@ -1582,3 +1582,7 @@ or `print-message` is non-nil, also outputs the name to the minibuffer."
   :ensure t
   :bind (("C-c m" . magnus)
          ("C-c M" . magnus-create-instance)))
+
+;;; Pony
+(when (fboundp #'ponylang-mode)
+  (use-package ponylang-mode))

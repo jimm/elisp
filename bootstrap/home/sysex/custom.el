@@ -19,8 +19,8 @@
    '(2048-game ace-window ag alchemist browse-at-remote crystal-mode diminish
                eat flx-ido fzf go-mode janet-mode just-mode kotlin-mode
                lua-mode magit magnus markdown-mode mermaid-mode mood-line
-               rubocopfmt ruff-format rust-mode smex terraform-mode
-               yaml-mode yasnippet-snippets))
+               pony-snippets ponylang-mode rubocopfmt ruff-format rust-mode
+               smex terraform-mode yaml-mode yasnippet-snippets))
  '(package-vc-selected-packages
    '((claude-code :url "https://github.com/stevemolitor/claude-code.el")))
  '(python-fill-docstring-style 'pep-257-nn)
