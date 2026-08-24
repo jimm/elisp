@@ -9,6 +9,9 @@
       my-shell #'shell
       my-alternate-shell #'eshell)
 
+;; Salesforce. Java isn't right, but it's close enough.
+(add-to-list 'auto-mode-alist '("\\.cls$" . java-mode))
+
 ;; ;;; experimentation
 
 ;; (defvar trr-link-regexp
