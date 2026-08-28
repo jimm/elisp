@@ -6,7 +6,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("f465b7460f76b7949b45e8a52990f2df7d67392a32d641fd113199102f78e5bd"
+   '("69d2c32b0ed7c2b89098388ce5d85fd11d54b3cee2e9fcd052adcf655b83c60f"
+     "f465b7460f76b7949b45e8a52990f2df7d67392a32d641fd113199102f78e5bd"
      "c98024c7780160f7258b7fb040fb6876391632460467ae90d3433989361ea28b"
      "d7d9b0af41f635b2719b9b13c93190e4f0b6f3510ad1b434f7afd2d592f74bbc"
      "45fdf8bb74afe2f3f00719eb9f934194773f7b26f9c78861c1d9b49fbb83dfcb"
@@ -23,7 +24,8 @@
  '(python-fill-docstring-style 'pep-257-nn)
  '(safe-local-variable-values
    '((rubocopfmt-rubocop-command . "standardrb")
-     (*my-org-mode-pr-repo-abbrevs-alist* ("a" . "api") ("ag" . "api-gateway")
+     (*my-org-mode-pr-repo-abbrevs-alist* ("a" . "api")
+                                          ("ag" . "api-gateway")
                                           ("as" . "admin-sales")
                                           ("gp" . "grpc-packages")
                                           ("box" . "jimm-sandbox")
