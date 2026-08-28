@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name : TMPFILE="..."
+# key: tmpfile
+# --
+TMPFILE="$(mktemp -t "$(basename "\$0")")"
+trap 'rm -rf $TMPFILE' EXIT HUP INT TERM
