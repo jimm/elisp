@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;; See http://www.zachtronics.com/tis-100/
 
 (define-generic-mode tis-100-mode

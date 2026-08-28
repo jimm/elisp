@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (custom-set-variables
  '(python-fill-docstring-style 'pep-257-nn))
 

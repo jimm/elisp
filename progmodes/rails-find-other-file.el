@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;;; requires rails-root-p from my-rails.el
 
 (defun rails-root-dir (path)

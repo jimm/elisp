@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun open-email-client ()
   "Open the default email client."
   (interactive)
@@ -15,7 +17,7 @@
   "Add all the paths in the colon-separated PATH to `exec-path'."
   (mapc (lambda (path-element)
           (add-to-list 'exec-path path-element))
-        (split-string val ":")))
+        (split-string path ":")))
 
 (defun mac-process-env-string (setting)
   "Parse an environment variable SETTING of the form \"foo=bar\".

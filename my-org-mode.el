@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;;; Org Mode
 
 (require 'org)

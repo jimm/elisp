@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;;; Define global key bindings then load the local machine's override file
 ;;; if it exists.
 

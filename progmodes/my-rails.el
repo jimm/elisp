@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'rails-find-other-file)
 
 (when (fboundp #'projectile-rails-mode)

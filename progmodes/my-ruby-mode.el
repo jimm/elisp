@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'my-rails)
 (require 'rdoc-mode)
 (require 'ruby-testing)

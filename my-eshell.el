@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (setq eshell-history-size 512
       eshell-last-dir-ring-size 256)
 

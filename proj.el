@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;;; My collection of functions and settings that are sort of like
 ;;; projectile-mode.
 

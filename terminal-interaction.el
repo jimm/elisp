@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun -send-to-iterm (str suppress-newline)
   "Private method. Send STR to iTerm2, honoring SUPPRESS-NEWLINE."
   (let ((tempfile (concat "/tmp/emacs_terminal_"

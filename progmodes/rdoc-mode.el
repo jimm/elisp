@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defface rdoc-header-1
   '((t ( ; :background "black" :foreground "white"
 		  :weight bold :height 1.75)))

@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 ;; -*- emacs-lisp -*-
 
 ;;; Note: this file should be loaded by bootstrap-init.el.

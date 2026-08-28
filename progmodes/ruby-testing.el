@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;;; ================ running RSpec tests ================
 
 (defun my-rails--seed-arg-string (seed)

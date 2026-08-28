@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defvar work-orgs-dir nil
   "Name of $pim/orgs/work subdir where I keep work-related Org mode files.")
 

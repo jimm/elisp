@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (deftheme jim-dark "My dark theme.")
 
 (let ((org-mode-block-sym (if (>= emacs-major-version 26)

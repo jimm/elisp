@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (load-theme 'jim-light)
 
 (setq user-email-address "jim.menard@therealreal.com"

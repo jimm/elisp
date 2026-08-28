@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;;;; See "Bootstrap Process" in README.org.
 
 (defvar *my-emacs-lib-dir* (file-name-directory load-file-name))

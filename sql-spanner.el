@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;;; A simple sql mode for GCP Spanner.
 ;;;
 ;;; When entering the connection parameters, "server" must be the GCP

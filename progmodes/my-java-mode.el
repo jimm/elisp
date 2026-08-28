@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (add-to-list 'auto-mode-alist '("\\.aj$" . java-mode)) ; Roo aspect files
 (add-to-list 'auto-mode-alist '("\\.jsp$" . html-mode))
 (add-to-list 'auto-mode-alist '("\\.w[as]r$" . archive-mode))

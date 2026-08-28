@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;;
 ;; Elixir-mode support. This is not elixir-mode itself, which is available
 ;; from ELPA/MELPA.

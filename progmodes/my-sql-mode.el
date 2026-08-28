@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun show-create-table (table-name)
   (interactive "sTable name: ")
   (goto-char (point-min))

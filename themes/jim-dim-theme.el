@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (deftheme jim-dim "My dim theme.")
 
 (let ((org-mode-block-sym (if (>= emacs-major-version 26)

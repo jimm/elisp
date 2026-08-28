@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;;; status.el
 ;;;
 ;;; Provides a way to store quick notes in an Org file. Status notes are

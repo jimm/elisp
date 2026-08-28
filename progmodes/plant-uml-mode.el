@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;;; A generic mode for sequencediagram.org diagrams
 ;;; See https://sequencediagram.org/instructions.html
 

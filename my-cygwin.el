@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ; Most of this comes from http://www.khngai.com/emacs/cygwin.php
 
 ; path

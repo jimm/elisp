@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (when work-orgs-dir
   (keymap-global-set "C-<f4>"
                   (lambda ()
