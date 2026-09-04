@@ -288,10 +288,15 @@ do so when `this-command' is one of the commands in
   (dash-enable-font-lock))
 
 ;;; Magit
-(use-package magit
-  :ensure t
-  :config
-  (setq magit-show-long-lines-warning nil))
+(let ((git-version (-third-item
+		    (split-string
+		     (string-trim
+		      (shell-command-to-string "git --version") " ")))))
+  (unless (version< git-version "2.25")
+    (use-package magit
+      :ensure t
+      :config
+      (setq magit-show-long-lines-warning nil))))
 
 ;;; dumb-jump
 (when-fboundp-call dumb-jump-mode)
@@ -306,10 +311,11 @@ do so when `this-command' is one of the commands in
   :hook (before-save . elixir-format)
   :custom (font-lock-mode t))
 
-(use-package alchemist
-  :ensure t
-  :bind (:map alchemist-mode-map
-              ("\C-c\C-z" . alchemist-iex-project-run)))
+(unless (string= *my-emacs-bootstrap-domain* "opalstack")
+  (use-package alchemist
+    :ensure t
+    :bind (:map alchemist-mode-map
+                ("\C-c\C-z" . alchemist-iex-project-run))))
 
 ;;; Alchemist
 
