@@ -8,7 +8,9 @@
   (custom-theme-set-faces
    'jim-light
    `(default ((t (:foreground "black" :background "ghostwhite"))))
-   `(mode-line ((t (:foreground "yellow" :background "black"))))
+   ;; I love yellow on black, but some parts of the modeline read better
+   ;; with the default theme.
+   ;`(mode-line ((t (:foreground "yellow" :background "black"))))
    `(eshell-prompt ((t (:foreground "blue" :bold t))))
 
    `(org-level-1 ((t (:foreground "black" :bold t :height 1.1))))
