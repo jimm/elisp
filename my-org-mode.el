@@ -28,6 +28,16 @@
 
 ;; Org Mode extras
 
+(defun my-org-code-word-at-point ()
+  "Surrounds the thing at point with `~` to format it as code."
+  (interactive)
+  (let ((bounds (bounds-of-thing-at-point 'symbol)))
+    (goto-char (cdr bounds))
+    (insert "~")
+    (goto-char (car bounds))
+    (insert "~")
+    (goto-char (+ 3 (cdr bounds)))))    ; move point after sym+tilde
+
 (defun my-org-execute-src ()
   "Saves current Org mode src block to a temp file and executes
 it in a compilation buffer by using the source language
