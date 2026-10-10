@@ -1597,3 +1597,13 @@ or `print-message` is non-nil, also outputs the name to the minibuffer."
 ;;; Pony
 (when (fboundp #'ponylang-mode)
   (use-package ponylang-mode))
+
+;;; This is a workaround for changes in font lock initialization in Emacs
+;;; 31.1 that something in my init breaks for certain modes.
+(add-hook 'after-change-major-mode-hook
+          (lambda ()
+            (when (and global-font-lock-mode
+                       font-lock-mode
+                       (not jit-lock-mode))
+              (font-lock-mode -1)
+              (font-lock-mode 1))))
