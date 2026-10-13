@@ -11,6 +11,8 @@
       my-shell #'shell
       my-alternate-shell #'eshell)
 
+(use-package terraform)
+
 ;; Salesforce. Java isn't right, but it's close enough.
 (add-to-list 'auto-mode-alist '("\\.cls$" . java-mode))
 
