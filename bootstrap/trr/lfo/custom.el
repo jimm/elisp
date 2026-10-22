@@ -21,8 +21,8 @@
                kotlin-mode lua-mode magit magnus markdown-mermaid
                markdown-mode mermaid-mode mood-line projectile
                projectile-rails rspec-mode rubocopfmt ruff-format slime smex
-               suggest terraform-mode typescript-mode vterm xterm-color
-               yaml-mode yasnippet yasnippet-snippets))
+               suggest typescript-mode vterm xterm-color yaml-mode yasnippet
+               yasnippet-snippets))
  '(python-fill-docstring-style 'pep-257-nn)
  '(safe-local-variable-values
    '((rubocopfmt-rubocop-command . "standardrb")
