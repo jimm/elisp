@@ -26,3 +26,39 @@ With an ARG, append the line number at point."
              (relative-path (substring absolute-path (length trr-root-dir))))
         (when relative-path
           (-path-to-clipboard-kill-ring relative-path (> (or arg 1) 1)))))))
+
+;; Functions for visiting a $box/{docs,plans,prompts} file or directory when
+;; visiting one of those other directories or a file in it.
+
+;; FIXME
+(defun my-other-box-dir (other-dir-name)
+  (interactive)                         ; interactive for testing
+  (let ((box-prefix (abbreviate-file-name (concat (getenv "box") "/"))))
+    (unless (string-prefix-p box-prefix (abbreviate-file-name default-directory))
+      (error (concat "default-directory " default-directory " is not a $box directory")))
+    (let* ((here-remainder (substring-no-properties default-directory (length box-prefix))) ; "docs/a/"
+           (parts (string-split here-remainder "/"))      ; ("a")
+           (other-path-parts (cons other-dir-name (cdr parts))) ; ("other-dir-name" "a")
+           (target-dir (concat box-prefix (string-join other-path-parts "/"))))
+      (let ((maybe-buffer-file-path
+             (when (buffer-file-name)
+               (concat target-dir (file-name-nondirectory (buffer-file-name))))))
+        (if (and maybe-buffer-file-path
+                 (file-exists-p maybe-buffer-file-path))
+            maybe-buffer-file-path
+          target-dir)))))
+
+(defun doc ()
+  "Jump to the corresponding $box/docs file or directory."
+  (interactive)
+  (find-file (my-other-box-dir "docs")))
+
+(defun prompt ()
+  "Jump to the corresponding $box/prompts file or directory."
+  (interactive)
+  (find-file (my-other-box-dir "prompts")))
+
+(defun plan ()
+  "Jump to the corresponding $box/plans file or directory."
+  (interactive)
+  (find-file (my-other-box-dir "plans")))
