@@ -36,7 +36,8 @@ With an ARG, append the line number at point."
   (let ((box-prefix (abbreviate-file-name (concat (getenv "box") "/"))))
     (unless (string-prefix-p box-prefix (abbreviate-file-name default-directory))
       (error (concat "default-directory " default-directory " is not a $box directory")))
-    (let* ((here-remainder (substring-no-properties default-directory (length box-prefix))) ; "docs/a/"
+    (let* ((here-remainder (substring-no-properties (abbreviate-file-name default-directory)
+                                                    (length box-prefix))) ; "docs/a/"
            (parts (string-split here-remainder "/"))      ; ("a")
            (other-path-parts (cons other-dir-name (cdr parts))) ; ("other-dir-name" "a")
            (target-dir (concat box-prefix (string-join other-path-parts "/"))))
@@ -62,3 +63,14 @@ With an ARG, append the line number at point."
   "Jump to the corresponding $box/plans file or directory."
   (interactive)
   (find-file (my-other-box-dir "plans")))
+
+;; Org <-> Markdown link conversion
+
+;; (org-element-property :raw-link (org-element-context))
+;; (org-element-context)
+
+;; (defun my-link-org-to-markdown ()
+;;   (interactive)
+;;   (let* ((link (org--link-at-point))    ; 
+;;          (text )
+;;     (message link)))
