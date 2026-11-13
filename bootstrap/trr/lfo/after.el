@@ -31,7 +31,6 @@ With an ARG, append the line number at point."
 ;; Functions for visiting a $box/{docs,plans,prompts} file or directory when
 ;; visiting one of those other directories or a file in it.
 
-;; FIXME
 (defun my-other-box-dir (other-dir-name)
   (interactive)                         ; interactive for testing
   (let ((box-prefix (abbreviate-file-name (concat (getenv "box") "/"))))
@@ -64,14 +63,3 @@ With an ARG, append the line number at point."
   "Jump to the corresponding $box/plans file or directory."
   (interactive)
   (find-file (my-other-box-dir "plans")))
-
-;; Org <-> Markdown link conversion
-
-;; (org-element-property :raw-link (org-element-context))
-;; (org-element-context)
-
-;; (defun my-link-org-to-markdown ()
-;;   (interactive)
-;;   (let* ((link (org--link-at-point))    ; 
-;;          (text )
-;;     (message link)))

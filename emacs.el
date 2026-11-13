@@ -1608,19 +1608,5 @@ or `print-message` is non-nil, also outputs the name to the minibuffer."
               (font-lock-mode -1)
               (font-lock-mode 1))))
 
-;; Markup mode (Org, Markdown) extras
-
-(defun my-markup-code-word-at-point ()
-  "Surrounds the symbol at point with `~` or `\`` to format it as code."
-  (interactive)
-  (let ((bounds (bounds-of-thing-at-point 'symbol))
-        (code-word-char (cond ((eq major-mode 'org-mode) "~")
-                              ((eq major-mode 'markdown-mode) "`")
-                              (t "`"))))
-    (goto-char (cdr bounds))
-    (insert code-word-char)
-    (goto-char (car bounds))
-    (insert code-word-char)
-    (goto-char (+ 2 (cdr bounds)))      ; move point after sym+tilde
-    (unless (string-equal "\n" (thing-at-point 'char t))
-      (forward-char))))
+;;; Markup mode (Org, Markdown) extras
+(load "markup")

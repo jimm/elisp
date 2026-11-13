@@ -46,6 +46,9 @@
 (when-fboundp-keymap-global-set "M-g k" dumb-jump-back)
 (when-fboundp-keymap-global-set "M-g q" dumb-jump-quick-look)
 
+(keymap-global-set "C-x c" #'my-markup-code-word-at-point)
+(keymap-global-set "C-x l" #'my-markup-convert-link-to-kill-ring)
+
 (keymap-global-set "<f1>" (lambda ()
                        "runs `my-shell'"
                        (interactive)
@@ -58,13 +61,7 @@
 (keymap-global-set "C-<f2>" #'git-grep-callers-python-ruby)
 (keymap-global-set "<f3>" #'split-window-right-and-focus)
 (keymap-global-set "C-<f3>" #'center-of-attention)
-(keymap-global-set "<f4>" #'my-markup-code-word-at-point)
-(keymap-global-set "C-<f4>"
-                   (lambda ()
-                     "switch to buffer `*scratch*`"
-                     (interactive)
-                     (switch-to-buffer "*scratch*")))
-; (set-org-file-key "<f4>" "todo.org")
+(set-org-file-key "<f4>" "todo.org")
 (keymap-global-set "<f5>" #'path-from-git-root-to-clipboard-kill-ring)
 (keymap-global-set "C-<f5>"
                 (lambda ()
