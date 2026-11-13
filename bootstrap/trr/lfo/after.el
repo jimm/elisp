@@ -9,7 +9,8 @@
       sql-sqlite-program "sqlite3"
       rubocopfmt-rubocop-command "rubocop-daemon-wrapper" ; overridden in $trr/.dir-locals.el
       my-shell #'shell
-      my-alternate-shell #'eshell)
+      my-alternate-shell #'eshell
+      initial-major-mode 'markdown-mode) ; I create scratch Markdown more often than Org at work
 
 ;; Salesforce. Java isn't right, but it's close enough.
 (add-to-list 'auto-mode-alist '("\\.cls$" . java-mode))
