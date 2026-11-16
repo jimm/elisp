@@ -1,4 +1,5 @@
-(load-theme 'jim-light)
+(if window-system
+    (load-theme 'jim-light))
 
 (setq dired-use-ls-dired nil
       browse-url-generic-program "open"

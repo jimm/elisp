@@ -1,6 +1,7 @@
 ;; -*- lexical-binding: t; -*-
 
-(load-theme 'jim-light)
+(if window-system
+    (load-theme 'jim-light))
 
 (setq user-email-address "jim.menard@therealreal.com"
       dired-use-ls-dired nil
