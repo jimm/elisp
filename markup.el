@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;;; Markup mode (Org, Markdown) extras
 
 (defvar my-markup-bad-mode-msg "Must be in an Org Mode or Markdown buffer")
@@ -15,7 +17,7 @@
     (insert code-word-char)
     (goto-char (+ 2 (cdr bounds)))      ; move point after sym+tilde
     (unless (string-equal "\n" (thing-at-point 'char t))
-      (forward-char))))
+      (forward-char)))))
 
 ;; Org <-> Markdown link conversion
 
